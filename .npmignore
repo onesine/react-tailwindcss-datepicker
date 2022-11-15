@@ -1,0 +1,18 @@
+## Folders
+src
+node_modules
+.vscode
+.idea
+assets
+## Files
+babel.config.json
+tsconfig.json
+rollup.config.js
+.git
+.gitignore
+.DS_Store
+npm-debug.log
+package-lock.json
+yarn.lock
+tailwind.config.js
+postcss.config.js
