@@ -1031,9 +1031,9 @@ const Shortcuts = () => {
         return typeof data === "function" ? data(numberValue) : null;
     };
     return (React__default["default"].createElement("div", { className: "md:border-b mb-3 lg:mb-0 lg:border-r lg:border-b-0 border-gray-300 dark:border-gray-700 pr-1" },
-        React__default["default"].createElement("ul", { className: "w-full tracking-wide flex flex-wrap lg:flex-col pb-1 lg:pb-0" }, configs?.shortcuts ? (Object.entries(DEFAULT_SHORTCUTS)).map(([key, item], index) => (key === "past" ? ((Array.isArray(item) ? item : []).map((item, index) => (React__default["default"].createElement(ItemTemplate, { key: index, item: item },
+        React__default["default"].createElement("ul", { className: "w-full tracking-wide flex flex-wrap lg:flex-col pb-1 lg:pb-0" }, (Object.entries(DEFAULT_SHORTCUTS)).map(([key, item], index) => (key === "past" ? ((Array.isArray(item) ? item : []).map((item, index) => (React__default["default"].createElement(ItemTemplate, { key: index, item: item },
             React__default["default"].createElement(React__default["default"].Fragment, null, configs && configs.shortcuts && (key in configs.shortcuts) ? (callPassFunction(configs.shortcuts[key], item.daysNumber)) : item.text))))) : (React__default["default"].createElement(ItemTemplate, { key: index, item: item },
-            React__default["default"].createElement(React__default["default"].Fragment, null, configs && configs.shortcuts && (key in configs.shortcuts) ? (configs.shortcuts[key]) : ("text" in item ? item.text : "")))))) : null)));
+            React__default["default"].createElement(React__default["default"].Fragment, null, configs && configs.shortcuts && (key in configs.shortcuts) ? (configs.shortcuts[key]) : ("text" in item ? item.text : "")))))))));
 };
 
 function useOnClickOutside(ref, handler) {
