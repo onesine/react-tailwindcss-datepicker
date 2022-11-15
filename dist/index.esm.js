@@ -912,7 +912,7 @@ const Input = () => {
     const getClassName = useCallback(() => {
         const border = BORDER_COLOR.focus[primaryColor];
         const ring = RING_COLOR["second-focus"][primaryColor];
-        return `transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring ${border} ${ring}`;
+        return `transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring ${border} ${ring}`;
     }, [primaryColor]);
     const handleInputChange = useCallback((e) => {
         const inputValue = e.target.value;
