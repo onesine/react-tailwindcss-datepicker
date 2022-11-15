@@ -209,7 +209,7 @@ const Datepicker: React.FC<Props> = ({primaryColor = "blue", value = null, onCha
                 <div className="transition-all ease-out duration-300 absolute mt-[1px] text-sm lg:text-xs 2xl:text-sm translate-y-4 opacity-0 hidden" ref={calendarContainerRef}>
                     <Arrow ref={arrowRef}/>
 
-                    <div className="mt-2.5 shadow-sm border border-gray-300 px-1 py-0.5 bg-white dark:bg-slate-800 dark:text-white rounded-lg">
+                    <div className="mt-2.5 shadow-sm border border-gray-300 px-1 py-0.5 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600 rounded-lg">
                         <div className="flex flex-col lg:flex-row py-2">
 
                             {showShortcuts && (

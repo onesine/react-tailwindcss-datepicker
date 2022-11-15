@@ -822,7 +822,7 @@ const DoubleChevronRightIcon = ({ className = "w-6 h-6" }) => {
         React.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" })));
 };
 const Arrow = React.forwardRef((props, ref) => {
-    return (React.createElement("div", { ref: ref, className: "absolute z-20 h-4 w-4 rotate-45 mt-0.5 ml-[1.2rem] border-l border-t border-gray-300 bg-white dark:bg-slate-800" }));
+    return (React.createElement("div", { ref: ref, className: "absolute z-20 h-4 w-4 rotate-45 mt-0.5 ml-[1.2rem] border-l border-t border-gray-300 bg-white dark:bg-slate-800 dark:border-slate-600" }));
 });
 const SecondaryButton = ({ children, onClick, disabled = false }) => {
     // Contexts
@@ -912,7 +912,7 @@ const Input = () => {
     const getClassName = useCallback(() => {
         const border = BORDER_COLOR.focus[primaryColor];
         const ring = RING_COLOR["second-focus"][primaryColor];
-        return `transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring ${border} ${ring}`;
+        return `transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring ${border} ${ring}`;
     }, [primaryColor]);
     const handleInputChange = useCallback((e) => {
         const inputValue = e.target.value;
@@ -1475,7 +1475,7 @@ const Datepicker = ({ primaryColor = "blue", value = null, onChange, useRange = 
             React.createElement(Input, null),
             React.createElement("div", { className: "transition-all ease-out duration-300 absolute mt-[1px] text-sm lg:text-xs 2xl:text-sm translate-y-4 opacity-0 hidden", ref: calendarContainerRef },
                 React.createElement(Arrow, { ref: arrowRef }),
-                React.createElement("div", { className: "mt-2.5 shadow-sm border border-gray-300 px-1 py-0.5 bg-white dark:bg-slate-800 dark:text-white rounded-lg" },
+                React.createElement("div", { className: "mt-2.5 shadow-sm border border-gray-300 px-1 py-0.5 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600 rounded-lg" },
                     React.createElement("div", { className: "flex flex-col lg:flex-row py-2" },
                         showShortcuts && (React.createElement(Shortcuts, null)),
                         React.createElement("div", { className: `flex items-stretch flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-1.5 ${showShortcuts ? 'md:pl-2' : 'md:pl-1'} pr-2 lg:pr-1` },
