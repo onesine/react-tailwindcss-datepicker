@@ -57,29 +57,27 @@ const Shortcuts = () => {
     return (
         <div className="md:border-b mb-3 lg:mb-0 lg:border-r lg:border-b-0 border-gray-300 dark:border-gray-700 pr-1">
             <ul className="w-full tracking-wide flex flex-wrap lg:flex-col pb-1 lg:pb-0">
-                {configs?.shortcuts ? (
-                    Object.entries(DEFAULT_SHORTCUTS)).map(([key, item], index) => (
-                        key === "past" ? (
-                            (Array.isArray(item) ? item : []).map((item, index) => (
-                                <ItemTemplate key={index} item={item}>
-                                    <>
-                                        {configs && configs.shortcuts && (key in configs.shortcuts) ? (
-                                            callPassFunction(configs.shortcuts[key], item.daysNumber)
-                                        ) : item.text}
-                                    </>
-                                </ItemTemplate>
-                            ))
-                        ) : (
+                {(Object.entries(DEFAULT_SHORTCUTS)).map(([key, item], index) => (
+                    key === "past" ? (
+                        (Array.isArray(item) ? item : []).map((item, index) => (
                             <ItemTemplate key={index} item={item}>
                                 <>
                                     {configs && configs.shortcuts && (key in configs.shortcuts) ? (
-                                        configs.shortcuts[key as keyof typeof configs.shortcuts]
-                                    ) : ("text" in item ? item.text : "")}
+                                        callPassFunction(configs.shortcuts[key], item.daysNumber)
+                                    ) : item.text}
                                 </>
                             </ItemTemplate>
-                        )
+                        ))
+                    ) : (
+                        <ItemTemplate key={index} item={item}>
+                            <>
+                                {configs && configs.shortcuts && (key in configs.shortcuts) ? (
+                                    configs.shortcuts[key as keyof typeof configs.shortcuts]
+                                ) : ("text" in item ? item.text : "")}
+                            </>
+                        </ItemTemplate>
                     )
-                ) : null}
+                ))}
             </ul>
         </div>
     );
