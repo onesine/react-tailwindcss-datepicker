@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import dayjs from "dayjs";
 import {formatDate, nextMonth, previousMonth} from "../helpers";
 import Input from "../components/Input";
@@ -131,7 +131,7 @@ const Datepicker: React.FC<Props> = ({primaryColor = "blue", value = null, onCha
     }, [secondDate, secondGotoDate]);
 
     // UseEffects & UseLayoutEffect
-    useLayoutEffect(() => {
+    useEffect(() => {
         const container = containerRef.current;
         const calendarContainer = calendarContainerRef.current;
         const arrow = arrowRef.current;
