@@ -20,7 +20,7 @@
 
 ## Documentation
 
-Go to [full documentation](https://react-tailwindcss-datepicker.com)
+Go to [full documentation](https://react-tailwindcss-datepicker.vercel.app/)
 
 ## Installation
 
@@ -104,9 +104,11 @@ export default App;
 **Teal themes example**
 ![Theme supported](https://raw.githubusercontent.com/onesine/react-tailwindcss-select/master/assets/img/Screen_Shot_2022-08-04_at_17.04.09_teal.png?raw=true)
 
+You can find the demo at [here](https://react-tailwindcss-datepicker.vercel.app/)
+
 > **Info**
 >
-> 👉 To discover the other possibilities offered by this library, you can consult the [full documentation](https://react-tailwindcss-datepicker.com).
+> 👉 To discover the other possibilities offered by this library, you can consult the [full documentation](https://react-tailwindcss-datepicker.vercel.app/).
 
 
 ## Contributing
