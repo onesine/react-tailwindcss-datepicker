@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 export function getTextColorByPrimaryColor(color: string) {
     switch (color) {
         case "blue":
-            return  `bg-blue-500`;
+            return  `text-blue-500`;
         case "orange":
             return  `text-orange-500`;
         case "yellow":
