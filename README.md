@@ -1,7 +1,7 @@
 # React Tailwindcss Datepicker
 
 <p align="center">
-    <a href="https://vue-tailwind-datepicker.com" target="_blank">
+    <a href="https://react-tailwindcss-datepicker.vercel.app/" target="_blank">
       <img alt="React Tailwindcss Datepicker" width="100" style="border-radius: 100%;" src="https://raw.githubusercontent.com/onesine/react-tailwindcss-select/master/assets/img/calendar_logo.svg?raw=true">
     </a><br><br>
     A modern date range picker component for React using Tailwind 3 and dayjs. Alternative to Litepie Datepicker which uses Vuejs.
