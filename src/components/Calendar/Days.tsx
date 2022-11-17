@@ -36,13 +36,16 @@ const Days: React.FC<Props> = ({calendarData, onClickPreviousDays, onClickDay, o
     const activeDateData = useCallback((day: number) => {
         const fullDay = `${calendarData.date.year()}-${calendarData.date.month() + 1}-${day}`;
         let className = "";
-        const bgColor = BG_COLOR["500"][primaryColor as keyof typeof BG_COLOR["500"]];
+
         if ((dayjs(fullDay).isSame(period.start) && dayjs(fullDay).isSame(period.end))) {
-            className = ` ${bgColor} text-white font-medium rounded-full`;
+            // @ts-ignore
+            className = ` ${BG_COLOR["500"][primaryColor]} text-white font-medium rounded-full`;
         } else if (dayjs(fullDay).isSame(period.start)) {
-            className = ` ${bgColor} text-white font-medium ${(dayjs(fullDay).isSame(dayHover) && !period.end) ? "rounded-full" : "rounded-l-full"}`;
+            // @ts-ignore
+            className = ` ${BG_COLOR["500"][primaryColor]} text-white font-medium ${(dayjs(fullDay).isSame(dayHover) && !period.end) ? "rounded-full" : "rounded-l-full"}`;
         } else if(dayjs(fullDay).isSame(period.end)) {
-            className = ` ${bgColor} text-white font-medium ${(dayjs(fullDay).isSame(dayHover) && !period.start) ? "rounded-full" : "rounded-r-full"}`;
+            // @ts-ignore
+            className = ` ${BG_COLOR["500"][primaryColor]} text-white font-medium ${(dayjs(fullDay).isSame(dayHover) && !period.start) ? "rounded-full" : "rounded-r-full"}`;
         }
 
         return {
@@ -54,31 +57,34 @@ const Days: React.FC<Props> = ({calendarData, onClickPreviousDays, onClickDay, o
     const hoverClassByDay = useCallback((day: number) => {
         let className = currentDateClass(day);
         const fullDay = `${calendarData.date.year()}-${calendarData.date.month() + 1}-${day >= 10 ? day : "0"+day}`;
-        const bgColor100 = BG_COLOR["100"][primaryColor as keyof typeof BG_COLOR["100"]];
-        const bgColor500 = BG_COLOR["500"][primaryColor as keyof typeof BG_COLOR["100"]];
 
         // @ts-ignore
         if (period.start && period.end && dayjs(fullDay).isBetween(period.start, period.end, 'day', '[)')) {
-            return ` ${bgColor100} ${currentDateClass(day)} dark:bg-white/10`;
+            // @ts-ignore
+            return ` ${BG_COLOR["100"][primaryColor]} ${currentDateClass(day)} dark:bg-white/10`;
         }
 
         if (!dayHover) {
+            // @ts-ignore
             return className;
         }
 
 
         // @ts-ignore
         if (period.start && dayjs(fullDay).isBetween(period.start, dayHover, 'day', '[)')) {
-            className = ` ${bgColor100} ${currentDateClass(day)} dark:bg-white/10`;
+            // @ts-ignore
+            className = ` ${BG_COLOR["100"][primaryColor]} ${currentDateClass(day)} dark:bg-white/10`;
         }
 
         // @ts-ignore
         if (period.end && dayjs(fullDay).isBetween(dayHover, period.end, 'day', '[)')) {
-            className = ` ${bgColor100} ${currentDateClass(day)} dark:bg-white/10`;
+            // @ts-ignore
+            className = ` ${BG_COLOR["100"][primaryColor]} ${currentDateClass(day)} dark:bg-white/10`;
         }
 
         if (dayHover === fullDay) {
-            className = ` transition-all duration-500 ${bgColor500} text-white font-medium ${period.start ? 'rounded-r-full' : 'rounded-l-full'}`;
+            // @ts-ignore
+            className = ` transition-all duration-500 ${BG_COLOR["500"][primaryColor]} text-white font-medium ${period.start ? 'rounded-r-full' : 'rounded-l-full'}`;
         }
 
         return className;
