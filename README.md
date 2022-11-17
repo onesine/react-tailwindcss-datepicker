@@ -2,7 +2,7 @@
 
 <p align="center">
     <a href="https://react-tailwindcss-datepicker.vercel.app/" target="_blank">
-      <img alt="React Tailwindcss Datepicker" width="100" style="border-radius: 100%;" src="https://raw.githubusercontent.com/onesine/react-tailwindcss-select/master/assets/img/calendar_logo.svg?raw=true">
+      <img alt="React Tailwindcss Datepicker" width="100" style="border-radius: 100%;" src="https://raw.githubusercontent.com/onesine/react-tailwindcss-datepicker/master/assets/img/calendar_logo.svg?raw=true">
     </a><br><br>
     A modern date range picker component for React using Tailwind 3 and dayjs. Alternative to Litepie Datepicker which uses Vuejs.
 </p>
@@ -92,17 +92,17 @@ export default App;
 
 **Light Mode**
 
-![Light Mode](https://raw.githubusercontent.com/onesine/react-tailwindcss-select/master/assets/img/Screen_Shot_2022-08-04_at_17.04.09_light.png?raw=true)
+![Light Mode](https://raw.githubusercontent.com/onesine/react-tailwindcss-datepicker/master/assets/img/Screen_Shot_2022-08-04_at_17.04.09_light.png?raw=true)
 
 **Dark Mode**
 
-![Dark Mode](https://raw.githubusercontent.com/onesine/react-tailwindcss-select/master/assets/img/Screen_Shot_2022-08-04_at_17.04.09_dark.png?raw=true)
+![Dark Mode](https://raw.githubusercontent.com/onesine/react-tailwindcss-datepicker/master/assets/img/Screen_Shot_2022-08-04_at_17.04.09_dark.png?raw=true)
 
 **Supported themes**
 ![Theme supported](https://raw.githubusercontent.com/onesine/react-tailwindcss-select/master/assets/img/Screen_Shot_2022-08-04_at_17.04.09_theme.png?raw=true)
 
 **Teal themes example**
-![Theme supported](https://raw.githubusercontent.com/onesine/react-tailwindcss-select/master/assets/img/Screen_Shot_2022-08-04_at_17.04.09_teal.png?raw=true)
+![Theme supported](https://raw.githubusercontent.com/onesine/react-tailwindcss-datepicker/master/assets/img/Screen_Shot_2022-08-04_at_17.04.09_teal.png?raw=true)
 
 You can find the demo at [here](https://react-tailwindcss-datepicker.vercel.app/)
 
