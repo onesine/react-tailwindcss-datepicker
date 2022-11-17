@@ -17,7 +17,7 @@ const Input: React.FC = () => {
     const getClassName = useCallback(() => {
         const border = BORDER_COLOR.focus[primaryColor as keyof typeof BORDER_COLOR.focus];
         const ring = RING_COLOR["second-focus"][primaryColor as keyof typeof RING_COLOR["second-focus"]];
-        return `relative z-10 transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring ${border} ${ring}`;
+        return `relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring ${border} ${ring}`;
     }, [primaryColor]);
 
     const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
