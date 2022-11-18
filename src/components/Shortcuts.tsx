@@ -5,7 +5,7 @@ import {Period} from "../types";
 import DatepickerContext from "../contexts/DatepickerContext";
 
 const ItemTemplate = React.memo((props: any) => {
-    const {primaryColor, period, changePeriod, changeInputText, updateFirstDate, dayHover, changeDayHover} = useContext(DatepickerContext);
+    const {primaryColor, period, changePeriod, changeInputText, updateFirstDate, dayHover, changeDayHover, hideDatepicker} = useContext(DatepickerContext);
 
     // Functions
     const getClassName: () => string = useCallback(() => {
@@ -26,8 +26,9 @@ const ItemTemplate = React.memo((props: any) => {
         }
         changeInputText(`${item.start} ~ ${item.end}`);
         changePeriod(item);
-        updateFirstDate(dayjs(item.start))
-    }, [changeDayHover, changeInputText, changePeriod, dayHover, period.end, period.start, updateFirstDate]);
+        updateFirstDate(dayjs(item.start));
+        hideDatepicker()
+    }, [changeDayHover, changeInputText, changePeriod, dayHover, period.end, period.start, updateFirstDate, hideDatepicker]);
 
     return (
         <li

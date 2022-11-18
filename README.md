@@ -116,6 +116,7 @@ Got ideas on how to make this better? Open an issue!
 
 ## Thanks to
 - [Litepie Datepicker](https://litepie.com/)
+- [Vue Tailwind Datepicker](https://vue-tailwind-datepicker.com/)
 - [React](https://reactjs.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [dayjs](https://day.js.org/)
