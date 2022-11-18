@@ -104,7 +104,7 @@ export default App;
 **Teal themes example**
 ![Theme supported](https://raw.githubusercontent.com/onesine/react-tailwindcss-datepicker/master/assets/img/Screen_Shot_2022-08-04_at_17.04.09_teal.png?raw=true)
 
-You can find the demo at [here](https://react-tailwindcss-datepicker.vercel.app/)
+You can find the demo at [here](https://react-tailwindcss-datepicker.vercel.app/demo)
 
 > **Info**
 >
