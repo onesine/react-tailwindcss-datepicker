@@ -1,6 +1,6 @@
 {
     "name": "react-tailwindcss-datepicker",
-    "version": "1.0.9",
+    "version": "1.1.0",
     "description": "A modern React Datepicker using Tailwind CSS 3",
     "main": "dist/index.cjs.js",
     "module": "dist/index.esm.js",
@@ -16,9 +16,16 @@
         "url": "https://github.com/onesine/react-tailwindcss-datepicker"
     },
     "keywords": [
-        "react-tailwindcss-datepicker", "react-datepicker", "tailwind-datepicker",
-        "datepicker", "date-picker", "daterangepicker", "react-daterangepicker",
-        "date-range", "date-range-picker", "tailwind-daterange-picker"
+        "react-tailwindcss-datepicker",
+        "react-datepicker",
+        "tailwind-datepicker",
+        "datepicker",
+        "date-picker",
+        "daterangepicker",
+        "react-daterangepicker",
+        "date-range",
+        "date-range-picker",
+        "tailwind-daterange-picker"
     ],
     "peerDependencies": {
         "dayjs": "^1.11.6",
