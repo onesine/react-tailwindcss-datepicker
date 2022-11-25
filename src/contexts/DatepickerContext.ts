@@ -2,6 +2,11 @@ import React, {createContext} from "react";
 import dayjs from "dayjs";
 import {Configs, Period} from "../types";
 
+type DateRange = {
+    startDate: string | Date | null,
+    endDate: string | Date | null,
+} | null;
+
 interface DatepickerStore {
     asSingle?: boolean,
     primaryColor: string,
@@ -15,15 +20,12 @@ interface DatepickerStore {
     inputText: string,
     changeInputText: (text: string) => void,
     updateFirstDate: (date:  dayjs.Dayjs) => void,
-    changeDatepickerValue: (value: {startDate: string | Date, endDate: string | Date} | null) => void,
+    changeDatepickerValue: (value: DateRange) => void,
     showFooter?: boolean,
     placeholder?: string | null,
     separator?: string,
     i18n: string,
-    value: {
-        startDate: Date | string,
-        endDate: Date | string,
-    } | null
+    value: DateRange
 }
 
 const DatepickerContext = createContext<DatepickerStore>({

@@ -14,10 +14,10 @@ import DatepickerContext from "../contexts/DatepickerContext";
 interface Props {
     primaryColor?: string,
     value: {
-        startDate: string | Date,
-        endDate: string | Date
+        startDate: string | Date | null,
+        endDate: string | Date | null
     } | null,
-    onChange: (value: {startDate: string | Date, endDate: string | Date} | null) => void,
+    onChange: (value: {startDate: string | Date | null, endDate: string | Date | null} | null) => void,
     useRange?: boolean,
     showFooter?: boolean,
     showShortcuts?: boolean,
