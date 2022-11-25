@@ -15,7 +15,7 @@ interface DatepickerStore {
     inputText: string,
     changeInputText: (text: string) => void,
     updateFirstDate: (date:  dayjs.Dayjs) => void,
-    changeDatepickerValue: (value: {startDate: string | null, endDate: string | null}) => void,
+    changeDatepickerValue: (value: {startDate: string | Date, endDate: string | Date} | null) => void,
     showFooter?: boolean,
     placeholder?: string | null,
     separator?: string,
