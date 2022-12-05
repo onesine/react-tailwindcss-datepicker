@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "target": "esnext",
-        "lib": [ "dom", "esnext" ],
+        "lib": ["dom", "esnext"],
         "module": "esnext",
         "jsx": "react",
         "moduleResolution": "node",
@@ -16,7 +16,6 @@
         "inlineSources": true,
         "sourceMap": true,
         "rootDir": "src"
-
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules"]

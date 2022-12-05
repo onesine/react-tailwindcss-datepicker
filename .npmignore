@@ -10,6 +10,10 @@ tsconfig.json
 rollup.config.js
 .git
 .gitignore
+.eslintignore
+.eslintrc.json
+.prettierrc
+.prettierignore
 .DS_Store
 npm-debug.log
 package-lock.json

@@ -1,31 +1,58 @@
-import React, {useCallback, useContext, useEffect, useMemo, useState} from "react";
-import dayjs from 'dayjs'
-import Months from "./Months";
-import Years from "./Years";
-import Week from "./Week";
-import Days from "./Days";
+import dayjs from "dayjs";
+import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
+
+import DatepickerContext from "../../contexts/DatepickerContext";
 import {
-    formatDate, getDaysInMonth, getFirstDayInMonth,
-    getFirstDaysInMonth, getLastDaysInMonth,
-    getNumberOfDay, loadLanguageModule, nextMonth, previousMonth, shortString
+    formatDate,
+    getDaysInMonth,
+    getFirstDayInMonth,
+    getFirstDaysInMonth,
+    getLastDaysInMonth,
+    getNumberOfDay,
+    loadLanguageModule,
+    nextMonth,
+    previousMonth,
+    shortString
 } from "../../helpers";
 import {
-    ChevronLeftIcon, ChevronRightIcon, DoubleChevronLeftIcon,
-    DoubleChevronRightIcon, RoundedButton
+    ChevronLeftIcon,
+    ChevronRightIcon,
+    DoubleChevronLeftIcon,
+    DoubleChevronRightIcon,
+    RoundedButton
 } from "../utils";
-import DatepickerContext from "../../contexts/DatepickerContext";
+
+import Days from "./Days";
+import Months from "./Months";
+import Week from "./Week";
+import Years from "./Years";
 
 interface Props {
-    date: dayjs.Dayjs,
-    onClickPrevious: () => void,
-    onClickNext: () => void,
-    changeMonth: (month: number) => void,
-    changeYear: (year: number) => void,
+    date: dayjs.Dayjs;
+    onClickPrevious: () => void;
+    onClickNext: () => void;
+    changeMonth: (month: number) => void;
+    changeYear: (year: number) => void;
 }
 
-const Calendar: React.FC<Props> = ({date, onClickPrevious, onClickNext, changeMonth, changeYear}) => {
+const Calendar: React.FC<Props> = ({
+    date,
+    onClickPrevious,
+    onClickNext,
+    changeMonth,
+    changeYear
+}) => {
     // Contexts
-    const {period, changePeriod, changeDayHover, showFooter, changeDatepickerValue, hideDatepicker, asSingle, i18n} = useContext(DatepickerContext);
+    const {
+        period,
+        changePeriod,
+        changeDayHover,
+        showFooter,
+        changeDatepickerValue,
+        hideDatepicker,
+        asSingle,
+        i18n
+    } = useContext(DatepickerContext);
     loadLanguageModule(i18n);
 
     // States
@@ -35,7 +62,10 @@ const Calendar: React.FC<Props> = ({date, onClickPrevious, onClickNext, changeMo
 
     // Functions
     const previous = useCallback(() => {
-        return getLastDaysInMonth(previousMonth(date), getNumberOfDay(getFirstDayInMonth(date).ddd) - 1);
+        return getLastDaysInMonth(
+            previousMonth(date),
+            getNumberOfDay(getFirstDayInMonth(date).ddd) - 1
+        );
     }, [date]);
 
     const current = useCallback(() => {
@@ -43,7 +73,10 @@ const Calendar: React.FC<Props> = ({date, onClickPrevious, onClickNext, changeMo
     }, [date]);
 
     const next = useCallback(() => {
-        return getFirstDaysInMonth(previousMonth(date), 42 - (previous().length + current().length));
+        return getFirstDaysInMonth(
+            previousMonth(date),
+            42 - (previous().length + current().length)
+        );
     }, [current, date, previous]);
 
     const hiddeMonths = useCallback(() => {
@@ -56,96 +89,124 @@ const Calendar: React.FC<Props> = ({date, onClickPrevious, onClickNext, changeMo
         if (showYears) {
             setShowYears(false);
         }
-    }, [showYears])
+    }, [showYears]);
 
-    const clickMonth = useCallback((month: number) => {
-        setTimeout(() => {
-            changeMonth(month);
-            setShowMonths(!showMonths)
-        }, 250)
+    const clickMonth = useCallback(
+        (month: number) => {
+            setTimeout(() => {
+                changeMonth(month);
+                setShowMonths(!showMonths);
+            }, 250);
+        },
+        [changeMonth, showMonths]
+    );
 
-    }, [changeMonth, showMonths]);
+    const clickYear = useCallback(
+        (year: number) => {
+            setTimeout(() => {
+                changeYear(year);
+                setShowYears(!showYears);
+            }, 250);
+        },
+        [changeYear, showYears]
+    );
 
-    const clickYear = useCallback((year: number) => {
-        setTimeout(() => {
-            changeYear(year);
-            setShowYears(!showYears);
-        }, 250);
-    }, [changeYear, showYears]);
+    const clickDay = useCallback(
+        (day: number, month = date.month() + 1, year = date.year()) => {
+            const fullDay = `${year}-${month}-${day}`;
+            let newStart;
+            let newEnd = null;
 
-    const clickDay = useCallback((day: number, month = date.month() + 1, year = date.year()) => {
-        const fullDay = `${year}-${month}-${day}`
-        let newStart;
-        let newEnd = null;
-
-        function chosePeriod (start: string, end: string) {
-            changeDatepickerValue({
-                startDate: start,
-                endDate: end
-            });
-            hideDatepicker();
-        }
-
-        if (period.start && period.end) {
-            if (changeDayHover) {
-                changeDayHover(null);
+            function chosePeriod(start: string, end: string) {
+                changeDatepickerValue({
+                    startDate: start,
+                    endDate: end
+                });
+                hideDatepicker();
             }
-            changePeriod({
-                start: null,
-                end: null
-            });
-        }
 
-        if ((!period.start && !period.end) || (period.start && period.end)) {
-            if (!period.start && !period.end) {
-                changeDayHover(fullDay);
+            if (period.start && period.end) {
+                if (changeDayHover) {
+                    changeDayHover(null);
+                }
+                changePeriod({
+                    start: null,
+                    end: null
+                });
             }
-            newStart = fullDay;
-            if (asSingle) {
-                newEnd = fullDay;
-                chosePeriod(fullDay, fullDay);
-            }
-        } else {
-            if (period.start && !period.end) {
-                // start not null
-                // end null
-                const condition = (dayjs(fullDay).isSame(dayjs(period.start)) || dayjs(fullDay).isAfter(dayjs(period.start)));
-                newStart = condition ? period.start : fullDay;
-                newEnd = condition ? fullDay : period.start;
+
+            if ((!period.start && !period.end) || (period.start && period.end)) {
+                if (!period.start && !period.end) {
+                    changeDayHover(fullDay);
+                }
+                newStart = fullDay;
+                if (asSingle) {
+                    newEnd = fullDay;
+                    chosePeriod(fullDay, fullDay);
+                }
             } else {
-                // Start null
-                // End not null
-                const condition = (dayjs(fullDay).isSame(dayjs(period.end)) || dayjs(fullDay).isBefore(dayjs(period.end)));
-                newStart = condition ? fullDay : period.start;
-                newEnd = condition ? period.end : fullDay;
-            }
+                if (period.start && !period.end) {
+                    // start not null
+                    // end null
+                    const condition =
+                        dayjs(fullDay).isSame(dayjs(period.start)) ||
+                        dayjs(fullDay).isAfter(dayjs(period.start));
+                    newStart = condition ? period.start : fullDay;
+                    newEnd = condition ? fullDay : period.start;
+                } else {
+                    // Start null
+                    // End not null
+                    const condition =
+                        dayjs(fullDay).isSame(dayjs(period.end)) ||
+                        dayjs(fullDay).isBefore(dayjs(period.end));
+                    newStart = condition ? fullDay : period.start;
+                    newEnd = condition ? period.end : fullDay;
+                }
 
-            if (!showFooter) {
-                if (newStart && newEnd) {
-                    chosePeriod(newStart, newEnd);
+                if (!showFooter) {
+                    if (newStart && newEnd) {
+                        chosePeriod(newStart, newEnd);
+                    }
                 }
             }
-        }
 
-        if (!(newEnd && newStart) || showFooter) {
-            changePeriod({
-                start: newStart,
-                end: newEnd
-            });
-        }
-    }, [asSingle, changeDatepickerValue, changeDayHover, changePeriod, date, hideDatepicker, period.end, period.start, showFooter]);
+            if (!(newEnd && newStart) || showFooter) {
+                changePeriod({
+                    start: newStart,
+                    end: newEnd
+                });
+            }
+        },
+        [
+            asSingle,
+            changeDatepickerValue,
+            changeDayHover,
+            changePeriod,
+            date,
+            hideDatepicker,
+            period.end,
+            period.start,
+            showFooter
+        ]
+    );
 
-    const clickPreviousDays = useCallback((day: number) => {
-        const newDate = previousMonth(date);
-        clickDay(day, newDate.month() + 1, newDate.year());
-        onClickPrevious();
-    }, [clickDay, date, onClickPrevious]);
+    const clickPreviousDays = useCallback(
+        (day: number) => {
+            const newDate = previousMonth(date);
+            clickDay(day, newDate.month() + 1, newDate.year());
+            onClickPrevious();
+        },
+        [clickDay, date, onClickPrevious]
+    );
 
-    const clickNextDays = useCallback((day: number) => {
-        const newDate = nextMonth(date);
-        clickDay(day, newDate.month() + 1, newDate.year());
-        onClickNext();
-    }, [clickDay, date, onClickNext]);
+    const clickNextDays = useCallback(
+        (day: number) => {
+            const newDate = nextMonth(date);
+            clickDay(day, newDate.month() + 1, newDate.year());
+            onClickNext();
+        },
+        [clickDay, date, onClickNext]
+    );
 
     // UseEffects & UseLayoutEffect
     useEffect(() => {
@@ -161,80 +222,87 @@ const Calendar: React.FC<Props> = ({date, onClickPrevious, onClickNext, changeMo
                 current: current(),
                 next: next()
             }
-        }
+        };
     }, [current, date, next, previous]);
 
     return (
         <div className="w-full md:w-[297px] md:min-w-[297px]">
             <div className="flex items-center space-x-1.5 border border-gray-300 dark:border-gray-700 rounded-md px-2 py-1.5">
-                {(!showMonths && !showYears) && (
+                {!showMonths && !showYears && (
                     <div className="flex-none">
                         <RoundedButton roundedFull={true} onClick={onClickPrevious}>
-                            <ChevronLeftIcon className="h-5 w-5"/>
+                            <ChevronLeftIcon className="h-5 w-5" />
                         </RoundedButton>
                     </div>
                 )}
 
                 {showYears && (
                     <div className="flex-none">
-                        <RoundedButton roundedFull={true} onClick={() => {setYear(year - 12)}}>
-                            <DoubleChevronLeftIcon className="h-5 w-5"/>
+                        <RoundedButton
+                            roundedFull={true}
+                            onClick={() => {
+                                setYear(year - 12);
+                            }}
+                        >
+                            <DoubleChevronLeftIcon className="h-5 w-5" />
                         </RoundedButton>
                     </div>
                 )}
 
                 <div className="flex flex-1 items-center space-x-1.5">
                     <div className="w-1/2">
-                        <RoundedButton onClick={() => {setShowMonths(!showMonths);hiddeYears();}}>
-                            <>
-                                {shortString(calendarData.date.locale(i18n).format("MMM"))}
-                            </>
+                        <RoundedButton
+                            onClick={() => {
+                                setShowMonths(!showMonths);
+                                hiddeYears();
+                            }}
+                        >
+                            <>{shortString(calendarData.date.locale(i18n).format("MMM"))}</>
                         </RoundedButton>
                     </div>
 
                     <div className="w-1/2">
-                        <RoundedButton onClick={() => {setShowYears(!showYears);hiddeMonths();}}>
-                            <>
-                                {calendarData.date.year()}
-                            </>
+                        <RoundedButton
+                            onClick={() => {
+                                setShowYears(!showYears);
+                                hiddeMonths();
+                            }}
+                        >
+                            <>{calendarData.date.year()}</>
                         </RoundedButton>
                     </div>
                 </div>
 
-                {(!showMonths && !showYears) && (
+                {!showMonths && !showYears && (
                     <div className="flex-none">
                         <RoundedButton roundedFull={true} onClick={onClickNext}>
-                            <ChevronRightIcon className="h-5 w-5"/>
+                            <ChevronRightIcon className="h-5 w-5" />
                         </RoundedButton>
                     </div>
                 )}
 
                 {showYears && (
                     <div className="flex-none">
-                        <RoundedButton roundedFull={true} onClick={() => {setYear(year + 12)}}>
-                            <DoubleChevronRightIcon className="h-5 w-5"/>
+                        <RoundedButton
+                            roundedFull={true}
+                            onClick={() => {
+                                setYear(year + 12);
+                            }}
+                        >
+                            <DoubleChevronRightIcon className="h-5 w-5" />
                         </RoundedButton>
                     </div>
                 )}
             </div>
 
             <div className="px-0.5 sm:px-2 mt-0.5 min-h-[285px]">
-                {showMonths && (
-                    <Months
-                        clickMonth={clickMonth}
-                    />
-                )}
+                {showMonths && <Months clickMonth={clickMonth} />}
 
-                {showYears && (
-                    <Years
-                        year={year}
-                        clickYear={clickYear}
-                    />
-                )}
+                {showYears && <Years year={year} clickYear={clickYear} />}
 
                 {!showMonths && !showYears && (
                     <>
-                        <Week/>
+                        <Week />
 
                         <Days
                             calendarData={calendarData}

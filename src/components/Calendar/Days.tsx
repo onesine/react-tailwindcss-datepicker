@@ -1,129 +1,190 @@
-import React, {useCallback, useContext} from "react";
 import dayjs from "dayjs";
-import {formatDate, getTextColorByPrimaryColor, nextMonth, previousMonth} from "../../helpers";
-import {BG_COLOR} from "../../constants";
-import DatepickerContext from "../../contexts/DatepickerContext";
+import React, { useCallback, useContext } from "react";
 
-const isBetween = require('dayjs/plugin/isBetween');
-dayjs.extend(isBetween)
+import { BG_COLOR } from "../../constants";
+import DatepickerContext from "../../contexts/DatepickerContext";
+import { formatDate, getTextColorByPrimaryColor, nextMonth, previousMonth } from "../../helpers";
+
+const isBetween = require("dayjs/plugin/isBetween");
+dayjs.extend(isBetween);
 
 interface Props {
     calendarData: {
-        date: dayjs.Dayjs,
+        date: dayjs.Dayjs;
         days: {
-            previous: number[],
-            current: number[],
-            next: number[]
-        }
-    },
-    onClickPreviousDays: (day: number) => void,
-    onClickDay: (day: number) => void,
-    onClickNextDays: (day: number) => void,
+            previous: number[];
+            current: number[];
+            next: number[];
+        };
+    };
+    onClickPreviousDays: (day: number) => void;
+    onClickDay: (day: number) => void;
+    onClickNextDays: (day: number) => void;
 }
 
-const Days: React.FC<Props> = ({calendarData, onClickPreviousDays, onClickDay, onClickNextDays}) => {
+const Days: React.FC<Props> = ({
+    calendarData,
+    onClickPreviousDays,
+    onClickDay,
+    onClickNextDays
+}) => {
     // Contexts
-    const {primaryColor, period, changePeriod, dayHover, changeDayHover} = useContext(DatepickerContext);
+    const { primaryColor, period, changePeriod, dayHover, changeDayHover } =
+        useContext(DatepickerContext);
 
     // Functions
-    const currentDateClass = useCallback((item: number) => {
-        const itemDate = `${calendarData.date.year()}-${calendarData.date.month() + 1}-${item >= 10 ? item : "0"+item}`;
-        if (formatDate(dayjs()) === formatDate(dayjs(itemDate)))
-            return getTextColorByPrimaryColor(primaryColor)
-        return "";
-    }, [calendarData.date, primaryColor]);
+    const currentDateClass = useCallback(
+        (item: number) => {
+            const itemDate = `${calendarData.date.year()}-${calendarData.date.month() + 1}-${
+                item >= 10 ? item : "0" + item
+            }`;
+            if (formatDate(dayjs()) === formatDate(dayjs(itemDate)))
+                return getTextColorByPrimaryColor(primaryColor);
+            return "";
+        },
+        [calendarData.date, primaryColor]
+    );
 
-    const activeDateData = useCallback((day: number) => {
-        const fullDay = `${calendarData.date.year()}-${calendarData.date.month() + 1}-${day}`;
-        let className = "";
+    const activeDateData = useCallback(
+        (day: number) => {
+            const fullDay = `${calendarData.date.year()}-${calendarData.date.month() + 1}-${day}`;
+            let className = "";
 
-        if ((dayjs(fullDay).isSame(period.start) && dayjs(fullDay).isSame(period.end))) {
+            if (dayjs(fullDay).isSame(period.start) && dayjs(fullDay).isSame(period.end)) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                className = ` ${BG_COLOR["500"][primaryColor]} text-white font-medium rounded-full`;
+            } else if (dayjs(fullDay).isSame(period.start)) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                className = ` ${BG_COLOR["500"][primaryColor]} text-white font-medium ${
+                    dayjs(fullDay).isSame(dayHover) && !period.end
+                        ? "rounded-full"
+                        : "rounded-l-full"
+                }`;
+            } else if (dayjs(fullDay).isSame(period.end)) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                className = ` ${BG_COLOR["500"][primaryColor]} text-white font-medium ${
+                    dayjs(fullDay).isSame(dayHover) && !period.start
+                        ? "rounded-full"
+                        : "rounded-r-full"
+                }`;
+            }
+
+            return {
+                active: dayjs(fullDay).isSame(period.start) || dayjs(fullDay).isSame(period.end),
+                className: className
+            };
+        },
+        [calendarData.date, dayHover, period.end, period.start, primaryColor]
+    );
+
+    const hoverClassByDay = useCallback(
+        (day: number) => {
+            let className = currentDateClass(day);
+            const fullDay = `${calendarData.date.year()}-${calendarData.date.month() + 1}-${
+                day >= 10 ? day : "0" + day
+            }`;
+
+            if (period.start && period.end) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                if (dayjs(fullDay).isBetween(period.start, period.end, "day", "[)")) {
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    return ` ${BG_COLOR["100"][primaryColor]} ${currentDateClass(
+                        day
+                    )} dark:bg-white/10`;
+                }
+            }
+
+            if (!dayHover) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                return className;
+            }
+
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            className = ` ${BG_COLOR["500"][primaryColor]} text-white font-medium rounded-full`;
-        } else if (dayjs(fullDay).isSame(period.start)) {
-            // @ts-ignore
-            className = ` ${BG_COLOR["500"][primaryColor]} text-white font-medium ${(dayjs(fullDay).isSame(dayHover) && !period.end) ? "rounded-full" : "rounded-l-full"}`;
-        } else if(dayjs(fullDay).isSame(period.end)) {
-            // @ts-ignore
-            className = ` ${BG_COLOR["500"][primaryColor]} text-white font-medium ${(dayjs(fullDay).isSame(dayHover) && !period.start) ? "rounded-full" : "rounded-r-full"}`;
-        }
+            if (period.start && dayjs(fullDay).isBetween(period.start, dayHover, "day", "[)")) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                className = ` ${BG_COLOR["100"][primaryColor]} ${currentDateClass(
+                    day
+                )} dark:bg-white/10`;
+            }
 
-        return {
-            active: dayjs(fullDay).isSame(period.start) || dayjs(fullDay).isSame(period.end),
-            className: className
-        }
-    }, [calendarData.date, dayHover, period.end, period.start, primaryColor]);
-
-    const hoverClassByDay = useCallback((day: number) => {
-        let className = currentDateClass(day);
-        const fullDay = `${calendarData.date.year()}-${calendarData.date.month() + 1}-${day >= 10 ? day : "0"+day}`;
-
-        // @ts-ignore
-        if (period.start && period.end && dayjs(fullDay).isBetween(period.start, period.end, 'day', '[)')) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            return ` ${BG_COLOR["100"][primaryColor]} ${currentDateClass(day)} dark:bg-white/10`;
-        }
+            if (period.end && dayjs(fullDay).isBetween(dayHover, period.end, "day", "[)")) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                className = ` ${BG_COLOR["100"][primaryColor]} ${currentDateClass(
+                    day
+                )} dark:bg-white/10`;
+            }
 
-        if (!dayHover) {
-            // @ts-ignore
+            if (dayHover === fullDay) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                const bgColor = BG_COLOR["500"][primaryColor];
+                className = ` transition-all duration-500 text-white font-medium ${bgColor} ${
+                    period.start ? "rounded-r-full" : "rounded-l-full"
+                }`;
+            }
+
             return className;
-        }
+        },
+        [calendarData.date, currentDateClass, dayHover, period.end, period.start, primaryColor]
+    );
 
+    const buttonCass = useCallback(
+        (day: number) => {
+            const baseClass = "flex items-center justify-center w-full h-12 lg:w-10 lg:h-10";
+            return `${baseClass}${
+                !activeDateData(day).active
+                    ? ` ${hoverClassByDay(day)}`
+                    : activeDateData(day).className
+            }`;
+        },
+        [activeDateData, hoverClassByDay]
+    );
 
-        // @ts-ignore
-        if (period.start && dayjs(fullDay).isBetween(period.start, dayHover, 'day', '[)')) {
-            // @ts-ignore
-            className = ` ${BG_COLOR["100"][primaryColor]} ${currentDateClass(day)} dark:bg-white/10`;
-        }
+    const hoverDay = useCallback(
+        (day: number, type: string) => {
+            const object = {
+                previous: previousMonth(calendarData.date),
+                current: calendarData.date,
+                next: nextMonth(calendarData.date)
+            };
+            const newDate = object[type as keyof typeof object];
+            const newHover = `${newDate.year()}-${newDate.month() + 1}-${
+                day >= 10 ? day : "0" + day
+            }`;
 
-        // @ts-ignore
-        if (period.end && dayjs(fullDay).isBetween(dayHover, period.end, 'day', '[)')) {
-            // @ts-ignore
-            className = ` ${BG_COLOR["100"][primaryColor]} ${currentDateClass(day)} dark:bg-white/10`;
-        }
-
-        if (dayHover === fullDay) {
-            // @ts-ignore
-            className = ` transition-all duration-500 ${BG_COLOR["500"][primaryColor]} text-white font-medium ${period.start ? 'rounded-r-full' : 'rounded-l-full'}`;
-        }
-
-        return className;
-    }, [calendarData.date, currentDateClass, dayHover, period.end, period.start, primaryColor]);
-
-    const buttonCass = useCallback((day: number) => {
-        const baseClass = `flex items-center justify-center w-full h-12 lg:w-10 lg:h-10`;
-        return `${baseClass}${!activeDateData(day).active ? ` ${hoverClassByDay(day)}` : activeDateData(day).className}`
-    }, [activeDateData, hoverClassByDay]);
-
-    const hoverDay = useCallback((day: number, type: string) => {
-        const object = {
-            previous: previousMonth(calendarData.date),
-            current: calendarData.date,
-            next: nextMonth(calendarData.date),
-        }
-        const newDate = object[type as keyof typeof object];
-        const newHover = `${newDate.year()}-${newDate.month() + 1}-${day >= 10 ? day : "0"+day}`;
-
-        if (period.start && !period.end) {
-            if (dayjs(newHover).isBefore(dayjs(period.start))) {
-                changePeriod({
-                    start: null,
-                    end: period.start
-                });
+            if (period.start && !period.end) {
+                if (dayjs(newHover).isBefore(dayjs(period.start))) {
+                    changePeriod({
+                        start: null,
+                        end: period.start
+                    });
+                }
+                changeDayHover(newHover);
             }
-            changeDayHover(newHover);
-        }
 
-        if (!period.start && period.end) {
-            if (dayjs(newHover).isAfter(dayjs(period.end))) {
-                changePeriod({
-                    start: period.end,
-                    end: null
-                });
+            if (!period.start && period.end) {
+                if (dayjs(newHover).isAfter(dayjs(period.end))) {
+                    changePeriod({
+                        start: period.end,
+                        end: null
+                    });
+                }
+                changeDayHover(newHover);
             }
-            changeDayHover(newHover);
-        }
-    }, [calendarData.date, changeDayHover, changePeriod, period.end, period.start])
+        },
+        [calendarData.date, changeDayHover, changePeriod, period.end, period.start]
+    );
 
     return (
         <div className="grid grid-cols-7 gap-y-0.5 my-1">
@@ -132,7 +193,9 @@ const Days: React.FC<Props> = ({calendarData, onClickPreviousDays, onClickDay, o
                     key={index}
                     className="flex items-center justify-center text-gray-400 w-full h-12 lg:w-10 lg:h-10"
                     onClick={() => onClickPreviousDays(item)}
-                    onMouseOver={() => {hoverDay(item, "previous")}}
+                    onMouseOver={() => {
+                        hoverDay(item, "previous");
+                    }}
                 >
                     {item}
                 </button>
@@ -142,8 +205,12 @@ const Days: React.FC<Props> = ({calendarData, onClickPreviousDays, onClickDay, o
                 <button
                     key={index}
                     className={buttonCass(item)}
-                    onClick={() => {onClickDay(item)}}
-                    onMouseOver={() => {hoverDay(item, "current")}}
+                    onClick={() => {
+                        onClickDay(item);
+                    }}
+                    onMouseOver={() => {
+                        hoverDay(item, "current");
+                    }}
                 >
                     {item}
                 </button>
@@ -153,8 +220,12 @@ const Days: React.FC<Props> = ({calendarData, onClickPreviousDays, onClickDay, o
                 <button
                     key={index}
                     className="flex items-center justify-center text-gray-400 w-full h-12 lg:w-10 lg:h-10"
-                    onClick={() => {onClickNextDays(item)}}
-                    onMouseOver={() => {hoverDay(item, "next")}}
+                    onClick={() => {
+                        onClickNextDays(item);
+                    }}
+                    onMouseOver={() => {
+                        hoverDay(item, "next");
+                    }}
                 >
                     {item}
                 </button>

@@ -1,13 +1,26 @@
 import dayjs from "dayjs";
-import {formatDate, previousMonth} from "../helpers";
+
+import { formatDate, previousMonth } from "../helpers";
 
 export const COLORS = [
-    "blue", "orange", "yellow",
-    "red", "purple", "amber",
-    "lime", "green", "emerald",
-    "teal", "cyan", "sky",
-    "indigo", "violet", "purple",
-    "fuchsia", "pink", "rose",
+    "blue",
+    "orange",
+    "yellow",
+    "red",
+    "purple",
+    "amber",
+    "lime",
+    "green",
+    "emerald",
+    "teal",
+    "cyan",
+    "sky",
+    "indigo",
+    "violet",
+    "purple",
+    "fuchsia",
+    "pink",
+    "rose"
 ];
 
 export const DEFAULT_COLOR = "blue";
@@ -30,7 +43,7 @@ export const BG_COLOR = {
         violet: "bg-violet-100",
         fuchsia: "bg-fuchsia-100",
         pink: "bg-pink-100",
-        rose: "bg-rose-100",
+        rose: "bg-rose-100"
     },
     200: {
         blue: "bg-blue-200",
@@ -49,7 +62,7 @@ export const BG_COLOR = {
         violet: "bg-violet-200",
         fuchsia: "bg-fuchsia-200",
         pink: "bg-pink-200",
-        rose: "bg-rose-200",
+        rose: "bg-rose-200"
     },
     500: {
         blue: "bg-blue-500",
@@ -68,7 +81,7 @@ export const BG_COLOR = {
         violet: "bg-violet-500",
         fuchsia: "bg-fuchsia-500",
         pink: "bg-pink-500",
-        rose: "bg-rose-500",
+        rose: "bg-rose-500"
     },
     hover: {
         blue: "hover:bg-blue-600",
@@ -87,8 +100,8 @@ export const BG_COLOR = {
         violet: "hover:bg-violet-600",
         fuchsia: "hover:bg-fuchsia-600",
         pink: "hover:bg-pink-600",
-        rose: "hover:bg-rose-600",
-    },
+        rose: "hover:bg-rose-600"
+    }
 };
 
 export const TEXT_COLOR = {
@@ -109,7 +122,7 @@ export const TEXT_COLOR = {
         violet: "text-violet-600 dark:text-violet-400 dark:hover:text-violet-400",
         fuchsia: "text-fuchsia-600 dark:text-fuchsia-400 dark:hover:text-fuchsia-400",
         pink: "text-pink-600 dark:text-pink-400 dark:hover:text-pink-400",
-        rose: "text-rose-600 dark:text-rose-400 dark:hover:text-rose-400",
+        rose: "text-rose-600 dark:text-rose-400 dark:hover:text-rose-400"
     },
     hover: {
         blue: "hover:text-blue-700",
@@ -128,7 +141,7 @@ export const TEXT_COLOR = {
         violet: "hover:text-violet-700",
         fuchsia: "hover:text-fuchsia-700",
         pink: "hover:text-pink-700",
-        rose: "hover:text-rose-700",
+        rose: "hover:text-rose-700"
     }
 };
 
@@ -150,7 +163,7 @@ export const BORDER_COLOR = {
         violet: "border-violet-500",
         fuchsia: "border-fuchsia-500",
         pink: "border-pink-500",
-        rose: "border-rose-500",
+        rose: "border-rose-500"
     },
     focus: {
         blue: "focus:border-blue-500",
@@ -169,7 +182,7 @@ export const BORDER_COLOR = {
         violet: "focus:border-violet-500",
         fuchsia: "focus:border-fuchsia-500",
         pink: "focus:border-pink-500",
-        rose: "focus:border-rose-500",
+        rose: "focus:border-rose-500"
     }
 };
 
@@ -191,7 +204,7 @@ export const RING_COLOR = {
         violet: "focus:ring-violet-500",
         fuchsia: "focus:ring-fuchsia-500",
         pink: "focus:ring-pink-500",
-        rose: "focus:ring-rose-500",
+        rose: "focus:ring-rose-500"
     },
     "second-focus": {
         blue: "focus:ring-blue-500/20",
@@ -210,8 +223,8 @@ export const RING_COLOR = {
         violet: "focus:ring-violet-500/20",
         fuchsia: "focus:ring-fuchsia-500/20",
         pink: "focus:ring-pink-500/20",
-        rose: "focus:ring-rose-500/20",
-    },
+        rose: "focus:ring-rose-500/20"
+    }
 };
 
 export const DEFAULT_SHORTCUTS = {
@@ -219,14 +232,14 @@ export const DEFAULT_SHORTCUTS = {
         text: "Today",
         period: {
             start: formatDate(dayjs()),
-            end: formatDate(dayjs()),
+            end: formatDate(dayjs())
         }
     },
     yesterday: {
         text: "Yesterday",
         period: {
-            start: formatDate(dayjs().subtract(1, 'd')),
-            end: formatDate(dayjs().subtract(1, 'd')),
+            start: formatDate(dayjs().subtract(1, "d")),
+            end: formatDate(dayjs().subtract(1, "d"))
         }
     },
     past: [
@@ -234,31 +247,31 @@ export const DEFAULT_SHORTCUTS = {
             daysNumber: 7,
             text: "Last 7 days",
             period: {
-                start: formatDate(dayjs().subtract(7, 'd')),
-                end: formatDate(dayjs()),
+                start: formatDate(dayjs().subtract(7, "d")),
+                end: formatDate(dayjs())
             }
         },
         {
             daysNumber: 30,
             text: "Last 30 days",
             period: {
-                start: formatDate(dayjs().subtract(30, 'd')),
-                end: formatDate(dayjs()),
+                start: formatDate(dayjs().subtract(30, "d")),
+                end: formatDate(dayjs())
             }
         }
     ],
     currentMonth: {
         text: "This month",
         period: {
-            start: formatDate(dayjs().startOf('month')),
-            end: formatDate(dayjs().endOf('month')),
+            start: formatDate(dayjs().startOf("month")),
+            end: formatDate(dayjs().endOf("month"))
         }
     },
     pastMonth: {
         text: "Last month",
         period: {
-            start: formatDate(previousMonth(dayjs()).startOf('month')),
-            end: formatDate(previousMonth(dayjs()).endOf('month')),
+            start: formatDate(previousMonth(dayjs()).startOf("month")),
+            end: formatDate(previousMonth(dayjs()).endOf("month"))
         }
     }
-}
+};
