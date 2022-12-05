@@ -41,7 +41,7 @@ $ yarn add react-tailwindcss-datepicker
 Make sure you have installed the peer dependencies as well with the below versions.
 ```
 "dayjs": "^1.11.6",
-"react": "^18.2.0"
+"react": "^17.0.2 || ^18.2.0"
 ```
 
 ## Simple Usage
