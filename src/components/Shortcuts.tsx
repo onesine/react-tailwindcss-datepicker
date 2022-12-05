@@ -21,7 +21,8 @@ const ItemTemplate = React.memo((props: ItemTemplateProps) => {
         updateFirstDate,
         dayHover,
         changeDayHover,
-        hideDatepicker
+        hideDatepicker,
+        changeDatepickerValue
     } = useContext(DatepickerContext);
 
     // Functions
@@ -44,18 +45,23 @@ const ItemTemplate = React.memo((props: ItemTemplateProps) => {
             }
             changeInputText(`${item.start} ~ ${item.end}`);
             changePeriod(item);
+            changeDatepickerValue({
+                startDate: item.start,
+                endDate: item.end
+            });
             updateFirstDate(dayjs(item.start));
             hideDatepicker();
         },
         [
+            changeDatepickerValue,
             changeDayHover,
             changeInputText,
             changePeriod,
             dayHover,
+            hideDatepicker,
             period.end,
             period.start,
-            updateFirstDate,
-            hideDatepicker
+            updateFirstDate
         ]
     );
 
