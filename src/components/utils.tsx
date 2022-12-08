@@ -222,7 +222,7 @@ export const RoundedButton: React.FC<Button> = ({
     }, [padding, primaryColor, roundedFull]);
 
     return (
-        <button className={getClassName()} onClick={onClick}>
+        <button type="button" className={getClassName()} onClick={onClick}>
             {children}
         </button>
     );

@@ -159,6 +159,7 @@ const Input: React.FC = () => {
             />
 
             <button
+                type="button"
                 ref={buttonRef}
                 className="absolute right-0 h-full px-3 text-gray-400 focus:outline-none"
             >
