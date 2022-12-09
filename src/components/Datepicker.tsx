@@ -43,6 +43,9 @@ interface Props {
     separator?: string;
     startFrom?: Date | null;
     i18n?: string;
+    disabled?: boolean;
+    inputClassName?: string | null;
+    containerClassName?: string | null;
 }
 
 const Datepicker: React.FC<Props> = ({
@@ -57,7 +60,10 @@ const Datepicker: React.FC<Props> = ({
     placeholder = null,
     separator = "~",
     startFrom = null,
-    i18n = "en"
+    i18n = "en",
+    disabled = false,
+    inputClassName = null,
+    containerClassName = null
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement>(null);
@@ -87,14 +93,23 @@ const Datepicker: React.FC<Props> = ({
     // Functions
     const hideDatepicker = useCallback(() => {
         const div = calendarContainerRef.current;
-        if (div && div.classList.contains("block")) {
+        const arrow = arrowRef.current;
+        if (arrow && div && div.classList.contains("block")) {
             div.classList.remove("block");
             div.classList.remove("translate-y-0");
             div.classList.remove("opacity-1");
             div.classList.add("translate-y-4");
             div.classList.add("opacity-0");
             setTimeout(() => {
+                div.classList.remove("bottom-full");
                 div.classList.add("hidden");
+                div.classList.add("mb-2.5");
+                div.classList.add("mt-2.5");
+                arrow.classList.remove("-bottom-2");
+                arrow.classList.remove("border-r");
+                arrow.classList.remove("border-b");
+                arrow.classList.add("border-l");
+                arrow.classList.add("border-t");
             }, 300);
         }
     }, []);
@@ -177,6 +192,9 @@ const Datepicker: React.FC<Props> = ({
             const detail = container.getBoundingClientRect();
             const screenCenter = window.innerWidth / 2;
             const containerCenter = (detail.right - detail.x) / 2 + detail.x;
+
+            console.log(detail.bottom, calendarContainer.getBoundingClientRect().top);
+
             if (containerCenter > screenCenter) {
                 arrow.classList.add("right-0");
                 arrow.classList.add("mr-3.5");
@@ -224,6 +242,7 @@ const Datepicker: React.FC<Props> = ({
             primaryColor: colorPrimary,
             configs,
             calendarContainer: calendarContainerRef,
+            arrowContainer: arrowRef,
             hideDatepicker,
             period,
             changePeriod: (newPeriod: Period) => setPeriod(newPeriod),
@@ -237,7 +256,10 @@ const Datepicker: React.FC<Props> = ({
             placeholder,
             separator,
             i18n,
-            value
+            value,
+            disabled,
+            inputClassName,
+            containerClassName
         };
     }, [
         asSingle,
@@ -253,12 +275,18 @@ const Datepicker: React.FC<Props> = ({
         placeholder,
         separator,
         showFooter,
-        value
+        value,
+        disabled,
+        inputClassName,
+        containerClassName
     ]);
 
     return (
         <DatepickerContext.Provider value={contextValues}>
-            <div className="relative w-full text-gray-700" ref={containerRef}>
+            <div
+                className={`relative w-full text-gray-700 ${containerClassName}`}
+                ref={containerRef}
+            >
                 <Input />
 
                 <div
@@ -272,7 +300,7 @@ const Datepicker: React.FC<Props> = ({
                             {showShortcuts && <Shortcuts />}
 
                             <div
-                                className={`flex items-stretch flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-1.5 ${
+                                className={`flex items-stretch flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-1.5 ${
                                     showShortcuts ? "md:pl-2" : "md:pl-1"
                                 } pr-2 lg:pr-1`}
                             >

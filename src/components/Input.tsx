@@ -15,13 +15,16 @@ const Input: React.FC = () => {
         dayHover,
         changeDayHover,
         calendarContainer,
+        arrowContainer,
         inputText,
         changeInputText,
         hideDatepicker,
         changeDatepickerValue,
         asSingle,
         placeholder,
-        separator
+        separator,
+        disabled,
+        inputClassName
     } = useContext(DatepickerContext);
 
     // UseRefs
@@ -33,8 +36,9 @@ const Input: React.FC = () => {
         const border = BORDER_COLOR.focus[primaryColor as keyof typeof BORDER_COLOR.focus];
         const ring =
             RING_COLOR["second-focus"][primaryColor as keyof typeof RING_COLOR["second-focus"]];
-        return `relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring ${border} ${ring}`;
-    }, [primaryColor]);
+        const classNameOverload = typeof inputClassName === "string" ? inputClassName : "";
+        return `relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring disabled:opacity-40 disabled:cursor-not-allowed ${border} ${ring} ${classNameOverload}`;
+    }, [primaryColor, inputClassName]);
 
     const handleInputChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,11 +122,23 @@ const Input: React.FC = () => {
     useEffect(() => {
         const div = calendarContainer?.current;
         const input = inputRef.current;
+        const arrow = arrowContainer?.current;
 
         function showCalendarContainer() {
-            if (div && div.classList.contains("hidden")) {
+            console.log(arrow);
+            if (arrow && div && div.classList.contains("hidden")) {
                 div.classList.remove("hidden");
                 div.classList.add("block");
+                if (window.screen.height - 100 < div.getBoundingClientRect().bottom) {
+                    div.classList.add("bottom-full");
+                    div.classList.add("mb-2.5");
+                    div.classList.remove("mt-2.5");
+                    arrow.classList.add("-bottom-2");
+                    arrow.classList.add("border-r");
+                    arrow.classList.add("border-b");
+                    arrow.classList.remove("border-l");
+                    arrow.classList.remove("border-t");
+                }
                 setTimeout(() => {
                     div.classList.remove("translate-y-4");
                     div.classList.remove("opacity-0");
@@ -141,7 +157,7 @@ const Input: React.FC = () => {
                 input.removeEventListener("focus", showCalendarContainer);
             }
         };
-    }, [calendarContainer]);
+    }, [calendarContainer, arrowContainer]);
 
     return (
         <>
@@ -149,6 +165,7 @@ const Input: React.FC = () => {
                 ref={inputRef}
                 type="text"
                 className={getClassName()}
+                disabled={disabled}
                 placeholder={
                     placeholder
                         ? placeholder
@@ -161,7 +178,8 @@ const Input: React.FC = () => {
             <button
                 type="button"
                 ref={buttonRef}
-                className="absolute right-0 h-full px-3 text-gray-400 focus:outline-none"
+                disabled={disabled}
+                className="absolute right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"
             >
                 {inputText ? <CloseIcon className="h-5 w-5" /> : <DateIcon className="h-5 w-5" />}
             </button>
