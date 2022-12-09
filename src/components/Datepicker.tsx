@@ -193,8 +193,6 @@ const Datepicker: React.FC<Props> = ({
             const screenCenter = window.innerWidth / 2;
             const containerCenter = (detail.right - detail.x) / 2 + detail.x;
 
-            console.log(detail.bottom, calendarContainer.getBoundingClientRect().top);
-
             if (containerCenter > screenCenter) {
                 arrow.classList.add("right-0");
                 arrow.classList.add("mr-3.5");
