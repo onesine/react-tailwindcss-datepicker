@@ -125,7 +125,6 @@ const Input: React.FC = () => {
         const arrow = arrowContainer?.current;
 
         function showCalendarContainer() {
-            console.log(arrow);
             if (arrow && div && div.classList.contains("hidden")) {
                 div.classList.remove("hidden");
                 div.classList.add("block");
