@@ -190,6 +190,7 @@ const Days: React.FC<Props> = ({
         <div className="grid grid-cols-7 gap-y-0.5 my-1">
             {calendarData.days.previous.map((item, index) => (
                 <button
+                    type="button"
                     key={index}
                     className="flex items-center justify-center text-gray-400 w-full h-12 lg:w-10 lg:h-10"
                     onClick={() => onClickPreviousDays(item)}
@@ -203,6 +204,7 @@ const Days: React.FC<Props> = ({
 
             {calendarData.days.current.map((item, index) => (
                 <button
+                    type="button"
                     key={index}
                     className={buttonCass(item)}
                     onClick={() => {
@@ -218,6 +220,7 @@ const Days: React.FC<Props> = ({
 
             {calendarData.days.next.map((item, index) => (
                 <button
+                    type="button"
                     key={index}
                     className="flex items-center justify-center text-gray-400 w-full h-12 lg:w-10 lg:h-10"
                     onClick={() => {

@@ -13,6 +13,7 @@ interface DatepickerStore {
     primaryColor: string;
     configs?: Configs | null;
     calendarContainer: React.RefObject<HTMLDivElement> | null;
+    arrowContainer: React.RefObject<HTMLDivElement> | null;
     hideDatepicker: () => void;
     period: Period;
     changePeriod: (period: Period) => void;
@@ -27,11 +28,15 @@ interface DatepickerStore {
     separator?: string;
     i18n: string;
     value: DateRange;
+    disabled?: boolean;
+    inputClassName?: string | null;
+    containerClassName?: string | null;
 }
 
 const DatepickerContext = createContext<DatepickerStore>({
     primaryColor: "blue",
     calendarContainer: null,
+    arrowContainer: null,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     hideDatepicker: () => {},
     period: { start: null, end: null },
@@ -49,7 +54,10 @@ const DatepickerContext = createContext<DatepickerStore>({
     changeDatepickerValue: value => {},
     showFooter: false,
     value: null,
-    i18n: "en"
+    i18n: "en",
+    disabled: false,
+    inputClassName: "",
+    containerClassName: ""
 });
 
 export default DatepickerContext;
