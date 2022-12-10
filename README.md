@@ -7,6 +7,14 @@
     A modern date range picker component for React using Tailwind 3 and dayjs. Alternative to Litepie Datepicker which uses Vuejs.
 </p>
 
+<div align="center">
+    
+[![npm version](https://img.shields.io/npm/v/react-tailwindcss-datepicker?style=flat-square)](https://www.npmjs.com/package/react-tailwindcss-datepicker)
+[![npm downloads](https://img.shields.io/npm/dt/react-tailwindcss-datepicker?style=flat-square)](https://www.npmjs.com/package/react-tailwindcss-datepicker)
+    
+</div>
+
+
 ##  Features
 - ✅ Theming options
 - ✅ Dark mode
@@ -15,7 +23,7 @@
 - ✅ Shortcuts
 - ✅ TypeScript support
 - ✅ Localization(i18n)
-- ⬜ Disable date
+- ✅ Disable date
 - ⬜ Custom shortcuts
 
 ## Documentation
