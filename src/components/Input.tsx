@@ -98,10 +98,8 @@ const Input: React.FC = () => {
             }
         }
 
-        if (buttonRef?.current) {
-            if (button) {
-                button.addEventListener("click", focusInput);
-            }
+        if (button) {
+            button.addEventListener("click", focusInput);
         }
 
         return () => {
@@ -128,7 +126,11 @@ const Input: React.FC = () => {
             if (arrow && div && div.classList.contains("hidden")) {
                 div.classList.remove("hidden");
                 div.classList.add("block");
-                if (window.screen.height - 100 < div.getBoundingClientRect().bottom) {
+                // window.innerWidth === 767
+                if (
+                    window.innerWidth > 767 &&
+                    window.screen.height - 100 < div.getBoundingClientRect().bottom
+                ) {
                     div.classList.add("bottom-full");
                     div.classList.add("mb-2.5");
                     div.classList.remove("mt-2.5");
