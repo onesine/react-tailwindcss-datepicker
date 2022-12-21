@@ -219,7 +219,7 @@ const Datepicker: React.FC<Props> = ({
                 });
                 setInputText(
                     `${formatDate(startDate, displayFormat)}${
-                        asSingle ? "" : ` ~ ${formatDate(endDate, displayFormat)}`
+                        asSingle ? "" : ` ${separator} ${formatDate(endDate, displayFormat)}`
                     }`
                 );
             }
