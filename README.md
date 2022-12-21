@@ -23,6 +23,7 @@
 - ✅ Shortcuts
 - ✅ TypeScript support
 - ✅ Localization(i18n)
+- ✅ Date formatting
 - ⬜ Disable specific dates
 - ⬜ Custom shortcuts
 

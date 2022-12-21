@@ -46,6 +46,7 @@ interface Props {
     disabled?: boolean;
     inputClassName?: string | null;
     containerClassName?: string | null;
+    displayFormat?: string;
     readonly?: boolean;
 }
 
@@ -65,6 +66,7 @@ const Datepicker: React.FC<Props> = ({
     disabled = false,
     inputClassName = null,
     containerClassName = null,
+    displayFormat = "YYYY-MM-DD",
     readonly = false
 }) => {
     // Ref
@@ -216,7 +218,9 @@ const Datepicker: React.FC<Props> = ({
                     end: formatDate(endDate)
                 });
                 setInputText(
-                    `${formatDate(startDate)}${asSingle ? "" : ` ~ ${formatDate(endDate)}`}`
+                    `${formatDate(startDate, displayFormat)}${
+                        asSingle ? "" : ` ~ ${formatDate(endDate, displayFormat)}`
+                    }`
                 );
             }
         }
@@ -227,7 +231,7 @@ const Datepicker: React.FC<Props> = ({
                 end: null
             });
         }
-    }, [asSingle, value]);
+    }, [asSingle, value, displayFormat]);
 
     // Variable
     const colorPrimary = useMemo(() => {
