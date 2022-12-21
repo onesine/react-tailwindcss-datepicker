@@ -115,7 +115,8 @@ const Input: React.FC = () => {
         dayHover,
         inputText,
         period.end,
-        period.start
+        period.start,
+        readOnly
     ]);
 
     useEffect(() => {
@@ -159,7 +160,7 @@ const Input: React.FC = () => {
                 input.removeEventListener("focus", showCalendarContainer);
             }
         };
-    }, [calendarContainer, arrowContainer]);
+    }, [calendarContainer, arrowContainer, readOnly]);
 
     return (
         <>

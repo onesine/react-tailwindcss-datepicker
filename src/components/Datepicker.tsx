@@ -231,7 +231,7 @@ const Datepicker: React.FC<Props> = ({
                 end: null
             });
         }
-    }, [asSingle, value, displayFormat]);
+    }, [asSingle, value, displayFormat, separator]);
 
     // Variable
     const colorPrimary = useMemo(() => {
