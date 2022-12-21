@@ -24,7 +24,8 @@ const Input: React.FC = () => {
         placeholder,
         separator,
         disabled,
-        inputClassName
+        inputClassName,
+        readonly
     } = useContext(DatepickerContext);
 
     // UseRefs
@@ -167,6 +168,7 @@ const Input: React.FC = () => {
                 type="text"
                 className={getClassName()}
                 disabled={disabled}
+                readOnly={readonly}
                 placeholder={
                     placeholder
                         ? placeholder
