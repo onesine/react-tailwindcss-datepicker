@@ -141,7 +141,7 @@ const Days: React.FC<Props> = ({
 
     const buttonCass = useCallback(
         (day: number) => {
-            const baseClass = "flex items-center justify-center w-full h-12 lg:w-10 lg:h-10";
+            const baseClass = "flex items-center justify-center w-12 h-12 lg:w-10 lg:h-10";
             return `${baseClass}${
                 !activeDateData(day).active
                     ? ` ${hoverClassByDay(day)}`
@@ -192,7 +192,7 @@ const Days: React.FC<Props> = ({
                 <button
                     type="button"
                     key={index}
-                    className="flex items-center justify-center text-gray-400 w-full h-12 lg:w-10 lg:h-10"
+                    className="flex items-center justify-center text-gray-400 h-12 w-12 lg:w-10 lg:h-10"
                     onClick={() => onClickPreviousDays(item)}
                     onMouseOver={() => {
                         hoverDay(item, "previous");
@@ -222,7 +222,7 @@ const Days: React.FC<Props> = ({
                 <button
                     type="button"
                     key={index}
-                    className="flex items-center justify-center text-gray-400 w-full h-12 lg:w-10 lg:h-10"
+                    className="flex items-center justify-center text-gray-400 h-12 w-12 lg:w-10 lg:h-10"
                     onClick={() => {
                         onClickNextDays(item);
                     }}
