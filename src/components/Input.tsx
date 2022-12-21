@@ -125,7 +125,7 @@ const Input: React.FC = () => {
         const arrow = arrowContainer?.current;
 
         function showCalendarContainer() {
-            if (arrow && div && div.classList.contains("hidden") && !readOnly) {
+            if (arrow && div && div.classList.contains("hidden")) {
                 div.classList.remove("hidden");
                 div.classList.add("block");
                 // window.innerWidth === 767
@@ -160,7 +160,7 @@ const Input: React.FC = () => {
                 input.removeEventListener("focus", showCalendarContainer);
             }
         };
-    }, [calendarContainer, arrowContainer, readOnly]);
+    }, [calendarContainer, arrowContainer]);
 
     return (
         <>
