@@ -25,7 +25,8 @@ const Input: React.FC = () => {
         separator,
         disabled,
         inputClassName,
-        readOnly
+        readOnly,
+        displayFormat
     } = useContext(DatepickerContext);
 
     // UseRefs
@@ -173,7 +174,7 @@ const Input: React.FC = () => {
                 placeholder={
                     placeholder
                         ? placeholder
-                        : `YYYY-MM-DD${asSingle ? "" : ` ${separator} YYYY-MM-DD`}`
+                        : `${displayFormat}${asSingle ? "" : ` ${separator} ${displayFormat}`}`
                 }
                 value={inputText}
                 onChange={handleInputChange}

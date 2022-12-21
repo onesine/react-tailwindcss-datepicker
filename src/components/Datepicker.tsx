@@ -264,27 +264,29 @@ const Datepicker: React.FC<Props> = ({
             disabled,
             inputClassName,
             containerClassName,
-            readOnly
+            readOnly,
+            displayFormat
         };
     }, [
         asSingle,
         colorPrimary,
         configs,
-        dayHover,
-        firstGotoDate,
         hideDatepicker,
-        i18n,
+        period,
+        dayHover,
         inputText,
         onChange,
-        period,
+        showFooter,
         placeholder,
         separator,
-        showFooter,
+        i18n,
         value,
         disabled,
         inputClassName,
         containerClassName,
-        readOnly
+        readOnly,
+        displayFormat,
+        firstGotoDate
     ]);
 
     return (

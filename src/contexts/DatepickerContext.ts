@@ -32,6 +32,7 @@ interface DatepickerStore {
     inputClassName?: string | null;
     containerClassName?: string | null;
     readOnly?: boolean;
+    displayFormat?: string;
 }
 
 const DatepickerContext = createContext<DatepickerStore>({
@@ -59,7 +60,8 @@ const DatepickerContext = createContext<DatepickerStore>({
     disabled: false,
     inputClassName: "",
     containerClassName: "",
-    readOnly: false
+    readOnly: false,
+    displayFormat: "YYYY-MM-DD"
 });
 
 export default DatepickerContext;
