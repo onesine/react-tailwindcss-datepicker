@@ -31,6 +31,7 @@ interface DatepickerStore {
     disabled?: boolean;
     inputClassName?: string | null;
     containerClassName?: string | null;
+    readonly?: boolean;
 }
 
 const DatepickerContext = createContext<DatepickerStore>({
@@ -57,7 +58,8 @@ const DatepickerContext = createContext<DatepickerStore>({
     i18n: "en",
     disabled: false,
     inputClassName: "",
-    containerClassName: ""
+    containerClassName: "",
+    readonly: false
 });
 
 export default DatepickerContext;

@@ -47,6 +47,7 @@ interface Props {
     inputClassName?: string | null;
     containerClassName?: string | null;
     displayFormat?: string;
+    readonly?: boolean;
 }
 
 const Datepicker: React.FC<Props> = ({
@@ -65,7 +66,8 @@ const Datepicker: React.FC<Props> = ({
     disabled = false,
     inputClassName = null,
     containerClassName = null,
-    displayFormat = "YYYY-MM-DD"
+    displayFormat = "YYYY-MM-DD",
+    readonly = false
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement>(null);
@@ -261,7 +263,8 @@ const Datepicker: React.FC<Props> = ({
             value,
             disabled,
             inputClassName,
-            containerClassName
+            containerClassName,
+            readonly
         };
     }, [
         asSingle,
@@ -280,7 +283,8 @@ const Datepicker: React.FC<Props> = ({
         value,
         disabled,
         inputClassName,
-        containerClassName
+        containerClassName,
+        readonly
     ]);
 
     return (
