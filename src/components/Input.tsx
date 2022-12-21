@@ -25,7 +25,7 @@ const Input: React.FC = () => {
         separator,
         disabled,
         inputClassName,
-        readonly
+        readOnly
     } = useContext(DatepickerContext);
 
     // UseRefs
@@ -84,7 +84,7 @@ const Input: React.FC = () => {
             e.stopPropagation();
             if (inputRef?.current) {
                 inputRef.current.focus();
-                if (inputText) {
+                if (inputText && !readOnly) {
                     changeInputText("");
                     if (dayHover) {
                         changeDayHover(null);
@@ -124,7 +124,7 @@ const Input: React.FC = () => {
         const arrow = arrowContainer?.current;
 
         function showCalendarContainer() {
-            if (arrow && div && div.classList.contains("hidden")) {
+            if (arrow && div && div.classList.contains("hidden") && !readOnly) {
                 div.classList.remove("hidden");
                 div.classList.add("block");
                 // window.innerWidth === 767
@@ -168,7 +168,7 @@ const Input: React.FC = () => {
                 type="text"
                 className={getClassName()}
                 disabled={disabled}
-                readOnly={readonly}
+                readOnly={readOnly}
                 placeholder={
                     placeholder
                         ? placeholder

@@ -31,7 +31,7 @@ interface DatepickerStore {
     disabled?: boolean;
     inputClassName?: string | null;
     containerClassName?: string | null;
-    readonly?: boolean;
+    readOnly?: boolean;
 }
 
 const DatepickerContext = createContext<DatepickerStore>({
@@ -59,7 +59,7 @@ const DatepickerContext = createContext<DatepickerStore>({
     disabled: false,
     inputClassName: "",
     containerClassName: "",
-    readonly: false
+    readOnly: false
 });
 
 export default DatepickerContext;
