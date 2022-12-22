@@ -1,12 +1,7 @@
 import dayjs from "dayjs";
 import React, { createContext } from "react";
 
-import { Configs, Period } from "../types";
-
-type DateRange = {
-    startDate: string | Date | null;
-    endDate: string | Date | null;
-} | null;
+import { Configs, Period, DateValueType } from "../types";
 
 interface DatepickerStore {
     asSingle?: boolean;
@@ -22,12 +17,12 @@ interface DatepickerStore {
     inputText: string;
     changeInputText: (text: string) => void;
     updateFirstDate: (date: dayjs.Dayjs) => void;
-    changeDatepickerValue: (value: DateRange) => void;
+    changeDatepickerValue: (value: DateValueType) => void;
     showFooter?: boolean;
     placeholder?: string | null;
     separator?: string;
     i18n: string;
-    value: DateRange;
+    value: DateValueType;
     disabled?: boolean;
     inputClassName?: string | null;
     containerClassName?: string | null;

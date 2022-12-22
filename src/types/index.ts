@@ -25,3 +25,10 @@ export interface ShortcutsItem {
         end: string;
     };
 }
+
+export type DateType = string | null | Date;
+
+export type DateValueType = {
+    startDate: DateType;
+    endDate: DateType;
+} | null;
