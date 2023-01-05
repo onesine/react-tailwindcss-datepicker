@@ -3,7 +3,13 @@ import React, { useCallback, useContext } from "react";
 
 import { BG_COLOR } from "../../constants";
 import DatepickerContext from "../../contexts/DatepickerContext";
-import { formatDate, getTextColorByPrimaryColor, nextMonth, previousMonth } from "../../helpers";
+import {
+    formatDate,
+    getTextColorByPrimaryColor,
+    nextMonth,
+    previousMonth,
+    classNames as cn
+} from "../../helpers";
 
 const isBetween = require("dayjs/plugin/isBetween");
 dayjs.extend(isBetween);
@@ -29,7 +35,7 @@ const Days: React.FC<Props> = ({
     onClickNextDays
 }) => {
     // Contexts
-    const { primaryColor, period, changePeriod, dayHover, changeDayHover } =
+    const { primaryColor, period, changePeriod, dayHover, changeDayHover, minDate, maxDate } =
         useContext(DatepickerContext);
 
     // Functions
@@ -139,16 +145,55 @@ const Days: React.FC<Props> = ({
         [calendarData.date, currentDateClass, dayHover, period.end, period.start, primaryColor]
     );
 
-    const buttonCass = useCallback(
-        (day: number) => {
-            const baseClass = "flex items-center justify-center w-12 h-12 lg:w-10 lg:h-10";
-            return `${baseClass}${
-                !activeDateData(day).active
-                    ? ` ${hoverClassByDay(day)}`
-                    : activeDateData(day).className
+    const isDateTooEarly = useCallback(
+        (day: number, type: string) => {
+            if (!minDate) {
+                return false;
+            }
+            const object = {
+                previous: previousMonth(calendarData.date),
+                current: calendarData.date,
+                next: nextMonth(calendarData.date)
+            };
+            const newDate = object[type as keyof typeof object];
+            const newHover = `${newDate.year()}-${newDate.month() + 1}-${
+                day >= 10 ? day : "0" + day
             }`;
+
+            return dayjs(newHover).isBefore(dayjs(minDate).subtract(1, "day"));
         },
-        [activeDateData, hoverClassByDay]
+        [calendarData.date, minDate]
+    );
+
+    const isDateTooLate = useCallback(
+        (day: number, type: string) => {
+            if (!maxDate) {
+                return false;
+            }
+            const object = {
+                previous: previousMonth(calendarData.date),
+                current: calendarData.date,
+                next: nextMonth(calendarData.date)
+            };
+            const newDate = object[type as keyof typeof object];
+            const newHover = `${newDate.year()}-${newDate.month() + 1}-${
+                day >= 10 ? day : "0" + day
+            }`;
+
+            return dayjs(newHover).isAfter(dayjs(maxDate));
+        },
+        [calendarData.date, maxDate]
+    );
+    const buttonClass = useCallback(
+        (day: number, type: string) => {
+            const baseClass = "flex items-center justify-center w-12 h-12 lg:w-10 lg:h-10";
+            return cn(
+                baseClass,
+                !activeDateData(day).active ? hoverClassByDay(day) : activeDateData(day).className,
+                (isDateTooEarly(day, type) || isDateTooLate(day, type)) && "text-red-500"
+            );
+        },
+        [activeDateData, hoverClassByDay, isDateTooEarly, isDateTooLate]
     );
 
     const hoverDay = useCallback(
@@ -163,27 +208,36 @@ const Days: React.FC<Props> = ({
                 day >= 10 ? day : "0" + day
             }`;
 
-            if (period.start && !period.end) {
-                if (dayjs(newHover).isBefore(dayjs(period.start))) {
-                    changePeriod({
-                        start: null,
-                        end: period.start
-                    });
+            if (!isDateTooEarly(day, type) && !isDateTooLate(day, type)) {
+                if (period.start && !period.end) {
+                    if (dayjs(newHover).isBefore(dayjs(period.start))) {
+                        changePeriod({
+                            start: null,
+                            end: period.start
+                        });
+                    }
                 }
-                changeDayHover(newHover);
-            }
 
-            if (!period.start && period.end) {
-                if (dayjs(newHover).isAfter(dayjs(period.end))) {
-                    changePeriod({
-                        start: period.end,
-                        end: null
-                    });
+                if (!period.start && period.end) {
+                    if (dayjs(newHover).isAfter(dayjs(period.end))) {
+                        changePeriod({
+                            start: period.end,
+                            end: null
+                        });
+                    }
                 }
                 changeDayHover(newHover);
             }
         },
-        [calendarData.date, changeDayHover, changePeriod, period.end, period.start]
+        [
+            calendarData.date,
+            changeDayHover,
+            changePeriod,
+            isDateTooEarly,
+            isDateTooLate,
+            period.end,
+            period.start
+        ]
     );
 
     return (
@@ -192,6 +246,7 @@ const Days: React.FC<Props> = ({
                 <button
                     type="button"
                     key={index}
+                    disabled={isDateTooEarly(item, "previous") || isDateTooLate(item, "previous")}
                     className="flex items-center justify-center text-gray-400 h-12 w-12 lg:w-10 lg:h-10"
                     onClick={() => onClickPreviousDays(item)}
                     onMouseOver={() => {
@@ -206,7 +261,8 @@ const Days: React.FC<Props> = ({
                 <button
                     type="button"
                     key={index}
-                    className={buttonCass(item)}
+                    disabled={isDateTooEarly(item, "current") || isDateTooLate(item, "current")}
+                    className={`${buttonClass(item, "current")}`}
                     onClick={() => {
                         onClickDay(item);
                     }}
@@ -222,6 +278,7 @@ const Days: React.FC<Props> = ({
                 <button
                     type="button"
                     key={index}
+                    disabled={isDateTooEarly(item, "next") || isDateTooLate(item, "next")}
                     className="flex items-center justify-center text-gray-400 h-12 w-12 lg:w-10 lg:h-10"
                     onClick={() => {
                         onClickNextDays(item);

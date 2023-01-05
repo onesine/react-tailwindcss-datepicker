@@ -9,7 +9,7 @@ import { COLORS, DEFAULT_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { formatDate, nextMonth, previousMonth } from "../helpers";
 import useOnClickOutside from "../hooks";
-import { Period, DateValueType } from "../types";
+import { Period, DateValueType, DateType } from "../types";
 
 import { Arrow, VerticalDash } from "./utils";
 
@@ -43,6 +43,8 @@ interface Props {
     containerClassName?: string | null;
     displayFormat?: string;
     readOnly?: boolean;
+    minDate?: DateType | null;
+    maxDate?: DateType | null;
 }
 
 const Datepicker: React.FC<Props> = ({
@@ -62,7 +64,9 @@ const Datepicker: React.FC<Props> = ({
     inputClassName = null,
     containerClassName = null,
     displayFormat = "YYYY-MM-DD",
-    readOnly = false
+    readOnly = false,
+    minDate = null,
+    maxDate = null
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement>(null);
@@ -260,7 +264,9 @@ const Datepicker: React.FC<Props> = ({
             inputClassName,
             containerClassName,
             readOnly,
-            displayFormat
+            displayFormat,
+            minDate,
+            maxDate
         };
     }, [
         asSingle,
@@ -281,7 +287,9 @@ const Datepicker: React.FC<Props> = ({
         containerClassName,
         readOnly,
         displayFormat,
-        firstGotoDate
+        firstGotoDate,
+        minDate,
+        maxDate
     ]);
 
     return (
