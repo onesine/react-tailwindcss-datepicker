@@ -120,6 +120,21 @@ You can find the demo at [here](https://react-tailwindcss-datepicker.vercel.app/
 > 👉 To discover the other possibilities offered by this library, you can consult the [full documentation](https://react-tailwindcss-datepicker.vercel.app/).
 
 
+## PlayGround
+
+Clone the `master` branch and run commands:
+
+```sh
+# Using npm
+npm install && npm dev
+
+# Using yarn
+yarn install && yarn dev
+
+```
+
+Open a browser and navigate to `http://localhost:8888`
+
 ## Contributing
 Got ideas on how to make this better? Open an issue!
 
