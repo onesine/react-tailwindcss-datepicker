@@ -3,7 +3,7 @@
         "target": "esnext",
         "lib": ["dom", "esnext"],
         "module": "esnext",
-        "jsx": "react",
+        "jsx": "preserve",
         "moduleResolution": "node",
         "forceConsistentCasingInFileNames": true,
         "strict": true,
@@ -15,7 +15,13 @@
         "declarationDir": "dist",
         "inlineSources": true,
         "sourceMap": true,
-        "rootDir": "src"
+        "rootDir": "src",
+        "allowJs": true,
+        "skipLibCheck": true,
+        "noEmit": true,
+        "incremental": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules"]

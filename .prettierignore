@@ -1,6 +1,7 @@
 # Folders
 dist/
 assets/
+.next/
 
 # Files
 README.md
