@@ -1,6 +1,8 @@
 # Folders
 dist/
 assets/
+pages/
+test-components/
 
 # Files
 README.md

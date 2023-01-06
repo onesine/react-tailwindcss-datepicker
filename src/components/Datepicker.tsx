@@ -141,8 +141,8 @@ const Datepicker: React.FC<Props> = ({
 
     const secondGotoDate = useCallback(
         (date: dayjs.Dayjs) => {
-            const newDate = dayjs(formatDate(date));
-            const reformatDate = dayjs(formatDate(firstDate));
+            const newDate = dayjs(formatDate(date, displayFormat));
+            const reformatDate = dayjs(formatDate(firstDate, displayFormat));
             if (newDate.isSame(reformatDate) || newDate.isBefore(reformatDate)) {
                 setFirstDate(previousMonth(date));
             }
@@ -215,8 +215,8 @@ const Datepicker: React.FC<Props> = ({
                 validDate && (startDate.isSame(endDate) || startDate.isBefore(endDate));
             if (condition) {
                 setPeriod({
-                    start: formatDate(startDate),
-                    end: formatDate(endDate)
+                    start: formatDate(startDate, displayFormat),
+                    end: formatDate(endDate, displayFormat)
                 });
                 setInputText(
                     `${formatDate(startDate, displayFormat)}${
@@ -233,6 +233,18 @@ const Datepicker: React.FC<Props> = ({
             });
         }
     }, [asSingle, value, displayFormat, separator]);
+
+    useEffect(() => {
+        if (startFrom && dayjs(startFrom).isValid()) {
+            if (value != null && value.startDate != null) {
+                setFirstDate(dayjs(value.startDate));
+                setSecondDate(nextMonth(dayjs(value.startDate)));
+            } else {
+                setFirstDate(dayjs(startFrom));
+                setSecondDate(nextMonth(dayjs(startFrom)));
+            }
+        }
+    }, [startFrom, value]);
 
     // Variable
     const colorPrimary = useMemo(() => {
