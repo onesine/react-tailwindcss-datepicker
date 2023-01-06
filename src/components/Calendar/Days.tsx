@@ -167,7 +167,9 @@ const Days: React.FC<Props> = ({
             const newHover = `${newDate.year()}-${newDate.month() + 1}-${
                 day >= 10 ? day : "0" + day
             }`;
-            return dayjs(newHover).isBefore(dayjs(minDate));
+            return dayjs(newHover).isSame(dayjs(minDate))
+                ? false
+                : dayjs(newHover).isBefore(dayjs(minDate));
         },
         [calendarData.date, minDate]
     );
@@ -186,8 +188,9 @@ const Days: React.FC<Props> = ({
             const newHover = `${newDate.year()}-${newDate.month() + 1}-${
                 day >= 10 ? day : "0" + day
             }`;
-
-            return dayjs(newHover).isAfter(dayjs(maxDate).subtract(1, "day"));
+            return dayjs(newHover).isSame(maxDate)
+                ? false
+                : dayjs(newHover).isAfter(dayjs(maxDate));
         },
         [calendarData.date, maxDate]
     );
@@ -207,25 +210,26 @@ const Days: React.FC<Props> = ({
                 day >= 10 ? day : "0" + day
             }`;
 
-            // disabledDates?.forEach(dateRange => {
-            //     // If no endDate is provided, disable a single date
-            //     if (!dateRange.endDate) {
-            //         console.log(dayjs(newHover));
-            //         console.log(dayjs(dateRange.startDate));
-            //         console.log(dayjs(newHover).isSame(dayjs(dateRange.startDate)));
-            //         if (dayjs(newHover).isSame(dayjs(dateRange.startDate))) {
-            //             dateShouldBeDisabled = true;
-            //         }
-            //     } else {
-            //         if (
-            //             dayjs(newHover).isAfter(dayjs(dateRange.endDate)) ||
-            //             dayjs(newHover).isBefore(dayjs(dateRange.startDate))
-            //         ) {
-            //             dateShouldBeDisabled = true;
-            //         }
-            //     }
-            // });
-            return false;
+            if (!disabledDates || disabledDates?.length <= 0) {
+                return false;
+            }
+
+            let matchingCount = 0;
+            disabledDates?.forEach(dateRange => {
+                if (
+                    dayjs(newHover).isAfter(dateRange.startDate) &&
+                    dayjs(newHover).isBefore(dateRange.endDate)
+                ) {
+                    matchingCount++;
+                }
+                if (
+                    dayjs(newHover).isSame(dateRange.startDate) ||
+                    dayjs(newHover).isSame(dateRange.endDate)
+                ) {
+                    matchingCount++;
+                }
+            });
+            return matchingCount > 0;
         },
         [calendarData.date, isDateTooEarly, isDateTooLate]
     );
@@ -283,7 +287,7 @@ const Days: React.FC<Props> = ({
                 <button
                     type="button"
                     key={index}
-                    disabled={isDateDisabled(index, "previous")}
+                    disabled={isDateDisabled(item, "previous")}
                     className="flex items-center justify-center text-gray-400 h-12 w-12 lg:w-10 lg:h-10"
                     onClick={() => onClickPreviousDays(item)}
                     onMouseOver={() => {
@@ -298,7 +302,7 @@ const Days: React.FC<Props> = ({
                 <button
                     type="button"
                     key={index}
-                    disabled={isDateDisabled(index, "current")}
+                    disabled={isDateDisabled(item, "current")}
                     className={`${buttonClass(item, "current")}`}
                     onClick={() => {
                         onClickDay(item);
