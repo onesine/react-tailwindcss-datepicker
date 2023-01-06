@@ -28,7 +28,9 @@ export interface ShortcutsItem {
 
 export type DateType = string | null | Date;
 
-export type DateValueType = {
+export type DateRangeType = {
     startDate: DateType;
-    endDate: DateType;
-} | null;
+    endDate?: DateType;
+};
+
+export type DateValueType = DateRangeType | null;

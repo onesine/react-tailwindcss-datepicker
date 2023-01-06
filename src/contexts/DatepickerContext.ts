@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import React, { createContext } from "react";
 
-import { Configs, Period, DateValueType, DateType } from "../types";
+import { Configs, Period, DateValueType, DateType, DateRangeType } from "../types";
 
 interface DatepickerStore {
     asSingle?: boolean;
@@ -30,6 +30,7 @@ interface DatepickerStore {
     displayFormat?: string;
     minDate?: DateType | null;
     maxDate?: DateType | null;
+    disabledDates?: DateRangeType[] | null;
 }
 
 const DatepickerContext = createContext<DatepickerStore>({
@@ -60,7 +61,8 @@ const DatepickerContext = createContext<DatepickerStore>({
     readOnly: false,
     displayFormat: "YYYY-MM-DD",
     minDate: null,
-    maxDate: null
+    maxDate: null,
+    disabledDates: null
 });
 
 export default DatepickerContext;
