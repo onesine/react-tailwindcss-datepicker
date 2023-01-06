@@ -15,12 +15,12 @@
 </div>
 
 ## Contents
-* [Features](https://github.com/onesine/react-tailwindcss-datepicker/edit/master/README.md#features)
+* [Features](https://github.com/onesine/react-tailwindcss-datepicker/blob/master/README.md#features)
 * [Documentation](https://react-tailwindcss-datepicker.vercel.app)
-* [Installation](https://github.com/onesine/react-tailwindcss-datepicker/edit/master/README.md#installation)
-* [Simple Usage](https://github.com/onesine/react-tailwindcss-datepicker/edit/master/README.md#simple-usage)
-* [Theming Options](https://github.com/onesine/react-tailwindcss-datepicker/edit/master/README.md#theming-options)
-* [Playground](https://github.com/onesine/react-tailwindcss-datepicker/edit/master/README.md#playground)
+* [Installation](https://github.com/onesine/react-tailwindcss-datepicker/blob/master/README.md#installation)
+* [Simple Usage](https://github.com/onesine/react-tailwindcss-datepicker/blob/master/README.md#simple-usage)
+* [Theming Options](https://github.com/onesine/react-tailwindcss-datepicker/blob/master/README.md#theming-options)
+* [Playground](https://github.com/onesine/react-tailwindcss-datepicker/blob/master/README.md#playground)
 
 ##  Features
 - ✅ Theming options
