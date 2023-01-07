@@ -20,11 +20,15 @@ export const COLORS = [
     "purple",
     "fuchsia",
     "pink",
-    "rose"
+    "rose",
+    "primary",
+    "secondary"
 ];
 
 export const DEFAULT_COLOR = "blue";
 
+// Beware, these maps of colors cannot be replaced with functions using string interpolation such as `bg-${color}-100`
+// as described in Tailwind documentation https://tailwindcss.com/docs/content-configuration#dynamic-class-names
 export const BG_COLOR = {
     100: {
         blue: "bg-blue-100",
@@ -43,7 +47,9 @@ export const BG_COLOR = {
         violet: "bg-violet-100",
         fuchsia: "bg-fuchsia-100",
         pink: "bg-pink-100",
-        rose: "bg-rose-100"
+        rose: "bg-rose-100",
+        primary: "bg-primary-100",
+        secondary: "bg-secondary-100"
     },
     200: {
         blue: "bg-blue-200",
@@ -62,7 +68,9 @@ export const BG_COLOR = {
         violet: "bg-violet-200",
         fuchsia: "bg-fuchsia-200",
         pink: "bg-pink-200",
-        rose: "bg-rose-200"
+        rose: "bg-rose-200",
+        primary: "bg-primary-200",
+        secondary: "bg-secondary-200"
     },
     500: {
         blue: "bg-blue-500",
@@ -81,7 +89,9 @@ export const BG_COLOR = {
         violet: "bg-violet-500",
         fuchsia: "bg-fuchsia-500",
         pink: "bg-pink-500",
-        rose: "bg-rose-500"
+        rose: "bg-rose-500",
+        primary: "bg-primary-500",
+        secondary: "bg-secondary-500"
     },
     hover: {
         blue: "hover:bg-blue-600",
@@ -100,11 +110,34 @@ export const BG_COLOR = {
         violet: "hover:bg-violet-600",
         fuchsia: "hover:bg-fuchsia-600",
         pink: "hover:bg-pink-600",
-        rose: "hover:bg-rose-600"
+        rose: "hover:bg-rose-600",
+        primary: "hover:bg-primary-600",
+        secondary: "hover:bg-secondary-600"
     }
 };
 
 export const TEXT_COLOR = {
+    500: {
+        blue: "text-blue-500",
+        orange: "text-orange-500",
+        yellow: "text-yellow-500",
+        red: "text-red-500",
+        purple: "text-purple-500",
+        amber: "text-amber-500",
+        lime: "text-lime-500",
+        green: "text-green-500",
+        emerald: "text-emerald-500",
+        teal: "text-teal-500",
+        cyan: "text-cyan-500",
+        sky: "text-sky-500",
+        indigo: "text-indigo-500",
+        violet: "text-violet-500",
+        fuchsia: "text-fuchsia-500",
+        pink: "text-pink-500",
+        rose: "text-rose-500",
+        primary: "text-primary-500",
+        secondary: "text-secondary-500"
+    },
     600: {
         blue: "text-blue-600 dark:text-blue-400 dark:hover:text-blue-400",
         orange: "text-orange-600 dark:text-orange-400 dark:hover:text-orange-400",
@@ -122,7 +155,9 @@ export const TEXT_COLOR = {
         violet: "text-violet-600 dark:text-violet-400 dark:hover:text-violet-400",
         fuchsia: "text-fuchsia-600 dark:text-fuchsia-400 dark:hover:text-fuchsia-400",
         pink: "text-pink-600 dark:text-pink-400 dark:hover:text-pink-400",
-        rose: "text-rose-600 dark:text-rose-400 dark:hover:text-rose-400"
+        rose: "text-rose-600 dark:text-rose-400 dark:hover:text-rose-400",
+        primary: "text-primary-600 dark:text-primary-400 dark:hover:text-primary-400",
+        secondary: "text-secondary-600 dark:text-secondary-400 dark:hover:text-secondary-400"
     },
     hover: {
         blue: "hover:text-blue-700",
@@ -141,7 +176,9 @@ export const TEXT_COLOR = {
         violet: "hover:text-violet-700",
         fuchsia: "hover:text-fuchsia-700",
         pink: "hover:text-pink-700",
-        rose: "hover:text-rose-700"
+        rose: "hover:text-rose-700",
+        primary: "hover:text-primary-700",
+        secondary: "hover:text-secondary-700"
     }
 };
 
@@ -163,7 +200,9 @@ export const BORDER_COLOR = {
         violet: "border-violet-500",
         fuchsia: "border-fuchsia-500",
         pink: "border-pink-500",
-        rose: "border-rose-500"
+        rose: "border-rose-500",
+        primary: "border-primary-500",
+        secondary: "border-secondary-500"
     },
     focus: {
         blue: "focus:border-blue-500",
@@ -182,7 +221,9 @@ export const BORDER_COLOR = {
         violet: "focus:border-violet-500",
         fuchsia: "focus:border-fuchsia-500",
         pink: "focus:border-pink-500",
-        rose: "focus:border-rose-500"
+        rose: "focus:border-rose-500",
+        primary: "focus:border-primary-500",
+        secondary: "focus:border-secondary-500"
     }
 };
 
@@ -204,7 +245,9 @@ export const RING_COLOR = {
         violet: "focus:ring-violet-500",
         fuchsia: "focus:ring-fuchsia-500",
         pink: "focus:ring-pink-500",
-        rose: "focus:ring-rose-500"
+        rose: "focus:ring-rose-500",
+        primary: "focus:ring-primary-500",
+        secondary: "focus:ring-secondary-500"
     },
     "second-focus": {
         blue: "focus:ring-blue-500/20",
@@ -223,9 +266,35 @@ export const RING_COLOR = {
         violet: "focus:ring-violet-500/20",
         fuchsia: "focus:ring-fuchsia-500/20",
         pink: "focus:ring-pink-500/20",
-        rose: "focus:ring-rose-500/20"
+        rose: "focus:ring-rose-500/20",
+        primary: "focus:ring-primary-500/20",
+        secondary: "focus:ring-secondary-500/20"
     }
 };
+
+export const BUTTON_COLOR = {
+    focus: {
+        blue: "focus:ring-blue-500/50 focus:bg-blue-100/50",
+        orange: "focus:ring-orange-500/50 focus:bg-orange-100/50",
+        yellow: "focus:ring-yellow-500/50 focus:bg-yellow-100/50",
+        red: "focus:ring-red-500/50 focus:bg-red-100/50",
+        purple: "focus:ring-purple-500/50 focus:bg-purple-100/50",
+        amber: "focus:ring-amber-500/50 focus:bg-amber-100/50",
+        lime: "focus:ring-lime-500/50 focus:bg-lime-100/50",
+        green: "focus:ring-green-500/50 focus:bg-green-100/50",
+        emerald: "focus:ring-emerald-500/50 focus:bg-emerald-100/50",
+        teal: "focus:ring-teal-500/50 focus:bg-teal-100/50",
+        cyan: "focus:ring-cyan-500/50 focus:bg-cyan-100/50",
+        sky: "focus:ring-sky-500/50 focus:bg-sky-100/50",
+        indigo: "focus:ring-indigo-500/50 focus:bg-indigo-100/50",
+        violet: "focus:ring-violet-500/50 focus:bg-violet-100/50",
+        fuchsia: "focus:ring-fuchsia-500/50 focus:bg-fuchsia-100/50",
+        pink: "focus:ring-pink-500/50 focus:bg-pink-100/50",
+        rose: "focus:ring-rose-500/50 focus:bg-rose-100/50",
+        primary: "focus:ring-primary-500/50 focus:bg-primary-100/50",
+        secondary: "focus:ring-secondary-500/50 focus:bg-secondary-100/50"
+    }
+}
 
 export const DEFAULT_SHORTCUTS = {
     today: {

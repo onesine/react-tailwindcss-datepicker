@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from "react";
 
-import { BG_COLOR, BORDER_COLOR, RING_COLOR } from "../constants";
+import { BG_COLOR, BORDER_COLOR, BUTTON_COLOR, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 
 interface IconProps {
@@ -181,44 +181,8 @@ export const RoundedButton: React.FC<Button> = ({
         const defaultClass = !roundedFull
             ? `w-full tracking-wide ${darkClass} transition-all duration-300 px-3 ${padding} uppercase hover:bg-gray-100 rounded-md focus:ring-1`
             : `${darkClass} transition-all duration-300 hover:bg-gray-100 rounded-full p-[0.45rem] focus:ring-1`;
-        switch (primaryColor) {
-            case "blue":
-                return `${defaultClass} focus:ring-blue-500/50 focus:bg-blue-100/50`;
-            case "orange":
-                return `${defaultClass} focus:ring-orange-500/50 focus:bg-orange-100/50`;
-            case "yellow":
-                return `${defaultClass} focus:ring-yellow-500/50 focus:bg-yellow-100/50`;
-            case "red":
-                return `${defaultClass} focus:ring-red-500/50 focus:bg-red-100/50`;
-            case "purple":
-                return `${defaultClass} focus:ring-purple-500/50 focus:bg-purple-100/50`;
-            case "amber":
-                return `${defaultClass} focus:ring-amber-500/50 focus:bg-amber-100/50`;
-            case "lime":
-                return `${defaultClass} focus:ring-lime-500/50 focus:bg-lime-100/50`;
-            case "green":
-                return `${defaultClass} focus:ring-green-500/50 focus:bg-green-100/50`;
-            case "emerald":
-                return `${defaultClass} focus:ring-emerald-500/50 focus:bg-emerald-100/50`;
-            case "teal":
-                return `${defaultClass} focus:ring-teal-500/50 focus:bg-teal-100/50`;
-            case "cyan":
-                return `${defaultClass} focus:ring-cyan-500/50 focus:bg-cyan-100/50`;
-            case "sky":
-                return `${defaultClass} focus:ring-sky-500/50 focus:bg-sky-100/50`;
-            case "indigo":
-                return `${defaultClass} focus:ring-indigo-500/50 focus:bg-indigo-100/50`;
-            case "violet":
-                return `${defaultClass} focus:ring-violet-500/50 focus:bg-violet-100/50`;
-            case "fuchsia":
-                return `${defaultClass} focus:ring-fuchsia-500/50 focus:bg-fuchsia-100/50`;
-            case "pink":
-                return `${defaultClass} focus:ring-pink-500/50 focus:bg-pink-100/50`;
-            case "rose":
-                return `${defaultClass} focus:ring-rose-500/50 focus:bg-rose-100/50`;
-            default:
-                return "";
-        }
+        const buttonFocusColor = BUTTON_COLOR.focus[primaryColor as keyof typeof BUTTON_COLOR.focus];
+        return `${defaultClass} ${buttonFocusColor}`;
     }, [padding, primaryColor, roundedFull]);
 
     return (
