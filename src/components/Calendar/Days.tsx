@@ -164,12 +164,12 @@ const Days: React.FC<Props> = ({
                 next: nextMonth(calendarData.date)
             };
             const newDate = object[type as keyof typeof object];
-            const newHover = `${newDate.year()}-${newDate.month() + 1}-${
+            const formattedDate = `${newDate.year()}-${newDate.month() + 1}-${
                 day >= 10 ? day : "0" + day
             }`;
-            return dayjs(newHover).isSame(dayjs(minDate))
+            return dayjs(formattedDate).isSame(dayjs(minDate))
                 ? false
-                : dayjs(newHover).isBefore(dayjs(minDate));
+                : dayjs(formattedDate).isBefore(dayjs(minDate));
         },
         [calendarData.date, minDate]
     );
@@ -185,12 +185,12 @@ const Days: React.FC<Props> = ({
                 next: nextMonth(calendarData.date)
             };
             const newDate = object[type as keyof typeof object];
-            const newHover = `${newDate.year()}-${newDate.month() + 1}-${
+            const formattedDate = `${newDate.year()}-${newDate.month() + 1}-${
                 day >= 10 ? day : "0" + day
             }`;
-            return dayjs(newHover).isSame(maxDate)
+            return dayjs(formattedDate).isSame(maxDate)
                 ? false
-                : dayjs(newHover).isAfter(dayjs(maxDate));
+                : dayjs(formattedDate).isAfter(dayjs(maxDate));
         },
         [calendarData.date, maxDate]
     );
@@ -206,7 +206,7 @@ const Days: React.FC<Props> = ({
                 next: nextMonth(calendarData.date)
             };
             const newDate = object[type as keyof typeof object];
-            const newHover = `${newDate.year()}-${newDate.month() + 1}-${
+            const formattedDate = `${newDate.year()}-${newDate.month() + 1}-${
                 day >= 10 ? day : "0" + day
             }`;
 
@@ -217,14 +217,14 @@ const Days: React.FC<Props> = ({
             let matchingCount = 0;
             disabledDates?.forEach(dateRange => {
                 if (
-                    dayjs(newHover).isAfter(dateRange.startDate) &&
-                    dayjs(newHover).isBefore(dateRange.endDate)
+                    dayjs(formattedDate).isAfter(dateRange.startDate) &&
+                    dayjs(formattedDate).isBefore(dateRange.endDate)
                 ) {
                     matchingCount++;
                 }
                 if (
-                    dayjs(newHover).isSame(dateRange.startDate) ||
-                    dayjs(newHover).isSame(dateRange.endDate)
+                    dayjs(formattedDate).isSame(dateRange.startDate) ||
+                    dayjs(formattedDate).isSame(dateRange.endDate)
                 ) {
                     matchingCount++;
                 }
