@@ -31,7 +31,8 @@
 - ✅ TypeScript support
 - ✅ Localization(i18n)
 - ✅ Date formatting
-- ⬜ Disable specific dates
+- ✅ Disable specific dates
+- ✅ Minimum Date and Maximum Date
 - ⬜ Custom shortcuts
 
 ## Documentation

@@ -16,6 +16,7 @@
         "pret:fix": "prettier -w .",
         "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
         "build": "npm run pret && npm run lint && npm run clean && rollup -c",
+        "pub": "npm run build && npm publish",
         "dev": "next dev -p 8888"
     },
     "repository": {

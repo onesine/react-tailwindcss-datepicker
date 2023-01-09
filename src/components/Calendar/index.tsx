@@ -79,13 +79,13 @@ const Calendar: React.FC<Props> = ({
         );
     }, [current, date, previous]);
 
-    const hiddeMonths = useCallback(() => {
+    const hideMonths = useCallback(() => {
         if (showMonths) {
             setShowMonths(false);
         }
     }, [showMonths]);
 
-    const hiddeYears = useCallback(() => {
+    const hideYears = useCallback(() => {
         if (showYears) {
             setShowYears(false);
         }
@@ -254,7 +254,7 @@ const Calendar: React.FC<Props> = ({
                         <RoundedButton
                             onClick={() => {
                                 setShowMonths(!showMonths);
-                                hiddeYears();
+                                hideYears();
                             }}
                         >
                             <>{shortString(calendarData.date.locale(i18n).format("MMM"))}</>
@@ -265,7 +265,7 @@ const Calendar: React.FC<Props> = ({
                         <RoundedButton
                             onClick={() => {
                                 setShowYears(!showYears);
-                                hiddeMonths();
+                                hideMonths();
                             }}
                         >
                             <>{calendarData.date.year()}</>

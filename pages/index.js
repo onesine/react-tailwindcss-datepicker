@@ -23,7 +23,11 @@ export default function Playground() {
     const [containerClassName, setContainerClassName] = useState("");
     const [displayFormat, setDisplayFormat] = useState("YYYY-MM-DD");
     const [readOnly, setReadOnly] = useState(false);
-    const [startFrom, setStartFrom] = useState("2023-03-01");
+    const [startFrom, setStartFrom] = useState("2023-01-02");
+    const [minDate, setMinDate] = useState("");
+    const [maxDate, setMaxDate] = useState("");
+    const [disabledDates, setDisabledDates] = useState([]);
+    const [newDisabledDates, setNewDisabledDates] = useState({ startDate: "", endDate: "" });
 
     return (
         <div className="px-4 py-8">
@@ -58,6 +62,9 @@ export default function Playground() {
                     containerClassName={containerClassName}
                     displayFormat={displayFormat}
                     readOnly={readOnly}
+                    minDate={minDate}
+                    maxDate={maxDate}
+                    disabledDates={disabledDates}
                 />
             </div>
 
@@ -207,6 +214,19 @@ export default function Playground() {
                             }}
                         />
                     </div>
+                    <div className="mb-2">
+                        <label className="block" htmlFor="minDate">
+                            Minimum Date
+                        </label>
+                        <input
+                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            id="minDate"
+                            value={minDate}
+                            onChange={e => {
+                                setMinDate(e.target.value);
+                            }}
+                        />
+                    </div>
                 </div>
                 <div className="w-full sm:w-1/3 pr-2 flex flex-col">
                     <div className="mb-2">
@@ -260,6 +280,97 @@ export default function Playground() {
                                 setContainerClassName(e.target.value);
                             }}
                         />
+                    </div>
+                    <div className="mb-2">
+                        <label className="block" htmlFor="maxDate">
+                            Maximum Date
+                        </label>
+                        <input
+                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            id="maxDate"
+                            value={maxDate}
+                            onChange={e => {
+                                setMaxDate(e.target.value);
+                            }}
+                        />
+                    </div>
+                </div>
+                <div className="w-full grid sm:grid-cols-3">
+                    <div className="sm:col-start-2 sm:col-span-2 p-2 border-t grid grid-cols-2">
+                        <h1 className="mb-2 text-lg font-semibold text-center col-span-3">
+                            Disable Dates
+                        </h1>
+                        <div className="mb-2 sm:col-span-2 mr-2">
+                            <label className="block" htmlFor="startDate">
+                                Start Date
+                            </label>
+                            <input
+                                className="rounded border px-4 py-2 border-gray-200 sm:w-full w-3/4"
+                                id="startDate"
+                                value={newDisabledDates.startDate}
+                                onChange={e => {
+                                    setNewDisabledDates(prev => {
+                                        return {
+                                            ...prev,
+                                            startDate: e.target.value
+                                        };
+                                    });
+                                }}
+                            />
+                        </div>
+                        <div className="mb-2">
+                            <label className="block" htmlFor="endDate">
+                                End Date
+                            </label>
+                            <input
+                                className="rounded border px-4 py-2 border-gray-200 sm:w-full w-3/4"
+                                id="endDate"
+                                value={newDisabledDates.endDate}
+                                onChange={e => {
+                                    setNewDisabledDates(prev => {
+                                        return {
+                                            ...prev,
+                                            endDate: e.target.value
+                                        };
+                                    });
+                                }}
+                            />
+                        </div>
+                        <div className="mb-2 col-span-3">
+                            <button
+                                onClick={() => {
+                                    if (
+                                        newDisabledDates.startDate !== "" &&
+                                        newDisabledDates.endDate !== ""
+                                    ) {
+                                        setDisabledDates(prev => [...prev, newDisabledDates]);
+                                        setNewDisabledDates({ startDate: "", endDate: "" });
+                                    }
+                                }}
+                                className="w-full bg-black text-white text-lg text-center p-2 rounded-lg"
+                            >
+                                Add
+                            </button>
+                        </div>
+                        <div className="mb-2 grid col-span-3 grid-col-2">
+                            {disabledDates.map((range, index) => (
+                                <div className="mb-2 p-2" key={index}>
+                                    <button
+                                        className="bg-red-500 text-white text-center rounded-xl p-2"
+                                        onClick={() => {
+                                            setDisabledDates(
+                                                disabledDates.filter(r => r !== range)
+                                            );
+                                        }}
+                                    >
+                                        Delete
+                                    </button>
+                                    <span className="pl-2">
+                                        {range.startDate} - {range.endDate}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

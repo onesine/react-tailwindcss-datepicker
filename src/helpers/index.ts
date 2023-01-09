@@ -1,5 +1,9 @@
 import dayjs from "dayjs";
 
+export function classNames(...classes: (false | null | undefined | string)[]) {
+    return classes.filter(Boolean).join(" ");
+}
+
 export function getTextColorByPrimaryColor(color: string) {
     switch (color) {
         case "blue":

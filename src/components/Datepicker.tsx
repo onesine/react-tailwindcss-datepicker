@@ -9,19 +9,14 @@ import { COLORS, DEFAULT_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { formatDate, nextMonth, previousMonth } from "../helpers";
 import useOnClickOutside from "../hooks";
-import { Period } from "../types";
+import { Period, DateValueType, DateType, DateRangeType } from "../types";
 
 import { Arrow, VerticalDash } from "./utils";
 
 interface Props {
     primaryColor?: string;
-    value: {
-        startDate: string | Date | null;
-        endDate: string | Date | null;
-    } | null;
-    onChange: (
-        value: { startDate: string | Date | null; endDate: string | Date | null } | null
-    ) => void;
+    value: DateValueType;
+    onChange: (value: DateValueType) => void;
     useRange?: boolean;
     showFooter?: boolean;
     showShortcuts?: boolean;
@@ -48,6 +43,9 @@ interface Props {
     containerClassName?: string | null;
     displayFormat?: string;
     readOnly?: boolean;
+    minDate?: DateType | null;
+    maxDate?: DateType | null;
+    disabledDates?: DateRangeType[] | null;
 }
 
 const Datepicker: React.FC<Props> = ({
@@ -67,7 +65,10 @@ const Datepicker: React.FC<Props> = ({
     inputClassName = null,
     containerClassName = null,
     displayFormat = "YYYY-MM-DD",
-    readOnly = false
+    readOnly = false,
+    minDate = null,
+    maxDate = null,
+    disabledDates = null
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement>(null);
@@ -277,7 +278,10 @@ const Datepicker: React.FC<Props> = ({
             inputClassName,
             containerClassName,
             readOnly,
-            displayFormat
+            displayFormat,
+            minDate,
+            maxDate,
+            disabledDates
         };
     }, [
         asSingle,
@@ -298,7 +302,10 @@ const Datepicker: React.FC<Props> = ({
         containerClassName,
         readOnly,
         displayFormat,
-        firstGotoDate
+        firstGotoDate,
+        minDate,
+        maxDate,
+        disabledDates
     ]);
 
     return (
