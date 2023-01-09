@@ -4,11 +4,15 @@ node_modules
 .vscode
 .idea
 assets
+.git
+pages
+.next
 ## Files
 babel.config.json
 tsconfig.json
 rollup.config.js
-.git
+next-env.d.ts
+next.config.js
 .gitignore
 .eslintignore
 .eslintrc.json
