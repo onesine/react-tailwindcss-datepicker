@@ -48,6 +48,7 @@ interface Props {
     containerClassName?: string | null;
     displayFormat?: string;
     readOnly?: boolean;
+    startWeekOn?: string;
 }
 
 const Datepicker: React.FC<Props> = ({
@@ -67,7 +68,8 @@ const Datepicker: React.FC<Props> = ({
     inputClassName = null,
     containerClassName = null,
     displayFormat = "YYYY-MM-DD",
-    readOnly = false
+    readOnly = false,
+    startWeekOn = "sun"
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement>(null);
@@ -147,7 +149,7 @@ const Datepicker: React.FC<Props> = ({
             }
             setSecondDate(date);
         },
-        [firstDate]
+        [displayFormat, firstDate]
     );
 
     const previousMonthSecond = useCallback(() => {
@@ -277,6 +279,7 @@ const Datepicker: React.FC<Props> = ({
             inputClassName,
             containerClassName,
             readOnly,
+            startWeekOn,
             displayFormat
         };
     }, [
@@ -297,6 +300,7 @@ const Datepicker: React.FC<Props> = ({
         inputClassName,
         containerClassName,
         readOnly,
+        startWeekOn,
         displayFormat,
         firstGotoDate
     ]);
