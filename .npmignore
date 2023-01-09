@@ -22,5 +22,6 @@ next.config.js
 npm-debug.log
 package-lock.json
 yarn.lock
+yarn-error.log
 tailwind.config.js
 postcss.config.js
