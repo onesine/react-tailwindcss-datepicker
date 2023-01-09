@@ -24,6 +24,7 @@ export default function Playground() {
     const [displayFormat, setDisplayFormat] = useState("YYYY-MM-DD");
     const [readOnly, setReadOnly] = useState(false);
     const [startFrom, setStartFrom] = useState("2023-03-01");
+    const [startWeekOn, setStartWeekOn] = useState("sun");
 
     return (
         <div className="px-4 py-8">
@@ -58,6 +59,7 @@ export default function Playground() {
                     containerClassName={containerClassName}
                     displayFormat={displayFormat}
                     readOnly={readOnly}
+                    startWeekOn={startWeekOn}
                 />
             </div>
 
@@ -258,6 +260,19 @@ export default function Playground() {
                             value={containerClassName}
                             onChange={e => {
                                 setContainerClassName(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <div className="mb-2">
+                        <label className="block" htmlFor="containerClassName">
+                            Start Week On
+                        </label>
+                        <input
+                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            id="startWeekOnClassName"
+                            value={startWeekOn}
+                            onChange={e => {
+                                setStartWeekOn(e.target.value)
                             }}
                         />
                     </div>

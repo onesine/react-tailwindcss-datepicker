@@ -32,6 +32,7 @@ interface DatepickerStore {
     inputClassName?: string | null;
     containerClassName?: string | null;
     readOnly?: boolean;
+    startWeekOn?: string;
     displayFormat?: string;
 }
 
@@ -61,6 +62,7 @@ const DatepickerContext = createContext<DatepickerStore>({
     inputClassName: "",
     containerClassName: "",
     readOnly: false,
+    startWeekOn: "sun",
     displayFormat: "YYYY-MM-DD"
 });
 
