@@ -24,3 +24,4 @@ npm-debug.log
 yarn-error.log
 tailwind.config.js
 postcss.config.js
+tsconfig.tsbuildinfo
