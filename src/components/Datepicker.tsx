@@ -148,7 +148,7 @@ const Datepicker: React.FC<Props> = ({
             }
             setSecondDate(date);
         },
-        [firstDate]
+        [firstDate, displayFormat]
     );
 
     const previousMonthSecond = useCallback(() => {
