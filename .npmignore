@@ -8,6 +8,7 @@ assets
 pages
 styles
 .next
+.rollup.cache
 ## Files
 babel.config.json
 tsconfig.json
