@@ -231,7 +231,7 @@ const Days: React.FC<Props> = ({
             });
             return matchingCount > 0;
         },
-        [calendarData.date, isDateTooEarly, isDateTooLate]
+        [calendarData.date, isDateTooEarly, isDateTooLate, disabledDates]
     );
 
     const buttonClass = useCallback(
