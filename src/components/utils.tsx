@@ -147,8 +147,8 @@ export const SecondaryButton: React.FC<Button> = ({ children, onClick, disabled 
 export const PrimaryButton: React.FC<Button> = ({ children, onClick, disabled = false }) => {
     // Contexts
     const { primaryColor } = useContext(DatepickerContext);
-    const bgColor = BG_COLOR["500"][primaryColor as keyof typeof BG_COLOR["500"]];
-    const borderColor = BORDER_COLOR["500"][primaryColor as keyof typeof BORDER_COLOR["500"]];
+    const bgColor = BG_COLOR["500"][primaryColor as keyof (typeof BG_COLOR)["500"]];
+    const borderColor = BORDER_COLOR["500"][primaryColor as keyof (typeof BORDER_COLOR)["500"]];
     const bgColorHover = BG_COLOR.hover[primaryColor as keyof typeof BG_COLOR.hover];
     const ringColor = RING_COLOR.focus[primaryColor as keyof typeof RING_COLOR.focus];
 
@@ -231,7 +231,7 @@ export const RoundedButton: React.FC<Button> = ({
 export const VerticalDash = () => {
     // Contexts
     const { primaryColor } = useContext(DatepickerContext);
-    const bgColor = BG_COLOR["500"][primaryColor as keyof typeof BG_COLOR["500"]];
+    const bgColor = BG_COLOR["500"][primaryColor as keyof (typeof BG_COLOR)["500"]];
 
     return <div className={`bg-blue-500 h-7 w-1 rounded-full hidden md:block ${bgColor}`} />;
 };
