@@ -5,6 +5,7 @@
 /package-lock.json
 /yarn.lock
 /.next/
+/.rollup.cache/
 
 # test coverage
 coverage
@@ -14,6 +15,7 @@ build
 dist
 .rpt2_cache
 .eslintcache
+tsconfig.tsbuildinfo
 
 # misc
 .DS_Store

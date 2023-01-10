@@ -2,7 +2,7 @@
 dist/
 assets/
 pages/
-test-components/
+styles/
 
 # Files
 README.md

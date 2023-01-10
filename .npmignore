@@ -6,6 +6,7 @@ node_modules
 assets
 .git
 pages
+styles
 .next
 ## Files
 babel.config.json
