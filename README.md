@@ -145,7 +145,8 @@ yarn install && yarn dev
 Open a browser and navigate to `http://localhost:8888`
 
 ## Contributing
-Got ideas on how to make this better? Open an issue or PR!
+
+See [CONTRIBUTING.md](https://github.com/onesine/react-tailwindcss-datepicker/blob/master/CONTRIBUTING.md)
 
 ## Official Documentation repo
 [https://github.com/onesine/react-tailwindcss-datepicker-doc](https://github.com/onesine/react-tailwindcss-datepicker-doc)
