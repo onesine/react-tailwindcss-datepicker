@@ -70,6 +70,9 @@ const Datepicker: React.FC<Props> = ({
     maxDate = null,
     disabledDates = null
 }) => {
+    // Testing
+    console.log("Datepicker.tsx, From Shane");
+
     // Ref
     const containerRef = useRef<HTMLDivElement>(null);
     const calendarContainerRef = useRef<HTMLDivElement>(null);
