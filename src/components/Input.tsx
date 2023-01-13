@@ -26,7 +26,9 @@ const Input: React.FC = () => {
         disabled,
         inputClassName,
         readOnly,
-        displayFormat
+        displayFormat,
+        inputId,
+        inputName
     } = useContext(DatepickerContext);
 
     // UseRefs
@@ -177,6 +179,10 @@ const Input: React.FC = () => {
                         : `${displayFormat}${asSingle ? "" : ` ${separator} ${displayFormat}`}`
                 }
                 value={inputText}
+                id={inputId}
+                name={inputName}
+                autoComplete="off"
+                role="presentation"
                 onChange={handleInputChange}
             />
 
@@ -184,7 +190,7 @@ const Input: React.FC = () => {
                 type="button"
                 ref={buttonRef}
                 disabled={disabled}
-                className="absolute right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"
+                className="absolute top-0 right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"
             >
                 {inputText ? <CloseIcon className="h-5 w-5" /> : <DateIcon className="h-5 w-5" />}
             </button>

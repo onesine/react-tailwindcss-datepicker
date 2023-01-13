@@ -40,6 +40,8 @@ interface Props {
     i18n?: string;
     disabled?: boolean;
     inputClassName?: string | null;
+    inputId?: string;
+    inputName?: string;
     containerClassName?: string | null;
     displayFormat?: string;
     readOnly?: boolean;
@@ -68,7 +70,9 @@ const Datepicker: React.FC<Props> = ({
     readOnly = false,
     minDate = null,
     maxDate = null,
-    disabledDates = null
+    disabledDates = null,
+    inputId,
+    inputName
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement>(null);
@@ -281,7 +285,9 @@ const Datepicker: React.FC<Props> = ({
             displayFormat,
             minDate,
             maxDate,
-            disabledDates
+            disabledDates,
+            inputId,
+            inputName
         };
     }, [
         asSingle,
@@ -305,7 +311,9 @@ const Datepicker: React.FC<Props> = ({
         firstGotoDate,
         minDate,
         maxDate,
-        disabledDates
+        disabledDates,
+        inputId,
+        inputName
     ]);
 
     return (

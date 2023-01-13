@@ -31,6 +31,8 @@ interface DatepickerStore {
     minDate?: DateType | null;
     maxDate?: DateType | null;
     disabledDates?: DateRangeType[] | null;
+    inputId?: string;
+    inputName?: string;
 }
 
 const DatepickerContext = createContext<DatepickerStore>({
@@ -62,7 +64,9 @@ const DatepickerContext = createContext<DatepickerStore>({
     displayFormat: "YYYY-MM-DD",
     minDate: null,
     maxDate: null,
-    disabledDates: null
+    disabledDates: null,
+    inputId: undefined,
+    inputName: undefined
 });
 
 export default DatepickerContext;
