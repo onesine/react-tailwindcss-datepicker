@@ -24,7 +24,7 @@ export default function Playground() {
     const [displayFormat, setDisplayFormat] = useState("YYYY-MM-DD");
     const [readOnly, setReadOnly] = useState(false);
     const [startFrom, setStartFrom] = useState("2023-03-01");
-    const [startWeekOn, setStartWeekOn] = useState("sun");
+    const [startWeekOn, setStartWeekOn] = useState(null);
 
     return (
         <div className="px-4 py-8">

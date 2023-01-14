@@ -69,7 +69,7 @@ const Datepicker: React.FC<Props> = ({
     containerClassName = null,
     displayFormat = "YYYY-MM-DD",
     readOnly = false,
-    startWeekOn = "sun"
+    startWeekOn
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement>(null);

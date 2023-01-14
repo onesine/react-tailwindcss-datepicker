@@ -1,5 +1,7 @@
 import dayjs from "dayjs";
+import weekday from "dayjs/plugin/weekday";
 
+dayjs.extend(weekday);
 export function getTextColorByPrimaryColor(color: string) {
     switch (color) {
         case "blue":
@@ -123,35 +125,37 @@ export function getLastElementsInArray(array: number[] = [], size = 0) {
     return result.reverse();
 }
 
-export function getNumberOfDay(dayString: string, startWeekOn = "sun"): number {
+export function getNumberOfDay(dayString: string, i18n: string, startWeekOn?: string): number {
     let number = 0;
 
-    let startDateModifier = 0;
-    switch (startWeekOn) {
-        case "mon":
-            startDateModifier = 6;
-            break;
-        case "tue":
-            startDateModifier = 5;
-            break;
-        case "wed":
-            startDateModifier = 4;
-            break;
-        case "thu":
-            startDateModifier = 3;
-            break;
-        case "fri":
-            startDateModifier = 2;
-            break;
-        case "sat":
-            startDateModifier = 1;
-            break;
-        case "sun":
-            startDateModifier = 0;
-            break;
-        default:
-            startDateModifier = 0;
-            break;
+    let startDateModifier = 7 - dayjs().locale(i18n).weekday(0).get("day");
+
+    if (startWeekOn) {
+        switch (startWeekOn) {
+            case "mon":
+                startDateModifier = 6;
+                break;
+            case "tue":
+                startDateModifier = 5;
+                break;
+            case "wed":
+                startDateModifier = 4;
+                break;
+            case "thu":
+                startDateModifier = 3;
+                break;
+            case "fri":
+                startDateModifier = 2;
+                break;
+            case "sat":
+                startDateModifier = 1;
+                break;
+            case "sun":
+                startDateModifier = 0;
+                break;
+            default:
+                break;
+        }
     }
 
     ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].forEach(
