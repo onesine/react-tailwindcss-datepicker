@@ -264,7 +264,7 @@ export default function Playground() {
                         />
                     </div>
                     <div className="mb-2">
-                        <label className="block" htmlFor="containerClassName">
+                        <label className="block" htmlFor="startWeekOnClassName">
                             Start Week On
                         </label>
                         <input
