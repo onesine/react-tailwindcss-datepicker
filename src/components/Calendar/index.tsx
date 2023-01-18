@@ -51,7 +51,8 @@ const Calendar: React.FC<Props> = ({
         changeDatepickerValue,
         hideDatepicker,
         asSingle,
-        i18n
+        i18n,
+        startWeekOn
     } = useContext(DatepickerContext);
     loadLanguageModule(i18n);
 
@@ -59,14 +60,13 @@ const Calendar: React.FC<Props> = ({
     const [showMonths, setShowMonths] = useState(false);
     const [showYears, setShowYears] = useState(false);
     const [year, setYear] = useState(date.year());
-
     // Functions
     const previous = useCallback(() => {
         return getLastDaysInMonth(
             previousMonth(date),
-            getNumberOfDay(getFirstDayInMonth(date).ddd) - 1
+            getNumberOfDay(getFirstDayInMonth(date).ddd, i18n, startWeekOn)
         );
-    }, [date]);
+    }, [date, i18n, startWeekOn]);
 
     const current = useCallback(() => {
         return getDaysInMonth(formatDate(date));

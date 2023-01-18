@@ -27,6 +27,7 @@ interface DatepickerStore {
     inputClassName?: string | null;
     containerClassName?: string | null;
     readOnly?: boolean;
+    startWeekOn?: string | null;
     displayFormat?: string;
     minDate?: DateType | null;
     maxDate?: DateType | null;
@@ -62,7 +63,8 @@ const DatepickerContext = createContext<DatepickerStore>({
     displayFormat: "YYYY-MM-DD",
     minDate: null,
     maxDate: null,
-    disabledDates: null
+    disabledDates: null,
+    startWeekOn: "sun"
 });
 
 export default DatepickerContext;

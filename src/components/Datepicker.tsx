@@ -46,6 +46,7 @@ interface Props {
     minDate?: DateType | null;
     maxDate?: DateType | null;
     disabledDates?: DateRangeType[] | null;
+    startWeekOn?: string | null;
 }
 
 const Datepicker: React.FC<Props> = ({
@@ -68,7 +69,8 @@ const Datepicker: React.FC<Props> = ({
     readOnly = false,
     minDate = null,
     maxDate = null,
-    disabledDates = null
+    disabledDates = null,
+    startWeekOn = "sun"
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement>(null);
@@ -281,7 +283,8 @@ const Datepicker: React.FC<Props> = ({
             displayFormat,
             minDate,
             maxDate,
-            disabledDates
+            disabledDates,
+            startWeekOn
         };
     }, [
         asSingle,
@@ -305,7 +308,8 @@ const Datepicker: React.FC<Props> = ({
         firstGotoDate,
         minDate,
         maxDate,
-        disabledDates
+        disabledDates,
+        startWeekOn
     ]);
 
     return (
