@@ -2,6 +2,11 @@ import dayjs from "dayjs";
 import weekday from "dayjs/plugin/weekday";
 
 dayjs.extend(weekday);
+
+export function classNames(...classes: (false | null | undefined | string)[]) {
+    return classes.filter(Boolean).join(" ");
+}
+
 export function getTextColorByPrimaryColor(color: string) {
     switch (color) {
         case "blue":
@@ -165,6 +170,7 @@ export function getNumberOfDay(dayString: string, i18n: string, startWeekOn?: st
             }
         }
     );
+
     return number;
 }
 
