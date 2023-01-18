@@ -6,6 +6,7 @@ node_modules
 assets
 .git
 pages
+styles
 .next
 ## Files
 babel.config.json
@@ -20,7 +21,7 @@ next.config.js
 .prettierignore
 .DS_Store
 npm-debug.log
-package-lock.json
-yarn.lock
+yarn-error.log
 tailwind.config.js
 postcss.config.js
+tsconfig.tsbuildinfo

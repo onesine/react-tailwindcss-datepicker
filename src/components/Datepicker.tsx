@@ -9,19 +9,14 @@ import { COLORS, DEFAULT_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { formatDate, nextMonth, previousMonth } from "../helpers";
 import useOnClickOutside from "../hooks";
-import { Period } from "../types";
+import { Period, DateValueType, DateType, DateRangeType } from "../types";
 
 import { Arrow, VerticalDash } from "./utils";
 
 interface Props {
     primaryColor?: string;
-    value: {
-        startDate: string | Date | null;
-        endDate: string | Date | null;
-    } | null;
-    onChange: (
-        value: { startDate: string | Date | null; endDate: string | Date | null } | null
-    ) => void;
+    value: DateValueType;
+    onChange: (value: DateValueType) => void;
     useRange?: boolean;
     showFooter?: boolean;
     showShortcuts?: boolean;
@@ -48,7 +43,10 @@ interface Props {
     containerClassName?: string | null;
     displayFormat?: string;
     readOnly?: boolean;
-    startWeekOn?: string;
+    minDate?: DateType | null;
+    maxDate?: DateType | null;
+    disabledDates?: DateRangeType[] | null;
+    startWeekOn?: string | null;
 }
 
 const Datepicker: React.FC<Props> = ({
@@ -69,7 +67,10 @@ const Datepicker: React.FC<Props> = ({
     containerClassName = null,
     displayFormat = "YYYY-MM-DD",
     readOnly = false,
-    startWeekOn
+    minDate = null,
+    maxDate = null,
+    disabledDates = null,
+    startWeekOn = "sun"
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement>(null);
@@ -149,7 +150,7 @@ const Datepicker: React.FC<Props> = ({
             }
             setSecondDate(date);
         },
-        [displayFormat, firstDate]
+        [firstDate, displayFormat]
     );
 
     const previousMonthSecond = useCallback(() => {
@@ -216,8 +217,8 @@ const Datepicker: React.FC<Props> = ({
                 validDate && (startDate.isSame(endDate) || startDate.isBefore(endDate));
             if (condition) {
                 setPeriod({
-                    start: formatDate(startDate, displayFormat),
-                    end: formatDate(endDate, displayFormat)
+                    start: formatDate(startDate),
+                    end: formatDate(endDate)
                 });
                 setInputText(
                     `${formatDate(startDate, displayFormat)}${
@@ -279,8 +280,11 @@ const Datepicker: React.FC<Props> = ({
             inputClassName,
             containerClassName,
             readOnly,
-            startWeekOn,
-            displayFormat
+            displayFormat,
+            minDate,
+            maxDate,
+            disabledDates,
+            startWeekOn
         };
     }, [
         asSingle,
@@ -300,9 +304,12 @@ const Datepicker: React.FC<Props> = ({
         inputClassName,
         containerClassName,
         readOnly,
-        startWeekOn,
         displayFormat,
-        firstGotoDate
+        firstGotoDate,
+        minDate,
+        maxDate,
+        disabledDates,
+        startWeekOn
     ]);
 
     return (

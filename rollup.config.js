@@ -3,8 +3,9 @@ import resolve from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
 
 const packageJson = require("./package.json");
+const options = require("./tsconfig.json");
 
-export default {
+module.exports = {
     input: "src/index.tsx",
     output: [
         {
@@ -21,5 +22,5 @@ export default {
         }
     ],
     external: ["react", "dayjs"],
-    plugins: [resolve(), commonjs(), typescript()]
+    plugins: [resolve(), commonjs(), typescript({ ...options.compilerOptions, jsx: "react" })]
 };
