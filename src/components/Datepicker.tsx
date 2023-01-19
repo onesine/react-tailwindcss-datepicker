@@ -40,6 +40,7 @@ interface Props {
     i18n?: string;
     disabled?: boolean;
     inputClassName?: string | null;
+    toggleClassName?: string | null;
     inputId?: string;
     inputName?: string;
     containerClassName?: string | null;
@@ -67,6 +68,7 @@ const Datepicker: React.FC<Props> = ({
     disabled = false,
     inputClassName = null,
     containerClassName = null,
+    toggleClassName = null,
     displayFormat = "YYYY-MM-DD",
     readOnly = false,
     minDate = null,
@@ -283,6 +285,7 @@ const Datepicker: React.FC<Props> = ({
             disabled,
             inputClassName,
             containerClassName,
+            toggleClassName,
             readOnly,
             displayFormat,
             minDate,
@@ -309,6 +312,7 @@ const Datepicker: React.FC<Props> = ({
         disabled,
         inputClassName,
         containerClassName,
+        toggleClassName,
         readOnly,
         displayFormat,
         firstGotoDate,

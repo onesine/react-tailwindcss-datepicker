@@ -21,6 +21,7 @@ export default function Playground() {
     const [disabled, setDisabled] = useState(false);
     const [inputClassName, setInputClassName] = useState("");
     const [containerClassName, setContainerClassName] = useState("");
+    const [toggleClassName, setToggleClassName] = useState("");
     const [displayFormat, setDisplayFormat] = useState("YYYY-MM-DD");
     const [readOnly, setReadOnly] = useState(false);
     const [minDate, setMinDate] = useState("");
@@ -61,6 +62,7 @@ export default function Playground() {
                     disabled={disabled}
                     inputClassName={inputClassName}
                     containerClassName={containerClassName}
+                    toggleClassName={toggleClassName}
                     displayFormat={displayFormat}
                     readOnly={readOnly}
                     minDate={minDate}
@@ -230,15 +232,15 @@ export default function Playground() {
                         />
                     </div>
                     <div className="mb-2">
-                        <label className="block" htmlFor="startWeekOnClassName">
-                            Start Week On
+                        <label className="block" htmlFor="maxDate">
+                            Maximum Date
                         </label>
                         <input
                             className="rounded border px-4 py-2 w-full border-gray-200"
-                            id="startWeekOnClassName"
-                            value={startWeekOn}
+                            id="maxDate"
+                            value={maxDate}
                             onChange={e => {
-                                setStartWeekOn(e.target.value);
+                                setMaxDate(e.target.value);
                             }}
                         />
                     </div>
@@ -297,15 +299,28 @@ export default function Playground() {
                         />
                     </div>
                     <div className="mb-2">
-                        <label className="block" htmlFor="maxDate">
-                            Maximum Date
+                        <label className="block" htmlFor="containerClassName">
+                            Toggle Class
                         </label>
                         <input
                             className="rounded border px-4 py-2 w-full border-gray-200"
-                            id="maxDate"
-                            value={maxDate}
+                            id="toggleClassName"
+                            value={toggleClassName}
                             onChange={e => {
-                                setMaxDate(e.target.value);
+                                setToggleClassName(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <div className="mb-2">
+                        <label className="block" htmlFor="startWeekOnClassName">
+                            Start Week On
+                        </label>
+                        <input
+                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            id="startWeekOnClassName"
+                            value={startWeekOn}
+                            onChange={e => {
+                                setStartWeekOn(e.target.value);
                             }}
                         />
                     </div>

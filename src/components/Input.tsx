@@ -25,6 +25,7 @@ const Input: React.FC = () => {
         separator,
         disabled,
         inputClassName,
+        toggleClassName,
         readOnly,
         displayFormat,
         inputId,
@@ -190,7 +191,7 @@ const Input: React.FC = () => {
                 type="button"
                 ref={buttonRef}
                 disabled={disabled}
-                className="absolute top-0 right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"
+                className={`absolute right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed ${toggleClassName}`}
             >
                 {inputText ? <CloseIcon className="h-5 w-5" /> : <DateIcon className="h-5 w-5" />}
             </button>

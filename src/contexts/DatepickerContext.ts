@@ -26,6 +26,7 @@ interface DatepickerStore {
     disabled?: boolean;
     inputClassName?: string | null;
     containerClassName?: string | null;
+    toggleClassName?: string | null;
     readOnly?: boolean;
     startWeekOn?: string | null;
     displayFormat?: string;
@@ -61,6 +62,7 @@ const DatepickerContext = createContext<DatepickerStore>({
     disabled: false,
     inputClassName: "",
     containerClassName: "",
+    toggleClassName: "",
     readOnly: false,
     displayFormat: "YYYY-MM-DD",
     minDate: null,
