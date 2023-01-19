@@ -48,6 +48,7 @@ interface Props {
     minDate?: DateType | null;
     maxDate?: DateType | null;
     disabledDates?: DateRangeType[] | null;
+    startWeekOn?: string | null;
 }
 
 const Datepicker: React.FC<Props> = ({
@@ -72,7 +73,8 @@ const Datepicker: React.FC<Props> = ({
     maxDate = null,
     disabledDates = null,
     inputId,
-    inputName
+    inputName,
+    startWeekOn = "sun"
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement>(null);
@@ -219,8 +221,8 @@ const Datepicker: React.FC<Props> = ({
                 validDate && (startDate.isSame(endDate) || startDate.isBefore(endDate));
             if (condition) {
                 setPeriod({
-                    start: formatDate(startDate, displayFormat),
-                    end: formatDate(endDate, displayFormat)
+                    start: formatDate(startDate),
+                    end: formatDate(endDate)
                 });
                 setInputText(
                     `${formatDate(startDate, displayFormat)}${
@@ -287,7 +289,8 @@ const Datepicker: React.FC<Props> = ({
             maxDate,
             disabledDates,
             inputId,
-            inputName
+            inputName,
+            startWeekOn
         };
     }, [
         asSingle,
@@ -313,7 +316,8 @@ const Datepicker: React.FC<Props> = ({
         maxDate,
         disabledDates,
         inputId,
-        inputName
+        inputName,
+        startWeekOn
     ]);
 
     return (
