@@ -210,7 +210,7 @@ const Days: React.FC<Props> = ({
                 day >= 10 ? day : "0" + day
             }`;
 
-            if (!disabledDates || disabledDates?.length <= 0) {
+            if (!disabledDates || (Array.isArray(disabledDates) && !disabledDates.length)) {
                 return false;
             }
 
