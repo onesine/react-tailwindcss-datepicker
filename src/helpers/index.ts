@@ -130,7 +130,11 @@ export function getLastElementsInArray(array: number[] = [], size = 0) {
     return result.reverse();
 }
 
-export function getNumberOfDay(dayString: string, i18n: string, startWeekOn?: string): number {
+export function getNumberOfDay(
+    dayString: string,
+    i18n: string,
+    startWeekOn?: string | null | undefined
+): number {
     let number = 0;
 
     let startDateModifier = 7 - dayjs().locale(i18n).weekday(0).get("day");
