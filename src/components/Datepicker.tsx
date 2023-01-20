@@ -40,6 +40,9 @@ interface Props {
     i18n?: string;
     disabled?: boolean;
     inputClassName?: string | null;
+    toggleClassName?: string | null;
+    inputId?: string;
+    inputName?: string;
     containerClassName?: string | null;
     displayFormat?: string;
     readOnly?: boolean;
@@ -65,11 +68,14 @@ const Datepicker: React.FC<Props> = ({
     disabled = false,
     inputClassName = null,
     containerClassName = null,
+    toggleClassName = null,
     displayFormat = "YYYY-MM-DD",
     readOnly = false,
     minDate = null,
     maxDate = null,
     disabledDates = null,
+    inputId,
+    inputName,
     startWeekOn = "sun"
 }) => {
     // Ref
@@ -279,11 +285,14 @@ const Datepicker: React.FC<Props> = ({
             disabled,
             inputClassName,
             containerClassName,
+            toggleClassName,
             readOnly,
             displayFormat,
             minDate,
             maxDate,
             disabledDates,
+            inputId,
+            inputName,
             startWeekOn
         };
     }, [
@@ -303,12 +312,15 @@ const Datepicker: React.FC<Props> = ({
         disabled,
         inputClassName,
         containerClassName,
+        toggleClassName,
         readOnly,
         displayFormat,
         firstGotoDate,
         minDate,
         maxDate,
         disabledDates,
+        inputId,
+        inputName,
         startWeekOn
     ]);
 
