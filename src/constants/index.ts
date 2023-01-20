@@ -25,6 +25,8 @@ export const COLORS = [
 
 export const DEFAULT_COLOR = "blue";
 
+// Beware, these maps of colors cannot be replaced with functions using string interpolation such as `bg-${color}-100`
+// as described in Tailwind documentation https://tailwindcss.com/docs/content-configuration#dynamic-class-names
 export const BG_COLOR = {
     100: {
         blue: "bg-blue-100",
@@ -105,6 +107,25 @@ export const BG_COLOR = {
 };
 
 export const TEXT_COLOR = {
+    500: {
+        blue: "text-blue-500",
+        orange: "text-orange-500",
+        yellow: "text-yellow-500",
+        red: "text-red-500",
+        purple: "text-purple-500",
+        amber: "text-amber-500",
+        lime: "text-lime-500",
+        green: "text-green-500",
+        emerald: "text-emerald-500",
+        teal: "text-teal-500",
+        cyan: "text-cyan-500",
+        sky: "text-sky-500",
+        indigo: "text-indigo-500",
+        violet: "text-violet-500",
+        fuchsia: "text-fuchsia-500",
+        pink: "text-pink-500",
+        rose: "text-rose-500"
+    },
     600: {
         blue: "text-blue-600 dark:text-blue-400 dark:hover:text-blue-400",
         orange: "text-orange-600 dark:text-orange-400 dark:hover:text-orange-400",
@@ -224,6 +245,28 @@ export const RING_COLOR = {
         fuchsia: "focus:ring-fuchsia-500/20",
         pink: "focus:ring-pink-500/20",
         rose: "focus:ring-rose-500/20"
+    }
+};
+
+export const BUTTON_COLOR = {
+    focus: {
+        blue: "focus:ring-blue-500/50 focus:bg-blue-100/50",
+        orange: "focus:ring-orange-500/50 focus:bg-orange-100/50",
+        yellow: "focus:ring-yellow-500/50 focus:bg-yellow-100/50",
+        red: "focus:ring-red-500/50 focus:bg-red-100/50",
+        purple: "focus:ring-purple-500/50 focus:bg-purple-100/50",
+        amber: "focus:ring-amber-500/50 focus:bg-amber-100/50",
+        lime: "focus:ring-lime-500/50 focus:bg-lime-100/50",
+        green: "focus:ring-green-500/50 focus:bg-green-100/50",
+        emerald: "focus:ring-emerald-500/50 focus:bg-emerald-100/50",
+        teal: "focus:ring-teal-500/50 focus:bg-teal-100/50",
+        cyan: "focus:ring-cyan-500/50 focus:bg-cyan-100/50",
+        sky: "focus:ring-sky-500/50 focus:bg-sky-100/50",
+        indigo: "focus:ring-indigo-500/50 focus:bg-indigo-100/50",
+        violet: "focus:ring-violet-500/50 focus:bg-violet-100/50",
+        fuchsia: "focus:ring-fuchsia-500/50 focus:bg-fuchsia-100/50",
+        pink: "focus:ring-pink-500/50 focus:bg-pink-100/50",
+        rose: "focus:ring-rose-500/50 focus:bg-rose-100/50"
     }
 };
 

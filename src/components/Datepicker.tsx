@@ -40,12 +40,16 @@ interface Props {
     i18n?: string;
     disabled?: boolean;
     inputClassName?: string | null;
+    toggleClassName?: string | null;
+    inputId?: string;
+    inputName?: string;
     containerClassName?: string | null;
     displayFormat?: string;
     readOnly?: boolean;
     minDate?: DateType | null;
     maxDate?: DateType | null;
     disabledDates?: DateRangeType[] | null;
+    startWeekOn?: string | null;
 }
 
 const Datepicker: React.FC<Props> = ({
@@ -64,11 +68,15 @@ const Datepicker: React.FC<Props> = ({
     disabled = false,
     inputClassName = null,
     containerClassName = null,
+    toggleClassName = null,
     displayFormat = "YYYY-MM-DD",
     readOnly = false,
     minDate = null,
     maxDate = null,
-    disabledDates = null
+    disabledDates = null,
+    inputId,
+    inputName,
+    startWeekOn = "sun"
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement>(null);
@@ -215,8 +223,8 @@ const Datepicker: React.FC<Props> = ({
                 validDate && (startDate.isSame(endDate) || startDate.isBefore(endDate));
             if (condition) {
                 setPeriod({
-                    start: formatDate(startDate, displayFormat),
-                    end: formatDate(endDate, displayFormat)
+                    start: formatDate(startDate),
+                    end: formatDate(endDate)
                 });
                 setInputText(
                     `${formatDate(startDate, displayFormat)}${
@@ -277,11 +285,15 @@ const Datepicker: React.FC<Props> = ({
             disabled,
             inputClassName,
             containerClassName,
+            toggleClassName,
             readOnly,
             displayFormat,
             minDate,
             maxDate,
-            disabledDates
+            disabledDates,
+            inputId,
+            inputName,
+            startWeekOn
         };
     }, [
         asSingle,
@@ -300,12 +312,16 @@ const Datepicker: React.FC<Props> = ({
         disabled,
         inputClassName,
         containerClassName,
+        toggleClassName,
         readOnly,
         displayFormat,
         firstGotoDate,
         minDate,
         maxDate,
-        disabledDates
+        disabledDates,
+        inputId,
+        inputName,
+        startWeekOn
     ]);
 
     return (

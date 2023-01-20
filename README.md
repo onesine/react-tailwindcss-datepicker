@@ -15,12 +15,13 @@
 </div>
 
 ## Contents
-* [Features](https://github.com/onesine/react-tailwindcss-datepicker/blob/master/README.md#features)
-* [Documentation](https://react-tailwindcss-datepicker.vercel.app)
-* [Installation](https://github.com/onesine/react-tailwindcss-datepicker/blob/master/README.md#installation)
-* [Simple Usage](https://github.com/onesine/react-tailwindcss-datepicker/blob/master/README.md#simple-usage)
-* [Theming Options](https://github.com/onesine/react-tailwindcss-datepicker/blob/master/README.md#theming-options)
-* [Playground](https://github.com/onesine/react-tailwindcss-datepicker/blob/master/README.md#playground)
+* [Features](#features)
+* [Documentation](#documentation)
+* [Installation](#installation)
+* [Simple Usage](#simple-usage)
+* [Theming Options](#theming-options)
+* [Playground](#playground)
+* [Contributing](#contributing)
 
 ##  Features
 - ✅ Theming options
@@ -144,7 +145,11 @@ yarn install && yarn dev
 Open a browser and navigate to `http://localhost:8888`
 
 ## Contributing
-Got ideas on how to make this better? Open an issue!
+
+See [CONTRIBUTING.md](https://github.com/onesine/react-tailwindcss-datepicker/blob/master/CONTRIBUTING.md)
+
+## Official Documentation repo
+[https://github.com/onesine/react-tailwindcss-datepicker-doc](https://github.com/onesine/react-tailwindcss-datepicker-doc)
 
 ## Thanks to
 - [Litepie Datepicker](https://litepie.com/)

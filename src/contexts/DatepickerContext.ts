@@ -26,11 +26,15 @@ interface DatepickerStore {
     disabled?: boolean;
     inputClassName?: string | null;
     containerClassName?: string | null;
+    toggleClassName?: string | null;
     readOnly?: boolean;
+    startWeekOn?: string | null;
     displayFormat?: string;
     minDate?: DateType | null;
     maxDate?: DateType | null;
     disabledDates?: DateRangeType[] | null;
+    inputId?: string;
+    inputName?: string;
 }
 
 const DatepickerContext = createContext<DatepickerStore>({
@@ -58,11 +62,15 @@ const DatepickerContext = createContext<DatepickerStore>({
     disabled: false,
     inputClassName: "",
     containerClassName: "",
+    toggleClassName: "",
     readOnly: false,
     displayFormat: "YYYY-MM-DD",
     minDate: null,
     maxDate: null,
-    disabledDates: null
+    disabledDates: null,
+    inputId: undefined,
+    inputName: undefined,
+    startWeekOn: "sun"
 });
 
 export default DatepickerContext;
