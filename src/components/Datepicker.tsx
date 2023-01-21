@@ -9,14 +9,14 @@ import { COLORS, DEFAULT_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { formatDate, nextMonth, previousMonth } from "../helpers";
 import useOnClickOutside from "../hooks";
-import { Period, DateValueType, DateType, DateRangeType } from "../types";
+import { Period, DateValueType, DateType, DateRangeType, ClassNamesTypeProp } from "../types";
 
 import { Arrow, VerticalDash } from "./utils";
 
 interface Props {
     primaryColor?: string;
     value: DateValueType;
-    onChange: (value: DateValueType) => void;
+    onChange: (value: DateValueType, e?: HTMLInputElement | null | undefined) => void;
     useRange?: boolean;
     showFooter?: boolean;
     showShortcuts?: boolean;
@@ -39,6 +39,7 @@ interface Props {
     startFrom?: Date | null;
     i18n?: string;
     disabled?: boolean;
+    classNames?: ClassNamesTypeProp | undefined;
     inputClassName?: string | null;
     toggleClassName?: string | null;
     toggleIcon?: ((open: boolean) => React.ReactNode) | undefined;
@@ -78,7 +79,8 @@ const Datepicker: React.FC<Props> = ({
     disabledDates = null,
     inputId,
     inputName,
-    startWeekOn = "sun"
+    startWeekOn = "sun",
+    classNames = undefined
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement>(null);
@@ -96,6 +98,8 @@ const Datepicker: React.FC<Props> = ({
     const [secondDate, setSecondDate] = useState<dayjs.Dayjs>(nextMonth(firstDate));
     const [dayHover, setDayHover] = useState<string | null>(null);
     const [inputText, setInputText] = useState<string>("");
+
+    const [inputRef, setInputRef] = useState(React.createRef<HTMLInputElement>());
 
     // Custom Hooks use
     useOnClickOutside(containerRef, () => {
@@ -296,7 +300,10 @@ const Datepicker: React.FC<Props> = ({
             disabledDates,
             inputId,
             inputName,
-            startWeekOn
+            startWeekOn,
+            classNames,
+            onChange,
+            input: inputRef
         };
     }, [
         asSingle,
@@ -325,7 +332,9 @@ const Datepicker: React.FC<Props> = ({
         disabledDates,
         inputId,
         inputName,
-        startWeekOn
+        startWeekOn,
+        classNames,
+        inputRef
     ]);
 
     return (
@@ -334,7 +343,7 @@ const Datepicker: React.FC<Props> = ({
                 className={`relative w-full text-gray-700 ${containerClassName}`}
                 ref={containerRef}
             >
-                <Input />
+                <Input setContextRef={setInputRef} />
 
                 <div
                     className="transition-all ease-out duration-300 absolute z-10 mt-[1px] text-sm lg:text-xs 2xl:text-sm translate-y-4 opacity-0 hidden"

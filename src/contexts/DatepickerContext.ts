@@ -1,9 +1,17 @@
 import dayjs from "dayjs";
 import React, { createContext } from "react";
 
-import { Configs, Period, DateValueType, DateType, DateRangeType } from "../types";
+import {
+    Configs,
+    Period,
+    DateValueType,
+    DateType,
+    DateRangeType,
+    ClassNamesTypeProp
+} from "../types";
 
 interface DatepickerStore {
+    input?: React.RefObject<HTMLInputElement>;
     asSingle?: boolean;
     primaryColor: string;
     configs?: Configs | null;
@@ -17,7 +25,7 @@ interface DatepickerStore {
     inputText: string;
     changeInputText: (text: string) => void;
     updateFirstDate: (date: dayjs.Dayjs) => void;
-    changeDatepickerValue: (value: DateValueType) => void;
+    changeDatepickerValue: (value: DateValueType, e?: HTMLInputElement | null | undefined) => void;
     showFooter?: boolean;
     placeholder?: string | null;
     separator?: string;
@@ -36,9 +44,11 @@ interface DatepickerStore {
     disabledDates?: DateRangeType[] | null;
     inputId?: string;
     inputName?: string;
+    classNames?: ClassNamesTypeProp | undefined;
 }
 
 const DatepickerContext = createContext<DatepickerStore>({
+    input: undefined,
     primaryColor: "blue",
     calendarContainer: null,
     arrowContainer: null,
@@ -56,7 +66,13 @@ const DatepickerContext = createContext<DatepickerStore>({
     // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
     updateFirstDate: date => {},
     // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-    changeDatepickerValue: value => {},
+    changeDatepickerValue: (
+        // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
+        value: DateValueType,
+        // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
+        e: HTMLInputElement | null | undefined
+        // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
+    ) => {},
     showFooter: false,
     value: null,
     i18n: "en",
@@ -72,7 +88,8 @@ const DatepickerContext = createContext<DatepickerStore>({
     inputId: undefined,
     inputName: undefined,
     startWeekOn: "sun",
-    toggleIcon: undefined
+    toggleIcon: undefined,
+    classNames: undefined
 });
 
 export default DatepickerContext;

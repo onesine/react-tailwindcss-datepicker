@@ -31,6 +31,10 @@ export default function Playground() {
     const [startFrom, setStartFrom] = useState("2023-03-01");
     const [startWeekOn, setStartWeekOn] = useState("");
 
+    const handleChange = (value, e) => {
+        setValue(value);
+        console.log(e);
+    };
     return (
         <div className="px-4 py-8">
             <Head>
@@ -47,7 +51,7 @@ export default function Playground() {
                 <Datepicker
                     value={value}
                     primaryColor={primaryColor}
-                    onChange={setValue}
+                    onChange={handleChange}
                     useRange={useRange}
                     showFooter={showFooter}
                     showShortcuts={showShortcuts}
@@ -72,6 +76,20 @@ export default function Playground() {
                     toggleIcon={isEmpty => {
                         return isEmpty ? "Select Date" : "Clear";
                     }}
+                    // classNames={{
+                    //     input: ({ disabled, readOnly, className }) => {
+                    //         if (disabled) {
+                    //             return "opacity-40";
+                    //         }
+                    //         return `className`;
+                    //     },
+                    //     toggleButton: () => {
+                    //         return "bg-blue-300 ease-in-out";
+                    //     },
+                    //     footer: () => {
+                    //         return `p-4 border-t border-gray-600 flex flex-row flex-wrap justify-end`;
+                    //     }
+                    // }}
                 />
             </div>
 
