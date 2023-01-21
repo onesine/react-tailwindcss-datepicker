@@ -69,6 +69,9 @@ export default function Playground() {
                     maxDate={maxDate}
                     disabledDates={disabledDates}
                     startWeekOn={startWeekOn}
+                    toggleIcon={isEmpty => {
+                        return isEmpty ? "Select Date" : "Clear";
+                    }}
                 />
             </div>
 

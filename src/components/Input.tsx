@@ -5,7 +5,7 @@ import { BORDER_COLOR, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { dateIsValid } from "../helpers";
 
-import { CloseIcon, DateIcon } from "./utils";
+import ToggleButton from "./ToggleButton";
 
 const Input: React.FC = () => {
     // Context
@@ -26,6 +26,7 @@ const Input: React.FC = () => {
         disabled,
         inputClassName,
         toggleClassName,
+        toggleIcon,
         readOnly,
         displayFormat,
         inputId,
@@ -166,6 +167,17 @@ const Input: React.FC = () => {
         };
     }, [calendarContainer, arrowContainer]);
 
+    const renderToggleIcon = useCallback(
+        (isEmpty: boolean) => {
+            return typeof toggleIcon === "undefined" ? (
+                <ToggleButton isEmpty={isEmpty} />
+            ) : (
+                toggleIcon(isEmpty)
+            );
+        },
+        [toggleIcon]
+    );
+
     return (
         <>
             <input
@@ -193,7 +205,7 @@ const Input: React.FC = () => {
                 disabled={disabled}
                 className={`absolute right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed ${toggleClassName}`}
             >
-                {inputText ? <CloseIcon className="h-5 w-5" /> : <DateIcon className="h-5 w-5" />}
+                {renderToggleIcon(inputText == null || (inputText != null && !inputText.length))}
             </button>
         </>
     );

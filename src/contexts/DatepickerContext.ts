@@ -27,6 +27,7 @@ interface DatepickerStore {
     inputClassName?: string | null;
     containerClassName?: string | null;
     toggleClassName?: string | null;
+    toggleIcon?: (open: boolean) => React.ReactNode;
     readOnly?: boolean;
     startWeekOn?: string | null;
     displayFormat?: string;
@@ -70,7 +71,8 @@ const DatepickerContext = createContext<DatepickerStore>({
     disabledDates: null,
     inputId: undefined,
     inputName: undefined,
-    startWeekOn: "sun"
+    startWeekOn: "sun",
+    toggleIcon: undefined
 });
 
 export default DatepickerContext;
