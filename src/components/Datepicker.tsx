@@ -245,6 +245,7 @@ const Datepicker: React.FC<Props> = ({
                 start: null,
                 end: null
             });
+            setInputText("");
         }
     }, [asSingle, value, displayFormat, separator]);
 
