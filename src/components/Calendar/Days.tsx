@@ -1,11 +1,11 @@
 import dayjs from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
 import React, { useCallback, useContext } from "react";
 
 import { BG_COLOR, TEXT_COLOR } from "../../constants";
 import DatepickerContext from "../../contexts/DatepickerContext";
 import { formatDate, nextMonth, previousMonth, classNames as cn } from "../../helpers";
 
-const isBetween = require("dayjs/plugin/isBetween");
 dayjs.extend(isBetween);
 
 interface Props {
@@ -313,7 +313,7 @@ const Days: React.FC<Props> = ({
                 <button
                     type="button"
                     key={index}
-                    disabled={isDateDisabled(index, "previous")}
+                    disabled={isDateDisabled(index, "next")}
                     className="flex items-center justify-center text-gray-400 h-12 w-12 lg:w-10 lg:h-10"
                     onClick={() => {
                         onClickNextDays(item);

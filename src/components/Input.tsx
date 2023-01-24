@@ -5,9 +5,13 @@ import { BORDER_COLOR, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { dateIsValid } from "../helpers";
 
-import { CloseIcon, DateIcon } from "./utils";
+import ToggleButton from "./ToggleButton";
 
-const Input: React.FC = () => {
+type Props = {
+    setContextRef?: (ref: React.RefObject<HTMLInputElement>) => void;
+};
+
+const Input: React.FC<Props> = (e: Props) => {
     // Context
     const {
         primaryColor,
@@ -26,24 +30,38 @@ const Input: React.FC = () => {
         disabled,
         inputClassName,
         toggleClassName,
+        toggleIcon,
         readOnly,
         displayFormat,
         inputId,
-        inputName
+        inputName,
+        classNames
     } = useContext(DatepickerContext);
 
     // UseRefs
     const buttonRef = useRef<HTMLButtonElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
+    useEffect(() => {
+        if (inputRef && e.setContextRef && typeof e.setContextRef === "function") {
+            e.setContextRef(inputRef);
+        }
+    }, [e, inputRef]);
+
     // Functions
     const getClassName = useCallback(() => {
+        const input = inputRef.current;
+
+        if (input && typeof classNames != "undefined" && typeof classNames.input === "function") {
+            return classNames?.input(input);
+        }
+
         const border = BORDER_COLOR.focus[primaryColor as keyof typeof BORDER_COLOR.focus];
         const ring =
             RING_COLOR["second-focus"][primaryColor as keyof (typeof RING_COLOR)["second-focus"]];
         const classNameOverload = typeof inputClassName === "string" ? inputClassName : "";
         return `relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring disabled:opacity-40 disabled:cursor-not-allowed ${border} ${ring} ${classNameOverload}`;
-    }, [primaryColor, inputClassName]);
+    }, [inputRef, classNames, primaryColor, inputClassName]);
 
     const handleInputChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,10 +83,13 @@ const Input: React.FC = () => {
                 dateIsValid(new Date(end)) &&
                 dayjs(start).isBefore(end)
             ) {
-                changeDatepickerValue({
-                    startDate: start,
-                    endDate: end
-                });
+                changeDatepickerValue(
+                    {
+                        startDate: start,
+                        endDate: end
+                    },
+                    e.target
+                );
                 changeDayHover(dayjs(end).add(-1, "day").format("YYYY-MM-DD"));
                 hideDatepicker();
                 if (input) {
@@ -86,18 +107,23 @@ const Input: React.FC = () => {
 
         function focusInput(e: Event) {
             e.stopPropagation();
-            if (inputRef?.current) {
-                inputRef.current.focus();
+            const input = inputRef.current;
+
+            if (input) {
+                input.focus();
                 if (inputText && !readOnly) {
                     changeInputText("");
                     if (dayHover) {
                         changeDayHover(null);
                     }
                     if (period.start && period.end) {
-                        changeDatepickerValue({
-                            startDate: null,
-                            endDate: null
-                        });
+                        changeDatepickerValue(
+                            {
+                                startDate: null,
+                                endDate: null
+                            },
+                            input
+                        );
                     }
                 }
             }
@@ -120,7 +146,8 @@ const Input: React.FC = () => {
         inputText,
         period.end,
         period.start,
-        readOnly
+        readOnly,
+        inputRef
     ]);
 
     useEffect(() => {
@@ -166,6 +193,31 @@ const Input: React.FC = () => {
         };
     }, [calendarContainer, arrowContainer]);
 
+    const renderToggleIcon = useCallback(
+        (isEmpty: boolean) => {
+            return typeof toggleIcon === "undefined" ? (
+                <ToggleButton isEmpty={isEmpty} />
+            ) : (
+                toggleIcon(isEmpty)
+            );
+        },
+        [toggleIcon]
+    );
+
+    const getToggleClassName = useCallback(() => {
+        const button = buttonRef.current;
+
+        if (
+            button &&
+            typeof classNames !== "undefined" &&
+            typeof classNames.toggleButton === "function"
+        ) {
+            return classNames.toggleButton(button);
+        }
+
+        return `absolute right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed ${toggleClassName}`;
+    }, [toggleClassName, buttonRef, classNames]);
+
     return (
         <>
             <input
@@ -191,9 +243,9 @@ const Input: React.FC = () => {
                 type="button"
                 ref={buttonRef}
                 disabled={disabled}
-                className={`absolute right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed ${toggleClassName}`}
+                className={getToggleClassName()}
             >
-                {inputText ? <CloseIcon className="h-5 w-5" /> : <DateIcon className="h-5 w-5" />}
+                {renderToggleIcon(inputText == null || (inputText != null && !inputText.length))}
             </button>
         </>
     );

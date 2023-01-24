@@ -52,7 +52,8 @@ const Calendar: React.FC<Props> = ({
         hideDatepicker,
         asSingle,
         i18n,
-        startWeekOn
+        startWeekOn,
+        input
     } = useContext(DatepickerContext);
     loadLanguageModule(i18n);
 
@@ -118,10 +119,14 @@ const Calendar: React.FC<Props> = ({
             let newEnd = null;
 
             function chosePeriod(start: string, end: string) {
-                changeDatepickerValue({
-                    startDate: start,
-                    endDate: end
-                });
+                const ipt = input?.current;
+                changeDatepickerValue(
+                    {
+                        startDate: start,
+                        endDate: end
+                    },
+                    ipt
+                );
                 hideDatepicker();
             }
 
@@ -186,7 +191,8 @@ const Calendar: React.FC<Props> = ({
             hideDatepicker,
             period.end,
             period.start,
-            showFooter
+            showFooter,
+            input
         ]
     );
 
