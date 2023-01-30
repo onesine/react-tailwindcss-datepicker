@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import React, { useContext } from "react";
 
 import DatepickerContext from "../../contexts/DatepickerContext";
-import { loadLanguageModule, shortString, ucFirst } from "../../helpers";
+import { loadLanguageModule } from "../../helpers";
 import { RoundedButton } from "../utils";
 
 interface Props {
@@ -23,13 +23,9 @@ const Months: React.FC<Props> = ({ clickMonth }) => {
                     }}
                 >
                     <>
-                        {ucFirst(
-                            shortString(
-                                dayjs(`2022-${1 + item}-01`)
-                                    .locale(i18n)
-                                    .format("MMM")
-                            )
-                        )}
+                        {dayjs(`2022-${1 + item}-01`)
+                            .locale(i18n)
+                            .format("MMM")}
                     </>
                 </RoundedButton>
             ))}
