@@ -57,14 +57,6 @@ export function generateArrayNumber(start = 0, end = 0) {
     return array;
 }
 
-export function shortString(value: string, limit = 3) {
-    return value.slice(0, limit);
-}
-
-export function ucFirst(value: string) {
-    return `${value[0].toUpperCase()}${value.slice(1, value.length)}`;
-}
-
 export function formatDate(date: dayjs.Dayjs, format = "YYYY-MM-DD") {
     return date.format(format);
 }

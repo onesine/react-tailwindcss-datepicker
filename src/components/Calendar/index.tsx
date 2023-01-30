@@ -11,8 +11,7 @@ import {
     getNumberOfDay,
     loadLanguageModule,
     nextMonth,
-    previousMonth,
-    shortString
+    previousMonth
 } from "../../helpers";
 import {
     ChevronLeftIcon,
@@ -263,7 +262,7 @@ const Calendar: React.FC<Props> = ({
                                 hideYears();
                             }}
                         >
-                            <>{shortString(calendarData.date.locale(i18n).format("MMM"))}</>
+                            <>{calendarData.date.locale(i18n).format("MMM")}</>
                         </RoundedButton>
                     </div>
 

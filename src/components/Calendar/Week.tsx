@@ -3,7 +3,7 @@ import weekday from "dayjs/plugin/weekday";
 import React, { useContext } from "react";
 
 import DatepickerContext from "../../contexts/DatepickerContext";
-import { loadLanguageModule, shortString, ucFirst } from "../../helpers";
+import { loadLanguageModule } from "../../helpers";
 
 dayjs.extend(weekday);
 
@@ -43,13 +43,9 @@ const Week: React.FC = () => {
         <div className="grid grid-cols-7 border-b border-gray-300 dark:border-gray-700 py-2">
             {[0, 1, 2, 3, 4, 5, 6].map((item, index) => (
                 <div key={index} className="tracking-wide text-gray-500 text-center">
-                    {ucFirst(
-                        shortString(
-                            dayjs(`2022-11-${6 + (item + startDateModifier)}`)
-                                .locale(i18n)
-                                .format("ddd")
-                        )
-                    )}
+                    {dayjs(`2022-11-${6 + (item + startDateModifier)}`)
+                        .locale(i18n)
+                        .format("ddd")}
                 </div>
             ))}
         </div>
