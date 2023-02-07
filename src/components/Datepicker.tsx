@@ -341,7 +341,7 @@ const Datepicker: React.FC<Props> = ({
     return (
         <DatepickerContext.Provider value={contextValues}>
             <div
-                className={`relative w-full text-gray-700 ${containerClassName}`}
+                className={`relative w-full text-gray-700 ${containerClassName??''}`}
                 ref={containerRef}
             >
                 <Input setContextRef={setInputRef} />
