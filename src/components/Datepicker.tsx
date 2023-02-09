@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { twMerge } from "tailwind-merge";
 
 import Calendar from "../components/Calendar";
 import Footer from "../components/Footer";
@@ -341,7 +342,7 @@ const Datepicker: React.FC<Props> = ({
     return (
         <DatepickerContext.Provider value={contextValues}>
             <div
-                className={`relative w-full text-gray-700 ${containerClassName}`}
+                className={twMerge(`relative w-full text-gray-700 ${containerClassName}`)}
                 ref={containerRef}
             >
                 <Input setContextRef={setInputRef} />

@@ -12,15 +12,17 @@ module.exports = {
             file: packageJson.main,
             format: "cjs",
             exports: "auto",
+            inlineDynamicImports: true,
             sourcemap: true
         },
         {
             file: packageJson.module,
             format: "esm",
             exports: "auto",
+            inlineDynamicImports: true,
             sourcemap: true
         }
     ],
-    external: ["react", "dayjs"],
+    external: ["react", "dayjs", "tailwind-merge"],
     plugins: [resolve(), commonjs(), typescript({ ...options.compilerOptions, jsx: "react" })]
 };

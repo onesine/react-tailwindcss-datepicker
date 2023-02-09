@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import React, { useCallback, useContext, useEffect, useRef } from "react";
+import { twMerge } from "tailwind-merge";
 
 import { BORDER_COLOR, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
@@ -60,7 +61,9 @@ const Input: React.FC<Props> = (e: Props) => {
         const ring =
             RING_COLOR["second-focus"][primaryColor as keyof (typeof RING_COLOR)["second-focus"]];
         const classNameOverload = typeof inputClassName === "string" ? inputClassName : "";
-        return `relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring disabled:opacity-40 disabled:cursor-not-allowed ${border} ${ring} ${classNameOverload}`;
+        return twMerge(
+            `relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring disabled:opacity-40 disabled:cursor-not-allowed ${border} ${ring} ${classNameOverload}`
+        );
     }, [inputRef, classNames, primaryColor, inputClassName]);
 
     const handleInputChange = useCallback(
@@ -215,7 +218,9 @@ const Input: React.FC<Props> = (e: Props) => {
             return classNames.toggleButton(button);
         }
 
-        return `absolute right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed ${toggleClassName}`;
+        return twMerge(
+            `absolute right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed ${toggleClassName}`
+        );
     }, [toggleClassName, buttonRef, classNames]);
 
     return (
