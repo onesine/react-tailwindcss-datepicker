@@ -28,8 +28,16 @@ export const COLORS = [
 export const DEFAULT_COLOR = "blue";
 
 export const LANGUAGE = "en";
+
 export const DATE_FORMAT = "YYYY-MM-DD";
+
 export const START_WEEK = "sun";
+
+export const DAYS = [0, 1, 2, 3, 4, 5, 6];
+
+export const MONTHS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+export const CALENDAR_SIZE = 42;
 
 // Beware, these maps of colors cannot be replaced with functions using string interpolation such as `bg-${color}-100`
 // as described in Tailwind documentation https://tailwindcss.com/docs/content-configuration#dynamic-class-names

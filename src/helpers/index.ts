@@ -1,8 +1,6 @@
 import dayjs from "dayjs";
-import weekday from "dayjs/plugin/weekday";
-import {DATE_FORMAT, LANGUAGE} from "../constants";
 
-dayjs.extend(weekday);
+import { DATE_FORMAT, LANGUAGE } from "../constants";
 
 export function classNames(...classes: (false | null | undefined | string)[]) {
     return classes.filter(Boolean).join(" ");
@@ -131,14 +129,10 @@ export function getLastElementsInArray(array: number[] = [], size = 0) {
     return result.reverse();
 }
 
-export function getNumberOfDay(
-    dayString: string,
-    i18n: string,
-    startWeekOn?: string | null | undefined
-): number {
+export function getNumberOfDay(dayString: string, startWeekOn?: string | null | undefined): number {
     let number = 0;
 
-    let startDateModifier = 7 - dayjs().locale(i18n).weekday(0).get("day");
+    let startDateModifier = 0;
 
     if (startWeekOn) {
         switch (startWeekOn) {
@@ -299,7 +293,7 @@ export function loadLanguageModule(language = LANGUAGE) {
         case "en-tt":
             import("dayjs/locale/en-tt");
             break;
-        case LANGUAGE:
+        case "en":
             import("dayjs/locale/en");
             break;
         case "eo":
