@@ -97,7 +97,10 @@ const Shortcuts: React.FC = () => {
 
     const shortcutOptions = configs
         ? Object.entries(DEFAULT_SHORTCUTS).filter(([key]) => {
-              return configs.shortcuts ? Object.keys(configs.shortcuts).includes(key) : true;
+              return configs.shortcuts
+                  ? Object.keys(configs.shortcuts).includes(key) &&
+                        configs.shortcuts[key as keyof typeof configs.shortcuts]
+                  : true;
           })
         : Object.entries(DEFAULT_SHORTCUTS);
 
