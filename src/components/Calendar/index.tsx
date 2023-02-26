@@ -26,8 +26,12 @@ import Months from "./Months";
 import Week from "./Week";
 import Years from "./Years";
 
+import { DateType } from "types";
+
 interface Props {
     date: dayjs.Dayjs;
+    minDate?: DateType | null;
+    maxDate?: DateType | null;
     onClickPrevious: () => void;
     onClickNext: () => void;
     changeMonth: (month: number) => void;
@@ -36,6 +40,8 @@ interface Props {
 
 const Calendar: React.FC<Props> = ({
     date,
+    minDate,
+    maxDate,
     onClickPrevious,
     onClickNext,
     changeMonth,
@@ -229,6 +235,14 @@ const Calendar: React.FC<Props> = ({
             }
         };
     }, [current, date, next, previous]);
+    const minYear = React.useMemo(
+        () => (minDate && dayjs(minDate).isValid() ? dayjs(minDate).year() : null),
+        [minDate]
+    );
+    const maxYear = React.useMemo(
+        () => (maxDate && dayjs(maxDate).isValid() ? dayjs(maxDate).year() : null),
+        [maxDate]
+    );
 
     return (
         <div className="w-full md:w-[297px] md:min-w-[297px]">
@@ -303,7 +317,9 @@ const Calendar: React.FC<Props> = ({
             <div className="px-0.5 sm:px-2 mt-0.5 min-h-[285px]">
                 {showMonths && <Months clickMonth={clickMonth} />}
 
-                {showYears && <Years year={year} clickYear={clickYear} />}
+                {showYears && (
+                    <Years year={year} minYear={minYear} maxYear={maxYear} clickYear={clickYear} />
+                )}
 
                 {!showMonths && !showYears && (
                     <>
