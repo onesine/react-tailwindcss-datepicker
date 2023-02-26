@@ -121,8 +121,8 @@ const Calendar: React.FC<Props> = ({
                 const ipt = input?.current;
                 changeDatepickerValue(
                     {
-                        startDate: start,
-                        endDate: end
+                        startDate: dayjs(start).format("YYYY-MM-DD"),
+                        endDate: dayjs(end).format("YYYY-MM-DD")
                     },
                     ipt
                 );
