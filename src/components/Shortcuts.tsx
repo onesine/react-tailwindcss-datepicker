@@ -83,7 +83,11 @@ const ItemTemplate = React.memo((props: ItemTemplateProps) => {
     );
 });
 
-const Shortcuts = () => {
+const printItemText = (item: ShortcutsItem) => {
+    return item.text ?? null;
+};
+
+const Shortcuts: React.FC = () => {
     // Contexts
     const { configs } = useContext(DatepickerContext);
 
@@ -91,21 +95,27 @@ const Shortcuts = () => {
         return typeof data === "function" ? data(numberValue) : null;
     };
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const printItemText = item => {
-        return "text" in item ? item.text : "";
-    };
+    const shortcutOptions = configs
+        ? Object.entries(DEFAULT_SHORTCUTS).filter(([key]) => {
+              return configs.shortcuts
+                  ? Object.keys(configs.shortcuts).includes(key) &&
+                        configs.shortcuts[key as keyof typeof configs.shortcuts]
+                  : true;
+          })
+        : Object.entries(DEFAULT_SHORTCUTS);
 
     return (
         <div className="md:border-b mb-3 lg:mb-0 lg:border-r lg:border-b-0 border-gray-300 dark:border-gray-700 pr-1">
             <ul className="w-full tracking-wide flex flex-wrap lg:flex-col pb-1 lg:pb-0">
-                {Object.entries(DEFAULT_SHORTCUTS).map(([key, item], index) =>
-                    key === "past" ? (
-                        (Array.isArray(item) ? item : []).map((item, index) => (
+                {shortcutOptions.map(([key, item], index) =>
+                    Array.isArray(item) ? (
+                        item.map((item, index) => (
                             <ItemTemplate key={index} item={item}>
                                 <>
-                                    {configs && configs.shortcuts && key in configs.shortcuts
+                                    {key === "past" &&
+                                    configs?.shortcuts &&
+                                    key in configs.shortcuts &&
+                                    item.daysNumber
                                         ? callPastFunction(configs.shortcuts[key], item.daysNumber)
                                         : item.text}
                                 </>
@@ -114,7 +124,7 @@ const Shortcuts = () => {
                     ) : (
                         <ItemTemplate key={index} item={item}>
                             <>
-                                {configs && configs.shortcuts && key in configs.shortcuts
+                                {configs?.shortcuts && key in configs.shortcuts
                                     ? configs.shortcuts[key as keyof typeof configs.shortcuts]
                                     : printItemText(item)}
                             </>

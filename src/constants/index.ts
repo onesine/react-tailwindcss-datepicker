@@ -2,6 +2,8 @@ import dayjs from "dayjs";
 
 import { formatDate, previousMonth } from "../helpers";
 
+import { ShortcutsItem } from "types";
+
 export const COLORS = [
     "blue",
     "orange",
@@ -270,7 +272,9 @@ export const BUTTON_COLOR = {
     }
 };
 
-export const DEFAULT_SHORTCUTS = {
+export const DEFAULT_SHORTCUTS: {
+    [key in string]: ShortcutsItem | ShortcutsItem[];
+} = {
     today: {
         text: "Today",
         period: {
