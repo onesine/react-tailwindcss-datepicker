@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import weekday from "dayjs/plugin/weekday";
+import {DATE_FORMAT, LANGUAGE} from "../constants";
 
 dayjs.extend(weekday);
 
@@ -65,7 +66,7 @@ export function ucFirst(value: string) {
     return `${value[0].toUpperCase()}${value.slice(1, value.length)}`;
 }
 
-export function formatDate(date: dayjs.Dayjs, format = "YYYY-MM-DD") {
+export function formatDate(date: dayjs.Dayjs, format = DATE_FORMAT) {
     return date.format(format);
 }
 
@@ -186,7 +187,7 @@ export function getFirstDaysInMonth(date: string | dayjs.Dayjs, size = 0) {
     return getFirstElementsInArray(getDaysInMonth(date), size);
 }
 
-export function loadLanguageModule(language = "en") {
+export function loadLanguageModule(language = LANGUAGE) {
     switch (language) {
         case "af":
             import("dayjs/locale/af");
@@ -298,7 +299,7 @@ export function loadLanguageModule(language = "en") {
         case "en-tt":
             import("dayjs/locale/en-tt");
             break;
-        case "en":
+        case LANGUAGE:
             import("dayjs/locale/en");
             break;
         case "eo":

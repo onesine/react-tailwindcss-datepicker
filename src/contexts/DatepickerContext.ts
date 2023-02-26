@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import React, { createContext } from "react";
 
+import { DATE_FORMAT, LANGUAGE, START_WEEK } from "../constants";
 import {
     Configs,
     Period,
@@ -75,19 +76,19 @@ const DatepickerContext = createContext<DatepickerStore>({
     ) => {},
     showFooter: false,
     value: null,
-    i18n: "en",
+    i18n: LANGUAGE,
     disabled: false,
     inputClassName: "",
     containerClassName: "",
     toggleClassName: "",
     readOnly: false,
-    displayFormat: "YYYY-MM-DD",
+    displayFormat: DATE_FORMAT,
     minDate: null,
     maxDate: null,
     disabledDates: null,
     inputId: undefined,
     inputName: undefined,
-    startWeekOn: "sun",
+    startWeekOn: START_WEEK,
     toggleIcon: undefined,
     classNames: undefined
 });

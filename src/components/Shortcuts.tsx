@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import React, { useCallback, useContext } from "react";
+import React, { useCallback, useContext, useMemo } from "react";
 
 import { DEFAULT_SHORTCUTS, TEXT_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
@@ -83,26 +83,27 @@ const ItemTemplate = React.memo((props: ItemTemplateProps) => {
     );
 });
 
-const printItemText = (item: ShortcutsItem) => {
-    return item.text ?? null;
-};
-
 const Shortcuts: React.FC = () => {
     // Contexts
     const { configs } = useContext(DatepickerContext);
 
-    const callPastFunction = (data: unknown, numberValue: number) => {
+    const callPastFunction = useCallback((data: unknown, numberValue: number) => {
         return typeof data === "function" ? data(numberValue) : null;
-    };
+    }, []);
 
-    const shortcutOptions = configs
-        ? Object.entries(DEFAULT_SHORTCUTS).filter(([key]) => {
-              return configs.shortcuts
-                  ? Object.keys(configs.shortcuts).includes(key) &&
-                        configs.shortcuts[key as keyof typeof configs.shortcuts]
-                  : true;
-          })
-        : Object.entries(DEFAULT_SHORTCUTS);
+    const shortcutOptions = useMemo(
+        () =>
+            configs
+                ? Object.entries(DEFAULT_SHORTCUTS).filter(([key]) => {
+                      return configs.shortcuts && Object.keys(configs.shortcuts).includes(key);
+                  })
+                : Object.entries(DEFAULT_SHORTCUTS),
+        [configs]
+    );
+
+    const printItemText = useCallback((item: ShortcutsItem) => {
+        return item?.text ?? null;
+    }, []);
 
     return (
         <div className="md:border-b mb-3 lg:mb-0 lg:border-r lg:border-b-0 border-gray-300 dark:border-gray-700 pr-1">

@@ -55,7 +55,19 @@ export default function Playground() {
                     useRange={useRange}
                     showFooter={showFooter}
                     showShortcuts={showShortcuts}
-                    configs={configs}
+                    configs={{
+                        shortcuts: {
+                            today: "TText",
+                            yesterday: "YText",
+                            past: period => `P-${period} Text`,
+                            currentMonth: "CMText",
+                            pastMonth: "PMText",
+                        },
+                        footer: {
+                            cancel: "CText",
+                            apply: "AText"
+                        }
+                    }}
                     asSingle={asSingle}
                     placeholder={placeholder}
                     separator={separator}

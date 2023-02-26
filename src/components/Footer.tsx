@@ -9,6 +9,7 @@ const Footer: React.FC = () => {
     const { hideDatepicker, period, changeDatepickerValue, configs, classNames } =
         useContext(DatepickerContext);
 
+    // Functions
     const getClassName = useCallback(() => {
         if (typeof classNames !== "undefined" && typeof classNames?.footer === "function") {
             return classNames.footer();
@@ -25,11 +26,7 @@ const Footer: React.FC = () => {
                         hideDatepicker();
                     }}
                 >
-                    <>
-                        {configs && configs.footer && configs.footer.cancel
-                            ? configs.footer.cancel
-                            : "Cancel"}
-                    </>
+                    <>{configs?.footer?.cancel ? configs.footer.cancel : "Cancel"}</>
                 </SecondaryButton>
                 <PrimaryButton
                     onClick={() => {
@@ -43,11 +40,7 @@ const Footer: React.FC = () => {
                     }}
                     disabled={!(period.start && period.end)}
                 >
-                    <>
-                        {configs && configs.footer && configs.footer.cancel
-                            ? configs.footer.apply
-                            : "Apply"}
-                    </>
+                    <>{configs?.footer?.apply ? configs.footer.apply : "Apply"}</>
                 </PrimaryButton>
             </div>
         </div>

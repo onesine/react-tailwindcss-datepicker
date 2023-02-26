@@ -12,13 +12,15 @@ module.exports = {
             file: packageJson.main,
             format: "cjs",
             exports: "auto",
-            sourcemap: true
+            sourcemap: true,
+            inlineDynamicImports: true
         },
         {
             file: packageJson.module,
             format: "esm",
             exports: "auto",
-            sourcemap: true
+            sourcemap: true,
+            inlineDynamicImports: true
         }
     ],
     external: ["react", "dayjs"],

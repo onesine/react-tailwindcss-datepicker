@@ -5,7 +5,7 @@ import Calendar from "../components/Calendar";
 import Footer from "../components/Footer";
 import Input from "../components/Input";
 import Shortcuts from "../components/Shortcuts";
-import { COLORS, DEFAULT_COLOR } from "../constants";
+import { COLORS, DATE_FORMAT, DEFAULT_COLOR, LANGUAGE } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { formatDate, nextMonth, previousMonth } from "../helpers";
 import useOnClickOutside from "../hooks";
@@ -66,13 +66,13 @@ const Datepicker: React.FC<Props> = ({
     placeholder = null,
     separator = "~",
     startFrom = null,
-    i18n = "en",
+    i18n = LANGUAGE,
     disabled = false,
     inputClassName = null,
     containerClassName = null,
     toggleClassName = null,
     toggleIcon = undefined,
-    displayFormat = "YYYY-MM-DD",
+    displayFormat = DATE_FORMAT,
     readOnly = false,
     minDate = null,
     maxDate = null,
@@ -91,14 +91,13 @@ const Datepicker: React.FC<Props> = ({
     const [firstDate, setFirstDate] = useState<dayjs.Dayjs>(
         startFrom && dayjs(startFrom).isValid() ? dayjs(startFrom) : dayjs()
     );
+    const [secondDate, setSecondDate] = useState<dayjs.Dayjs>(nextMonth(firstDate));
     const [period, setPeriod] = useState<Period>({
         start: null,
         end: null
     });
-    const [secondDate, setSecondDate] = useState<dayjs.Dayjs>(nextMonth(firstDate));
     const [dayHover, setDayHover] = useState<string | null>(null);
     const [inputText, setInputText] = useState<string>("");
-
     const [inputRef, setInputRef] = useState(React.createRef<HTMLInputElement>());
 
     // Custom Hooks use
@@ -133,6 +132,7 @@ const Datepicker: React.FC<Props> = ({
         }
     }, []);
 
+    /* Start First */
     const firstGotoDate = useCallback(
         (date: dayjs.Dayjs) => {
             const newDate = dayjs(formatDate(date));
@@ -153,6 +153,22 @@ const Datepicker: React.FC<Props> = ({
         firstGotoDate(nextMonth(firstDate));
     }, [firstDate, firstGotoDate]);
 
+    const changeFirstMonth = useCallback(
+        (month: number) => {
+            firstGotoDate(dayjs(`${firstDate.year()}-${month < 10 ? "0" : ""}${month}-01`));
+        },
+        [firstDate, firstGotoDate]
+    );
+
+    const changeFirstYear = useCallback(
+        (year: number) => {
+            firstGotoDate(dayjs(`${year}-${firstDate.month() + 1}-01`));
+        },
+        [firstDate, firstGotoDate]
+    );
+    /* End First */
+
+    /* Start Second */
     const secondGotoDate = useCallback(
         (date: dayjs.Dayjs) => {
             const newDate = dayjs(formatDate(date, displayFormat));
@@ -173,25 +189,11 @@ const Datepicker: React.FC<Props> = ({
         setSecondDate(nextMonth(secondDate));
     }, [secondDate]);
 
-    const changeFirstMonth = useCallback(
-        (month: number) => {
-            firstGotoDate(dayjs(`${firstDate.year()}-${month < 10 ? "0" : ""}${month}-01`));
-        },
-        [firstDate, firstGotoDate]
-    );
-
     const changeSecondMonth = useCallback(
         (month: number) => {
             secondGotoDate(dayjs(`${secondDate.year()}-${month < 10 ? "0" : ""}${month}-01`));
         },
         [secondDate, secondGotoDate]
-    );
-
-    const changeFirstYear = useCallback(
-        (year: number) => {
-            firstGotoDate(dayjs(`${year}-${firstDate.month() + 1}-01`));
-        },
-        [firstDate, firstGotoDate]
     );
 
     const changeSecondYear = useCallback(
@@ -200,6 +202,7 @@ const Datepicker: React.FC<Props> = ({
         },
         [secondDate, secondGotoDate]
     );
+    /* End Second */
 
     // UseEffects & UseLayoutEffect
     useEffect(() => {
@@ -251,7 +254,7 @@ const Datepicker: React.FC<Props> = ({
 
     useEffect(() => {
         if (startFrom && dayjs(startFrom).isValid()) {
-            if (value != null && value.startDate != null) {
+            if (value?.startDate != null) {
                 setFirstDate(dayjs(value.startDate));
                 setSecondDate(nextMonth(dayjs(value.startDate)));
             } else {
@@ -261,7 +264,7 @@ const Datepicker: React.FC<Props> = ({
         }
     }, [startFrom, value]);
 
-    // Variable
+    // Variables
     const colorPrimary = useMemo(() => {
         if (COLORS.includes(primaryColor)) {
             return primaryColor;
