@@ -34,6 +34,7 @@ export default function Playground() {
     const handleChange = (value, e) => {
         setValue(value);
         console.log(e);
+        console.log("value", value);
     };
     return (
         <div className="px-4 py-8">
