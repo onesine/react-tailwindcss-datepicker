@@ -36,8 +36,10 @@ export type DateRangeType = {
 export type DateValueType = DateRangeType | null;
 
 export type ClassNamesTypeProp = {
-    container: (p?: object | null | undefined) => string | undefined;
-    input: (p?: object | null | undefined) => string | undefined;
-    toggleButton: (p?: object | null | undefined) => string | undefined;
-    footer: (p?: object | null | undefined) => string | undefined;
+    container?: (p?: object | null | undefined) => string | undefined;
+    input?: (p?: object | null | undefined) => string | undefined;
+    toggleButton?: (p?: object | null | undefined) => string | undefined;
+    footer?: (p?: object | null | undefined) => string | undefined;
 };
+
+export type ClassNameParam = ClassNameParam[] | string | number | boolean | undefined;

@@ -8,7 +8,8 @@ import {
     DateValueType,
     DateType,
     DateRangeType,
-    ClassNamesTypeProp
+    ClassNamesTypeProp,
+    ClassNameParam
 } from "../types";
 
 interface DatepickerStore {
@@ -33,9 +34,9 @@ interface DatepickerStore {
     i18n: string;
     value: DateValueType;
     disabled?: boolean;
-    inputClassName?: string | null;
-    containerClassName?: string | null;
-    toggleClassName?: string | null;
+    inputClassName?: ((args?: ClassNameParam) => string) | string | null;
+    containerClassName?: ((args?: ClassNameParam) => string) | string | null;
+    toggleClassName?: ((args?: ClassNameParam) => string) | string | null;
     toggleIcon?: (open: boolean) => React.ReactNode;
     readOnly?: boolean;
     startWeekOn?: string | null;
