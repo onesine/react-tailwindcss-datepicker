@@ -9,7 +9,14 @@ import { COLORS, DATE_FORMAT, DEFAULT_COLOR, LANGUAGE } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { formatDate, nextMonth, previousMonth } from "../helpers";
 import useOnClickOutside from "../hooks";
-import { Period, DateValueType, DateType, DateRangeType, ClassNamesTypeProp } from "../types";
+import {
+    Period,
+    DateValueType,
+    DateType,
+    DateRangeType,
+    ClassNamesTypeProp,
+    ClassNameParam
+} from "../types";
 
 import { Arrow, VerticalDash } from "./utils";
 
@@ -40,12 +47,12 @@ interface Props {
     i18n?: string;
     disabled?: boolean;
     classNames?: ClassNamesTypeProp | undefined;
-    inputClassName?: string | null;
+    inputClassName?: ((args?: ClassNameParam) => string) | string | null;
     toggleClassName?: string | null;
-    toggleIcon?: ((open: boolean) => React.ReactNode) | undefined;
+    toggleIcon?: ((open: ClassNameParam) => React.ReactNode) | undefined;
     inputId?: string;
     inputName?: string;
-    containerClassName?: string | null;
+    containerClassName?: ((args?: ClassNameParam) => string) | string | null;
     displayFormat?: string;
     readOnly?: boolean;
     minDate?: DateType | null;
