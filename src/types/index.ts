@@ -41,5 +41,3 @@ export type ClassNamesTypeProp = {
     toggleButton?: (p?: object | null | undefined) => string | undefined;
     footer?: (p?: object | null | undefined) => string | undefined;
 };
-
-export type ClassNameParam = ClassNameParam[] | string | number | boolean | undefined;

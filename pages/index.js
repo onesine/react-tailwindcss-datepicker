@@ -3,7 +3,6 @@ import { useState } from "react";
 import { COLORS } from "../src/constants";
 import dayjs from "dayjs";
 import Head from "next/head";
-import { twMerge } from "tailwind-merge";
 
 export default function Playground() {
     const [value, setValue] = useState({
@@ -79,10 +78,6 @@ export default function Playground() {
                     i18n={i18n}
                     disabled={disabled}
                     inputClassName={inputClassName}
-                    /**
-                     * `twMerge` Test
-                     */
-                    // inputClassName={twMerge(inputClassName, 'dark:bg-white')}
                     containerClassName={containerClassName}
                     toggleClassName={toggleClassName}
                     displayFormat={displayFormat}

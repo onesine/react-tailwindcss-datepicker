@@ -52,15 +52,21 @@ const Input: React.FC<Props> = (e: Props) => {
     const getClassName = useCallback(() => {
         const input = inputRef.current;
 
-        if (input && typeof classNames != "undefined" && typeof classNames.input === "function") {
-            return classNames?.input(input);
+        if (input && typeof classNames !== "undefined" && typeof classNames?.input === "function") {
+            return classNames.input(input);
         }
 
         const border = BORDER_COLOR.focus[primaryColor as keyof typeof BORDER_COLOR.focus];
         const ring =
             RING_COLOR["second-focus"][primaryColor as keyof (typeof RING_COLOR)["second-focus"]];
-        const classNameOverload = typeof inputClassName === "string" ? inputClassName : "";
-        return `relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring disabled:opacity-40 disabled:cursor-not-allowed ${border} ${ring} ${classNameOverload}`;
+
+        const defaultInputClassName = `relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring disabled:opacity-40 disabled:cursor-not-allowed ${border} ${ring}`;
+
+        return typeof inputClassName === "function"
+            ? inputClassName(defaultInputClassName)
+            : typeof inputClassName === "string"
+            ? `${defaultInputClassName} ${inputClassName}`
+            : defaultInputClassName;
     }, [inputRef, classNames, primaryColor, inputClassName]);
 
     const handleInputChange = useCallback(
@@ -210,12 +216,19 @@ const Input: React.FC<Props> = (e: Props) => {
         if (
             button &&
             typeof classNames !== "undefined" &&
-            typeof classNames.toggleButton === "function"
+            typeof classNames?.toggleButton === "function"
         ) {
             return classNames.toggleButton(button);
         }
 
-        return `absolute right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed ${toggleClassName}`;
+        const defaultToggleClassName =
+            "absolute right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed";
+
+        return typeof toggleClassName === "function"
+            ? toggleClassName(defaultToggleClassName)
+            : typeof toggleClassName === "string"
+            ? `${defaultToggleClassName} ${toggleClassName}`
+            : defaultToggleClassName;
     }, [toggleClassName, buttonRef, classNames]);
 
     return (

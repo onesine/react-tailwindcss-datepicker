@@ -9,14 +9,7 @@ import { COLORS, DATE_FORMAT, DEFAULT_COLOR, LANGUAGE } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { formatDate, nextMonth, previousMonth } from "../helpers";
 import useOnClickOutside from "../hooks";
-import {
-    Period,
-    DateValueType,
-    DateType,
-    DateRangeType,
-    ClassNamesTypeProp,
-    ClassNameParam
-} from "../types";
+import { Period, DateValueType, DateType, DateRangeType, ClassNamesTypeProp } from "../types";
 
 import { Arrow, VerticalDash } from "./utils";
 
@@ -46,13 +39,13 @@ interface Props {
     startFrom?: Date | null;
     i18n?: string;
     disabled?: boolean;
-    classNames?: ClassNamesTypeProp | undefined;
-    inputClassName?: ((args?: ClassNameParam) => string) | string | null;
-    toggleClassName?: string | null;
-    toggleIcon?: ((open: ClassNameParam) => React.ReactNode) | undefined;
+    classNames?: ClassNamesTypeProp;
+    inputClassName?: ((className: string) => string) | string | null;
+    containerClassName?: ((className: string) => string) | string | null;
+    toggleClassName?: ((className: string) => string) | string | null;
+    toggleIcon?: (open: boolean) => React.ReactNode;
     inputId?: string;
     inputName?: string;
-    containerClassName?: ((args?: ClassNameParam) => string) | string | null;
     displayFormat?: string;
     readOnly?: boolean;
     minDate?: DateType | null;
@@ -348,12 +341,18 @@ const Datepicker: React.FC<Props> = ({
         inputRef
     ]);
 
+    const defaultContainerClassName = "relative w-full text-gray-700";
+
+    const containerClassNameOverload =
+        typeof containerClassName === "function"
+            ? containerClassName(defaultContainerClassName)
+            : typeof containerClassName === "string"
+            ? `${defaultContainerClassName} ${containerClassName}`
+            : defaultContainerClassName;
+
     return (
         <DatepickerContext.Provider value={contextValues}>
-            <div
-                className={`relative w-full text-gray-700 ${containerClassName}`}
-                ref={containerRef}
-            >
+            <div className={containerClassNameOverload} ref={containerRef}>
                 <Input setContextRef={setInputRef} />
 
                 <div
