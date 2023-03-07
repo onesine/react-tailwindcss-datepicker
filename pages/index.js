@@ -3,7 +3,6 @@ import { useState } from "react";
 import { COLORS } from "../src/constants";
 import dayjs from "dayjs";
 import Head from "next/head";
-import { twMerge } from "tailwind-merge";
 
 export default function Playground() {
     const [value, setValue] = useState({
