@@ -12,7 +12,7 @@
         "esModuleInterop": true,
         "baseUrl": "src/",
         "declaration": true,
-        "declarationDir": "dist",
+        "outDir": "./dist",
         "inlineSources": true,
         "sourceMap": true,
         "rootDir": "src",
