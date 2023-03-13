@@ -27,6 +27,7 @@ interface Props {
     useRange?: boolean;
     showFooter?: boolean;
     showShortcuts?: boolean;
+    showYearPicker?: boolean;
     configs?: {
         shortcuts?: {
             today?: string;
@@ -87,7 +88,8 @@ const Datepicker: React.FC<Props> = ({
     inputId,
     inputName,
     startWeekOn = "sun",
-    classNames = undefined
+    classNames = undefined,
+    showYearPicker = false
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement>(null);
@@ -377,6 +379,7 @@ const Datepicker: React.FC<Props> = ({
                                     onClickNext={nextMonthFirst}
                                     changeMonth={changeFirstMonth}
                                     changeYear={changeFirstYear}
+                                    showYearPicker={showYearPicker}
                                 />
 
                                 {useRange && (

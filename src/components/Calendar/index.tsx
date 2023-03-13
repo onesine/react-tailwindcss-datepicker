@@ -33,6 +33,7 @@ interface Props {
     onClickNext: () => void;
     changeMonth: (month: number) => void;
     changeYear: (year: number) => void;
+    showYearPicker?: boolean;
 }
 
 const Calendar: React.FC<Props> = ({
@@ -40,7 +41,8 @@ const Calendar: React.FC<Props> = ({
     onClickPrevious,
     onClickNext,
     changeMonth,
-    changeYear
+    changeYear,
+    showYearPicker
 }) => {
     // Contexts
     const {
@@ -59,7 +61,7 @@ const Calendar: React.FC<Props> = ({
 
     // States
     const [showMonths, setShowMonths] = useState(false);
-    const [showYears, setShowYears] = useState(false);
+    const [showYears, setShowYears] = useState(showYearPicker);
     const [year, setYear] = useState(date.year());
     // Functions
     const previous = useCallback(() => {
@@ -102,7 +104,18 @@ const Calendar: React.FC<Props> = ({
         (year: number) => {
             setTimeout(() => {
                 changeYear(year);
-                setShowYears(!showYears);
+                setShowYears(showYearPicker ? true : !showYears);
+                if (showYearPicker && asSingle) {
+                    const ipt = input?.current;
+                    changeDatepickerValue(
+                        {
+                            startDate: String(year) + "-1-1",
+                            endDate: String(year) + "-1-1"
+                        },
+                        ipt
+                    );
+                    hideDatepicker();
+                }
             }, 250);
         },
         [changeYear, showYears]
