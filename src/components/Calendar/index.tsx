@@ -90,40 +90,8 @@ const Calendar: React.FC<Props> = ({
         showYears && setShowYears(false);
     }, [showYears]);
 
-    const clickMonth = useCallback(
-        (month: number) => {
-            setTimeout(() => {
-                changeMonth(month);
-                setShowMonths(!showMonths);
-            }, 250);
-        },
-        [changeMonth, showMonths]
-    );
-
-    const clickYear = useCallback(
-        (year: number) => {
-            setTimeout(() => {
-                changeYear(year);
-                setShowYears(showYearPicker ? true : !showYears);
-                if (showYearPicker && asSingle) {
-                    const ipt = input?.current;
-                    changeDatepickerValue(
-                        {
-                            startDate: String(year) + "-1-1",
-                            endDate: String(year) + "-1-1"
-                        },
-                        ipt
-                    );
-                    hideDatepicker();
-                }
-            }, 250);
-        },
-        [changeYear, showYears]
-    );
-
-    const clickDay = useCallback(
-        (day: number, month = date.month() + 1, year = date.year()) => {
-            const fullDay = `${year}-${month}-${day}`;
+    const selectDateHelper = useCallback(
+        (fullDay: string) => {
             let newStart;
             let newEnd = null;
 
@@ -196,13 +164,45 @@ const Calendar: React.FC<Props> = ({
             changeDatepickerValue,
             changeDayHover,
             changePeriod,
-            date,
             hideDatepicker,
             period.end,
             period.start,
             showFooter,
             input
         ]
+    );
+
+    const clickMonth = useCallback(
+        (month: number) => {
+            setTimeout(() => {
+                changeMonth(month);
+                setShowMonths(!showMonths);
+            }, 250);
+        },
+        [changeMonth, showMonths]
+    );
+
+    const clickYear = useCallback(
+        (year: number) => {
+            setTimeout(() => {
+                setShowYears(showYearPicker ? true : !showYears);
+                if (showYearPicker) {
+                    const fullDay = `${year}-${1}-${1}`;
+                    selectDateHelper(fullDay);
+                } else {
+                    changeYear(year);
+                }
+            }, 250);
+        },
+        [changeYear, selectDateHelper, showYearPicker, showYears]
+    );
+
+    const clickDay = useCallback(
+        (day: number, month = date.month() + 1, year = date.year()) => {
+            const fullDay = `${year}-${month}-${day}`;
+            selectDateHelper(fullDay);
+        },
+        [date, selectDateHelper]
     );
 
     const clickPreviousDays = useCallback(

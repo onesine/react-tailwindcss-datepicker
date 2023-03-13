@@ -398,6 +398,7 @@ const Datepicker: React.FC<Props> = ({
                                             onClickNext={nextMonthSecond}
                                             changeMonth={changeSecondMonth}
                                             changeYear={changeSecondYear}
+                                            showYearPicker={showYearPicker}
                                         />
                                     </>
                                 )}
