@@ -60,6 +60,7 @@ interface Props {
     maxDate?: DateType | null;
     disabledDates?: DateRangeType[] | null;
     startWeekOn?: string | null;
+    yearPickerStartYearOffset?: number;
 }
 
 const Datepicker: React.FC<Props> = ({
@@ -89,7 +90,8 @@ const Datepicker: React.FC<Props> = ({
     inputName,
     startWeekOn = "sun",
     classNames = undefined,
-    showYearPicker = false
+    showYearPicker = false,
+    yearPickerStartYearOffset = undefined
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement>(null);
@@ -316,7 +318,8 @@ const Datepicker: React.FC<Props> = ({
             startWeekOn,
             classNames,
             onChange,
-            input: inputRef
+            input: inputRef,
+            yearPickerStartYearOffset
         };
     }, [
         asSingle,
@@ -347,7 +350,8 @@ const Datepicker: React.FC<Props> = ({
         inputName,
         startWeekOn,
         classNames,
-        inputRef
+        inputRef,
+        yearPickerStartYearOffset
     ]);
 
     return (
