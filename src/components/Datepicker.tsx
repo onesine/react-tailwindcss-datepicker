@@ -27,6 +27,7 @@ interface Props {
     useRange?: boolean;
     showFooter?: boolean;
     showShortcuts?: boolean;
+    showYearPicker?: boolean;
     configs?: {
         shortcuts?: {
             today?: string;
@@ -59,6 +60,7 @@ interface Props {
     maxDate?: DateType | null;
     disabledDates?: DateRangeType[] | null;
     startWeekOn?: string | null;
+    yearPickerStartYearOffset?: number;
 }
 
 const Datepicker: React.FC<Props> = ({
@@ -87,7 +89,9 @@ const Datepicker: React.FC<Props> = ({
     inputId,
     inputName,
     startWeekOn = "sun",
-    classNames = undefined
+    classNames = undefined,
+    showYearPicker = false,
+    yearPickerStartYearOffset = undefined
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement>(null);
@@ -314,7 +318,8 @@ const Datepicker: React.FC<Props> = ({
             startWeekOn,
             classNames,
             onChange,
-            input: inputRef
+            input: inputRef,
+            yearPickerStartYearOffset
         };
     }, [
         asSingle,
@@ -345,7 +350,8 @@ const Datepicker: React.FC<Props> = ({
         inputName,
         startWeekOn,
         classNames,
-        inputRef
+        inputRef,
+        yearPickerStartYearOffset
     ]);
 
     return (
@@ -377,6 +383,7 @@ const Datepicker: React.FC<Props> = ({
                                     onClickNext={nextMonthFirst}
                                     changeMonth={changeFirstMonth}
                                     changeYear={changeFirstYear}
+                                    showYearPicker={showYearPicker}
                                 />
 
                                 {useRange && (
@@ -391,6 +398,7 @@ const Datepicker: React.FC<Props> = ({
                                             onClickNext={nextMonthSecond}
                                             changeMonth={changeSecondMonth}
                                             changeYear={changeSecondYear}
+                                            showYearPicker={showYearPicker}
                                         />
                                     </>
                                 )}
