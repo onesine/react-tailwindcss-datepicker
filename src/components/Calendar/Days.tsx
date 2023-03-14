@@ -206,12 +206,16 @@ const Days: React.FC<Props> = ({
     const buttonClass = useCallback(
         (day: number, type: "current" | "next" | "previous") => {
             const baseClass = "flex items-center justify-center w-12 h-12 lg:w-10 lg:h-10";
-            return cn(
-                baseClass,
-                !activeDateData(day).active ? hoverClassByDay(day) : activeDateData(day).className,
-                isDateDisabled(day, type) && "line-through",
-                (type == "previous" || type == "next") && "text-gray-400"
-            );
+            if (type === "current") {
+                return cn(
+                    baseClass,
+                    !activeDateData(day).active
+                        ? hoverClassByDay(day)
+                        : activeDateData(day).className,
+                    isDateDisabled(day, type) && "line-through"
+                );
+            }
+            return cn(baseClass, isDateDisabled(day, type) && "line-through", "text-gray-400");
         },
         [activeDateData, hoverClassByDay, isDateDisabled]
     );
