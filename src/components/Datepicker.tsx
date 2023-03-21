@@ -57,6 +57,7 @@ interface Props {
     readOnly?: boolean;
     minDate?: DateType | null;
     maxDate?: DateType | null;
+    isForwardLooking?: boolean;
     disabledDates?: DateRangeType[] | null;
     startWeekOn?: string | null;
 }
@@ -83,6 +84,7 @@ const Datepicker: React.FC<Props> = ({
     readOnly = false,
     minDate = null,
     maxDate = null,
+    isForwardLooking = true,
     disabledDates = null,
     inputId,
     inputName,
@@ -308,6 +310,7 @@ const Datepicker: React.FC<Props> = ({
             displayFormat,
             minDate,
             maxDate,
+            isForwardLooking,
             disabledDates,
             inputId,
             inputName,
@@ -340,6 +343,7 @@ const Datepicker: React.FC<Props> = ({
         firstGotoDate,
         minDate,
         maxDate,
+        isForwardLooking,
         disabledDates,
         inputId,
         inputName,
