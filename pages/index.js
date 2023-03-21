@@ -26,6 +26,7 @@ export default function Playground() {
     const [readOnly, setReadOnly] = useState(false);
     const [minDate, setMinDate] = useState("");
     const [maxDate, setMaxDate] = useState("");
+    const [isForwardLooking, setIsForwardLooking] = useState(true);
     const [disabledDates, setDisabledDates] = useState([]);
     const [newDisabledDates, setNewDisabledDates] = useState({ startDate: "", endDate: "" });
     const [startFrom, setStartFrom] = useState("2023-03-01");
@@ -88,6 +89,7 @@ export default function Playground() {
                     readOnly={readOnly}
                     minDate={minDate}
                     maxDate={maxDate}
+                    isForwardLooking={isForwardLooking}
                     disabledDates={disabledDates}
                     startWeekOn={startWeekOn}
                     toggleIcon={isEmpty => {
@@ -195,6 +197,20 @@ export default function Playground() {
                                 Read Only
                             </label>
                         </div>
+                    </div>
+                </div>
+                <div className="mb-2 w-1/2 sm:w-full">
+                    <div className="inline-flex items-center">
+                        <input
+                            type="checkbox"
+                            className="mr-2 rounded"
+                            id="isForwardLooking"
+                            checked={isForwardLooking}
+                            onChange={e => setIsForwardLooking(e.target.checked)}
+                        />
+                        <label className="block" htmlFor="isForwardLooking">
+                            Is Forward Looking
+                        </label>
                     </div>
                 </div>
                 <div className="w-full sm:w-1/3 pr-2 flex flex-col">
