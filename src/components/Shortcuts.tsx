@@ -111,7 +111,7 @@ const Shortcuts: React.FC = () => {
             <ul className="w-full tracking-wide flex flex-wrap lg:flex-col pb-1 lg:pb-0">
                 {shortcutOptions.map(([key, item], index) =>
                     Array.isArray(item) ? (
-                        item.map((item, index) => (
+                        item.map((item) => (
                             <ItemTemplate key={index} item={item}>
                                 <>
                                     {key === "past" &&
