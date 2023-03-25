@@ -47,7 +47,7 @@ interface DatepickerStore {
     inputId?: string;
     inputName?: string;
     classNames?: ClassNamesTypeProp | undefined;
-    label?:string;
+    label?: string;
 }
 
 const DatepickerContext = createContext<DatepickerStore>({

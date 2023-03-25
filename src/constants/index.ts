@@ -298,4 +298,4 @@ export const LABEL_COLOR = {
         pink: "peer-focus:text-pink-500",
         rose: "peer-focus:text-rose-500"
     }
-}
+};

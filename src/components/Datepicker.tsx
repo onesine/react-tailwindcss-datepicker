@@ -59,8 +59,8 @@ interface Props {
     maxDate?: DateType | null;
     disabledDates?: DateRangeType[] | null;
     startWeekOn?: string | null;
-    small?:HTMLElement;
-    label?:string;
+    small?: HTMLElement;
+    label?: string;
 }
 
 const Datepicker: React.FC<Props> = ({
@@ -359,60 +359,59 @@ const Datepicker: React.FC<Props> = ({
     return (
         <DatepickerContext.Provider value={contextValues}>
             <>
-            <div
-                className={`relative w-full text-gray-700 ${containerClassName}`}
-                ref={containerRef}
-            >
-                <Input setContextRef={setInputRef} />
-
                 <div
-                    className="transition-all ease-out duration-300 absolute z-10 mt-[1px] text-sm lg:text-xs 2xl:text-sm translate-y-4 opacity-0 hidden"
-                    ref={calendarContainerRef}
+                    className={`relative w-full text-gray-700 ${containerClassName}`}
+                    ref={containerRef}
                 >
-                    <Arrow ref={arrowRef} />
+                    <Input setContextRef={setInputRef} />
 
-                    <div className="mt-2.5 shadow-sm border border-gray-300 px-1 py-0.5 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600 rounded-lg">
-                        <div className="flex flex-col lg:flex-row py-2">
-                            {showShortcuts && <Shortcuts />}
+                    <div
+                        className="transition-all ease-out duration-300 absolute z-10 mt-[1px] text-sm lg:text-xs 2xl:text-sm translate-y-4 opacity-0 hidden"
+                        ref={calendarContainerRef}
+                    >
+                        <Arrow ref={arrowRef} />
 
-                            <div
-                                className={`flex items-stretch flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-1.5 ${
-                                    showShortcuts ? "md:pl-2" : "md:pl-1"
-                                } pr-2 lg:pr-1`}
-                            >
-                                <Calendar
-                                    date={firstDate}
-                                    onClickPrevious={previousMonthFirst}
-                                    onClickNext={nextMonthFirst}
-                                    changeMonth={changeFirstMonth}
-                                    changeYear={changeFirstYear}
-                                />
+                        <div className="mt-2.5 shadow-sm border border-gray-300 px-1 py-0.5 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600 rounded-lg">
+                            <div className="flex flex-col lg:flex-row py-2">
+                                {showShortcuts && <Shortcuts />}
 
-                                {useRange && (
-                                    <>
-                                        <div className="flex items-center">
-                                            <VerticalDash />
-                                        </div>
+                                <div
+                                    className={`flex items-stretch flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-1.5 ${
+                                        showShortcuts ? "md:pl-2" : "md:pl-1"
+                                    } pr-2 lg:pr-1`}
+                                >
+                                    <Calendar
+                                        date={firstDate}
+                                        onClickPrevious={previousMonthFirst}
+                                        onClickNext={nextMonthFirst}
+                                        changeMonth={changeFirstMonth}
+                                        changeYear={changeFirstYear}
+                                    />
 
-                                        <Calendar
-                                            date={secondDate}
-                                            onClickPrevious={previousMonthSecond}
-                                            onClickNext={nextMonthSecond}
-                                            changeMonth={changeSecondMonth}
-                                            changeYear={changeSecondYear}
-                                        />
-                                    </>
-                                )}
+                                    {useRange && (
+                                        <>
+                                            <div className="flex items-center">
+                                                <VerticalDash />
+                                            </div>
+
+                                            <Calendar
+                                                date={secondDate}
+                                                onClickPrevious={previousMonthSecond}
+                                                onClickNext={nextMonthSecond}
+                                                changeMonth={changeSecondMonth}
+                                                changeYear={changeSecondYear}
+                                            />
+                                        </>
+                                    )}
+                                </div>
                             </div>
-                        </div>
 
-                        {showFooter && <Footer />}
+                            {showFooter && <Footer />}
+                        </div>
                     </div>
                 </div>
-            </div>
-            {typeof small!=undefined && small}
+                {typeof small != undefined && small}
             </>
-            
         </DatepickerContext.Provider>
     );
 };

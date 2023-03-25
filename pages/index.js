@@ -3,7 +3,7 @@ import { useState } from "react";
 import { COLORS } from "../src/constants";
 import dayjs from "dayjs";
 import Head from "next/head";
-import Small from "../src/components/Small"
+import Small from "../src/components/Small";
 
 export default function Playground() {
     const [value, setValue] = useState({
@@ -61,7 +61,7 @@ export default function Playground() {
                     useRange={useRange}
                     showFooter={showFooter}
                     showShortcuts={showShortcuts}
-                    small={small!='' ? <Small>{small}</Small> : undefined}
+                    small={small != "" ? <Small>{small}</Small> : undefined}
                     configs={{
                         shortcuts: {
                             today: "TText",
