@@ -55,6 +55,7 @@ export default function Playground() {
                 <Datepicker
                     value={value}
                     label={label}
+                    inputId="example"
                     primaryColor={primaryColor}
                     onChange={handleChange}
                     useRange={useRange}
