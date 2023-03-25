@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import React, { useCallback, useContext, useEffect, useRef } from "react";
 
-import { BORDER_COLOR, DATE_FORMAT, RING_COLOR } from "../constants";
+import { BORDER_COLOR, DATE_FORMAT, LABEL_COLOR, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { dateIsValid } from "../helpers";
 
@@ -64,6 +64,11 @@ const Input: React.FC<Props> = (e: Props) => {
         return `relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring disabled:opacity-40 disabled:cursor-not-allowed ${border} ${ring} ${classNameOverload} ${ label ? 'peer' : ''}`;
     }, [inputRef, classNames, primaryColor, inputClassName, label]);
 
+    const getLabelClasses = useCallback(()=>{
+        const labelColor = LABEL_COLOR["peerFocus"][primaryColor as keyof (typeof LABEL_COLOR)["peerFocus"]];
+        return `absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1 ${labelColor}`
+    },[primaryColor])
+    
     const handleInputChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             const inputValue = e.target.value;
@@ -239,7 +244,7 @@ const Input: React.FC<Props> = (e: Props) => {
                 role="presentation"
                 onChange={handleInputChange}
             />
-            {label && <label htmlFor={inputId} className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:text-blue-500 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{label}</label>}            
+            {label && <label htmlFor={inputId} className={getLabelClasses()}>{label}</label>}            
 
             <button
                 type="button"
