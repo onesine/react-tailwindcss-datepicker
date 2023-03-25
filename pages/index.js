@@ -3,6 +3,7 @@ import { useState } from "react";
 import { COLORS } from "../src/constants";
 import dayjs from "dayjs";
 import Head from "next/head";
+import Small from "../src/components/Small"
 
 export default function Playground() {
     const [value, setValue] = useState({
@@ -30,6 +31,7 @@ export default function Playground() {
     const [newDisabledDates, setNewDisabledDates] = useState({ startDate: "", endDate: "" });
     const [startFrom, setStartFrom] = useState("2023-03-01");
     const [startWeekOn, setStartWeekOn] = useState("");
+    const [small, setSmall] = useState("");
 
     const handleChange = (value, e) => {
         setValue(value);
@@ -56,6 +58,7 @@ export default function Playground() {
                     useRange={useRange}
                     showFooter={showFooter}
                     showShortcuts={showShortcuts}
+                    small={small!='' ? <Small>{small}</Small> : undefined}
                     configs={{
                         shortcuts: {
                             today: "TText",
@@ -279,6 +282,19 @@ export default function Playground() {
                             value={maxDate}
                             onChange={e => {
                                 setMaxDate(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <div className="mb-2">
+                        <label className="block" htmlFor="maxDate">
+                            Small
+                        </label>
+                        <input
+                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            id="small"
+                            value={small}
+                            onChange={e => {
+                                setSmall(e.target.value);
                             }}
                         />
                     </div>
