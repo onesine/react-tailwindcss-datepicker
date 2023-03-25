@@ -60,6 +60,7 @@ interface Props {
     disabledDates?: DateRangeType[] | null;
     startWeekOn?: string | null;
     small?:HTMLElement;
+    label?:string;
 }
 
 const Datepicker: React.FC<Props> = ({
@@ -90,7 +91,7 @@ const Datepicker: React.FC<Props> = ({
     startWeekOn = "sun",
     classNames = undefined,
     small = undefined,
-
+    label = undefined
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement>(null);
@@ -318,7 +319,8 @@ const Datepicker: React.FC<Props> = ({
             classNames,
             onChange,
             input: inputRef,
-            small
+            small,
+            label
         };
     }, [
         asSingle,
@@ -351,7 +353,7 @@ const Datepicker: React.FC<Props> = ({
         classNames,
         inputRef,
         small,
-
+        label
     ]);
 
     return (
