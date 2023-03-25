@@ -59,6 +59,7 @@ interface Props {
     maxDate?: DateType | null;
     disabledDates?: DateRangeType[] | null;
     startWeekOn?: string | null;
+    small?:HTMLElement;
 }
 
 const Datepicker: React.FC<Props> = ({
@@ -87,7 +88,9 @@ const Datepicker: React.FC<Props> = ({
     inputId,
     inputName,
     startWeekOn = "sun",
-    classNames = undefined
+    classNames = undefined,
+    small = undefined,
+
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement>(null);
@@ -314,7 +317,8 @@ const Datepicker: React.FC<Props> = ({
             startWeekOn,
             classNames,
             onChange,
-            input: inputRef
+            input: inputRef,
+            small
         };
     }, [
         asSingle,
@@ -345,11 +349,14 @@ const Datepicker: React.FC<Props> = ({
         inputName,
         startWeekOn,
         classNames,
-        inputRef
+        inputRef,
+        small,
+
     ]);
 
     return (
         <DatepickerContext.Provider value={contextValues}>
+            <>
             <div
                 className={`relative w-full text-gray-700 ${containerClassName}`}
                 ref={containerRef}
@@ -401,6 +408,9 @@ const Datepicker: React.FC<Props> = ({
                     </div>
                 </div>
             </div>
+            {typeof small!=undefined && small}
+            </>
+            
         </DatepickerContext.Provider>
     );
 };
