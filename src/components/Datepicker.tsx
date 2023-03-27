@@ -346,8 +346,8 @@ const Datepicker: React.FC<Props> = ({
     const containerClassNameOverload =
         typeof containerClassName === "function"
             ? containerClassName(defaultContainerClassName)
-            : typeof containerClassName === "string"
-            ? `${defaultContainerClassName} ${containerClassName}`
+            : typeof containerClassName === "string" && containerClassName !== ""
+            ? containerClassName
             : defaultContainerClassName;
 
     return (

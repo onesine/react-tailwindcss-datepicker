@@ -64,8 +64,8 @@ const Input: React.FC<Props> = (e: Props) => {
 
         return typeof inputClassName === "function"
             ? inputClassName(defaultInputClassName)
-            : typeof inputClassName === "string"
-            ? `${defaultInputClassName} ${inputClassName}`
+            : typeof inputClassName === "string" && inputClassName !== ""
+            ? inputClassName
             : defaultInputClassName;
     }, [inputRef, classNames, primaryColor, inputClassName]);
 
@@ -226,8 +226,8 @@ const Input: React.FC<Props> = (e: Props) => {
 
         return typeof toggleClassName === "function"
             ? toggleClassName(defaultToggleClassName)
-            : typeof toggleClassName === "string"
-            ? `${defaultToggleClassName} ${toggleClassName}`
+            : typeof toggleClassName === "string" && toggleClassName !== ""
+            ? toggleClassName
             : defaultToggleClassName;
     }, [toggleClassName, buttonRef, classNames]);
 
