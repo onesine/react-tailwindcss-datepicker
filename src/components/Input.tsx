@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import React, { useCallback, useContext, useEffect, useRef } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useMemo } from "react";
 
 import { BORDER_COLOR, DATE_FORMAT, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
@@ -35,7 +35,8 @@ const Input: React.FC<Props> = (e: Props) => {
         displayFormat,
         inputId,
         inputName,
-        classNames
+        classNames,
+        isClearable
     } = useContext(DatepickerContext);
 
     // UseRefs
@@ -193,6 +194,15 @@ const Input: React.FC<Props> = (e: Props) => {
         };
     }, [calendarContainer, arrowContainer]);
 
+    const isEmpty = useMemo(
+        () => inputText == null || (inputText != null && !inputText.length),
+        [inputText]
+    );
+
+    const shouldRenderButton = useMemo(() => {
+        return isClearable ? true : isEmpty;
+    }, [isEmpty, isClearable]);
+
     const renderToggleIcon = useCallback(
         (isEmpty: boolean) => {
             return typeof toggleIcon === "undefined" ? (
@@ -239,14 +249,16 @@ const Input: React.FC<Props> = (e: Props) => {
                 onChange={handleInputChange}
             />
 
-            <button
-                type="button"
-                ref={buttonRef}
-                disabled={disabled}
-                className={getToggleClassName()}
-            >
-                {renderToggleIcon(inputText == null || (inputText != null && !inputText.length))}
-            </button>
+            {shouldRenderButton && (
+                <button
+                    type="button"
+                    ref={buttonRef}
+                    disabled={disabled}
+                    className={getToggleClassName()}
+                >
+                    {renderToggleIcon(isEmpty)}
+                </button>
+            )}
         </>
     );
 };
