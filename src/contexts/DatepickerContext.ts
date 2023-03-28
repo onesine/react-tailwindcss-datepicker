@@ -47,6 +47,7 @@ interface DatepickerStore {
     inputId?: string;
     inputName?: string;
     classNames?: ClassNamesTypeProp | undefined;
+    isClearable?: boolean;
 }
 
 const DatepickerContext = createContext<DatepickerStore>({

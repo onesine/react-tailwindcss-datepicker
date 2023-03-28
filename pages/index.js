@@ -19,6 +19,7 @@ export default function Playground() {
     const [separator, setSeparator] = useState("~");
     const [i18n, setI18n] = useState("en");
     const [disabled, setDisabled] = useState(false);
+    const [isClearable, setIsClearable] = useState(true);
     const [inputClassName, setInputClassName] = useState("");
     const [containerClassName, setContainerClassName] = useState("");
     const [toggleClassName, setToggleClassName] = useState("");
@@ -93,6 +94,7 @@ export default function Playground() {
                     toggleIcon={isEmpty => {
                         return isEmpty ? "Select Date" : "Clear";
                     }}
+                    isClearable={isClearable}
                     // classNames={{
                     //     input: ({ disabled, readOnly, className }) => {
                     //         if (disabled) {
@@ -193,6 +195,20 @@ export default function Playground() {
                             />
                             <label className="block" htmlFor="readOnly">
                                 Read Only
+                            </label>
+                        </div>
+                    </div>
+                    <div className="mb-2 w-1/2 sm:w-full">
+                        <div className="inline-flex items-center">
+                            <input
+                                type="checkbox"
+                                className="mr-2 rounded"
+                                id="isClearable"
+                                checked={isClearable}
+                                onChange={e => setIsClearable(e.target.checked)}
+                            />
+                            <label className="block" htmlFor="isClearable">
+                                Is Clearable
                             </label>
                         </div>
                     </div>
