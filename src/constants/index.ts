@@ -277,3 +277,25 @@ export const BUTTON_COLOR = {
         rose: "focus:ring-rose-500/50 focus:bg-rose-100/50"
     }
 };
+
+export const LABEL_COLOR = {
+    peerFocus: {
+        blue: "peer-focus:text-blue-500",
+        orange: "peer-focus:text-orange-500",
+        yellow: "peer-focus:text-yellow-500",
+        red: "peer-focus:text-red-500",
+        purple: "peer-focus:text-purple-500",
+        amber: "peer-focus:text-amber-500",
+        lime: "peer-focus:text-lime-500",
+        green: "peer-focus:text-green-500",
+        emerald: "peer-focus:text-emerald-500",
+        teal: "peer-focus:text-teal-500",
+        cyan: "peer-focus:text-cyan-500",
+        sky: "peer-focus:text-sky-500",
+        indigo: "peer-focus:text-indigo-500",
+        violet: "peer-focus:text-violet-500",
+        fuchsia: "peer-focus:text-fuchsia-500",
+        pink: "peer-focus:text-pink-500",
+        rose: "peer-focus:text-rose-500"
+    }
+};
