@@ -5,6 +5,7 @@ import React, { useCallback, useContext } from "react";
 import { BG_COLOR, TEXT_COLOR } from "../../constants";
 import DatepickerContext from "../../contexts/DatepickerContext";
 import { formatDate, nextMonth, previousMonth, classNames as cn } from "../../helpers";
+import { Period } from "../../types";
 
 dayjs.extend(isBetween);
 
@@ -240,39 +241,127 @@ const Days: React.FC<Props> = ({
         [activeDateData, hoverClassByDay, isDateDisabled]
     );
 
+    const checkIfHoverPeriodContainsDisabledPeriod = useCallback(
+        (hoverPeriod: Period) => {
+            if (!Array.isArray(disabledDates)) {
+                return false;
+            }
+            for (let i = 0; i < disabledDates.length; i++) {
+                if (
+                    dayjs(hoverPeriod.start).isBefore(disabledDates[i].startDate) &&
+                    dayjs(hoverPeriod.end).isAfter(disabledDates[i].endDate)
+                ) {
+                    return true;
+                }
+            }
+            return false;
+        },
+        [disabledDates]
+    );
+
+    const getMetaData = useCallback(() => {
+        return {
+            previous: previousMonth(calendarData.date),
+            current: calendarData.date,
+            next: nextMonth(calendarData.date)
+        };
+    }, [calendarData.date]);
+
     const hoverDay = useCallback(
         (day: number, type: string) => {
-            const object = {
-                previous: previousMonth(calendarData.date),
-                current: calendarData.date,
-                next: nextMonth(calendarData.date)
-            };
+            const object = getMetaData();
             const newDate = object[type as keyof typeof object];
             const newHover = `${newDate.year()}-${newDate.month() + 1}-${
                 day >= 10 ? day : "0" + day
             }`;
 
             if (period.start && !period.end) {
+                const hoverPeriod = { ...period, end: newHover };
                 if (dayjs(newHover).isBefore(dayjs(period.start))) {
-                    changePeriod({
-                        start: null,
-                        end: period.start
-                    });
+                    hoverPeriod.start = newHover;
+                    hoverPeriod.end = period.start;
+                    if (!checkIfHoverPeriodContainsDisabledPeriod(hoverPeriod)) {
+                        changePeriod({
+                            start: null,
+                            end: period.start
+                        });
+                    }
                 }
-                changeDayHover(newHover);
+                if (!checkIfHoverPeriodContainsDisabledPeriod(hoverPeriod)) {
+                    changeDayHover(newHover);
+                }
             }
 
             if (!period.start && period.end) {
+                const hoverPeriod = { ...period, start: newHover };
                 if (dayjs(newHover).isAfter(dayjs(period.end))) {
-                    changePeriod({
-                        start: period.end,
-                        end: null
-                    });
+                    hoverPeriod.start = period.end;
+                    hoverPeriod.end = newHover;
+                    if (!checkIfHoverPeriodContainsDisabledPeriod(hoverPeriod)) {
+                        changePeriod({
+                            start: period.end,
+                            end: null
+                        });
+                    }
                 }
-                changeDayHover(newHover);
+                if (!checkIfHoverPeriodContainsDisabledPeriod(hoverPeriod)) {
+                    changeDayHover(newHover);
+                }
             }
         },
-        [calendarData.date, changeDayHover, changePeriod, period.end, period.start]
+        [
+            changeDayHover,
+            changePeriod,
+            checkIfHoverPeriodContainsDisabledPeriod,
+            getMetaData,
+            period
+        ]
+    );
+
+    const handleClickDay = useCallback(
+        (day: number, type: "previous" | "current" | "next") => {
+            function continueClick() {
+                if (type === "previous") {
+                    onClickPreviousDays(day);
+                }
+
+                if (type === "current") {
+                    onClickDay(day);
+                }
+
+                if (type === "next") {
+                    onClickNextDays(day);
+                }
+            }
+
+            if (disabledDates?.length) {
+                const object = getMetaData();
+                const newDate = object[type as keyof typeof object];
+                const clickDay = `${newDate.year()}-${newDate.month() + 1}-${
+                    day >= 10 ? day : "0" + day
+                }`;
+
+                if (period.start && !period.end) {
+                    dayjs(clickDay).isSame(dayHover) && continueClick();
+                } else if (!period.start && period.end) {
+                    dayjs(clickDay).isSame(dayHover) && continueClick();
+                } else {
+                    continueClick();
+                }
+            } else {
+                continueClick();
+            }
+        },
+        [
+            dayHover,
+            disabledDates?.length,
+            getMetaData,
+            onClickDay,
+            onClickNextDays,
+            onClickPreviousDays,
+            period.end,
+            period.start
+        ]
     );
 
     return (
@@ -283,7 +372,7 @@ const Days: React.FC<Props> = ({
                     key={index}
                     disabled={isDateDisabled(item, "previous")}
                     className="flex items-center justify-center text-gray-400 h-12 w-12 lg:w-10 lg:h-10"
-                    onClick={() => onClickPreviousDays(item)}
+                    onClick={() => handleClickDay(item, "previous")}
                     onMouseOver={() => {
                         hoverDay(item, "previous");
                     }}
@@ -298,9 +387,7 @@ const Days: React.FC<Props> = ({
                     key={index}
                     disabled={isDateDisabled(item, "current")}
                     className={`${buttonClass(item, "current")}`}
-                    onClick={() => {
-                        onClickDay(item);
-                    }}
+                    onClick={() => handleClickDay(item, "current")}
                     onMouseOver={() => {
                         hoverDay(item, "current");
                     }}
@@ -315,9 +402,7 @@ const Days: React.FC<Props> = ({
                     key={index}
                     disabled={isDateDisabled(index, "next")}
                     className="flex items-center justify-center text-gray-400 h-12 w-12 lg:w-10 lg:h-10"
-                    onClick={() => {
-                        onClickNextDays(item);
-                    }}
+                    onClick={() => handleClickDay(item, "next")}
                     onMouseOver={() => {
                         hoverDay(item, "next");
                     }}

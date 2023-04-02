@@ -9,59 +9,11 @@ import { COLORS, DATE_FORMAT, DEFAULT_COLOR, LANGUAGE } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { formatDate, nextMonth, previousMonth } from "../helpers";
 import useOnClickOutside from "../hooks";
-import {
-    Period,
-    DateValueType,
-    DateType,
-    DateRangeType,
-    ClassNamesTypeProp,
-    ClassNameParam
-} from "../types";
+import { Period, DatepickerType } from "../types";
 
 import { Arrow, VerticalDash } from "./utils";
 
-interface Props {
-    primaryColor?: string;
-    value: DateValueType;
-    onChange: (value: DateValueType, e?: HTMLInputElement | null | undefined) => void;
-    useRange?: boolean;
-    showFooter?: boolean;
-    showShortcuts?: boolean;
-    configs?: {
-        shortcuts?: {
-            today?: string;
-            yesterday?: string;
-            past?: (period: number) => string;
-            currentMonth?: string;
-            pastMonth?: string;
-        } | null;
-        footer?: {
-            cancel?: string;
-            apply?: string;
-        } | null;
-    } | null;
-    asSingle?: boolean;
-    placeholder?: string;
-    separator?: string;
-    startFrom?: Date | null;
-    i18n?: string;
-    disabled?: boolean;
-    classNames?: ClassNamesTypeProp | undefined;
-    inputClassName?: ((args?: ClassNameParam) => string) | string | null;
-    toggleClassName?: string | null;
-    toggleIcon?: ((open: ClassNameParam) => React.ReactNode) | undefined;
-    inputId?: string;
-    inputName?: string;
-    containerClassName?: ((args?: ClassNameParam) => string) | string | null;
-    displayFormat?: string;
-    readOnly?: boolean;
-    minDate?: DateType | null;
-    maxDate?: DateType | null;
-    disabledDates?: DateRangeType[] | null;
-    startWeekOn?: string | null;
-}
-
-const Datepicker: React.FC<Props> = ({
+const Datepicker: React.FC<DatepickerType> = ({
     primaryColor = "blue",
     value = null,
     onChange,
@@ -90,9 +42,9 @@ const Datepicker: React.FC<Props> = ({
     classNames = undefined
 }) => {
     // Ref
-    const containerRef = useRef<HTMLDivElement>(null);
-    const calendarContainerRef = useRef<HTMLDivElement>(null);
-    const arrowRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const calendarContainerRef = useRef<HTMLDivElement | null>(null);
+    const arrowRef = useRef<HTMLDivElement | null>(null);
 
     // State
     const [firstDate, setFirstDate] = useState<dayjs.Dayjs>(
