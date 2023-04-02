@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import React, { useCallback, useContext } from "react";
 
 import DatepickerContext from "../contexts/DatepickerContext";
@@ -32,8 +33,8 @@ const Footer: React.FC = () => {
                     onClick={() => {
                         if (period.start && period.end) {
                             changeDatepickerValue({
-                                startDate: period.start,
-                                endDate: period.end
+                                startDate: dayjs(period.start).format("YYYY-MM-DD"),
+                                endDate: dayjs(period.end).format("YYYY-MM-DD")
                             });
                             hideDatepicker();
                         }
