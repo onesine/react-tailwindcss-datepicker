@@ -300,12 +300,18 @@ const Datepicker: React.FC<DatepickerType> = ({
         inputRef
     ]);
 
+    const defaultContainerClassName = "relative w-full text-gray-700";
+
+    const containerClassNameOverload =
+        typeof containerClassName === "function"
+            ? containerClassName(defaultContainerClassName)
+            : typeof containerClassName === "string" && containerClassName !== ""
+            ? containerClassName
+            : defaultContainerClassName;
+
     return (
         <DatepickerContext.Provider value={contextValues}>
-            <div
-                className={`relative w-full text-gray-700 ${containerClassName}`}
-                ref={containerRef}
-            >
+            <div className={containerClassNameOverload} ref={containerRef}>
                 <Input setContextRef={setInputRef} />
 
                 <div

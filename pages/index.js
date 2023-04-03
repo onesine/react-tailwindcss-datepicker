@@ -78,10 +78,6 @@ export default function Playground() {
                     i18n={i18n}
                     disabled={disabled}
                     inputClassName={inputClassName}
-                    /**
-                     * `twMerge` Test
-                     */
-                    // inputClassName={twMerge(inputClassName, 'dark:bg-white')}
                     containerClassName={containerClassName}
                     toggleClassName={toggleClassName}
                     displayFormat={displayFormat}

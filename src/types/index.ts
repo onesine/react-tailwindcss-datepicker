@@ -44,8 +44,6 @@ export type ClassNamesTypeProp = {
     footer?: (p?: object | null | undefined) => string | undefined;
 };
 
-export type ClassNameParam = ClassNameParam[] | string | number | boolean | undefined;
-
 export interface DatepickerType {
     primaryColor?: string;
     value: DateValueType;
@@ -73,12 +71,12 @@ export interface DatepickerType {
     i18n?: string;
     disabled?: boolean;
     classNames?: ClassNamesTypeProp | undefined;
-    inputClassName?: ((args?: ClassNameParam) => string) | string | null;
-    toggleClassName?: string | null;
-    toggleIcon?: ((open: ClassNameParam) => React.ReactNode) | undefined;
+    containerClassName?: ((className: string) => string) | string | null;
+    inputClassName?: ((className: string) => string) | string | null;
+    toggleClassName?: ((className: string) => string) | string | null;
+    toggleIcon?: (open: boolean) => React.ReactNode;
     inputId?: string;
     inputName?: string;
-    containerClassName?: ((args?: ClassNameParam) => string) | string | null;
     displayFormat?: string;
     readOnly?: boolean;
     minDate?: DateType | null;
