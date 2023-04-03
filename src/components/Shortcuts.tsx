@@ -1,7 +1,8 @@
 import dayjs from "dayjs";
 import React, { useCallback, useContext, useMemo } from "react";
 
-import { DEFAULT_SHORTCUTS, TEXT_COLOR } from "../constants";
+import { TEXT_COLOR } from "../constants";
+import DEFAULT_SHORTCUTS from "../constants/shortcuts";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { Period, ShortcutsItem } from "../types";
 

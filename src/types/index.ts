@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface Period {
     start: string | null;
     end: string | null;
@@ -41,3 +43,46 @@ export type ClassNamesTypeProp = {
     toggleButton?: (p?: object | null | undefined) => string | undefined;
     footer?: (p?: object | null | undefined) => string | undefined;
 };
+
+export type ClassNameParam = ClassNameParam[] | string | number | boolean | undefined;
+
+export interface DatepickerType {
+    primaryColor?: string;
+    value: DateValueType;
+    onChange: (value: DateValueType, e?: HTMLInputElement | null | undefined) => void;
+    useRange?: boolean;
+    showFooter?: boolean;
+    showShortcuts?: boolean;
+    configs?: {
+        shortcuts?: {
+            today?: string;
+            yesterday?: string;
+            past?: (period: number) => string;
+            currentMonth?: string;
+            pastMonth?: string;
+        } | null;
+        footer?: {
+            cancel?: string;
+            apply?: string;
+        } | null;
+    } | null;
+    asSingle?: boolean;
+    placeholder?: string;
+    separator?: string;
+    startFrom?: Date | null;
+    i18n?: string;
+    disabled?: boolean;
+    classNames?: ClassNamesTypeProp | undefined;
+    containerClassName?: ((className: string) => string) | string | null;
+    inputClassName?: ((className: string) => string) | string | null;
+    toggleClassName?: ((className: string) => string) | string | null;
+    toggleIcon?: (open: boolean) => React.ReactNode;
+    inputId?: string;
+    inputName?: string;
+    displayFormat?: string;
+    readOnly?: boolean;
+    minDate?: DateType | null;
+    maxDate?: DateType | null;
+    disabledDates?: DateRangeType[] | null;
+    startWeekOn?: string | null;
+}
