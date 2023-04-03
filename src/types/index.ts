@@ -44,8 +44,6 @@ export type ClassNamesTypeProp = {
     footer?: (p?: object | null | undefined) => string | undefined;
 };
 
-export type ClassNameParam = ClassNameParam[] | string | number | boolean | undefined;
-
 export interface DatepickerType {
     primaryColor?: string;
     value: DateValueType;
