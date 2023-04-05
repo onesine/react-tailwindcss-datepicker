@@ -12,11 +12,11 @@ export interface Configs {
         past?: (period: number) => string;
         currentMonth?: string;
         pastMonth?: string;
-    } | null;
+    } & { [key: string]: ShortcutsItem };
     footer?: {
         cancel?: string;
         apply?: string;
-    } | null;
+    };
 }
 
 export interface ShortcutsItem {
@@ -51,19 +51,7 @@ export interface DatepickerType {
     useRange?: boolean;
     showFooter?: boolean;
     showShortcuts?: boolean;
-    configs?: {
-        shortcuts?: {
-            today?: string;
-            yesterday?: string;
-            past?: (period: number) => string;
-            currentMonth?: string;
-            pastMonth?: string;
-        } | null;
-        footer?: {
-            cancel?: string;
-            apply?: string;
-        } | null;
-    } | null;
+    configs?: Configs;
     asSingle?: boolean;
     placeholder?: string;
     separator?: string;
