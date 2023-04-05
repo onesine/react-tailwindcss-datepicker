@@ -34,7 +34,7 @@
 - ✅ Date formatting
 - ✅ Disable specific dates
 - ✅ Minimum Date and Maximum Date
-- ⬜ Custom shortcuts
+- ✅ Custom shortcuts
 
 ## Documentation
 
