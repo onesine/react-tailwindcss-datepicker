@@ -62,7 +62,28 @@ export default function Playground() {
                             yesterday: "YText",
                             past: period => `P-${period} Text`,
                             currentMonth: "CMText",
-                            pastMonth: "PMText"
+                            pastMonth: "PMText",
+                            last3Days: {
+                                text: "Last 3 days",
+                                period: {
+                                    start: new Date(new Date().setDate(new Date().getDate() - 3)),
+                                    end: new Date()
+                                }
+                            },
+                            thisDay: {
+                                text: "This Day",
+                                period: {
+                                    start: new Date(),
+                                    end: new Date()
+                                }
+                            },
+                            next8Days: {
+                                text: "Next 8 days",
+                                period: {
+                                    start: new Date(),
+                                    end: new Date(new Date().setDate(new Date().getDate() + 8))
+                                }
+                            }
                         },
                         footer: {
                             cancel: "CText",
