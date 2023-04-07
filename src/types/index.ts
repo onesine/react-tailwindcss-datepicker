@@ -71,4 +71,5 @@ export interface DatepickerType {
     maxDate?: DateType | null;
     disabledDates?: DateRangeType[] | null;
     startWeekOn?: string | null;
+    popoverDirection?: string | undefined;
 }

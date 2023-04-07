@@ -39,7 +39,8 @@ const Datepicker: React.FC<DatepickerType> = ({
     inputId,
     inputName,
     startWeekOn = "sun",
-    classNames = undefined
+    classNames = undefined,
+    popoverDirection = undefined
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -266,7 +267,8 @@ const Datepicker: React.FC<DatepickerType> = ({
             startWeekOn,
             classNames,
             onChange,
-            input: inputRef
+            input: inputRef,
+            popoverDirection
         };
     }, [
         asSingle,
@@ -297,7 +299,8 @@ const Datepicker: React.FC<DatepickerType> = ({
         inputName,
         startWeekOn,
         classNames,
-        inputRef
+        inputRef,
+        popoverDirection
     ]);
 
     const defaultContainerClassName = "relative w-full text-gray-700";
