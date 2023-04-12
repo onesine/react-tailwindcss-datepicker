@@ -13,7 +13,6 @@ export default function Playground() {
     const [useRange, setUseRange] = useState(true);
     const [showFooter, setShowFooter] = useState(false);
     const [showShortcuts, setShowShortcuts] = useState(false);
-    const [configs, setConfigs] = useState(null);
     const [asSingle, setAsSingle] = useState(false);
     const [placeholder, setPlaceholder] = useState("");
     const [separator, setSeparator] = useState("~");
@@ -110,6 +109,7 @@ export default function Playground() {
                     toggleIcon={isEmpty => {
                         return isEmpty ? "Select Date" : "Clear";
                     }}
+                    popoverDirection={"down"}
                     // classNames={{
                     //     input: ({ disabled, readOnly, className }) => {
                     //         if (disabled) {
