@@ -44,6 +44,11 @@ export type ClassNamesTypeProp = {
     footer?: (p?: object | null | undefined) => string | undefined;
 };
 
+export enum PopoverDirectionType {
+    up = "up",
+    down = "down"
+}
+
 export interface DatepickerType {
     primaryColor?: string;
     value: DateValueType;
@@ -71,5 +76,5 @@ export interface DatepickerType {
     maxDate?: DateType | null;
     disabledDates?: DateRangeType[] | null;
     startWeekOn?: string | null;
-    popoverDirection?: string | undefined;
+    popoverDirection?: PopoverDirectionType;
 }

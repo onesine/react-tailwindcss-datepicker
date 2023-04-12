@@ -4,6 +4,7 @@ import React, { useCallback, useContext, useEffect, useRef } from "react";
 import { BORDER_COLOR, DATE_FORMAT, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { dateIsValid } from "../helpers";
+import { PopoverDirectionType } from "../types";
 
 import ToggleButton from "./ToggleButton";
 
@@ -42,12 +43,6 @@ const Input: React.FC<Props> = (e: Props) => {
     // UseRefs
     const buttonRef = useRef<HTMLButtonElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
-
-    useEffect(() => {
-        if (inputRef && e.setContextRef && typeof e.setContextRef === "function") {
-            e.setContextRef(inputRef);
-        }
-    }, [e, inputRef]);
 
     // Functions
     const getClassName = useCallback(() => {
@@ -108,7 +103,45 @@ const Input: React.FC<Props> = (e: Props) => {
         [changeDatepickerValue, changeDayHover, changeInputText, hideDatepicker]
     );
 
+    const renderToggleIcon = useCallback(
+        (isEmpty: boolean) => {
+            return typeof toggleIcon === "undefined" ? (
+                <ToggleButton isEmpty={isEmpty} />
+            ) : (
+                toggleIcon(isEmpty)
+            );
+        },
+        [toggleIcon]
+    );
+
+    const getToggleClassName = useCallback(() => {
+        const button = buttonRef.current;
+
+        if (
+            button &&
+            typeof classNames !== "undefined" &&
+            typeof classNames?.toggleButton === "function"
+        ) {
+            return classNames.toggleButton(button);
+        }
+
+        const defaultToggleClassName =
+            "absolute right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed";
+
+        return typeof toggleClassName === "function"
+            ? toggleClassName(defaultToggleClassName)
+            : typeof toggleClassName === "string" && toggleClassName !== ""
+            ? toggleClassName
+            : defaultToggleClassName;
+    }, [toggleClassName, buttonRef, classNames]);
+
     // UseEffects && UseLayoutEffect
+    useEffect(() => {
+        if (inputRef && e.setContextRef && typeof e.setContextRef === "function") {
+            e.setContextRef(inputRef);
+        }
+    }, [e, inputRef]);
+
     useEffect(() => {
         const button = buttonRef?.current;
 
@@ -163,20 +196,18 @@ const Input: React.FC<Props> = (e: Props) => {
         const arrow = arrowContainer?.current;
 
         function showCalendarContainer() {
-            function setContainerPosition(
-                direction: string | undefined,
-                div: HTMLDivElement,
-                arrow: HTMLDivElement
-            ) {
-                if (direction === "down") {
-                    return;
-                }
+            if (arrow && div && div.classList.contains("hidden")) {
+                div.classList.remove("hidden");
+                div.classList.add("block");
 
                 // window.innerWidth === 767
+                const popoverOnUp = popoverDirection == PopoverDirectionType.up;
+                const popoverOnDown = popoverDirection === PopoverDirectionType.down;
                 if (
-                    direction === "up" ||
+                    popoverOnUp ||
                     (window.innerWidth > 767 &&
-                        window.screen.height - 100 < div.getBoundingClientRect().bottom)
+                        window.screen.height - 100 < div.getBoundingClientRect().bottom &&
+                        !popoverOnDown)
                 ) {
                     div.classList.add("bottom-full");
                     div.classList.add("mb-2.5");
@@ -187,13 +218,6 @@ const Input: React.FC<Props> = (e: Props) => {
                     arrow.classList.remove("border-l");
                     arrow.classList.remove("border-t");
                 }
-            }
-
-            if (arrow && div && div.classList.contains("hidden")) {
-                div.classList.remove("hidden");
-                div.classList.add("block");
-
-                setContainerPosition(popoverDirection, div, arrow);
 
                 setTimeout(() => {
                     div.classList.remove("translate-y-4");
@@ -214,38 +238,6 @@ const Input: React.FC<Props> = (e: Props) => {
             }
         };
     }, [calendarContainer, arrowContainer, popoverDirection]);
-
-    const renderToggleIcon = useCallback(
-        (isEmpty: boolean) => {
-            return typeof toggleIcon === "undefined" ? (
-                <ToggleButton isEmpty={isEmpty} />
-            ) : (
-                toggleIcon(isEmpty)
-            );
-        },
-        [toggleIcon]
-    );
-
-    const getToggleClassName = useCallback(() => {
-        const button = buttonRef.current;
-
-        if (
-            button &&
-            typeof classNames !== "undefined" &&
-            typeof classNames?.toggleButton === "function"
-        ) {
-            return classNames.toggleButton(button);
-        }
-
-        const defaultToggleClassName =
-            "absolute right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed";
-
-        return typeof toggleClassName === "function"
-            ? toggleClassName(defaultToggleClassName)
-            : typeof toggleClassName === "string" && toggleClassName !== ""
-            ? toggleClassName
-            : defaultToggleClassName;
-    }, [toggleClassName, buttonRef, classNames]);
 
     return (
         <>
@@ -274,7 +266,7 @@ const Input: React.FC<Props> = (e: Props) => {
                 disabled={disabled}
                 className={getToggleClassName()}
             >
-                {renderToggleIcon(inputText == null || (inputText != null && !inputText.length))}
+                {renderToggleIcon(inputText == null || !inputText?.length)}
             </button>
         </>
     );

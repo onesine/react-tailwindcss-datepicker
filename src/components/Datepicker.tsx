@@ -303,14 +303,14 @@ const Datepicker: React.FC<DatepickerType> = ({
         popoverDirection
     ]);
 
-    const defaultContainerClassName = "relative w-full text-gray-700";
-
-    const containerClassNameOverload =
-        typeof containerClassName === "function"
+    const containerClassNameOverload = useMemo(() => {
+        const defaultContainerClassName = "relative w-full text-gray-700";
+        return typeof containerClassName === "function"
             ? containerClassName(defaultContainerClassName)
             : typeof containerClassName === "string" && containerClassName !== ""
             ? containerClassName
             : defaultContainerClassName;
+    }, [containerClassName]);
 
     return (
         <DatepickerContext.Provider value={contextValues}>

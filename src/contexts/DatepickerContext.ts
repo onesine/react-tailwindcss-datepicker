@@ -8,7 +8,8 @@ import {
     DateValueType,
     DateType,
     DateRangeType,
-    ClassNamesTypeProp
+    ClassNamesTypeProp,
+    PopoverDirectionType
 } from "../types";
 
 interface DatepickerStore {
@@ -46,7 +47,7 @@ interface DatepickerStore {
     inputId?: string;
     inputName?: string;
     classNames?: ClassNamesTypeProp;
-    popoverDirection?: string;
+    popoverDirection?: PopoverDirectionType;
 }
 
 const DatepickerContext = createContext<DatepickerStore>({
