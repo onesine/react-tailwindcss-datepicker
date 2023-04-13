@@ -151,7 +151,7 @@ const Input: React.FC<Props> = (e: Props) => {
 
             if (input) {
                 input.focus();
-                if (inputText && !readOnly) {
+                if (inputText) {
                     changeInputText("");
                     if (dayHover) {
                         changeDayHover(null);
@@ -186,7 +186,6 @@ const Input: React.FC<Props> = (e: Props) => {
         inputText,
         period.end,
         period.start,
-        readOnly,
         inputRef
     ]);
 
