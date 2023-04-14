@@ -4,7 +4,6 @@ import React, { useCallback, useContext, useEffect, useRef } from "react";
 import { BORDER_COLOR, DATE_FORMAT, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { dateIsValid } from "../helpers";
-import { PopoverDirectionType } from "../types";
 
 import ToggleButton from "./ToggleButton";
 
@@ -200,8 +199,8 @@ const Input: React.FC<Props> = (e: Props) => {
                 div.classList.add("block");
 
                 // window.innerWidth === 767
-                const popoverOnUp = popoverDirection == PopoverDirectionType.up;
-                const popoverOnDown = popoverDirection === PopoverDirectionType.down;
+                const popoverOnUp = popoverDirection == "up";
+                const popoverOnDown = popoverDirection === "down";
                 if (
                     popoverOnUp ||
                     (window.innerWidth > 767 &&

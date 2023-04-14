@@ -97,6 +97,7 @@ const Shortcuts: React.FC = () => {
                 if (Object.keys(DEFAULT_SHORTCUTS).includes(item)) {
                     return [item, DEFAULT_SHORTCUTS[item]];
                 } else {
+                    // using | makes this fail in typecheck as [string] is no longer recognised?
                     if (configs.shortcuts && configs?.shortcuts[item]) {
                         const customConfig = configs?.shortcuts[item];
                         const text = customConfig?.text;
