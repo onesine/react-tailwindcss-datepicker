@@ -1,7 +1,8 @@
 import dayjs from "dayjs";
-import React, { useCallback, useContext } from "react";
+import React, { useCallback, useContext, useMemo } from "react";
 
-import { DEFAULT_SHORTCUTS, TEXT_COLOR } from "../constants";
+import { DATE_FORMAT, TEXT_COLOR } from "../constants";
+import DEFAULT_SHORTCUTS from "../constants/shortcuts";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { Period, ShortcutsItem } from "../types";
 
@@ -65,8 +66,6 @@ const ItemTemplate = React.memo((props: ItemTemplateProps) => {
         ]
     );
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     const children = props?.children;
 
     return (
@@ -83,30 +82,77 @@ const ItemTemplate = React.memo((props: ItemTemplateProps) => {
     );
 });
 
-const Shortcuts = () => {
+const Shortcuts: React.FC = () => {
     // Contexts
     const { configs } = useContext(DatepickerContext);
 
-    const callPastFunction = (data: unknown, numberValue: number) => {
+    const callPastFunction = useCallback((data: unknown, numberValue: number) => {
         return typeof data === "function" ? data(numberValue) : null;
-    };
+    }, []);
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const printItemText = item => {
-        return "text" in item ? item.text : "";
-    };
+    const shortcutOptions = useMemo<[string, ShortcutsItem | ShortcutsItem[]][]>(() => {
+        let options;
+        if (configs?.shortcuts && configs?.shortcuts) {
+            const formatConfig = Object.keys(configs.shortcuts).map(item => {
+                if (Object.keys(DEFAULT_SHORTCUTS).includes(item)) {
+                    return [item, DEFAULT_SHORTCUTS[item]];
+                } else {
+                    // using | makes this fail in typecheck as [string] is no longer recognised?
+                    if (configs.shortcuts && configs?.shortcuts[item]) {
+                        const customConfig = configs?.shortcuts[item];
+                        const text = customConfig?.text;
+                        const start = dayjs(customConfig?.period?.start);
+                        const end = dayjs(customConfig?.period?.end);
+                        if (
+                            text &&
+                            start.isValid() &&
+                            end.isValid() &&
+                            (start.isBefore(end) || start.isSame(end))
+                        ) {
+                            return [
+                                item,
+                                {
+                                    text,
+                                    period: {
+                                        start: start.format(DATE_FORMAT),
+                                        end: end.format(DATE_FORMAT)
+                                    }
+                                }
+                            ];
+                        } else {
+                            return undefined;
+                        }
+                    }
+                    return undefined;
+                }
+            });
+            options = formatConfig?.filter(item => !!item);
+        } else {
+            options = Object.entries(DEFAULT_SHORTCUTS);
+        }
+        return options as [string, ShortcutsItem | ShortcutsItem[]][];
+    }, [configs]);
 
-    return (
+    const printItemText = useCallback((item: ShortcutsItem) => {
+        return item?.text ?? null;
+    }, []);
+
+    return shortcutOptions?.length ? (
         <div className="md:border-b mb-3 lg:mb-0 lg:border-r lg:border-b-0 border-gray-300 dark:border-gray-700 pr-1">
             <ul className="w-full tracking-wide flex flex-wrap lg:flex-col pb-1 lg:pb-0">
-                {Object.entries(DEFAULT_SHORTCUTS).map(([key, item], index) =>
-                    key === "past" ? (
-                        (Array.isArray(item) ? item : []).map((item, index) => (
+                {shortcutOptions?.map(([key, item], index: number) =>
+                    Array.isArray(item) ? (
+                        item.map((item, index) => (
                             <ItemTemplate key={index} item={item}>
                                 <>
-                                    {configs && configs.shortcuts && key in configs.shortcuts
-                                        ? callPastFunction(configs.shortcuts[key], item.daysNumber)
+                                    {key === "past" &&
+                                    configs?.shortcuts &&
+                                    key in configs.shortcuts &&
+                                    item.daysNumber
+                                        ? callPastFunction(
+                                              configs.shortcuts[key as "past"],
+                                              item.daysNumber
+                                          )
                                         : item.text}
                                 </>
                             </ItemTemplate>
@@ -114,8 +160,12 @@ const Shortcuts = () => {
                     ) : (
                         <ItemTemplate key={index} item={item}>
                             <>
-                                {configs && configs.shortcuts && key in configs.shortcuts
-                                    ? configs.shortcuts[key as keyof typeof configs.shortcuts]
+                                {configs?.shortcuts && key in configs.shortcuts
+                                    ? typeof configs.shortcuts[
+                                          key as keyof typeof configs.shortcuts
+                                      ] === "object"
+                                        ? printItemText(item)
+                                        : configs.shortcuts[key as keyof typeof configs.shortcuts]
                                     : printItemText(item)}
                             </>
                         </ItemTemplate>
@@ -123,7 +173,7 @@ const Shortcuts = () => {
                 )}
             </ul>
         </div>
-    );
+    ) : null;
 };
 
 export default Shortcuts;

@@ -1,20 +1,22 @@
 import dayjs from "dayjs";
 import React, { createContext } from "react";
 
+import { DATE_FORMAT, LANGUAGE, START_WEEK } from "../constants";
 import {
     Configs,
     Period,
     DateValueType,
     DateType,
     DateRangeType,
-    ClassNamesTypeProp
+    ClassNamesTypeProp,
+    PopoverDirectionType
 } from "../types";
 
 interface DatepickerStore {
     input?: React.RefObject<HTMLInputElement>;
     asSingle?: boolean;
     primaryColor: string;
-    configs?: Configs | null;
+    configs?: Configs;
     calendarContainer: React.RefObject<HTMLDivElement> | null;
     arrowContainer: React.RefObject<HTMLDivElement> | null;
     hideDatepicker: () => void;
@@ -32,9 +34,9 @@ interface DatepickerStore {
     i18n: string;
     value: DateValueType;
     disabled?: boolean;
-    inputClassName?: string | null;
-    containerClassName?: string | null;
-    toggleClassName?: string | null;
+    inputClassName?: ((className: string) => string) | string | null;
+    containerClassName?: ((className: string) => string) | string | null;
+    toggleClassName?: ((className: string) => string) | string | null;
     toggleIcon?: (open: boolean) => React.ReactNode;
     readOnly?: boolean;
     startWeekOn?: string | null;
@@ -44,12 +46,14 @@ interface DatepickerStore {
     disabledDates?: DateRangeType[] | null;
     inputId?: string;
     inputName?: string;
-    classNames?: ClassNamesTypeProp | undefined;
+    classNames?: ClassNamesTypeProp;
+    popoverDirection?: PopoverDirectionType;
 }
 
 const DatepickerContext = createContext<DatepickerStore>({
     input: undefined,
     primaryColor: "blue",
+    configs: undefined,
     calendarContainer: null,
     arrowContainer: null,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -75,21 +79,22 @@ const DatepickerContext = createContext<DatepickerStore>({
     ) => {},
     showFooter: false,
     value: null,
-    i18n: "en",
+    i18n: LANGUAGE,
     disabled: false,
     inputClassName: "",
     containerClassName: "",
     toggleClassName: "",
     readOnly: false,
-    displayFormat: "YYYY-MM-DD",
+    displayFormat: DATE_FORMAT,
     minDate: null,
     maxDate: null,
     disabledDates: null,
     inputId: undefined,
     inputName: undefined,
-    startWeekOn: "sun",
+    startWeekOn: START_WEEK,
     toggleIcon: undefined,
-    classNames: undefined
+    classNames: undefined,
+    popoverDirection: undefined
 });
 
 export default DatepickerContext;

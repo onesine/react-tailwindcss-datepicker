@@ -5,74 +5,33 @@ import Calendar from "../components/Calendar";
 import Footer from "../components/Footer";
 import Input from "../components/Input";
 import Shortcuts from "../components/Shortcuts";
-import { COLORS, DEFAULT_COLOR } from "../constants";
+import { COLORS, DATE_FORMAT, DEFAULT_COLOR, LANGUAGE } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { formatDate, nextMonth, previousMonth } from "../helpers";
 import useOnClickOutside from "../hooks";
-import { Period, DateValueType, DateType, DateRangeType, ClassNamesTypeProp } from "../types";
+import { Period, DatepickerType } from "../types";
 
 import { Arrow, VerticalDash } from "./utils";
 
-interface Props {
-    primaryColor?: string;
-    value: DateValueType;
-    onChange: (value: DateValueType, e?: HTMLInputElement | null | undefined) => void;
-    useRange?: boolean;
-    showFooter?: boolean;
-    showShortcuts?: boolean;
-    configs?: {
-        shortcuts?: {
-            today?: string;
-            yesterday?: string;
-            past?: (period: number) => string;
-            currentMonth?: string;
-            pastMonth?: string;
-        } | null;
-        footer?: {
-            cancel?: string;
-            apply?: string;
-        } | null;
-    } | null;
-    asSingle?: boolean;
-    placeholder?: string;
-    separator?: string;
-    startFrom?: Date | null;
-    i18n?: string;
-    disabled?: boolean;
-    classNames?: ClassNamesTypeProp | undefined;
-    inputClassName?: string | null;
-    toggleClassName?: string | null;
-    toggleIcon?: ((open: boolean) => React.ReactNode) | undefined;
-    inputId?: string;
-    inputName?: string;
-    containerClassName?: string | null;
-    displayFormat?: string;
-    readOnly?: boolean;
-    minDate?: DateType | null;
-    maxDate?: DateType | null;
-    disabledDates?: DateRangeType[] | null;
-    startWeekOn?: string | null;
-}
-
-const Datepicker: React.FC<Props> = ({
+const Datepicker: React.FC<DatepickerType> = ({
     primaryColor = "blue",
     value = null,
     onChange,
     useRange = true,
     showFooter = false,
     showShortcuts = false,
-    configs = null,
+    configs = undefined,
     asSingle = false,
     placeholder = null,
     separator = "~",
     startFrom = null,
-    i18n = "en",
+    i18n = LANGUAGE,
     disabled = false,
     inputClassName = null,
     containerClassName = null,
     toggleClassName = null,
     toggleIcon = undefined,
-    displayFormat = "YYYY-MM-DD",
+    displayFormat = DATE_FORMAT,
     readOnly = false,
     minDate = null,
     maxDate = null,
@@ -80,25 +39,25 @@ const Datepicker: React.FC<Props> = ({
     inputId,
     inputName,
     startWeekOn = "sun",
-    classNames = undefined
+    classNames = undefined,
+    popoverDirection = undefined
 }) => {
     // Ref
-    const containerRef = useRef<HTMLDivElement>(null);
-    const calendarContainerRef = useRef<HTMLDivElement>(null);
-    const arrowRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const calendarContainerRef = useRef<HTMLDivElement | null>(null);
+    const arrowRef = useRef<HTMLDivElement | null>(null);
 
     // State
     const [firstDate, setFirstDate] = useState<dayjs.Dayjs>(
         startFrom && dayjs(startFrom).isValid() ? dayjs(startFrom) : dayjs()
     );
+    const [secondDate, setSecondDate] = useState<dayjs.Dayjs>(nextMonth(firstDate));
     const [period, setPeriod] = useState<Period>({
         start: null,
         end: null
     });
-    const [secondDate, setSecondDate] = useState<dayjs.Dayjs>(nextMonth(firstDate));
     const [dayHover, setDayHover] = useState<string | null>(null);
     const [inputText, setInputText] = useState<string>("");
-
     const [inputRef, setInputRef] = useState(React.createRef<HTMLInputElement>());
 
     // Custom Hooks use
@@ -133,6 +92,7 @@ const Datepicker: React.FC<Props> = ({
         }
     }, []);
 
+    /* Start First */
     const firstGotoDate = useCallback(
         (date: dayjs.Dayjs) => {
             const newDate = dayjs(formatDate(date));
@@ -153,6 +113,22 @@ const Datepicker: React.FC<Props> = ({
         firstGotoDate(nextMonth(firstDate));
     }, [firstDate, firstGotoDate]);
 
+    const changeFirstMonth = useCallback(
+        (month: number) => {
+            firstGotoDate(dayjs(`${firstDate.year()}-${month < 10 ? "0" : ""}${month}-01`));
+        },
+        [firstDate, firstGotoDate]
+    );
+
+    const changeFirstYear = useCallback(
+        (year: number) => {
+            firstGotoDate(dayjs(`${year}-${firstDate.month() + 1}-01`));
+        },
+        [firstDate, firstGotoDate]
+    );
+    /* End First */
+
+    /* Start Second */
     const secondGotoDate = useCallback(
         (date: dayjs.Dayjs) => {
             const newDate = dayjs(formatDate(date, displayFormat));
@@ -173,25 +149,11 @@ const Datepicker: React.FC<Props> = ({
         setSecondDate(nextMonth(secondDate));
     }, [secondDate]);
 
-    const changeFirstMonth = useCallback(
-        (month: number) => {
-            firstGotoDate(dayjs(`${firstDate.year()}-${month < 10 ? "0" : ""}${month}-01`));
-        },
-        [firstDate, firstGotoDate]
-    );
-
     const changeSecondMonth = useCallback(
         (month: number) => {
             secondGotoDate(dayjs(`${secondDate.year()}-${month < 10 ? "0" : ""}${month}-01`));
         },
         [secondDate, secondGotoDate]
-    );
-
-    const changeFirstYear = useCallback(
-        (year: number) => {
-            firstGotoDate(dayjs(`${year}-${firstDate.month() + 1}-01`));
-        },
-        [firstDate, firstGotoDate]
     );
 
     const changeSecondYear = useCallback(
@@ -200,6 +162,7 @@ const Datepicker: React.FC<Props> = ({
         },
         [secondDate, secondGotoDate]
     );
+    /* End Second */
 
     // UseEffects & UseLayoutEffect
     useEffect(() => {
@@ -251,7 +214,7 @@ const Datepicker: React.FC<Props> = ({
 
     useEffect(() => {
         if (startFrom && dayjs(startFrom).isValid()) {
-            if (value != null && value.startDate != null) {
+            if (value?.startDate != null) {
                 setFirstDate(dayjs(value.startDate));
                 setSecondDate(nextMonth(dayjs(value.startDate)));
             } else {
@@ -261,7 +224,7 @@ const Datepicker: React.FC<Props> = ({
         }
     }, [startFrom, value]);
 
-    // Variable
+    // Variables
     const colorPrimary = useMemo(() => {
         if (COLORS.includes(primaryColor)) {
             return primaryColor;
@@ -304,7 +267,8 @@ const Datepicker: React.FC<Props> = ({
             startWeekOn,
             classNames,
             onChange,
-            input: inputRef
+            input: inputRef,
+            popoverDirection
         };
     }, [
         asSingle,
@@ -335,15 +299,22 @@ const Datepicker: React.FC<Props> = ({
         inputName,
         startWeekOn,
         classNames,
-        inputRef
+        inputRef,
+        popoverDirection
     ]);
+
+    const containerClassNameOverload = useMemo(() => {
+        const defaultContainerClassName = "relative w-full text-gray-700";
+        return typeof containerClassName === "function"
+            ? containerClassName(defaultContainerClassName)
+            : typeof containerClassName === "string" && containerClassName !== ""
+            ? containerClassName
+            : defaultContainerClassName;
+    }, [containerClassName]);
 
     return (
         <DatepickerContext.Provider value={contextValues}>
-            <div
-                className={`relative w-full text-gray-700 ${containerClassName}`}
-                ref={containerRef}
-            >
+            <div className={containerClassNameOverload} ref={containerRef}>
                 <Input setContextRef={setInputRef} />
 
                 <div

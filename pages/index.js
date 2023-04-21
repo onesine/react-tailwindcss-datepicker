@@ -13,7 +13,6 @@ export default function Playground() {
     const [useRange, setUseRange] = useState(true);
     const [showFooter, setShowFooter] = useState(false);
     const [showShortcuts, setShowShortcuts] = useState(false);
-    const [configs, setConfigs] = useState(null);
     const [asSingle, setAsSingle] = useState(false);
     const [placeholder, setPlaceholder] = useState("");
     const [separator, setSeparator] = useState("~");
@@ -34,6 +33,7 @@ export default function Playground() {
     const handleChange = (value, e) => {
         setValue(value);
         console.log(e);
+        console.log("value", value);
     };
     return (
         <div className="px-4 py-8">
@@ -55,7 +55,40 @@ export default function Playground() {
                     useRange={useRange}
                     showFooter={showFooter}
                     showShortcuts={showShortcuts}
-                    configs={configs}
+                    configs={{
+                        shortcuts: {
+                            today: "TText",
+                            yesterday: "YText",
+                            past: period => `P-${period} Text`,
+                            currentMonth: "CMText",
+                            pastMonth: "PMText",
+                            last3Days: {
+                                text: "Last 3 days",
+                                period: {
+                                    start: new Date(new Date().setDate(new Date().getDate() - 3)),
+                                    end: new Date()
+                                }
+                            },
+                            thisDay: {
+                                text: "This Day",
+                                period: {
+                                    start: new Date(),
+                                    end: new Date()
+                                }
+                            },
+                            next8Days: {
+                                text: "Next 8 days",
+                                period: {
+                                    start: new Date(),
+                                    end: new Date(new Date().setDate(new Date().getDate() + 8))
+                                }
+                            }
+                        },
+                        footer: {
+                            cancel: "CText",
+                            apply: "AText"
+                        }
+                    }}
                     asSingle={asSingle}
                     placeholder={placeholder}
                     separator={separator}
@@ -76,6 +109,7 @@ export default function Playground() {
                     toggleIcon={isEmpty => {
                         return isEmpty ? "Select Date" : "Clear";
                     }}
+                    popoverDirection={"down"}
                     // classNames={{
                     //     input: ({ disabled, readOnly, className }) => {
                     //         if (disabled) {
@@ -92,7 +126,6 @@ export default function Playground() {
                     // }}
                 />
             </div>
-
             <div className="py-4 max-w-3xl mx-auto flex flex-row flex-wrap">
                 <div className="w-full sm:w-1/3 pr-2 flex flex-row flex-wrap sm:flex-col">
                     <div className="mb-2 w-1/2 sm:w-full">

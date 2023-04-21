@@ -1,7 +1,3 @@
-import dayjs from "dayjs";
-
-import { formatDate, previousMonth } from "../helpers";
-
 export const COLORS = [
     "blue",
     "orange",
@@ -24,6 +20,18 @@ export const COLORS = [
 ];
 
 export const DEFAULT_COLOR = "blue";
+
+export const LANGUAGE = "en";
+
+export const DATE_FORMAT = "YYYY-MM-DD";
+
+export const START_WEEK = "sun";
+
+export const DAYS = [0, 1, 2, 3, 4, 5, 6];
+
+export const MONTHS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+export const CALENDAR_SIZE = 42;
 
 // Beware, these maps of colors cannot be replaced with functions using string interpolation such as `bg-${color}-100`
 // as described in Tailwind documentation https://tailwindcss.com/docs/content-configuration#dynamic-class-names
@@ -267,54 +275,5 @@ export const BUTTON_COLOR = {
         fuchsia: "focus:ring-fuchsia-500/50 focus:bg-fuchsia-100/50",
         pink: "focus:ring-pink-500/50 focus:bg-pink-100/50",
         rose: "focus:ring-rose-500/50 focus:bg-rose-100/50"
-    }
-};
-
-export const DEFAULT_SHORTCUTS = {
-    today: {
-        text: "Today",
-        period: {
-            start: formatDate(dayjs()),
-            end: formatDate(dayjs())
-        }
-    },
-    yesterday: {
-        text: "Yesterday",
-        period: {
-            start: formatDate(dayjs().subtract(1, "d")),
-            end: formatDate(dayjs().subtract(1, "d"))
-        }
-    },
-    past: [
-        {
-            daysNumber: 7,
-            text: "Last 7 days",
-            period: {
-                start: formatDate(dayjs().subtract(7, "d")),
-                end: formatDate(dayjs())
-            }
-        },
-        {
-            daysNumber: 30,
-            text: "Last 30 days",
-            period: {
-                start: formatDate(dayjs().subtract(30, "d")),
-                end: formatDate(dayjs())
-            }
-        }
-    ],
-    currentMonth: {
-        text: "This month",
-        period: {
-            start: formatDate(dayjs().startOf("month")),
-            end: formatDate(dayjs().endOf("month"))
-        }
-    },
-    pastMonth: {
-        text: "Last month",
-        period: {
-            start: formatDate(previousMonth(dayjs()).startOf("month")),
-            end: formatDate(previousMonth(dayjs()).endOf("month"))
-        }
     }
 };
