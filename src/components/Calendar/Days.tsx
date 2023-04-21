@@ -234,7 +234,10 @@ const Days: React.FC<Props> = ({
             const baseClass = "flex items-center justify-center w-12 h-12 lg:w-10 lg:h-10";
             return cn(
                 baseClass,
-                !activeDateData(day).active ? hoverClassByDay(day) : activeDateData(day).className,
+                type === "current" &&
+                    (!activeDateData(day).active
+                        ? hoverClassByDay(day)
+                        : activeDateData(day).className),
                 isDateDisabled(day, type) && "line-through"
             );
         },
