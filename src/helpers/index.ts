@@ -73,7 +73,7 @@ export function formatDate(date: dayjs.Dayjs, format = DATE_FORMAT) {
     return date.format(format);
 }
 
-export function parseFormattedDate(date: string, format = "YYYY-MM-DD") {
+export function parseFormattedDate(date: string, format = DATE_FORMAT) {
     return dayjs(date, format);
 }
 

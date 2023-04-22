@@ -53,7 +53,7 @@ const Input: React.FC<Props> = (e: Props) => {
 
         const border = BORDER_COLOR.focus[primaryColor as keyof typeof BORDER_COLOR.focus];
         const ring =
-            RING_COLOR["second-focus"][primaryColor as keyof typeof RING_COLOR["second-focus"]];
+            RING_COLOR["second-focus"][primaryColor as keyof (typeof RING_COLOR)["second-focus"]];
 
         const defaultInputClassName = `relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring disabled:opacity-40 disabled:cursor-not-allowed ${border} ${ring}`;
 
@@ -69,12 +69,12 @@ const Input: React.FC<Props> = (e: Props) => {
             const inputValue = e.target.value;
 
             const start = parseFormattedDate(inputValue.slice(0, 10), displayFormat).format(
-                "YYYY-MM-DD"
+                DATE_FORMAT
             );
             const end = asSingle
                 ? start
                 : parseFormattedDate(inputValue.slice(11, inputValue.length), displayFormat).format(
-                      "YYYY-MM-DD"
+                      DATE_FORMAT
                   );
 
             const input = inputRef?.current;
