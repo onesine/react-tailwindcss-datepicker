@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useEffect, useRef } from "react";
 
 import { BORDER_COLOR, DATE_FORMAT, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
-import { dateIsValid } from "../helpers";
+import { dateIsValid, parseFormattedDate } from "../helpers";
 
 import ToggleButton from "./ToggleButton";
 
@@ -53,7 +53,7 @@ const Input: React.FC<Props> = (e: Props) => {
 
         const border = BORDER_COLOR.focus[primaryColor as keyof typeof BORDER_COLOR.focus];
         const ring =
-            RING_COLOR["second-focus"][primaryColor as keyof (typeof RING_COLOR)["second-focus"]];
+            RING_COLOR["second-focus"][primaryColor as keyof typeof RING_COLOR["second-focus"]];
 
         const defaultInputClassName = `relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring disabled:opacity-40 disabled:cursor-not-allowed ${border} ${ring}`;
 
@@ -67,14 +67,16 @@ const Input: React.FC<Props> = (e: Props) => {
     const handleInputChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             const inputValue = e.target.value;
-            const start = `${inputValue.slice(0, 4)}-${inputValue.slice(5, 7)}-${inputValue.slice(
-                8,
-                10
-            )}`;
-            const end = `${inputValue.slice(13, 17)}-${inputValue.slice(18, 20)}-${inputValue.slice(
-                21,
-                inputValue.length
-            )}`;
+
+            const start = parseFormattedDate(inputValue.slice(0, 10), displayFormat).format(
+                "YYYY-MM-DD"
+            );
+            const end = asSingle
+                ? start
+                : parseFormattedDate(inputValue.slice(11, inputValue.length), displayFormat).format(
+                      "YYYY-MM-DD"
+                  );
+
             const input = inputRef?.current;
 
             if (
@@ -82,7 +84,7 @@ const Input: React.FC<Props> = (e: Props) => {
                 end.length === 10 &&
                 dateIsValid(new Date(start)) &&
                 dateIsValid(new Date(end)) &&
-                dayjs(start).isBefore(end)
+                (dayjs(start).isBefore(end) || asSingle)
             ) {
                 changeDatepickerValue(
                     {
@@ -91,7 +93,8 @@ const Input: React.FC<Props> = (e: Props) => {
                     },
                     e.target
                 );
-                changeDayHover(dayjs(end).add(-1, "day").format(DATE_FORMAT));
+                if (!asSingle) changeDayHover(dayjs(end).add(-1, "day").format(DATE_FORMAT));
+                else changeDayHover(start);
                 hideDatepicker();
                 if (input) {
                     input.blur();
@@ -99,7 +102,14 @@ const Input: React.FC<Props> = (e: Props) => {
             }
             changeInputText(e.target.value);
         },
-        [changeDatepickerValue, changeDayHover, changeInputText, hideDatepicker]
+        [
+            changeDatepickerValue,
+            changeDayHover,
+            changeInputText,
+            hideDatepicker,
+            displayFormat,
+            asSingle
+        ]
     );
 
     const renderToggleIcon = useCallback(
