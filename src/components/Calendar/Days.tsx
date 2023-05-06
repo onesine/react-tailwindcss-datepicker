@@ -400,7 +400,7 @@ const Days: React.FC<Props> = ({
                 <button
                     type="button"
                     key={index}
-                    disabled={isDateDisabled(index, "next")}
+                    disabled={isDateDisabled(item, "next")}
                     className="flex items-center justify-center text-gray-400 h-12 w-12 lg:w-10 lg:h-10"
                     onClick={() => handleClickDay(item, "next")}
                     onMouseOver={() => {
