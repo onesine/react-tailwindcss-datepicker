@@ -169,6 +169,7 @@ export const PrimaryButton: React.FC<Button> = ({ children, onClick, disabled = 
 export const RoundedButton: React.FC<Button> = ({
     children,
     onClick,
+    disabled,
     roundedFull = false,
     padding = "py-[0.55rem]"
 }) => {
@@ -183,11 +184,13 @@ export const RoundedButton: React.FC<Button> = ({
             : `${darkClass} transition-all duration-300 hover:bg-gray-100 rounded-full p-[0.45rem] focus:ring-1`;
         const buttonFocusColor =
             BUTTON_COLOR.focus[primaryColor as keyof typeof BUTTON_COLOR.focus];
-        return `${defaultClass} ${buttonFocusColor}`;
-    }, [padding, primaryColor, roundedFull]);
+        const disabledClass = disabled ? "line-through" : "";
+
+        return `${defaultClass} ${buttonFocusColor} ${disabledClass}`;
+    }, [disabled, padding, primaryColor, roundedFull]);
 
     return (
-        <button type="button" className={getClassName()} onClick={onClick}>
+        <button type="button" className={getClassName()} onClick={onClick} disabled={disabled}>
             {children}
         </button>
     );

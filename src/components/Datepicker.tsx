@@ -338,6 +338,8 @@ const Datepicker: React.FC<DatepickerType> = ({
                                     onClickNext={nextMonthFirst}
                                     changeMonth={changeFirstMonth}
                                     changeYear={changeFirstYear}
+                                    minDate={minDate}
+                                    maxDate={maxDate}
                                 />
 
                                 {useRange && (
@@ -352,6 +354,8 @@ const Datepicker: React.FC<DatepickerType> = ({
                                             onClickNext={nextMonthSecond}
                                             changeMonth={changeSecondMonth}
                                             changeYear={changeSecondYear}
+                                            minDate={minDate}
+                                            maxDate={maxDate}
                                         />
                                     </>
                                 )}
