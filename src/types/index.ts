@@ -74,4 +74,5 @@ export interface DatepickerType {
     disabledDates?: DateRangeType[] | null;
     startWeekOn?: string | null;
     popoverDirection?: PopoverDirectionType;
+    justifyCalendar?: "start" | "end" | "center";
 }
