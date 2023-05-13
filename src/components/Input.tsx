@@ -77,20 +77,26 @@ const Input: React.FC<Props> = (e: Props) => {
                 }
             } else {
                 const parsed = inputValue.split(separator);
-                if (parsed.length === 2) {
-                    const startDate = parseFormattedDate(parsed[0], displayFormat);
-                    const endDate = parseFormattedDate(parsed[1], displayFormat);
 
-                    if (
-                        dateIsValid(startDate.toDate()) &&
-                        dateIsValid(endDate.toDate()) &&
-                        startDate.isBefore(endDate)
-                    ) {
-                        dates.push(startDate.format(DATE_FORMAT));
-                        dates.push(endDate.format(DATE_FORMAT));
-                    }
+                let startDate = null;
+                let endDate = null;
+
+                if (parsed.length === 2) {
+                    startDate = parseFormattedDate(parsed[0], displayFormat);
+                    endDate = parseFormattedDate(parsed[1], displayFormat);
                 } else {
-                    // TODO: Handle the case where there is separator in the date format or no separator at all
+                    const middle = Math.floor(inputValue.length / 2);
+                    startDate = parseFormattedDate(inputValue.slice(0, middle), displayFormat);
+                    endDate = parseFormattedDate(inputValue.slice(middle), displayFormat);
+                }
+
+                if (
+                    dateIsValid(startDate.toDate()) &&
+                    dateIsValid(endDate.toDate()) &&
+                    startDate.isBefore(endDate)
+                ) {
+                    dates.push(startDate.format(DATE_FORMAT));
+                    dates.push(endDate.format(DATE_FORMAT));
                 }
             }
 
