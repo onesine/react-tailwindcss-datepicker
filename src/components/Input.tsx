@@ -68,48 +68,60 @@ const Input: React.FC<Props> = (e: Props) => {
         (e: React.ChangeEvent<HTMLInputElement>) => {
             const inputValue = e.target.value;
 
-            const start = parseFormattedDate(inputValue.slice(0, 10), displayFormat).format(
-                DATE_FORMAT
-            );
-            const end = asSingle
-                ? start
-                : parseFormattedDate(inputValue.slice(11, inputValue.length), displayFormat).format(
-                      DATE_FORMAT
-                  );
+            const dates = [];
 
-            const input = inputRef?.current;
+            if (asSingle) {
+                const date = parseFormattedDate(inputValue, displayFormat);
+                if (dateIsValid(date.toDate())) {
+                    dates.push(date.format(DATE_FORMAT));
+                }
+            } else {
+                const parsed = inputValue.split(separator);
+                if (parsed.length === 2) {
+                    const startDate = parseFormattedDate(parsed[0], displayFormat);
+                    const endDate = parseFormattedDate(parsed[1], displayFormat);
 
-            if (
-                start.length === 10 &&
-                end.length === 10 &&
-                dateIsValid(new Date(start)) &&
-                dateIsValid(new Date(end)) &&
-                (dayjs(start).isBefore(end) || asSingle)
-            ) {
+                    if (
+                        dateIsValid(startDate.toDate()) &&
+                        dateIsValid(endDate.toDate()) &&
+                        startDate.isBefore(endDate)
+                    ) {
+                        dates.push(startDate.format(DATE_FORMAT));
+                        dates.push(endDate.format(DATE_FORMAT));
+                    }
+                } else {
+                    // TODO: Handle the case where there is separator in the date format or no separator at all
+                }
+            }
+
+            if (dates[0]) {
                 changeDatepickerValue(
                     {
-                        startDate: start,
-                        endDate: end
+                        startDate: dates[0],
+                        endDate: dates[1] || dates[0]
                     },
                     e.target
                 );
-                if (!asSingle) changeDayHover(dayjs(end).add(-1, "day").format(DATE_FORMAT));
-                else changeDayHover(start);
-                hideDatepicker();
+                if (dates[1]) changeDayHover(dayjs(dates[1]).add(-1, "day").format(DATE_FORMAT));
+                else changeDayHover(dates[0]);
+            }
+
+            changeInputText(e.target.value);
+        },
+        [asSingle, displayFormat, separator, changeDatepickerValue, changeDayHover, changeInputText]
+    );
+
+    const handleInputKeyDown = useCallback(
+        (e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === "Enter") {
+                const input = inputRef.current;
                 if (input) {
                     input.blur();
                 }
+                hideDatepicker();
             }
-            changeInputText(e.target.value);
         },
-        [
-            changeDatepickerValue,
-            changeDayHover,
-            changeInputText,
-            hideDatepicker,
-            displayFormat,
-            asSingle
-        ]
+        [hideDatepicker]
     );
 
     const renderToggleIcon = useCallback(
@@ -266,6 +278,7 @@ const Input: React.FC<Props> = (e: Props) => {
                 autoComplete="off"
                 role="presentation"
                 onChange={handleInputChange}
+                onKeyDown={handleInputKeyDown}
             />
 
             <button

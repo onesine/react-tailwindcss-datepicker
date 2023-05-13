@@ -30,7 +30,7 @@ interface DatepickerStore {
     changeDatepickerValue: (value: DateValueType, e?: HTMLInputElement | null | undefined) => void;
     showFooter?: boolean;
     placeholder?: string | null;
-    separator?: string;
+    separator: string;
     i18n: string;
     value: DateValueType;
     disabled?: boolean;
@@ -40,7 +40,7 @@ interface DatepickerStore {
     toggleIcon?: (open: boolean) => React.ReactNode;
     readOnly?: boolean;
     startWeekOn?: string | null;
-    displayFormat?: string;
+    displayFormat: string;
     minDate?: DateType | null;
     maxDate?: DateType | null;
     disabledDates?: DateRangeType[] | null;
@@ -94,7 +94,8 @@ const DatepickerContext = createContext<DatepickerStore>({
     startWeekOn: START_WEEK,
     toggleIcon: undefined,
     classNames: undefined,
-    popoverDirection: undefined
+    popoverDirection: undefined,
+    separator: "~"
 });
 
 export default DatepickerContext;
