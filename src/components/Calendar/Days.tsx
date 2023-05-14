@@ -149,7 +149,7 @@ const Days: React.FC<Props> = ({
     );
 
     const isDateTooEarly = useCallback(
-        (day: number, type: string) => {
+        (day: number, type: "current" | "previous" | "next") => {
             if (!minDate) {
                 return false;
             }
@@ -159,10 +159,8 @@ const Days: React.FC<Props> = ({
                 next: nextMonth(calendarData.date)
             };
             const newDate = object[type as keyof typeof object];
-            const formattedDate = `${newDate.year()}-${newDate.month() + 1}-${
-                day >= 10 ? day : "0" + day
-            }`;
-            return dayjs(formattedDate).isSame(dayjs(minDate))
+            const formattedDate = newDate.set("date", day);
+            return dayjs(formattedDate).isSame(dayjs(minDate), "day")
                 ? false
                 : dayjs(formattedDate).isBefore(dayjs(minDate));
         },
@@ -170,7 +168,7 @@ const Days: React.FC<Props> = ({
     );
 
     const isDateTooLate = useCallback(
-        (day: number, type: string) => {
+        (day: number, type: "current" | "previous" | "next") => {
             if (!maxDate) {
                 return false;
             }
@@ -180,10 +178,8 @@ const Days: React.FC<Props> = ({
                 next: nextMonth(calendarData.date)
             };
             const newDate = object[type as keyof typeof object];
-            const formattedDate = `${newDate.year()}-${newDate.month() + 1}-${
-                day >= 10 ? day : "0" + day
-            }`;
-            return dayjs(formattedDate).isSame(maxDate)
+            const formattedDate = newDate.set("date", day);
+            return dayjs(formattedDate).isSame(dayjs(maxDate), "day")
                 ? false
                 : dayjs(formattedDate).isAfter(dayjs(maxDate));
         },
@@ -191,7 +187,7 @@ const Days: React.FC<Props> = ({
     );
 
     const isDateDisabled = useCallback(
-        (day: number, type: string) => {
+        (day: number, type: "current" | "previous" | "next") => {
             if (isDateTooEarly(day, type) || isDateTooLate(day, type)) {
                 return true;
             }
@@ -230,7 +226,7 @@ const Days: React.FC<Props> = ({
     );
 
     const buttonClass = useCallback(
-        (day: number, type: string) => {
+        (day: number, type: "current" | "previous" | "next") => {
             const baseClass = "flex items-center justify-center w-12 h-12 lg:w-10 lg:h-10";
             return cn(
                 baseClass,
