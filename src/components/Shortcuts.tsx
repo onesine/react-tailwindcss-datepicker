@@ -96,37 +96,32 @@ const Shortcuts: React.FC = () => {
             Object.keys(configs.shortcuts).forEach(item => {
                 if (Object.keys(DEFAULT_SHORTCUTS).includes(item)) {
                     options.push([item, DEFAULT_SHORTCUTS[item]]);
-                } else {
-                    if (
-                        configs.shortcuts &&
-                        configs.shortcuts.custom &&
-                        configs.shortcuts.custom.length > 0
-                    ) {
-                        configs.shortcuts.custom.forEach(customConfig => {
-                            const text = customConfig.text;
-                            const start = dayjs(customConfig.period.start);
-                            const end = dayjs(customConfig.period.end);
-                            if (
-                                text &&
-                                start.isValid() &&
-                                end.isValid() &&
-                                (start.isBefore(end) || start.isSame(end))
-                            ) {
-                                options.push([
-                                    text,
-                                    {
-                                        text,
-                                        period: {
-                                            start: start.format(DATE_FORMAT),
-                                            end: end.format(DATE_FORMAT)
-                                        }
-                                    }
-                                ]);
-                            }
-                        });
-                    }
                 }
             });
+            if (configs.shortcuts.custom && configs.shortcuts.custom.length > 0) {
+                configs.shortcuts.custom.forEach(customConfig => {
+                    const text = customConfig.text;
+                    const start = dayjs(customConfig.period.start);
+                    const end = dayjs(customConfig.period.end);
+                    if (
+                        text &&
+                        start.isValid() &&
+                        end.isValid() &&
+                        (start.isBefore(end) || start.isSame(end))
+                    ) {
+                        options.push([
+                            text,
+                            {
+                                text,
+                                period: {
+                                    start: start.format(DATE_FORMAT),
+                                    end: end.format(DATE_FORMAT)
+                                }
+                            }
+                        ]);
+                    }
+                });
+            }
         } else {
             return Object.entries(DEFAULT_SHORTCUTS);
         }
