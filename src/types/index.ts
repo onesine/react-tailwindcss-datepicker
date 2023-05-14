@@ -5,14 +5,16 @@ export interface Period {
     end: string | null;
 }
 
+interface DefaultShortcuts {
+    today?: string;
+    yesterday?: string;
+    past?: (period: number) => string;
+    currentMonth?: string;
+    pastMonth?: string;
+    custom?: ShortcutsItem[];
+}
 export interface Configs {
-    shortcuts?: {
-        today?: string;
-        yesterday?: string;
-        past?: (period: number) => string;
-        currentMonth?: string;
-        pastMonth?: string;
-    } & { [key: string]: ShortcutsItem };
+    shortcuts?: DefaultShortcuts;
     footer?: {
         cancel?: string;
         apply?: string;
@@ -20,11 +22,11 @@ export interface Configs {
 }
 
 export interface ShortcutsItem {
-    text?: string;
+    text: string;
     daysNumber?: number;
-    period?: {
-        start: string;
-        end: string;
+    period: {
+        start: Date | string;
+        end: Date | string;
     };
 }
 

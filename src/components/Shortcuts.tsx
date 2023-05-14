@@ -91,46 +91,46 @@ const Shortcuts: React.FC = () => {
     }, []);
 
     const shortcutOptions = useMemo<[string, ShortcutsItem | ShortcutsItem[]][]>(() => {
-        let options;
-        if (configs?.shortcuts && configs?.shortcuts) {
-            const formatConfig = Object.keys(configs.shortcuts).map(item => {
+        const options: [string, ShortcutsItem | ShortcutsItem[]][] = [];
+        if (configs && configs.shortcuts) {
+            Object.keys(configs.shortcuts).forEach(item => {
                 if (Object.keys(DEFAULT_SHORTCUTS).includes(item)) {
-                    return [item, DEFAULT_SHORTCUTS[item]];
+                    options.push([item, DEFAULT_SHORTCUTS[item]]);
                 } else {
-                    // using | makes this fail in typecheck as [string] is no longer recognised?
-                    if (configs.shortcuts && configs?.shortcuts[item]) {
-                        const customConfig = configs?.shortcuts[item];
-                        const text = customConfig?.text;
-                        const start = dayjs(customConfig?.period?.start);
-                        const end = dayjs(customConfig?.period?.end);
-                        if (
-                            text &&
-                            start.isValid() &&
-                            end.isValid() &&
-                            (start.isBefore(end) || start.isSame(end))
-                        ) {
-                            return [
-                                item,
-                                {
+                    if (
+                        configs.shortcuts &&
+                        configs.shortcuts.custom &&
+                        configs.shortcuts.custom.length > 0
+                    ) {
+                        configs.shortcuts.custom.forEach(customConfig => {
+                            const text = customConfig.text;
+                            const start = dayjs(customConfig.period.start);
+                            const end = dayjs(customConfig.period.end);
+                            if (
+                                text &&
+                                start.isValid() &&
+                                end.isValid() &&
+                                (start.isBefore(end) || start.isSame(end))
+                            ) {
+                                options.push([
                                     text,
-                                    period: {
-                                        start: start.format(DATE_FORMAT),
-                                        end: end.format(DATE_FORMAT)
+                                    {
+                                        text,
+                                        period: {
+                                            start: start.format(DATE_FORMAT),
+                                            end: end.format(DATE_FORMAT)
+                                        }
                                     }
-                                }
-                            ];
-                        } else {
-                            return undefined;
-                        }
+                                ]);
+                            }
+                        });
                     }
-                    return undefined;
                 }
             });
-            options = formatConfig?.filter(item => !!item);
         } else {
-            options = Object.entries(DEFAULT_SHORTCUTS);
+            return Object.entries(DEFAULT_SHORTCUTS);
         }
-        return options as [string, ShortcutsItem | ShortcutsItem[]][];
+        return options;
     }, [configs]);
 
     const printItemText = useCallback((item: ShortcutsItem) => {
@@ -140,7 +140,7 @@ const Shortcuts: React.FC = () => {
     return shortcutOptions?.length ? (
         <div className="md:border-b mb-3 lg:mb-0 lg:border-r lg:border-b-0 border-gray-300 dark:border-gray-700 pr-1">
             <ul className="w-full tracking-wide flex flex-wrap lg:flex-col pb-1 lg:pb-0">
-                {shortcutOptions?.map(([key, item], index: number) =>
+                {shortcutOptions.map(([key, item], index: number) =>
                     Array.isArray(item) ? (
                         item.map((item, index) => (
                             <ItemTemplate key={index} item={item}>
