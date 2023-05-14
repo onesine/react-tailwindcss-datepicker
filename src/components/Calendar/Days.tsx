@@ -60,20 +60,14 @@ const Days: React.FC<Props> = ({
             let className = "";
 
             if (dayjs(fullDay).isSame(period.start) && dayjs(fullDay).isSame(period.end)) {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
                 className = ` ${BG_COLOR["500"][primaryColor]} text-white font-medium rounded-full`;
             } else if (dayjs(fullDay).isSame(period.start)) {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
                 className = ` ${BG_COLOR["500"][primaryColor]} text-white font-medium ${
                     dayjs(fullDay).isSame(dayHover) && !period.end
                         ? "rounded-full"
                         : "rounded-l-full"
                 }`;
             } else if (dayjs(fullDay).isSame(period.end)) {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
                 className = ` ${BG_COLOR["500"][primaryColor]} text-white font-medium ${
                     dayjs(fullDay).isSame(dayHover) && !period.start
                         ? "rounded-full"
@@ -97,11 +91,7 @@ const Days: React.FC<Props> = ({
             }`;
 
             if (period.start && period.end) {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
                 if (dayjs(fullDay).isBetween(period.start, period.end, "day", "[)")) {
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
                     return ` ${BG_COLOR["100"][primaryColor]} ${currentDateClass(
                         day
                     )} dark:bg-white/10`;
@@ -109,34 +99,22 @@ const Days: React.FC<Props> = ({
             }
 
             if (!dayHover) {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
                 return className;
             }
 
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
             if (period.start && dayjs(fullDay).isBetween(period.start, dayHover, "day", "[)")) {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
                 className = ` ${BG_COLOR["100"][primaryColor]} ${currentDateClass(
                     day
                 )} dark:bg-white/10`;
             }
 
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
             if (period.end && dayjs(fullDay).isBetween(dayHover, period.end, "day", "[)")) {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
                 className = ` ${BG_COLOR["100"][primaryColor]} ${currentDateClass(
                     day
                 )} dark:bg-white/10`;
             }
 
             if (dayHover === fullDay) {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
                 const bgColor = BG_COLOR["500"][primaryColor];
                 className = ` transition-all duration-500 text-white font-medium ${bgColor} ${
                     period.start ? "rounded-r-full" : "rounded-l-full"
