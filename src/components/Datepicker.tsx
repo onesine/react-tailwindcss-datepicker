@@ -9,7 +9,7 @@ import { COLORS, DATE_FORMAT, DEFAULT_COLOR, LANGUAGE } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { formatDate, nextMonth, previousMonth } from "../helpers";
 import useOnClickOutside from "../hooks";
-import { Period, DatepickerType } from "../types";
+import { Period, DatepickerType, ColorKeys } from "../types";
 
 import { Arrow, VerticalDash } from "./utils";
 
@@ -225,16 +225,16 @@ const Datepicker: React.FC<DatepickerType> = ({
     }, [startFrom, value]);
 
     // Variables
-    const colorPrimary = useMemo(() => {
+    const safePrimaryColor = useMemo(() => {
         if (COLORS.includes(primaryColor)) {
-            return primaryColor;
+            return primaryColor as ColorKeys;
         }
         return DEFAULT_COLOR;
     }, [primaryColor]);
     const contextValues = useMemo(() => {
         return {
             asSingle,
-            primaryColor: colorPrimary,
+            primaryColor: safePrimaryColor,
             configs,
             calendarContainer: calendarContainerRef,
             arrowContainer: arrowRef,
@@ -272,7 +272,7 @@ const Datepicker: React.FC<DatepickerType> = ({
         };
     }, [
         asSingle,
-        colorPrimary,
+        safePrimaryColor,
         configs,
         hideDatepicker,
         period,
@@ -291,7 +291,6 @@ const Datepicker: React.FC<DatepickerType> = ({
         toggleIcon,
         readOnly,
         displayFormat,
-        firstGotoDate,
         minDate,
         maxDate,
         disabledDates,
@@ -300,7 +299,8 @@ const Datepicker: React.FC<DatepickerType> = ({
         startWeekOn,
         classNames,
         inputRef,
-        popoverDirection
+        popoverDirection,
+        firstGotoDate
     ]);
 
     const containerClassNameOverload = useMemo(() => {

@@ -1,5 +1,7 @@
 import React from "react";
 
+import { COLORS } from "../constants";
+
 export interface Period {
     start: string | null;
     end: string | null;
@@ -47,7 +49,7 @@ export type ClassNamesTypeProp = {
 export type PopoverDirectionType = "up" | "down";
 
 export interface DatepickerType {
-    primaryColor?: string;
+    primaryColor?: ColorKeys;
     value: DateValueType;
     onChange: (value: DateValueType, e?: HTMLInputElement | null | undefined) => void;
     useRange?: boolean;
@@ -69,9 +71,17 @@ export interface DatepickerType {
     inputName?: string;
     displayFormat?: string;
     readOnly?: boolean;
-    minDate?: DateType | null;
-    maxDate?: DateType | null;
+    minDate?: Date | null;
+    maxDate?: Date | null;
     disabledDates?: DateRangeType[] | null;
     startWeekOn?: string | null;
     popoverDirection?: PopoverDirectionType;
+}
+
+export type ColorKeys = (typeof COLORS)[number]; // "blue" | "orange"
+
+export interface Colors {
+    [key: string]: {
+        [K in ColorKeys]: string;
+    };
 }

@@ -9,13 +9,14 @@ import {
     DateType,
     DateRangeType,
     ClassNamesTypeProp,
-    PopoverDirectionType
+    PopoverDirectionType,
+    ColorKeys
 } from "../types";
 
 interface DatepickerStore {
     input?: React.RefObject<HTMLInputElement>;
     asSingle?: boolean;
-    primaryColor: string;
+    primaryColor: ColorKeys;
     configs?: Configs;
     calendarContainer: React.RefObject<HTMLDivElement> | null;
     arrowContainer: React.RefObject<HTMLDivElement> | null;
@@ -56,8 +57,7 @@ const DatepickerContext = createContext<DatepickerStore>({
     configs: undefined,
     calendarContainer: null,
     arrowContainer: null,
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    hideDatepicker: () => {},
+    hideDatepicker: () => null,
     period: { start: null, end: null },
     // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
     changePeriod: period => {},
