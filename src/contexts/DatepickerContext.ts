@@ -57,10 +57,11 @@ const DatepickerContext = createContext<DatepickerStore>({
     configs: undefined,
     calendarContainer: null,
     arrowContainer: null,
-    hideDatepicker: () => null,
     period: { start: null, end: null },
     // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
     changePeriod: period => {},
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    hideDatepicker: () => {},
     dayHover: null,
     // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
     changeDayHover: (day: string | null) => {},
@@ -70,13 +71,7 @@ const DatepickerContext = createContext<DatepickerStore>({
     // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
     updateFirstDate: date => {},
     // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-    changeDatepickerValue: (
-        // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-        value: DateValueType,
-        // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-        e: HTMLInputElement | null | undefined
-        // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-    ) => {},
+    changeDatepickerValue: (value: DateValueType, e: HTMLInputElement | null | undefined) => {},
     showFooter: false,
     value: null,
     i18n: LANGUAGE,
