@@ -91,41 +91,43 @@ const Shortcuts: React.FC = () => {
     }, []);
 
     const shortcutOptions = useMemo<[string, ShortcutsItem | ShortcutsItem[]][]>(() => {
-        const options: [string, ShortcutsItem | ShortcutsItem[]][] = [];
-        if (configs && configs.shortcuts) {
-            Object.keys(configs.shortcuts).forEach(item => {
-                if (Object.keys(DEFAULT_SHORTCUTS).includes(item)) {
-                    options.push([item, DEFAULT_SHORTCUTS[item]]);
-                }
-            });
-            if (configs.shortcuts.custom && configs.shortcuts.custom.length > 0) {
-                configs.shortcuts.custom.forEach(customConfig => {
-                    const text = customConfig.text;
-                    const start = dayjs(customConfig.period.start);
-                    const end = dayjs(customConfig.period.end);
-                    if (
-                        text &&
-                        start.isValid() &&
-                        end.isValid() &&
-                        (start.isBefore(end) || start.isSame(end))
-                    ) {
-                        options.push([
-                            text,
-                            {
-                                text,
-                                period: {
-                                    start: start.format(DATE_FORMAT),
-                                    end: end.format(DATE_FORMAT)
-                                }
-                            }
-                        ]);
-                    }
-                });
-            }
-        } else {
+        if (!configs?.shortcuts) {
             return Object.entries(DEFAULT_SHORTCUTS);
         }
-        return options;
+
+        return Object.entries(configs.shortcuts).flatMap(([key, customConfig]) => {
+            if (Object.prototype.hasOwnProperty.call(DEFAULT_SHORTCUTS, key)) {
+                return [[key, DEFAULT_SHORTCUTS[key]]];
+            }
+
+            const { text, period } = customConfig as {
+                text: string;
+                period: { start: string; end: string };
+            };
+            if (!text || !period) {
+                return [];
+            }
+
+            const start = dayjs(period.start);
+            const end = dayjs(period.end);
+
+            if (start.isValid() && end.isValid() && (start.isBefore(end) || start.isSame(end))) {
+                return [
+                    [
+                        text,
+                        {
+                            text,
+                            period: {
+                                start: start.format(DATE_FORMAT),
+                                end: end.format(DATE_FORMAT)
+                            }
+                        }
+                    ]
+                ];
+            }
+
+            return [];
+        });
     }, [configs]);
 
     const printItemText = useCallback((item: ShortcutsItem) => {
