@@ -44,6 +44,7 @@ interface DatepickerStore {
     displayFormat: string;
     minDate?: DateType | null;
     maxDate?: DateType | null;
+    dateLooking?: "forward" | "backward" | "middle";
     disabledDates?: DateRangeType[] | null;
     inputId?: string;
     inputName?: string;
@@ -83,6 +84,7 @@ const DatepickerContext = createContext<DatepickerStore>({
     displayFormat: DATE_FORMAT,
     minDate: null,
     maxDate: null,
+    dateLooking: "forward",
     disabledDates: null,
     inputId: undefined,
     inputName: undefined,

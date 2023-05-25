@@ -75,6 +75,7 @@ export interface DatepickerType {
     readOnly?: boolean;
     minDate?: Date | null;
     maxDate?: Date | null;
+    dateLooking?: "forward" | "backward" | "middle";
     disabledDates?: DateRangeType[] | null;
     startWeekOn?: string | null;
     popoverDirection?: PopoverDirectionType;
