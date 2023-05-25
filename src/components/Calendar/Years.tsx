@@ -7,12 +7,13 @@ import DatepickerContext from "contexts/DatepickerContext";
 
 interface Props {
     year: number;
+    currentYear: number;
     minYear: number | null;
     maxYear: number | null;
     clickYear: (data: number) => void;
 }
 
-const Years: React.FC<Props> = ({ year, minYear, maxYear, clickYear }) => {
+const Years: React.FC<Props> = ({ year, currentYear, minYear, maxYear, clickYear }) => {
     const { dateLooking } = useContext(DatepickerContext);
 
     let startDate = 0;
@@ -43,6 +44,7 @@ const Years: React.FC<Props> = ({ year, minYear, maxYear, clickYear }) => {
                     onClick={() => {
                         clickYear(item);
                     }}
+                    active={currentYear === item}
                     disabled={
                         (maxYear !== null && item > maxYear) || (minYear !== null && item < minYear)
                     }
