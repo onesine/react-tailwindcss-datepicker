@@ -152,7 +152,6 @@ See [CONTRIBUTING.md](https://github.com/onesine/react-tailwindcss-datepicker/bl
 [https://github.com/onesine/react-tailwindcss-datepicker-doc](https://github.com/onesine/react-tailwindcss-datepicker-doc)
 
 ## Thanks to
-- [Litepie Datepicker](https://litepie.com/)
 - [Vue Tailwind Datepicker](https://vue-tailwind-datepicker.com/)
 - [React](https://reactjs.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
