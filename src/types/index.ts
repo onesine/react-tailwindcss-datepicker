@@ -7,16 +7,19 @@ export interface Period {
     end: string | null;
 }
 
+interface CustomShortcuts {
+    [key: string]: ShortcutsItem;
+}
+
 interface DefaultShortcuts {
     today?: string;
     yesterday?: string;
     past?: (period: number) => string;
     currentMonth?: string;
     pastMonth?: string;
-    custom?: ShortcutsItem[];
 }
 export interface Configs {
-    shortcuts?: DefaultShortcuts;
+    shortcuts?: DefaultShortcuts | CustomShortcuts;
     footer?: {
         cancel?: string;
         apply?: string;
