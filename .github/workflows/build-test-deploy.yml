@@ -1,0 +1,81 @@
+name: Build, Test and Deploy
+
+on: push
+
+env:
+  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+jobs:
+  build-test-deploy:
+    name: Build, Test and Deploy
+    runs-on: ubuntu-latest
+    # These permissions are needed to get a token from the Github OIDC provider.
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Setup node is supposed to generate this file for us but for some reason
+      # publish fails with "No token found" unless we create our own at the root repo.
+      # Setup node won't generate an npmrc file if one already exists.
+      - name: Generate .npmrc
+        run: |
+          cat << EOF > ${GITHUB_WORKSPACE}/.npmrc
+          //registry.npmjs.org/:_authToken=\${NODE_AUTH_TOKEN}
+          registry=https://registry.npmjs.org/
+          always-auth=true
+          EOF
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          cache: 'yarn'
+          node-version: 16
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Publish to NPM
+        run: yarn deploy
+        if: github.ref == 'refs/heads/main'
+ 1 change: 1 addition & 0 deletions1  
+.gitignore
+Marking files as viewed can help keep track of your progress, but will not affect your submitted reviewViewed
+Comment on this file
+@@ -0,0 +1 @@
+node_modules
+ 29 changes: 29 additions & 0 deletions29  
+package.json
+Marking files as viewed can help keep track of your progress, but will not affect your submitted reviewViewed
+Comment on this file
+@@ -0,0 +1,29 @@
+{
+  "name": "raydiant-tailwind",
+  "version": "1.0.0",
+  "description": "Raydiant's design system's tailwind component",
+  "main": "raydiant-tailwind.js",
+  "scripts": {
+    "deploy": "run-p publish:*",
+    "publish:npm": "node scripts/publish-npm.js ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mirainc/raydiant-tailwind-component.git"
+  },
+  "keywords": [
+    "raydiant-tailwind",
+    "raydiant",
+    "tailwind"
+  ],
+  "author": "Anthony Akpan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mirainc/raydiant-tailwind-component/issues"
+  },
+  "homepage": "https://github.com/mirainc/raydiant-tailwind-component#readme",
+  "dependencies": {
+    "npm-run-all": "^4.1.5",
+    "run-p": "^0.0.0"
+  }
+}
