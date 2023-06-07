@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 
-import { CALENDAR_SIZE } from "../../constants";
+import { CALENDAR_SIZE, DATE_FORMAT } from "../../constants";
 import DatepickerContext from "../../contexts/DatepickerContext";
 import {
     formatDate,
@@ -124,8 +124,8 @@ const Calendar: React.FC<Props> = ({
                 const ipt = input?.current;
                 changeDatepickerValue(
                     {
-                        startDate: dayjs(start).format("YYYY-MM-DD"),
-                        endDate: dayjs(end).format("YYYY-MM-DD")
+                        startDate: dayjs(start).format(DATE_FORMAT),
+                        endDate: dayjs(end).format(DATE_FORMAT)
                     },
                     ipt
                 );
