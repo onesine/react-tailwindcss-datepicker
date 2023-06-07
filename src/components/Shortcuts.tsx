@@ -18,7 +18,6 @@ const ItemTemplate = React.memo((props: ItemTemplateProps) => {
         primaryColor,
         period,
         changePeriod,
-        changeInputText,
         updateFirstDate,
         dayHover,
         changeDayHover,
@@ -44,7 +43,6 @@ const ItemTemplate = React.memo((props: ItemTemplateProps) => {
                     end: null
                 });
             }
-            changeInputText(`${item.start} ~ ${item.end}`);
             changePeriod(item);
             changeDatepickerValue({
                 startDate: item.start,
@@ -56,7 +54,6 @@ const ItemTemplate = React.memo((props: ItemTemplateProps) => {
         [
             changeDatepickerValue,
             changeDayHover,
-            changeInputText,
             changePeriod,
             dayHover,
             hideDatepicker,
