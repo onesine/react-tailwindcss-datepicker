@@ -1,6 +1,6 @@
 import Datepicker from "../src";
 import { useState } from "react";
-import { COLORS } from "../src/constants";
+import { COLORS, DATE_LOOKING_OPTIONS } from "../src/constants";
 import dayjs from "dayjs";
 import Head from "next/head";
 
@@ -25,6 +25,7 @@ export default function Playground() {
     const [readOnly, setReadOnly] = useState(false);
     const [minDate, setMinDate] = useState("");
     const [maxDate, setMaxDate] = useState("");
+    const [dateLooking, setDateLooking] = useState(true);
     const [disabledDates, setDisabledDates] = useState([]);
     const [newDisabledDates, setNewDisabledDates] = useState({ startDate: "", endDate: "" });
     const [startFrom, setStartFrom] = useState("2023-03-01");
@@ -104,6 +105,7 @@ export default function Playground() {
                     readOnly={readOnly}
                     minDate={minDate}
                     maxDate={maxDate}
+                    dateLooking={dateLooking}
                     disabledDates={disabledDates}
                     startWeekOn={startWeekOn}
                     toggleIcon={isEmpty => {
@@ -297,6 +299,25 @@ export default function Playground() {
                                 setMaxDate(e.target.value);
                             }}
                         />
+                    </div>
+                    <div className="mb-2">
+                        <label className="block" htmlFor="dateLooking">
+                            Date Looking
+                        </label>
+                        <select
+                            className="rounded block w-full border-gray-200 border px-4 py-2"
+                            id="dateLooking"
+                            value={dateLooking}
+                            onChange={e => {
+                                setDateLooking(e.target.value);
+                            }}
+                        >
+                            {DATE_LOOKING_OPTIONS.map((option, i) => (
+                                <option key={i} value={option}>
+                                    {option}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                 </div>
                 <div className="w-full sm:w-1/3 pr-2 flex flex-col">
