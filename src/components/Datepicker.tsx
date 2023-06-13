@@ -215,15 +215,27 @@ const Datepicker: React.FC<DatepickerType> = ({
 
     useEffect(() => {
         if (startFrom && dayjs(startFrom).isValid()) {
-            if (value?.startDate != null) {
-                setFirstDate(dayjs(value.startDate));
-                setSecondDate(nextMonth(dayjs(value.startDate)));
+            const startDate = value?.startDate;
+            const endDate = value?.endDate;
+            if (startDate && dayjs(startDate).isValid()) {
+                setFirstDate(dayjs(startDate));
+                if (!asSingle) {
+                    if (
+                        endDate &&
+                        dayjs(endDate).isValid() &&
+                        dayjs(endDate).startOf("month").isAfter(dayjs(startDate))
+                    ) {
+                        setSecondDate(dayjs(endDate));
+                    } else {
+                        setSecondDate(nextMonth(dayjs(startDate)));
+                    }
+                }
             } else {
                 setFirstDate(dayjs(startFrom));
                 setSecondDate(nextMonth(dayjs(startFrom)));
             }
         }
-    }, [startFrom, value]);
+    }, [asSingle, startFrom, value]);
 
     // Variables
     const safePrimaryColor = useMemo(() => {
