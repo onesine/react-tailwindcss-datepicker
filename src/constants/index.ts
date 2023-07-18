@@ -1,4 +1,4 @@
-import { ColorKeys, Colors } from "types";
+import { ColorKeys, Colors } from "../types";
 
 export const COLORS = [
     "blue",
