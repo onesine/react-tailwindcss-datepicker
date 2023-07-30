@@ -73,10 +73,10 @@
     },
     "lint-staged": {
         "*.{ts,tsx}": [
-            "eslint --ignore-path .gitignore ."
+            "npm run lint"
         ],
         "*.{ts,tsx,css,scss,md}": [
-            "prettier --ignore-path .gitignore --config ./.prettierrc --write './**/*.{js,jsx,ts,tsx,css,md,json}'"
+            "npm run pret:fix"
         ]
     }
 }
