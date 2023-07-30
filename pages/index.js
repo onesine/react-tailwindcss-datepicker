@@ -1,8 +1,9 @@
-import Datepicker from "../src";
-import { useState } from "react";
-import { COLORS, DATE_LOOKING_OPTIONS } from "../src/constants";
 import dayjs from "dayjs";
 import Head from "next/head";
+import { useState } from "react";
+
+import Datepicker from "../src";
+import { COLORS, DATE_LOOKING_OPTIONS } from "../src/constants";
 
 export default function Playground() {
     const [value, setValue] = useState({
