@@ -72,7 +72,11 @@
         "typescript": "^4.8.4"
     },
     "lint-staged": {
-        "*.{ts,tsx}": ["npm run lint"],
-        "*.{ts,tsx,css,scss,md}": ["npm run pret:fix"]
+        "*.{ts,tsx}": [
+            "npm run lint"
+        ],
+        "*.{ts,tsx,css,scss,md}": [
+            "npm run pret:fix"
+        ]
     }
 }
