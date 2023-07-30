@@ -19,7 +19,6 @@
         "allowJs": true,
         "skipLibCheck": true,
         "noEmit": true,
-        "incremental": true,
         "resolveJsonModule": true,
         "isolatedModules": true
     },
