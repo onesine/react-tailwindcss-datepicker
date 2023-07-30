@@ -18,7 +18,8 @@
         "code-style:fix": "npm run pret:fix && npm run pret:fix",
         "build": "npm run code-style && npm run clean && rollup -c",
         "pub": "npm run build && npm publish",
-        "dev": "next dev -p 8888"
+        "dev": "next dev -p 8888",
+        "prepare": "husky install"
     },
     "repository": {
         "type": "git",
@@ -58,7 +59,8 @@
         "eslint-plugin-prettier": "^4.2.1",
         "eslint-plugin-react": "^7.31.11",
         "eslint-plugin-react-hooks": "^4.6.0",
-        "husky": "^8.0.3",
+        "husky": "^8.0.0",
+        "lint-staged": "^13.2.3",
         "next": "^13.1.1",
         "postcss": "^8.4.19",
         "prettier": "^2.8.0",
@@ -68,5 +70,9 @@
         "tailwindcss": "^3.2.4",
         "tslib": "^2.4.0",
         "typescript": "^4.8.4"
+    },
+    "lint-staged": {
+        "*.{ts,tsx}": ["npm run lint"],
+        "*.{ts,tsx,css,scss,md}": ["npm run pret:fix"]
     }
 }
