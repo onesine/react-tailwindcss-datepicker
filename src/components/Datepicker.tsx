@@ -41,7 +41,8 @@ const Datepicker: React.FC<DatepickerType> = ({
     inputName,
     startWeekOn = "sun",
     classNames = undefined,
-    popoverDirection = undefined
+    popoverDirection = undefined,
+    justifyCalendar = "start"
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -333,7 +334,9 @@ const Datepicker: React.FC<DatepickerType> = ({
                 <Input setContextRef={setInputRef} />
 
                 <div
-                    className="transition-all ease-out duration-300 absolute z-10 mt-[1px] text-sm lg:text-xs 2xl:text-sm translate-y-4 opacity-0 hidden"
+                    className={`transition-all ease-out duration-300 absolute z-10 mt-[1px] text-sm lg:text-xs 2xl:text-sm translate-y-4 opacity-0 hidden flex inset-x-0 ${
+                        justifyCalendar === "start" ? "justify-start" : justifyCalendar === "end" ?  "justify-end" : "justify-center"
+                    }`}
                     ref={calendarContainerRef}
                 >
                     <Arrow ref={arrowRef} />
