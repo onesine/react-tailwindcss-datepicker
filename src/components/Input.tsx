@@ -36,7 +36,8 @@ const Input: React.FC<Props> = (e: Props) => {
         inputId,
         inputName,
         classNames,
-        popoverDirection
+        popoverDirection,
+        isStaticPosition
     } = useContext(DatepickerContext);
 
     // UseRefs
@@ -151,16 +152,15 @@ const Input: React.FC<Props> = (e: Props) => {
         ) {
             return classNames.toggleButton(button);
         }
-
-        const defaultToggleClassName =
-            "absolute right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed";
+        const toggleStaticPosition = isStaticPosition ? "h-10" : "h-full";
+        const defaultToggleClassName = `absolute right-0 ${toggleStaticPosition} px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed`;
 
         return typeof toggleClassName === "function"
             ? toggleClassName(defaultToggleClassName)
             : typeof toggleClassName === "string" && toggleClassName !== ""
             ? toggleClassName
             : defaultToggleClassName;
-    }, [toggleClassName, buttonRef, classNames]);
+    }, [toggleClassName, buttonRef, classNames, isStaticPosition]);
 
     // UseEffects && UseLayoutEffect
     useEffect(() => {

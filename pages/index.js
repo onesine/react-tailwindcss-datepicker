@@ -12,6 +12,9 @@ export default function Playground() {
     });
     const [primaryColor, setPrimaryColor] = useState("blue");
     const [useRange, setUseRange] = useState(true);
+    const [useStaticPosition, setUseStaticPosition] = useState(true);
+    const [showExtraFooter, setShowExtraFooter] = useState(true);
+    const [showExtraHeader, setShowExtraHeader] = useState(true);
     const [showFooter, setShowFooter] = useState(false);
     const [showShortcuts, setShowShortcuts] = useState(false);
     const [asSingle, setAsSingle] = useState(false);
@@ -51,12 +54,27 @@ export default function Playground() {
 
             <div className="max-w-md mx-auto my-4">
                 <Datepicker
+                    renderFooter={
+                        showExtraFooter
+                            ? () => {
+                                  return <div>extra footer</div>;
+                              }
+                            : undefined
+                    }
+                    renderHeader={
+                        showExtraHeader
+                            ? () => {
+                                  return <div>extra header</div>;
+                              }
+                            : undefined
+                    }
                     value={value}
                     primaryColor={primaryColor}
                     onChange={handleChange}
                     useRange={useRange}
                     showFooter={showFooter}
                     showShortcuts={showShortcuts}
+                    isStaticPosition={useStaticPosition}
                     configs={{
                         shortcuts: {
                             today: "TText",
@@ -150,6 +168,20 @@ export default function Playground() {
                             <input
                                 type="checkbox"
                                 className="mr-2 rounded"
+                                id="useStaticPosition"
+                                checked={useStaticPosition}
+                                onChange={e => setUseStaticPosition(e.target.checked)}
+                            />
+                            <label className="block" htmlFor="useStaticPosition">
+                                use Static Position
+                            </label>
+                        </div>
+                    </div>
+                    <div className="mb-2 w-1/2 sm:w-full">
+                        <div className="inline-flex items-center">
+                            <input
+                                type="checkbox"
+                                className="mr-2 rounded"
                                 id="showFooter"
                                 checked={showFooter}
                                 onChange={e => setShowFooter(e.target.checked)}
@@ -212,6 +244,34 @@ export default function Playground() {
                             />
                             <label className="block" htmlFor="readOnly">
                                 Read Only
+                            </label>
+                        </div>
+                    </div>
+                    <div className="mb-2 w-1/2 sm:w-full">
+                        <div className="inline-flex items-center">
+                            <input
+                                type="checkbox"
+                                className="mr-2 rounded"
+                                id="showExtraFooter"
+                                checked={showExtraFooter}
+                                onChange={e => setShowExtraFooter(e.target.checked)}
+                            />
+                            <label className="block" htmlFor="showExtraFooter">
+                                Show extra foooter
+                            </label>
+                        </div>
+                    </div>
+                    <div className="mb-2 w-1/2 sm:w-full">
+                        <div className="inline-flex items-center">
+                            <input
+                                type="checkbox"
+                                className="mr-2 rounded"
+                                id="showExtraHeader"
+                                checked={showExtraHeader}
+                                onChange={e => setShowExtraHeader(e.target.checked)}
+                            />
+                            <label className="block" htmlFor="showExtraHeader">
+                                Show extra Header
                             </label>
                         </div>
                     </div>

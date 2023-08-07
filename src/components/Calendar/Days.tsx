@@ -38,7 +38,8 @@ const Days: React.FC<Props> = ({
         changeDayHover,
         minDate,
         maxDate,
-        disabledDates
+        disabledDates,
+        isStaticPosition
     } = useContext(DatepickerContext);
 
     // Functions
@@ -343,8 +344,10 @@ const Days: React.FC<Props> = ({
         ]
     );
 
+    const calendarGridClasses = isStaticPosition ? "gap-y-0" : "gap-y-0.5";
+
     return (
-        <div className="grid grid-cols-7 gap-y-0.5 my-1">
+        <div className={`grid grid-cols-7 ${calendarGridClasses} my-1`}>
             {calendarData.days.previous.map((item, index) => (
                 <button
                     type="button"

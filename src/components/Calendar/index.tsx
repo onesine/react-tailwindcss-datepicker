@@ -59,7 +59,8 @@ const Calendar: React.FC<Props> = ({
         asSingle,
         i18n,
         startWeekOn,
-        input
+        input,
+        isStaticPosition
     } = useContext(DatepickerContext);
     loadLanguageModule(i18n);
 
@@ -241,8 +242,9 @@ const Calendar: React.FC<Props> = ({
         [maxDate]
     );
 
+    const additionalClasses = isStaticPosition ? "px-5" : "";
     return (
-        <div className="w-full md:w-[296px] md:min-w-[296px]">
+        <div className={`w-full md:w-[296px] md:min-w-[296px] ${additionalClasses}`}>
             <div className="flex items-center space-x-1.5 border border-gray-300 dark:border-gray-700 rounded-md px-2 py-1.5">
                 {!showMonths && !showYears && (
                     <div className="flex-none">

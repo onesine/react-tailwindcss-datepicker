@@ -1,6 +1,7 @@
 import React from "react";
 
 import { COLORS } from "../constants";
+import { DatepickerStore } from "../contexts/DatepickerContext";
 
 export interface Period {
     start: string | null;
@@ -82,6 +83,9 @@ export interface DatepickerType {
     disabledDates?: DateRangeType[] | null;
     startWeekOn?: string | null;
     popoverDirection?: PopoverDirectionType;
+    isStaticPosition?: boolean;
+    renderHeader?: (datepickerContext: DatepickerStore) => React.ReactNode;
+    renderFooter?: (datepickerContext: DatepickerStore) => React.ReactNode;
 }
 
 export type ColorKeys = (typeof COLORS)[number]; // "blue" | "orange"

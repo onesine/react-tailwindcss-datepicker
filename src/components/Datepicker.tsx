@@ -41,7 +41,10 @@ const Datepicker: React.FC<DatepickerType> = ({
     inputName,
     startWeekOn = "sun",
     classNames = undefined,
-    popoverDirection = undefined
+    popoverDirection = undefined,
+    isStaticPosition = false,
+    renderHeader,
+    renderFooter
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -71,6 +74,9 @@ const Datepicker: React.FC<DatepickerType> = ({
 
     // Functions
     const hideDatepicker = useCallback(() => {
+        if (isStaticPosition) {
+            return;
+        }
         const div = calendarContainerRef.current;
         const arrow = arrowRef.current;
         if (arrow && div && div.classList.contains("block")) {
@@ -91,7 +97,7 @@ const Datepicker: React.FC<DatepickerType> = ({
                 arrow.classList.add("border-t");
             }, 300);
         }
-    }, []);
+    }, [isStaticPosition]);
 
     /* Start First */
     const firstGotoDate = useCallback(
@@ -282,7 +288,8 @@ const Datepicker: React.FC<DatepickerType> = ({
             classNames,
             onChange,
             input: inputRef,
-            popoverDirection
+            popoverDirection,
+            isStaticPosition
         };
     }, [
         asSingle,
@@ -315,7 +322,8 @@ const Datepicker: React.FC<DatepickerType> = ({
         classNames,
         inputRef,
         popoverDirection,
-        firstGotoDate
+        firstGotoDate,
+        isStaticPosition
     ]);
 
     const containerClassNameOverload = useMemo(() => {
@@ -327,21 +335,28 @@ const Datepicker: React.FC<DatepickerType> = ({
             : defaultContainerClassName;
     }, [containerClassName]);
 
+    const calendarBorders = isStaticPosition ? "" : "shadow-sm border border-gray-300 px-1";
+
     return (
         <DatepickerContext.Provider value={contextValues}>
             <div className={containerClassNameOverload} ref={containerRef}>
                 <Input setContextRef={setInputRef} />
 
                 <div
-                    className="transition-all ease-out duration-300 absolute z-10 mt-[1px] text-sm lg:text-xs 2xl:text-sm translate-y-4 opacity-0 hidden"
+                    className={`transition-all ease-out duration-300 z-10 mt-[1px] text-sm lg:text-xs 2xl:text-sm translate-y-4 opacity-0 hidden ${
+                        !isStaticPosition ? "absolute" : "flex"
+                    }`}
                     ref={calendarContainerRef}
                 >
-                    <Arrow ref={arrowRef} />
+                    {!isStaticPosition && <Arrow ref={arrowRef} />}
 
-                    <div className="mt-2.5 shadow-sm border border-gray-300 px-1 py-0.5 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600 rounded-lg">
+                    <div
+                        className={`mt-2.5 py-0.5 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600 rounded-lg ${calendarBorders}`}
+                    >
+                        {renderHeader && renderHeader(contextValues)}
+
                         <div className="flex flex-col lg:flex-row py-2">
                             {showShortcuts && <Shortcuts />}
-
                             <div
                                 className={`flex items-stretch flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-1.5 ${
                                     showShortcuts ? "md:pl-2" : "md:pl-1"
@@ -377,6 +392,7 @@ const Datepicker: React.FC<DatepickerType> = ({
                             </div>
                         </div>
 
+                        {renderFooter && renderFooter(contextValues)}
                         {showFooter && <Footer />}
                     </div>
                 </div>

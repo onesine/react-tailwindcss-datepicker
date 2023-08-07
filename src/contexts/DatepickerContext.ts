@@ -13,7 +13,7 @@ import {
     ColorKeys
 } from "../types";
 
-interface DatepickerStore {
+export interface DatepickerStore {
     input?: React.RefObject<HTMLInputElement>;
     asSingle?: boolean;
     primaryColor: ColorKeys;
@@ -50,6 +50,7 @@ interface DatepickerStore {
     inputName?: string;
     classNames?: ClassNamesTypeProp;
     popoverDirection?: PopoverDirectionType;
+    isStaticPosition: boolean;
 }
 
 const DatepickerContext = createContext<DatepickerStore>({
@@ -92,7 +93,8 @@ const DatepickerContext = createContext<DatepickerStore>({
     toggleIcon: undefined,
     classNames: undefined,
     popoverDirection: undefined,
-    separator: "~"
+    separator: "~",
+    isStaticPosition: false
 });
 
 export default DatepickerContext;
