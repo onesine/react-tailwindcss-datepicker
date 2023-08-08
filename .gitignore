@@ -11,11 +11,8 @@
 coverage
 
 # builds
-build
-dist
 .rpt2_cache
 .eslintcache
-tsconfig.tsbuildinfo
 
 # misc
 .DS_Store
