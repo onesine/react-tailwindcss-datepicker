@@ -35,7 +35,7 @@ export interface ShortcutsItem {
     };
 }
 
-export type DateType = string | null | Date;
+export type DateType = number | string | null | Date;
 
 export type DateRangeType = {
     startDate: DateType;
