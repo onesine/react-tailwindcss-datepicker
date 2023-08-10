@@ -14,7 +14,7 @@ Added features:
 
 <div align="center">
     
-[![npm version](https://img.shields.io/npm/v/react-tailwindcss-datepicker?style=flat-square)](https://www.npmjs.com/package/react-tailwindcss-datepicker)
+[![npm version](https://img.shields.io/npm/v/react-tailwindcss-datepicker?style=flat-square)](https://www.npmjs.com/package/tailwindcss-react-datepicker)
 [![npm downloads](https://img.shields.io/npm/dt/react-tailwindcss-datepicker?style=flat-square)](https://www.npmjs.com/package/react-tailwindcss-datepicker)
     
 </div>
