@@ -173,6 +173,14 @@ See
 
 I thank you in advance for your contribution to this project.
 
+## Like IT
+
+## Like it?
+
+:star: [this repo](https://github.com/vasinkevych/bundle-scss)
+[Buy me a :coffee: :coffee: :coffee:](https://www.buymeacoffee.com/vaviQ)
+or become a sponsor [Github Sponsors](https://github.com/sponsors/vasinkevych)
+
 ## License
 
 [MIT](LICENSE) Licensed. Copyright (c) Lewhe Onesine 2022.
