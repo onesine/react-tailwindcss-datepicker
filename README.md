@@ -1,6 +1,11 @@
-# React Tailwindcss Datepicker
+# Tailwindcss React Datepicker
 
-<p align="center">
+## This is extended version of [react-tailwindcss-datepicker](https://react-tailwindcss-datepicker.vercel.app)
+Added features:
+- `isStaticPosition` - disable position absolute for Calendar (can be usefulul when you want to build in your calendar in your own popup)
+- `renderHeader` - render custom component on the top of  a calender popover 
+- `renderFooter` -  render custom component on the bottom of a calender popover
+  
     <a href="https://react-tailwindcss-datepicker.vercel.app/" target="_blank">
       <img alt="React Tailwindcss Datepicker" width="100" style="border-radius: 100%;" src="https://raw.githubusercontent.com/onesine/react-tailwindcss-datepicker/master/assets/img/calendar_logo.svg?raw=true">
     </a><br><br>
@@ -51,13 +56,13 @@ Go to [full documentation](https://react-tailwindcss-datepicker.vercel.app/)
 ### Install via npm
 
 ```
-$ npm install react-tailwindcss-datepicker
+$ npm install tailwindcss-react-datepicker
 ```
 
 ### Install via yarn
 
 ```
-$ yarn add react-tailwindcss-datepicker
+$ yarn add tailwindcss-react-datepicker
 ```
 
 Make sure you have installed the peer dependencies as well with the below versions.
@@ -79,17 +84,17 @@ module.exports = {
     // ...
     content: [
         "./src/**/*.{js,jsx,ts,tsx}",
-        "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js"
+        "./node_modules/tailwindcss-react-datepicker/dist/index.esm.js"
     ]
     // ...
 };
 ```
 
-Then use react-tailwindcss-select in your app:
+Then use tailwindcss-react-datepicker in your app:
 
 ```jsx
 import React, { useState } from "react";
-import Datepicker from "react-tailwindcss-datepicker";
+import Datepicker from "tailwindcss-react-datepicker";
 
 const App = () => {
     const [value, setValue] = useState({
