@@ -1,5 +1,5 @@
 {
-    "name": "react-datepicker",
+    "name": "tailwindcss-react-datepicker",
     "version": "1.0.0",
     "description": "A modern React Datepicker using Tailwind CSS 3",
     "main": "dist/index.cjs.js",
@@ -26,6 +26,7 @@
         "url": "https://github.com/onesine/react-tailwindcss-datepicker"
     },
     "keywords": [
+        "tailwindcss-react-datepicker",
         "react-tailwindcss-datepicker",
         "react-datepicker",
         "tailwind-datepicker",
