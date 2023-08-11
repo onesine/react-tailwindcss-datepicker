@@ -7,7 +7,7 @@
     
 </div>
 
-## This is extended version of [react-tailwindcss-datepicker](https://react-tailwindcss-datepicker.vercel.app)
+### This is extended version of [react-tailwindcss-datepicker](https://react-tailwindcss-datepicker.vercel.app)
 Added features:
 - `isStaticPosition` - disable position absolute for Calendar (can be usefulul when you want to build in your calendar in your own popup)
 - `renderHeader` - render custom component on the top of  a calender popover 
@@ -172,8 +172,6 @@ See
 -   [dayjs](https://day.js.org/)
 
 I thank you in advance for your contribution to this project.
-
-## Like IT
 
 ## Like it?
 
