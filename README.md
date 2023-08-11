@@ -1,5 +1,12 @@
 # Tailwindcss React Datepicker
 
+<div align="center">
+    
+[![npm version](https://img.shields.io/npm/v/tailwindcss-react-datepicker?style=flat-square)](https://www.npmjs.com/package/tailwindcss-react-datepicker)
+[![npm downloads](https://img.shields.io/npm/dt/tailwindcss-react-datepicker?style=flat-square)](https://www.npmjs.com/package/tailwindcss-react-datepicker)
+    
+</div>
+
 ## This is extended version of [react-tailwindcss-datepicker](https://react-tailwindcss-datepicker.vercel.app)
 Added features:
 - `isStaticPosition` - disable position absolute for Calendar (can be usefulul when you want to build in your calendar in your own popup)
@@ -11,13 +18,6 @@ Added features:
     </a><br><br>
     A modern date range picker component for React using Tailwind 3 and dayjs. Alternative to Litepie Datepicker which uses Vuejs.
 </p>
-
-<div align="center">
-    
-[![npm version](https://img.shields.io/npm/v/react-tailwindcss-datepicker?style=flat-square)](https://www.npmjs.com/package/tailwindcss-react-datepicker)
-[![npm downloads](https://img.shields.io/npm/dt/react-tailwindcss-datepicker?style=flat-square)](https://www.npmjs.com/package/react-tailwindcss-datepicker)
-    
-</div>
 
 ## Contents
 
