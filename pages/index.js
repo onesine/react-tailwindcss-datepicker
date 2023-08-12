@@ -43,11 +43,11 @@ export default function Playground() {
     return (
         <div className="px-4 py-8">
             <Head>
-                <title>react-tailwindcss-datepicker PlayGround</title>
+                <title>tailwindcss-react-datepicker PlayGround</title>
             </Head>
             <h1 className="text-center font-semibold text-xl">
                 <pre className="text-gray-600 text-lg bg-gray-200 max-w-max mx-auto px-2 rounded">
-                    react-tailwindcss-datepicker
+                    tailwindcss-react-datepicker
                 </pre>
                 <span className="text-gray-700">PlayGround</span>
             </h1>
@@ -542,7 +542,7 @@ export default function Playground() {
             </div>
             <div className="flex flex-row flex-wrap items-center justify-center w-full">
                 <a
-                    href="https://github.com/onesine/react-tailwindcss-datepicker"
+                    href="https://github.com/vasinkevych/tailwindcss-react-datepicker"
                     className="block text-gray-700 hover:text-gray-600"
                 >
                     <svg

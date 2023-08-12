@@ -12,6 +12,9 @@ Added features:
 -   `renderHeader` - render custom component on the top of a calender popover
 -   `renderFooter` - render custom component on the bottom of a calender popover
 
+if you dont need this extra features feel free to use original datepicker from
+[onesite](https://react-tailwindcss-datepicker.vercel.app/)
+
 ## Contents
 
 -   [Features](#features)
