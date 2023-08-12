@@ -10,30 +10,31 @@ export default function Playground() {
         startDate: null,
         endDate: null
     });
+    const [asSingle, setAsSingle] = useState(false);
+    const [containerClassName, setContainerClassName] = useState("");
+    const [dateLooking, setDateLooking] = useState(true);
+    const [disabled, setDisabled] = useState(false);
+    const [disabledDates, setDisabledDates] = useState([]);
+    const [disabledAutoHide, setDisabledAutoHide] = useState(false);
+    const [displayFormat, setDisplayFormat] = useState("YYYY-MM-DD");
+    const [i18n, setI18n] = useState("en");
+    const [inputClassName, setInputClassName] = useState("");
+    const [maxDate, setMaxDate] = useState("");
+    const [minDate, setMinDate] = useState("");
+    const [newDisabledDates, setNewDisabledDates] = useState({ startDate: "", endDate: "" });
+    const [placeholder, setPlaceholder] = useState("");
     const [primaryColor, setPrimaryColor] = useState("blue");
-    const [useRange, setUseRange] = useState(true);
-    const [useStaticPosition, setUseStaticPosition] = useState(true);
+    const [readOnly, setReadOnly] = useState(false);
+    const [separator, setSeparator] = useState("~");
     const [showExtraFooter, setShowExtraFooter] = useState(true);
     const [showExtraHeader, setShowExtraHeader] = useState(true);
     const [showFooter, setShowFooter] = useState(false);
     const [showShortcuts, setShowShortcuts] = useState(false);
-    const [asSingle, setAsSingle] = useState(false);
-    const [placeholder, setPlaceholder] = useState("");
-    const [separator, setSeparator] = useState("~");
-    const [i18n, setI18n] = useState("en");
-    const [disabled, setDisabled] = useState(false);
-    const [inputClassName, setInputClassName] = useState("");
-    const [containerClassName, setContainerClassName] = useState("");
-    const [toggleClassName, setToggleClassName] = useState("");
-    const [displayFormat, setDisplayFormat] = useState("YYYY-MM-DD");
-    const [readOnly, setReadOnly] = useState(false);
-    const [minDate, setMinDate] = useState("");
-    const [maxDate, setMaxDate] = useState("");
-    const [dateLooking, setDateLooking] = useState(true);
-    const [disabledDates, setDisabledDates] = useState([]);
-    const [newDisabledDates, setNewDisabledDates] = useState({ startDate: "", endDate: "" });
     const [startFrom, setStartFrom] = useState("2023-03-01");
     const [startWeekOn, setStartWeekOn] = useState("");
+    const [toggleClassName, setToggleClassName] = useState("");
+    const [useRange, setUseRange] = useState(true);
+    const [useStaticPosition, setUseStaticPosition] = useState(true);
 
     const handleChange = (value, e) => {
         setValue(value);
@@ -70,6 +71,7 @@ export default function Playground() {
                     }
                     value={value}
                     primaryColor={primaryColor}
+                    disableAutoHide={disabledAutoHide}
                     onChange={handleChange}
                     useRange={useRange}
                     showFooter={showFooter}
@@ -174,6 +176,20 @@ export default function Playground() {
                             />
                             <label className="block" htmlFor="useStaticPosition">
                                 use Static Position
+                            </label>
+                        </div>
+                    </div>
+                    <div className="mb-2 w-1/2 sm:w-full">
+                        <div className="inline-flex items-center">
+                            <input
+                                type="checkbox"
+                                className="mr-2 rounded"
+                                id="setDisabledAutoHide"
+                                checked={disabledAutoHide}
+                                onChange={e => setDisabledAutoHide(e.target.checked)}
+                            />
+                            <label className="block" htmlFor="setDisabledAutoHide">
+                                disable Auto Hide for Calendar
                             </label>
                         </div>
                     </div>

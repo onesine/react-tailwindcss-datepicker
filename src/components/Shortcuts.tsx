@@ -19,7 +19,6 @@ const ItemTemplate = React.memo((props: ItemTemplateProps) => {
         changeDayHover,
         changePeriod,
         dayHover,
-        disableAutoHide,
         hideDatepicker,
         period,
         primaryColor,
@@ -50,7 +49,7 @@ const ItemTemplate = React.memo((props: ItemTemplateProps) => {
                 endDate: item.end
             });
             updateFirstDate(dayjs(item.start));
-            !disableAutoHide && hideDatepicker();
+            hideDatepicker();
         },
         [
             changeDatepickerValue,
