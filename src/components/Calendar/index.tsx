@@ -40,27 +40,28 @@ interface Props {
 }
 
 const Calendar: React.FC<Props> = ({
-    date,
-    minDate,
-    maxDate,
-    onClickPrevious,
-    onClickNext,
     changeMonth,
-    changeYear
+    changeYear,
+    date,
+    maxDate,
+    minDate,
+    onClickNext,
+    onClickPrevious
 }) => {
     // Contexts
     const {
-        period,
-        changePeriod,
-        changeDayHover,
-        showFooter,
-        changeDatepickerValue,
-        hideDatepicker,
         asSingle,
+        changeDatepickerValue,
+        changeDayHover,
+        changePeriod,
+        disableAutoHide,
+        hideDatepicker,
         i18n,
-        startWeekOn,
         input,
-        isStaticPosition
+        isStaticPosition,
+        period,
+        showFooter,
+        startWeekOn
     } = useContext(DatepickerContext);
     loadLanguageModule(i18n);
 
@@ -130,7 +131,7 @@ const Calendar: React.FC<Props> = ({
                     },
                     ipt
                 );
-                hideDatepicker();
+                !disableAutoHide && hideDatepicker();
             }
 
             if (period.start && period.end) {

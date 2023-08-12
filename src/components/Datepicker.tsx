@@ -14,37 +14,38 @@ import { Period, DatepickerType, ColorKeys } from "../types";
 import { Arrow, VerticalDash } from "./utils";
 
 const Datepicker: React.FC<DatepickerType> = ({
-    primaryColor = "blue",
-    value = null,
-    onChange,
-    useRange = true,
-    showFooter = false,
-    showShortcuts = false,
-    configs = undefined,
     asSingle = false,
-    placeholder = null,
-    separator = "~",
-    startFrom = null,
-    i18n = LANGUAGE,
-    disabled = false,
-    inputClassName = null,
+    classNames = undefined,
+    configs = undefined,
     containerClassName = null,
-    toggleClassName = null,
-    toggleIcon = undefined,
-    displayFormat = DATE_FORMAT,
-    readOnly = false,
-    minDate = null,
-    maxDate = null,
     dateLooking = "forward",
+    disableAutoHide = false,
+    disabled = false,
     disabledDates = null,
+    displayFormat = DATE_FORMAT,
+    i18n = LANGUAGE,
+    inputClassName = null,
     inputId,
     inputName,
-    startWeekOn = "sun",
-    classNames = undefined,
-    popoverDirection = undefined,
     isStaticPosition = false,
+    maxDate = null,
+    minDate = null,
+    onChange,
+    placeholder = null,
+    popoverDirection = undefined,
+    primaryColor = "blue",
+    readOnly = false,
+    renderFooter,
     renderHeader,
-    renderFooter
+    separator = "~",
+    showFooter = false,
+    showShortcuts = false,
+    startFrom = null,
+    startWeekOn = "sun",
+    toggleClassName = null,
+    toggleIcon = undefined,
+    useRange = true,
+    value = null
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -79,7 +80,7 @@ const Datepicker: React.FC<DatepickerType> = ({
         }
         const div = calendarContainerRef.current;
         const arrow = arrowRef.current;
-        if (arrow && div && div.classList.contains("block")) {
+        if (div && div.classList.contains("block")) {
             div.classList.remove("block");
             div.classList.remove("translate-y-0");
             div.classList.remove("opacity-1");
@@ -90,6 +91,10 @@ const Datepicker: React.FC<DatepickerType> = ({
                 div.classList.add("hidden");
                 div.classList.add("mb-2.5");
                 div.classList.add("mt-2.5");
+            }, 300);
+        }
+        if (arrow) {
+            setTimeout(() => {
                 arrow.classList.remove("-bottom-2");
                 arrow.classList.remove("border-r");
                 arrow.classList.remove("border-b");
@@ -98,6 +103,45 @@ const Datepicker: React.FC<DatepickerType> = ({
             }, 300);
         }
     }, [isStaticPosition]);
+
+    const showDatePicker = useCallback(() => {
+        const arrow = arrowRef.current;
+        const div = calendarContainerRef.current;
+
+        if (div && div.classList.contains("hidden")) {
+            div.classList.remove("hidden");
+            div.classList.add("block");
+
+            // window.innerWidth === 767
+            const popoverOnUp = popoverDirection == "up";
+            const popoverOnDown = popoverDirection === "down";
+            if (
+                popoverOnUp ||
+                (window.innerWidth > 767 &&
+                    window.screen.height - 100 < div.getBoundingClientRect().bottom &&
+                    !popoverOnDown)
+            ) {
+                div.classList.add("bottom-full");
+                div.classList.add("mb-2.5");
+                div.classList.remove("mt-2.5");
+            }
+
+            if (arrow) {
+                arrow.classList.add("-bottom-2");
+                arrow.classList.add("border-r");
+                arrow.classList.add("border-b");
+                arrow.classList.remove("border-l");
+                arrow.classList.remove("border-t");
+            }
+
+            setTimeout(() => {
+                div.classList.remove("translate-y-4");
+                div.classList.remove("opacity-0");
+                div.classList.add("translate-y-0");
+                div.classList.add("opacity-1");
+            }, 1);
+        }
+    }, [popoverDirection]);
 
     /* Start First */
     const firstGotoDate = useCallback(
@@ -252,78 +296,82 @@ const Datepicker: React.FC<DatepickerType> = ({
     }, [primaryColor]);
     const contextValues = useMemo(() => {
         return {
-            asSingle,
-            primaryColor: safePrimaryColor,
-            configs,
-            calendarContainer: calendarContainerRef,
             arrowContainer: arrowRef,
-            hideDatepicker,
-            period,
-            changePeriod: (newPeriod: Period) => setPeriod(newPeriod),
-            dayHover,
-            changeDayHover: (newDay: string | null) => setDayHover(newDay),
-            inputText,
-            changeInputText: (newText: string) => setInputText(newText),
-            updateFirstDate: (newDate: dayjs.Dayjs) => firstGotoDate(newDate),
+            asSingle,
+            calendarContainer: calendarContainerRef,
             changeDatepickerValue: onChange,
-            showFooter,
-            placeholder,
-            separator,
-            i18n,
-            value,
-            disabled,
-            inputClassName,
+            changeDayHover: (newDay: string | null) => setDayHover(newDay),
+            changeInputText: (newText: string) => setInputText(newText),
+            changePeriod: (newPeriod: Period) => setPeriod(newPeriod),
+            classNames,
+            configs,
             containerClassName,
-            toggleClassName,
-            toggleIcon,
-            readOnly,
-            displayFormat,
-            minDate,
-            maxDate,
             dateLooking,
+            dayHover,
+            disableAutoHide,
+            disabled,
             disabledDates,
+            displayFormat,
+            hideDatepicker,
+            i18n,
+            input: inputRef,
+            inputClassName,
             inputId,
             inputName,
-            startWeekOn,
-            classNames,
+            inputText,
+            isStaticPosition,
+            maxDate,
+            minDate,
             onChange,
-            input: inputRef,
+            period,
+            placeholder,
             popoverDirection,
-            isStaticPosition
+            primaryColor: safePrimaryColor,
+            readOnly,
+            separator,
+            showDatePicker,
+            showFooter,
+            startWeekOn,
+            toggleClassName,
+            toggleIcon,
+            updateFirstDate: (newDate: dayjs.Dayjs) => firstGotoDate(newDate),
+            value
         };
     }, [
         asSingle,
-        safePrimaryColor,
+        classNames,
         configs,
-        hideDatepicker,
-        period,
-        dayHover,
-        inputText,
-        onChange,
-        showFooter,
-        placeholder,
-        separator,
-        i18n,
-        value,
-        disabled,
-        inputClassName,
         containerClassName,
-        toggleClassName,
-        toggleIcon,
-        readOnly,
-        displayFormat,
-        minDate,
-        maxDate,
         dateLooking,
+        dayHover,
+        disableAutoHide,
+        disabled,
         disabledDates,
+        displayFormat,
+        firstGotoDate,
+        hideDatepicker,
+        i18n,
+        inputClassName,
         inputId,
         inputName,
-        startWeekOn,
-        classNames,
         inputRef,
+        inputText,
+        isStaticPosition,
+        maxDate,
+        minDate,
+        onChange,
+        period,
+        placeholder,
         popoverDirection,
-        firstGotoDate,
-        isStaticPosition
+        readOnly,
+        safePrimaryColor,
+        separator,
+        showDatePicker,
+        showFooter,
+        startWeekOn,
+        toggleClassName,
+        toggleIcon,
+        value
     ]);
 
     const containerClassNameOverload = useMemo(() => {
@@ -348,7 +396,7 @@ const Datepicker: React.FC<DatepickerType> = ({
                     }`}
                     ref={calendarContainerRef}
                 >
-                    {!isStaticPosition && <Arrow ref={arrowRef} />}
+                    {!!0 && <Arrow ref={arrowRef} />}
 
                     <div
                         className={`mt-2.5 py-0.5 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600 rounded-lg ${calendarBorders}`}

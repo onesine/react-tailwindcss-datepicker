@@ -15,14 +15,14 @@ interface ItemTemplateProps {
 // eslint-disable-next-line react/display-name
 const ItemTemplate = React.memo((props: ItemTemplateProps) => {
     const {
-        primaryColor,
-        period,
-        changePeriod,
-        updateFirstDate,
-        dayHover,
+        changeDatepickerValue,
         changeDayHover,
+        changePeriod,
+        dayHover,
         hideDatepicker,
-        changeDatepickerValue
+        period,
+        primaryColor,
+        updateFirstDate
     } = useContext(DatepickerContext);
 
     // Functions
