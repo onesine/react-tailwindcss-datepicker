@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useState } from "react";
 
 import Datepicker from "../src";
+import { SecondaryButton } from "../src/components/utils";
 import { COLORS, DATE_LOOKING_OPTIONS } from "../src/constants";
 
 export default function Playground() {
@@ -57,8 +58,14 @@ export default function Playground() {
                 <Datepicker
                     renderFooter={
                         showExtraFooter
-                            ? () => {
-                                  return <div>extra footer</div>;
+                            ? c => {
+                                  return (
+                                      <div>
+                                          <SecondaryButton onClick={c.hideDatepicker}>
+                                              Close
+                                          </SecondaryButton>
+                                      </div>
+                                  );
                               }
                             : undefined
                     }

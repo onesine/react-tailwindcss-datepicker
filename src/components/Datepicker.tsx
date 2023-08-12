@@ -396,7 +396,7 @@ const Datepicker: React.FC<DatepickerType> = ({
                     }`}
                     ref={calendarContainerRef}
                 >
-                    {!isStaticPosition && <Arrow ref={arrowRef} />}
+                    {!!0 && <Arrow ref={arrowRef} />}
 
                     <div
                         className={`mt-2.5 py-0.5 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600 rounded-lg ${calendarBorders}`}
