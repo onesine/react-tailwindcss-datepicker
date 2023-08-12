@@ -6,6 +6,7 @@
 /yarn.lock
 /.next/
 /.rollup.cache/
+/dist/
 
 # test coverage
 coverage

@@ -1,23 +1,16 @@
 # Tailwindcss React Datepicker
 
-<div align="center">
-    
 [![npm version](https://img.shields.io/npm/v/tailwindcss-react-datepicker?style=flat-square)](https://www.npmjs.com/package/tailwindcss-react-datepicker)
 [![npm downloads](https://img.shields.io/npm/dt/tailwindcss-react-datepicker?style=flat-square)](https://www.npmjs.com/package/tailwindcss-react-datepicker)
-    
-</div>
 
 ### This is extended version of [react-tailwindcss-datepicker](https://react-tailwindcss-datepicker.vercel.app)
+
 Added features:
-- `isStaticPosition` - disable position absolute for Calendar (can be usefulul when you want to build in your calendar in your own popup)
-- `renderHeader` - render custom component on the top of  a calender popover 
-- `renderFooter` -  render custom component on the bottom of a calender popover
-  
-    <a href="https://react-tailwindcss-datepicker.vercel.app/" target="_blank">
-      <img alt="React Tailwindcss Datepicker" width="100" style="border-radius: 100%;" src="https://raw.githubusercontent.com/onesine/react-tailwindcss-datepicker/master/assets/img/calendar_logo.svg?raw=true">
-    </a><br><br>
-    A modern date range picker component for React using Tailwind 3 and dayjs. Alternative to Litepie Datepicker which uses Vuejs.
-</p>
+
+-   `isStaticPosition` - disable position absolute for Calendar (can be usefulul when you want to
+    build in your calendar in your own popup)
+-   `renderHeader` - render custom component on the top of a calender popover
+-   `renderFooter` - render custom component on the bottom of a calender popover
 
 ## Contents
 
@@ -158,27 +151,22 @@ Open a browser and navigate to `http://localhost:8888`
 ## Contributing
 
 See
-[CONTRIBUTING.md](https://github.com/onesine/react-tailwindcss-datepicker/blob/master/CONTRIBUTING.md)
-
-## Official Documentation repo
-
-[https://github.com/onesine/react-tailwindcss-datepicker-doc](https://github.com/onesine/react-tailwindcss-datepicker-doc)
+[CONTRIBUTING.md](https://github.com/vasinkevych/tailwindcss-react-datepicker/blob/master/CONTRIBUTING.md)
 
 ## Thanks to
 
+-   [Lewhe Onesine](https://github.com/onesine)
 -   [Vue Tailwind Datepicker](https://vue-tailwind-datepicker.com/)
 -   [React](https://reactjs.org/)
 -   [Tailwind CSS](https://tailwindcss.com/)
 -   [dayjs](https://day.js.org/)
 
-I thank you in advance for your contribution to this project.
-
 ## Like it?
 
 :star: [this repo](https://github.com/vasinkevych/bundle-scss)
-[Buy me a :coffee: :coffee: :coffee:](https://www.buymeacoffee.com/vaviQ)
-or become a sponsor [Github Sponsors](https://github.com/sponsors/vasinkevych)
+[Buy me a :coffee: :coffee: :coffee:](https://www.buymeacoffee.com/vaviQ) or become a sponsor
+[Github Sponsors](https://github.com/sponsors/vasinkevych)
 
 ## License
 
-[MIT](LICENSE) Licensed. Copyright (c) Lewhe Onesine 2022.
+[MIT](LICENSE) Licensed.
