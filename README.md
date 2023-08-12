@@ -7,12 +7,12 @@
 
 Added features:
 
--`isStaticPosition` - disable position absolute for Calendar (can be usefulul when you want to
-    build in your calendar in your own popup)
--`renderHeader` - render custom component on the top of a calender popover
--`renderFooter` - render custom component on the bottom of a calender popover
--`disableAutoHide` - disable autohide for calendar when user select date or date range. can be usefule when you want to control popup closin in `renderHeader` or `renderFooter` function. *It will not work with isStaticPosition.*
-Example:
+-`isStaticPosition` - disable position absolute for Calendar (can be usefulul when you want to build
+in your calendar in your own popup) -`renderHeader` - render custom component on the top of a
+calender popover -`renderFooter` - render custom component on the bottom of a calender
+popover -`disableAutoHide` - disable autohide for calendar when user select date or date range. can
+be usefule when you want to control popup closin in `renderHeader` or `renderFooter` function. _It
+will not work with isStaticPosition._ Example:
 
 ```jsx
 import React, { useState } from "react";
@@ -32,8 +32,10 @@ const App = () => {
     return (
         <div>
             <Datepicker
-            renderFooter={(context)=> <button onClick={context.hideDatepicker()} >Ok</button>}
-            value={value} onChange={handleValueChange} />
+                renderFooter={context => <button onClick={context.hideDatepicker()}>Ok</button>}
+                value={value}
+                onChange={handleValueChange}
+            />
         </div>
     );
 };
@@ -46,35 +48,13 @@ if you dont need this extra features feel free to use original datepicker from
 
 ## Contents
 
--[Tailwindcss React Datepicker](#tailwindcss-react-datepicker)
-  -[Contents](#contents)
-  -[Features](#features)
-  -[Documentation](#documentation)
-  -[Installation](#installation)
-    -[Install via npm](#install-via-npm)
-    -[Install via yarn](#install-via-yarn)
-  -[Simple Usage](#simple-usage)
-      -[Tailwindcss Configuration](#tailwindcss-configuration)
-  -[Theming options](#theming-options)
-  -[PlayGround](#playground)
-  -[Contributing](#contributing)
-  -[Thanks to](#thanks-to)
-  -[Like it?](#like-it)
-  -[License](#license)
+-[Tailwindcss React Datepicker](#tailwindcss-react-datepicker) -[Contents](#contents) -[Features](#features) -[Documentation](#documentation) -[Installation](#installation) -[Install via npm](#install-via-npm) -[Install via yarn](#install-via-yarn) -[Simple Usage](#simple-usage) -[Tailwindcss Configuration](#tailwindcss-configuration) -[Theming options](#theming-options) -[PlayGround](#playground) -[Contributing](#contributing) -[Thanks to](#thanks-to) -[Like it?](#like-it) -[License](#license)
 
 ## Features
 
--✅ Theming options
--✅ Dark mode
--✅ Single Date
--✅ Single date use Range
--✅ Shortcuts
--✅ TypeScript support
--✅ Localization(i18n)
--✅ Date formatting
--✅ Disable specific dates
--✅ Minimum Date and Maximum Date
--✅ Custom shortcuts
+-✅ Theming options -✅ Dark mode -✅ Single Date -✅ Single date use Range -✅ Shortcuts -✅
+TypeScript support -✅ Localization(i18n) -✅ Date formatting -✅ Disable specific dates -✅ Minimum
+Date and Maximum Date -✅ Custom shortcuts
 
 ## Documentation
 
@@ -197,11 +177,7 @@ See
 
 ## Thanks to
 
--[Lewhe Onesine](https://github.com/onesine)
--[Vue Tailwind Datepicker](https://vue-tailwind-datepicker.com/)
--[React](https://reactjs.org/)
--[Tailwind CSS](https://tailwindcss.com/)
--[dayjs](https://day.js.org/)
+-[Lewhe Onesine](https://github.com/onesine) -[Vue Tailwind Datepicker](https://vue-tailwind-datepicker.com/) -[React](https://reactjs.org/) -[Tailwind CSS](https://tailwindcss.com/) -[dayjs](https://day.js.org/)
 
 ## Like it?
 
