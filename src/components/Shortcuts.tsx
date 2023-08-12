@@ -15,14 +15,15 @@ interface ItemTemplateProps {
 // eslint-disable-next-line react/display-name
 const ItemTemplate = React.memo((props: ItemTemplateProps) => {
     const {
-        primaryColor,
-        period,
-        changePeriod,
-        updateFirstDate,
-        dayHover,
+        changeDatepickerValue,
         changeDayHover,
+        changePeriod,
+        dayHover,
+        disableAutoHide,
         hideDatepicker,
-        changeDatepickerValue
+        period,
+        primaryColor,
+        updateFirstDate
     } = useContext(DatepickerContext);
 
     // Functions
@@ -49,7 +50,7 @@ const ItemTemplate = React.memo((props: ItemTemplateProps) => {
                 endDate: item.end
             });
             updateFirstDate(dayjs(item.start));
-            hideDatepicker();
+            !disableAutoHide && hideDatepicker();
         },
         [
             changeDatepickerValue,

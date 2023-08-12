@@ -84,6 +84,7 @@ export interface DatepickerType {
     startWeekOn?: string | null;
     popoverDirection?: PopoverDirectionType;
     isStaticPosition?: boolean;
+    disableAutoHide: boolean;
     renderHeader?: (datepickerContext: DatepickerStore) => React.ReactNode;
     renderFooter?: (datepickerContext: DatepickerStore) => React.ReactNode;
 }
