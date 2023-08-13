@@ -11,7 +11,7 @@ Added features:
 - `renderHeader` - render custom component on the top of a calender popover;
 - `renderFooter` - render custom component on the bottom of a calender
 popover;
--`disableAutoHide` - disable autohide for calendar when user select date or date range. can be usefule when you want to control popup closin in `renderHeader` or `renderFooter` function. _It
+- `disableAutoHide` - disable autohide for calendar when user select date or date range. can be usefule when you want to control popup closin in `renderHeader` or `renderFooter` function. _It
 will not work with isStaticPosition._ 
 
 #### Example:
@@ -50,35 +50,41 @@ if you dont need this extra features feel free to use original datepicker from
 
 ## Contents
 
- -[Tailwindcss React Datepicker](#tailwindcss-react-datepicker) 
- -[Contents](#contents)
- -[Features](#features)
- -[Documentation](#documentation)
- -[Installation](#installation)
- -[Install via npm](#install-via-npm)
- -[Install via yarn](#install-via-yarn)
- -[Simple Usage](#simple-usage)
- -[Tailwindcss Configuration](#tailwindcss-configuration)
- -[Theming options](#theming-options)
- -[PlayGround](#playground)
- -[Contributing](#contributing)
- -[Thanks to](#thanks-to)
- -[Like it?](#like-it)
- -[License](#license)
+- [Tailwindcss React Datepicker](#tailwindcss-react-datepicker)
+    - [This is extended version of react-tailwindcss-datepicker](#this-is-extended-version-of-react-tailwindcss-datepicker)
+      - [Example:](#example)
+  - [Contents](#contents)
+  - [Features](#features)
+  - [Documentation](#documentation)
+  - [Installation](#installation)
+    - [Install via npm](#install-via-npm)
+    - [Install via yarn](#install-via-yarn)
+  - [Simple Usage](#simple-usage)
+    - [Tailwindcss Configuration](#tailwindcss-configuration)
+  - [Theming options](#theming-options)
+    - [**Light Mode**](#light-mode)
+    - [**Dark Mode**](#dark-mode)
+    - [**Supported themes**](#supported-themes)
+    - [**Teal themes example**](#teal-themes-example)
+  - [PlayGround](#playground)
+  - [Contributing](#contributing)
+  - [Thanks to](#thanks-to)
+  - [Like it?](#like-it)
+  - [License](#license)
 
 ## Features
 
--✅ Theming options
--✅ Dark mode
--✅ Single Date
--✅ Single date use Range
--✅ Shortcuts
--✅ TypeScript support
--✅ Localization(i18n)
--✅ Date formatting
--✅ Disable specific dates
--✅ Minimum Date and Maximum Date
--✅ Custom shortcuts
+- ✅ Theming options
+- ✅ Dark mode
+- ✅ Single Date
+- ✅ Single date use Range
+- ✅ Shortcuts
+- ✅ TypeScript support
+- ✅ Localization(i18n)
+- ✅ Date formatting
+- ✅ Disable specific dates
+- ✅ Minimum Date and Maximum Date
+- ✅ Custom shortcuts
 
 ## Documentation
 

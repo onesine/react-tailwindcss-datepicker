@@ -3,10 +3,17 @@
 Thanks for your interest in contributing to `tailwindcss-react-datepicker`! Please take a moment to
 review this document **before submitting a pull request**.
 
-  -[Installation](#installation)
-  -[Coding standards](#coding-standards)
-  -[Running playground](#running-playground)
-  -[Before you make a Pull Request](#before-you-make-a-pull-request)
+- [Contributing](#contributing)
+  - [Installation](#installation)
+  - [Coding standards](#coding-standards)
+    - [**Using yarn**](#using-yarn)
+    - [**Using npm**](#using-npm)
+  - [Running playground](#running-playground)
+    - [**Using yarn for development**](#using-yarn-for-development)
+    - [**Using npm for development**](#using-npm-for-development)
+  - [Before you make a Pull Request](#before-you-make-a-pull-request)
+    - [**Let's clean the code first**](#lets-clean-the-code-first)
+    - [**Test a build of your changes**](#test-a-build-of-your-changes)
 
 ## Installation
 
