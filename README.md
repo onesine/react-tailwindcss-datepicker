@@ -3,16 +3,18 @@
 [![npm version](https://img.shields.io/npm/v/tailwindcss-react-datepicker?style=flat-square)](https://www.npmjs.com/package/tailwindcss-react-datepicker)
 [![npm downloads](https://img.shields.io/npm/dt/tailwindcss-react-datepicker?style=flat-square)](https://www.npmjs.com/package/tailwindcss-react-datepicker)
 
-## ### This is extended version of [react-tailwindcss-datepicker](https://react-tailwindcss-datepicker.vercel.app)
+### This is extended version of [react-tailwindcss-datepicker](https://react-tailwindcss-datepicker.vercel.app)
 
 Added features:
 
--`isStaticPosition` - disable position absolute for Calendar (can be usefulul when you want to build
-in your calendar in your own popup) -`renderHeader` - render custom component on the top of a
-calender popover -`renderFooter` - render custom component on the bottom of a calender
-popover -`disableAutoHide` - disable autohide for calendar when user select date or date range. can
-be usefule when you want to control popup closin in `renderHeader` or `renderFooter` function. _It
-will not work with isStaticPosition._ Example:
+- `isStaticPosition` - disable position absolute for Calendar (can be usefulul when you want to build in your calendar in your own popup);
+- `renderHeader` - render custom component on the top of a calender popover;
+- `renderFooter` - render custom component on the bottom of a calender
+popover;
+-`disableAutoHide` - disable autohide for calendar when user select date or date range. can be usefule when you want to control popup closin in `renderHeader` or `renderFooter` function. _It
+will not work with isStaticPosition._ 
+
+#### Example:
 
 ```jsx
 import React, { useState } from "react";
@@ -48,13 +50,35 @@ if you dont need this extra features feel free to use original datepicker from
 
 ## Contents
 
--[Tailwindcss React Datepicker](#tailwindcss-react-datepicker) -[Contents](#contents) -[Features](#features) -[Documentation](#documentation) -[Installation](#installation) -[Install via npm](#install-via-npm) -[Install via yarn](#install-via-yarn) -[Simple Usage](#simple-usage) -[Tailwindcss Configuration](#tailwindcss-configuration) -[Theming options](#theming-options) -[PlayGround](#playground) -[Contributing](#contributing) -[Thanks to](#thanks-to) -[Like it?](#like-it) -[License](#license)
+ -[Tailwindcss React Datepicker](#tailwindcss-react-datepicker) 
+ -[Contents](#contents)
+ -[Features](#features)
+ -[Documentation](#documentation)
+ -[Installation](#installation)
+ -[Install via npm](#install-via-npm)
+ -[Install via yarn](#install-via-yarn)
+ -[Simple Usage](#simple-usage)
+ -[Tailwindcss Configuration](#tailwindcss-configuration)
+ -[Theming options](#theming-options)
+ -[PlayGround](#playground)
+ -[Contributing](#contributing)
+ -[Thanks to](#thanks-to)
+ -[Like it?](#like-it)
+ -[License](#license)
 
 ## Features
 
--✅ Theming options -✅ Dark mode -✅ Single Date -✅ Single date use Range -✅ Shortcuts -✅
-TypeScript support -✅ Localization(i18n) -✅ Date formatting -✅ Disable specific dates -✅ Minimum
-Date and Maximum Date -✅ Custom shortcuts
+-✅ Theming options
+-✅ Dark mode
+-✅ Single Date
+-✅ Single date use Range
+-✅ Shortcuts
+-✅ TypeScript support
+-✅ Localization(i18n)
+-✅ Date formatting
+-✅ Disable specific dates
+-✅ Minimum Date and Maximum Date
+-✅ Custom shortcuts
 
 ## Documentation
 
@@ -181,9 +205,9 @@ See
 
 ## Like it?
 
-:star: [this repo](https://github.com/vasinkevych/bundle-scss)
-[Buy me a :coffee: :coffee: :coffee:](https://www.buymeacoffee.com/vaviQ) or become a sponsor
-[Github Sponsors](https://github.com/sponsors/vasinkevych)
+- :star: [this repo](https://github.com/vasinkevych/bundle-scss)
+- [Buy me a :coffee: :coffee: :coffee:](https://www.buymeacoffee.com/vaviQ) or
+- become a sponsor on [Github Sponsors](https://github.com/sponsors/vasinkevych)
 
 ## License
 
