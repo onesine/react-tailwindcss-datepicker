@@ -3,16 +3,19 @@
 [![npm version](https://img.shields.io/npm/v/tailwindcss-react-datepicker?style=flat-square)](https://www.npmjs.com/package/tailwindcss-react-datepicker)
 [![npm downloads](https://img.shields.io/npm/dt/tailwindcss-react-datepicker?style=flat-square)](https://www.npmjs.com/package/tailwindcss-react-datepicker)
 
-## ### This is extended version of [react-tailwindcss-datepicker](https://react-tailwindcss-datepicker.vercel.app)
+### This is extended version of [react-tailwindcss-datepicker](https://react-tailwindcss-datepicker.vercel.app)
 
 Added features:
 
--`isStaticPosition` - disable position absolute for Calendar (can be usefulul when you want to build
-in your calendar in your own popup) -`renderHeader` - render custom component on the top of a
-calender popover -`renderFooter` - render custom component on the bottom of a calender
-popover -`disableAutoHide` - disable autohide for calendar when user select date or date range. can
-be usefule when you want to control popup closin in `renderHeader` or `renderFooter` function. _It
-will not work with isStaticPosition._ Example:
+-   `isStaticPosition` - disable position absolute for Calendar (can be usefulul when you want to
+    build in your calendar in your own popup);
+-   `renderHeader` - render custom component on the top of a calender popover;
+-   `renderFooter` - render custom component on the bottom of a calender
+    popover; -`disableAutoHide` - disable autohide for calendar when user select date or date range.
+    can be usefule when you want to control popup closin in `renderHeader` or `renderFooter`
+    function. _It will not work with isStaticPosition._
+
+#### Example:
 
 ```jsx
 import React, { useState } from "react";
@@ -181,9 +184,9 @@ See
 
 ## Like it?
 
-:star: [this repo](https://github.com/vasinkevych/bundle-scss)
-[Buy me a :coffee: :coffee: :coffee:](https://www.buymeacoffee.com/vaviQ) or become a sponsor
-[Github Sponsors](https://github.com/sponsors/vasinkevych)
+-   :star: [this repo](https://github.com/vasinkevych/bundle-scss)
+-   [Buy me a :coffee: :coffee: :coffee:](https://www.buymeacoffee.com/vaviQ) or
+-   become a sponsor on [Github Sponsors](https://github.com/sponsors/vasinkevych)
 
 ## License
 
