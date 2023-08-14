@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { DateType } from "types";
 
 import { CALENDAR_SIZE, DATE_FORMAT } from "../../constants";
 import DatepickerContext from "../../contexts/DatepickerContext";
@@ -26,8 +27,6 @@ import Days from "./Days";
 import Months from "./Months";
 import Week from "./Week";
 import Years from "./Years";
-
-import { DateType } from "types";
 
 interface Props {
     date: dayjs.Dayjs;
