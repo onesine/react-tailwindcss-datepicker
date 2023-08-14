@@ -10,8 +10,7 @@
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:prettier/recommended",
-        "plugin:react-hooks/recommended",
-        "next/core-web-vitals"
+        "plugin:react-hooks/recommended"
     ],
     "overrides": [],
     "parser": "@typescript-eslint/parser",
@@ -27,7 +26,7 @@
             "version": "detect"
         }
     },
-    "plugins": ["react", "@typescript-eslint", "import", "prettier", "@next/eslint-plugin-next"],
+    "plugins": ["react", "@typescript-eslint", "import", "prettier"],
     "rules": {
         "indent": "off",
         "linebreak-style": ["error", "unix"],
