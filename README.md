@@ -207,9 +207,10 @@ See
 
 ## Thanks to
 
-- [Lewhe Onesine](https://github.com/onesine) 
+- [Lewhe Onesine](https://github.com/onesine)
 - [Vue Tailwind Datepicker](https://vue-tailwind-datepicker.com/)
-- [React](https://reactjs.org/) -[Tailwind CSS](https://tailwindcss.com/) 
+- [React](https://reactjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
 - [dayjs](https://day.js.org/)
 
 ## Like it?
@@ -217,7 +218,6 @@ See
 - :star: [this repo](https://github.com/vasinkevych/tailwindcss-react-datepicker)
 - [Buy me a :coffee: :coffee: :coffee:](https://www.buymeacoffee.com/vaviQ) or
 - become a sponsor on [Github Sponsors 🤝 ](https://github.com/sponsors/vasinkevych)
-
 ## License
 
 [MIT](LICENSE) Licensed.
