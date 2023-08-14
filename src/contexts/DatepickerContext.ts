@@ -50,6 +50,7 @@ interface DatepickerStore {
     inputName?: string;
     classNames?: ClassNamesTypeProp;
     popoverDirection?: PopoverDirectionType;
+    required?: boolean;
 }
 
 const DatepickerContext = createContext<DatepickerStore>({
@@ -92,6 +93,7 @@ const DatepickerContext = createContext<DatepickerStore>({
     toggleIcon: undefined,
     classNames: undefined,
     popoverDirection: undefined,
+    required: false,
     separator: "~"
 });
 

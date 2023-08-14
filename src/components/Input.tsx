@@ -36,7 +36,8 @@ const Input: React.FC<Props> = (e: Props) => {
         inputId,
         inputName,
         classNames,
-        popoverDirection
+        popoverDirection,
+        required
     } = useContext(DatepickerContext);
 
     // UseRefs
@@ -273,6 +274,7 @@ const Input: React.FC<Props> = (e: Props) => {
                 className={getClassName()}
                 disabled={disabled}
                 readOnly={readOnly}
+                required={required}
                 placeholder={
                     placeholder
                         ? placeholder
