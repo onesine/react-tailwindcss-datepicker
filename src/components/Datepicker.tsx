@@ -56,7 +56,7 @@ const Datepicker: React.FC<DatepickerType> = ({
 
     const toggleSingleView = useCallback((enableSingleMode: boolean) => {
         setAsSingle(enableSingleMode);
-        setUseRange(enableSingleMode);
+        setUseRange(!enableSingleMode);
     }, []);
     // State
     const [firstDate, setFirstDate] = useState<dayjs.Dayjs>(
