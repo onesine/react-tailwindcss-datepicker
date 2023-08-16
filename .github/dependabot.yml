@@ -1,0 +1,20 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  - versioning-strategy: "auto"
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly" # Check for updates daily
+    target-branch: "main" # Target branch for PRs
+    commit-message:
+      prefix: "chore" # Prefix for commit messages
+      include: "scope" # Include the updated dependency's scope in the commit message
+    open-pull-requests-limit: 2 # Limit the number of open pull requests
+    reviewers: # List of reviewers for the PRs
+      - "vasinkevych"
+
