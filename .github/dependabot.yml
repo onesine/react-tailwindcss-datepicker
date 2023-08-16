@@ -5,16 +5,14 @@
 
 version: 2
 updates:
-  - versioning-strategy: "auto"
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "weekly" # Check for updates daily
-    target-branch: "main" # Target branch for PRs
+      interval: "weekly"
+    target-branch: "main"
     commit-message:
-      prefix: "chore" # Prefix for commit messages
-      include: "scope" # Include the updated dependency's scope in the commit message
-    open-pull-requests-limit: 2 # Limit the number of open pull requests
-    reviewers: # List of reviewers for the PRs
+      prefix: "chore"
+      include: "scope"
+    open-pull-requests-limit: 2
+    reviewers:
       - "vasinkevych"
-
