@@ -51,6 +51,7 @@ export interface DatepickerStore {
     startWeekOn?: string | null;
     toggleClassName?: ((className: string) => string) | string | null;
     toggleIcon?: (open: boolean) => React.ReactNode;
+    toggleSingleView: (enableSigle: boolean) => void;
     updateFirstDate: (date: dayjs.Dayjs) => void;
     value: DateValueType;
 }
@@ -97,6 +98,8 @@ const DatepickerContext = createContext<DatepickerStore>({
     startWeekOn: START_WEEK,
     toggleClassName: "",
     toggleIcon: undefined,
+    // eslint-disable-next-line
+    toggleSingleView: (enableSignle: boolean) => {},
     // eslint-disable-next-line
     updateFirstDate: date => {},
     value: null

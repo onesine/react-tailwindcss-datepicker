@@ -14,7 +14,7 @@ import { Period, DatepickerType, ColorKeys } from "../types";
 import { Arrow, VerticalDash } from "./utils";
 
 const Datepicker: React.FC<DatepickerType> = ({
-    asSingle = false,
+    asSingle: defaultAsSingle = false,
     classNames = undefined,
     configs = undefined,
     containerClassName = null,
@@ -44,14 +44,20 @@ const Datepicker: React.FC<DatepickerType> = ({
     startWeekOn = "sun",
     toggleClassName = null,
     toggleIcon = undefined,
-    useRange = true,
+    useRange: defaultUseRange = true,
     value = null
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement | null>(null);
     const calendarContainerRef = useRef<HTMLDivElement | null>(null);
     const arrowRef = useRef<HTMLDivElement | null>(null);
+    const [asSingle, setAsSingle] = useState(defaultAsSingle);
+    const [useRange, setUseRange] = useState(defaultUseRange);
 
+    const toggleSingleView = useCallback((enableSingleMode: boolean) => {
+        setAsSingle(enableSingleMode);
+        setUseRange(enableSingleMode);
+    }, []);
     // State
     const [firstDate, setFirstDate] = useState<dayjs.Dayjs>(
         startFrom && dayjs(startFrom).isValid() ? dayjs(startFrom) : dayjs()
@@ -334,6 +340,7 @@ const Datepicker: React.FC<DatepickerType> = ({
             startWeekOn,
             toggleClassName,
             toggleIcon,
+            toggleSingleView,
             updateFirstDate: (newDate: dayjs.Dayjs) => firstGotoDate(newDate),
             value
         };
@@ -371,6 +378,7 @@ const Datepicker: React.FC<DatepickerType> = ({
         startWeekOn,
         toggleClassName,
         toggleIcon,
+        toggleSingleView,
         value
     ]);
 

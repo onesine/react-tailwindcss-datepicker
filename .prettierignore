@@ -3,6 +3,7 @@ dist/
 assets/
 .next/
 .rollup.cache/
+.github/
 
 # Files
 README.md
