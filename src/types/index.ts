@@ -55,38 +55,38 @@ export type ClassNamesTypeProp = {
 export type PopoverDirectionType = "up" | "down";
 
 export interface DatepickerType {
-    primaryColor?: ColorKeys;
-    value: DateValueType;
-    onChange: (value: DateValueType, e?: HTMLInputElement | null | undefined) => void;
-    useRange?: boolean;
-    showFooter?: boolean;
-    showShortcuts?: boolean;
-    configs?: Configs;
     asSingle?: boolean;
-    placeholder?: string;
-    separator?: string;
-    startFrom?: Date | null;
-    i18n?: string;
-    disabled?: boolean;
     classNames?: ClassNamesTypeProp | undefined;
+    configs?: Configs;
     containerClassName?: ((className: string) => string) | string | null;
+    dateLooking?: "forward" | "backward" | "middle";
+    disableAutoHide: boolean;
+    disabled?: boolean;
+    disabledDates?: DateRangeType[] | null;
+    displayFormat?: string;
+    i18n?: string;
     inputClassName?: ((className: string) => string) | string | null;
-    toggleClassName?: ((className: string) => string) | string | null;
-    toggleIcon?: (open: boolean) => React.ReactNode;
     inputId?: string;
     inputName?: string;
-    displayFormat?: string;
-    readOnly?: boolean;
-    minDate?: Date | null;
-    maxDate?: Date | null;
-    dateLooking?: "forward" | "backward" | "middle";
-    disabledDates?: DateRangeType[] | null;
-    startWeekOn?: string | null;
-    popoverDirection?: PopoverDirectionType;
     isStaticPosition?: boolean;
-    disableAutoHide: boolean;
-    renderHeader?: (datepickerContext: DatepickerStore) => React.ReactNode;
+    maxDate?: Date | null;
+    minDate?: Date | null;
+    onChange: (value: DateValueType, e?: HTMLInputElement | null | undefined) => void;
+    placeholder?: string;
+    popoverDirection?: PopoverDirectionType;
+    primaryColor?: ColorKeys;
+    readOnly?: boolean;
     renderFooter?: (datepickerContext: DatepickerStore) => React.ReactNode;
+    renderHeader?: (datepickerContext: DatepickerStore) => React.ReactNode;
+    separator?: string;
+    showFooter?: boolean;
+    showShortcuts?: boolean;
+    startFrom?: Date | null;
+    startWeekOn?: string | null;
+    toggleClassName?: ((className: string) => string) | string | null;
+    toggleIcon?: (open: boolean) => React.ReactNode;
+    useRange?: boolean;
+    value: DateValueType;
 }
 
 export type ColorKeys = (typeof COLORS)[number]; // "blue" | "orange"
