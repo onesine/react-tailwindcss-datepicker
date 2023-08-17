@@ -10,8 +10,8 @@
     "scripts": {
         "watch": "rollup -c -w",
         "clean": "rm -rf dist",
-        "lint": "eslint --ignore-path .gitignore .",
-        "lint:fix": "eslint --ignore-path .gitignore --fix .",
+        "lint": "eslint .",
+        "lint:fix": "eslint --fix .",
         "tsc:check": "tsc --noEmit",
         "pret": "prettier -c .",
         "pret:fix": "prettier --ignore-path .gitignore --config ./.prettierrc --write './**/*.{js,jsx,ts,tsx,css,md,json}'",
