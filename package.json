@@ -13,7 +13,7 @@
         "lint": "eslint --ignore-path .gitignore .",
         "lint:fix": "eslint --ignore-path .gitignore --fix .",
         "pret": "prettier -c .",
-        "pret:fix": "prettier --ignore-path .gitignore --config ./.prettierrc --write './**/*.{js,jsx,ts,tsx,css,md,json}'",
+        "pret:fix": "prettier --ignore-path .gitignore --config ./.prettierrc --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\"",
         "code-style": "npm run pret && npm run lint",
         "code-style:fix": "npm run pret:fix && npm run pret:fix",
         "build": "npm run code-style && npm run clean && rollup -c",
