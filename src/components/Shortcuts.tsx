@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import React, { useCallback, useContext, useMemo } from "react";
 
-import { DATE_FORMAT, TEXT_COLOR } from "../constants";
+import { DATE_FORMAT, TEXT_COLOR, BG_COLOR } from "../constants";
 import DEFAULT_SHORTCUTS from "../constants/shortcuts";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { Period, ShortcutsItem } from "../types";
@@ -29,8 +29,14 @@ const ItemTemplate = React.memo((props: ItemTemplateProps) => {
     const getClassName: () => string = useCallback(() => {
         const textColor = TEXT_COLOR["600"][primaryColor as keyof (typeof TEXT_COLOR)["600"]];
         const textColorHover = TEXT_COLOR.hover[primaryColor as keyof typeof TEXT_COLOR.hover];
-        return `whitespace-nowrap w-1/2 md:w-1/3 lg:w-auto transition-all duration-300 hover:bg-gray-100 dark:hover:bg-white/10 p-2 rounded cursor-pointer ${textColor} ${textColorHover}`;
-    }, [primaryColor]);
+        const bgColor = BG_COLOR["500"][primaryColor as keyof (typeof BG_COLOR)["500"]];
+        const bgColorHover = BG_COLOR.hover[primaryColor as keyof typeof BG_COLOR.hover];
+        const isSelected =
+            period.start === props?.item.period.start && period.end === props?.item.period.end;
+        return `whitespace-nowrap w-1/2 md:w-1/3 lg:w-auto transition-all duration-300 hover:bg-gray-100 dark:hover:bg-white/10 p-2 rounded cursor-pointer ${textColor} ${textColorHover} ${
+            isSelected ? bgColor + " text-white " + bgColorHover : ""
+        }`;
+    }, [primaryColor, period, props?.item.period]);
 
     const chosePeriod = useCallback(
         (item: Period) => {
