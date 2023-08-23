@@ -1,16 +1,12 @@
 import React from "react";
-
 import { COLORS } from "../constants";
-
 export interface Period {
     start: string | null;
     end: string | null;
 }
-
 interface CustomShortcuts {
     [key: string]: ShortcutsItem;
 }
-
 interface DefaultShortcuts {
     today?: string;
     yesterday?: string;
@@ -25,7 +21,6 @@ export interface Configs {
         apply?: string;
     };
 }
-
 export interface ShortcutsItem {
     text: string;
     daysNumber?: number;
@@ -34,34 +29,26 @@ export interface ShortcutsItem {
         end: Date | string;
     };
 }
-
 export type DateType = string | null | Date;
-
 export type DateRangeType = {
     startDate: DateType;
     endDate: DateType;
 };
-
 export type DateValueType = DateRangeType | null;
-
 export type ClassNamesTypeProp = {
     container?: (p?: object | null | undefined) => string | undefined;
     input?: (p?: object | null | undefined) => string | undefined;
     toggleButton?: (p?: object | null | undefined) => string | undefined;
     footer?: (p?: object | null | undefined) => string | undefined;
 };
-
 export type PopoverDirectionType = "up" | "down";
-
-export interface DatepickerType {
+export interface DatepickerTypeBase {
     primaryColor?: ColorKeys;
-    value: DateValueType;
     onChange: (value: DateValueType, e?: HTMLInputElement | null | undefined) => void;
     useRange?: boolean;
     showFooter?: boolean;
     showShortcuts?: boolean;
     configs?: Configs;
-    asSingle?: boolean;
     placeholder?: string;
     separator?: string;
     startFrom?: Date | null;
@@ -84,10 +71,23 @@ export interface DatepickerType {
     popoverDirection?: PopoverDirectionType;
 }
 
-export type ColorKeys = (typeof COLORS)[number]; // "blue" | "orange"
+export interface DatepickerSingle extends DatepickerTypeBase {
+    asSingle: true;
+    value: DateType;
+}
 
+export interface DatepickerRange extends DatepickerTypeBase {
+    asSingle?: false;
+    value: DateValueType;
+}
+
+export type DatepickerType = DatepickerSingle | DatepickerRange;
+
+
+export type ColorKeys = (typeof COLORS)[number];
 export interface Colors {
     [key: string]: {
         [K in ColorKeys]: string;
     };
 }
+export {};
