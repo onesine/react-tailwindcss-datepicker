@@ -5,7 +5,7 @@
     "main": "dist/index.cjs.js",
     "module": "dist/index.esm.js",
     "types": "dist/index.d.ts",
-    "author": "vasinkevych",
+    "author": "videmig",
     "license": "MIT",
     "scripts": {
         "watch": "rollup -c -w",
@@ -24,7 +24,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/vasinkevych/tailwindcss-react-datepicker"
+        "url": "https://github.com/videmig/tailwindcss-react-datepicker"
     },
     "keywords": [
         "tailwindcss-react-datepicker",
