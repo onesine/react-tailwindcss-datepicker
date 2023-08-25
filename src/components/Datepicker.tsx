@@ -400,7 +400,7 @@ const Datepicker: React.FC<DatepickerType> = ({
 
                 <div
                     className={`transition-all ease-out duration-300 z-10 mt-[1px] text-sm lg:text-xs 2xl:text-sm translate-y-4 opacity-0 hidden ${
-                        !isStaticPosition ? "absolute" : "flex"
+                        !isStaticPosition ? "absolute" : "flex justify-center"
                     }`}
                     ref={calendarContainerRef}
                 >

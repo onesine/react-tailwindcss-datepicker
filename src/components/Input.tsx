@@ -153,7 +153,7 @@ const Input: React.FC<Props> = (e: Props) => {
         ) {
             return classNames.toggleButton(button);
         }
-        const toggleStaticPosition = isStaticPosition ? "h-10" : "h-full";
+        const toggleStaticPosition = isStaticPosition ? "h-10" : "none";
         const defaultToggleClassName = `absolute right-0 ${toggleStaticPosition} px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed`;
 
         return typeof toggleClassName === "function"
