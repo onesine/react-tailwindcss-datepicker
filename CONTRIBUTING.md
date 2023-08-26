@@ -40,7 +40,7 @@ yarn pret:fix
 **Using npm**
 
 ```sh
-npm pret:fix
+npm run pret:fix
 ```
 
 ## Running playground
@@ -60,7 +60,7 @@ yarn dev
 **Using npm**
 
 ```sh
-npm dev
+npm run dev
 ```
 
 ## Before you make a Pull Request
