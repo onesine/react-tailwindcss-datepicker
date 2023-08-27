@@ -204,7 +204,7 @@ Open a browser and navigate to `http://localhost:8888`
 ## Contributing
 
 See
-[CONTRIBUTING.md](https://github.com/vasinkevych/tailwindcss-react-datepicker/blob/master/CONTRIBUTING.md)
+[CONTRIBUTING.md](https://github.com/vivitali/tailwindcss-react-datepicker/blob/master/CONTRIBUTING.md)
 
 ## Thanks to
 
@@ -216,9 +216,9 @@ See
 
 ## Like it?
 
--   :star: [this repo](https://github.com/vasinkevych/tailwindcss-react-datepicker)
+-   :star: [this repo](https://github.com/vivitali/tailwindcss-react-datepicker)
 -   [Buy me a :coffee: :coffee: :coffee:](https://www.buymeacoffee.com/vaviQ) or
--   become a sponsor on [Github Sponsors 🤝 ](https://github.com/sponsors/vasinkevych)
+-   become a sponsor on [Github Sponsors 🤝 ](https://github.com/sponsors/vivitali)
 
 ## License
 
