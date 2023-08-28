@@ -245,6 +245,27 @@ const Input: React.FC<Props> = (e: Props) => {
                     arrow.classList.remove("border-t");
                 }
 
+                if (input && div && arrow) {
+                    const detail = input.getBoundingClientRect();
+                    const screenCenter = window.innerWidth / 2;
+                    const containerCenter = detail.width / 2 + detail.left;
+                    const screenLeftToContainerRight = detail.right;
+                    const calendarWidth = div.getBoundingClientRect().width;
+
+                    if (
+                        containerCenter > screenCenter &&
+                        screenLeftToContainerRight > calendarWidth
+                    ) {
+                        arrow.classList.add("right-0");
+                        arrow.classList.add("mr-3.5");
+                        div.classList.add("right-0");
+                    } else {
+                        arrow.classList.remove("right-0");
+                        arrow.classList.remove("mr-3.5");
+                        div.classList.remove("right-0");
+                    }
+                }
+
                 setTimeout(() => {
                     div.classList.remove("translate-y-4");
                     div.classList.remove("opacity-0");
