@@ -71,7 +71,7 @@ const Calendar: React.FC<Props> = ({
     const previous = useCallback(() => {
         return getLastDaysInMonth(
             previousMonth(date),
-            getNumberOfDay(getFirstDayInMonth(date).ddd, startWeekOn)
+            getNumberOfDay(getFirstDayInMonth(date).basic, startWeekOn)
         );
     }, [date, startWeekOn]);
 
