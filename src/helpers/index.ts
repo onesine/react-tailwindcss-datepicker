@@ -143,6 +143,8 @@ export function getNumberOfDay(dayString: string, startWeekOn?: string | null | 
 
     let startDateModifier = 0;
 
+    const dayStringInUs = new Date(dayString).toLocaleDateString("en-US", { weekday: "short" });
+
     if (startWeekOn) {
         switch (startWeekOn) {
             case "mon":
@@ -173,7 +175,7 @@ export function getNumberOfDay(dayString: string, startWeekOn?: string | null | 
 
     ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].forEach(
         (item, index) => {
-            if (item.includes(dayString)) {
+            if (item.includes(dayStringInUs)) {
                 number = (index + startDateModifier) % 7;
             }
         }
