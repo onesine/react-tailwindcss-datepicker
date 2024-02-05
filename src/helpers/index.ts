@@ -626,3 +626,40 @@ export function loadLanguageModule(language = LANGUAGE) {
 export function dateIsValid(date: Date | number) {
     return date instanceof Date && !isNaN(date.getTime());
 }
+
+// Add in slashes if no seperator exists (all numbers), based on the display format
+export function normalizeDateInput(value: string, displayFormat: string) {
+    const displayFormatWithoutSeperators = displayFormat.replace(/[^A-Z]/gi, "");
+    if (value.length === 8 && displayFormatWithoutSeperators === "MMDDYYYY") {
+        const month = value.slice(0, 2);
+        const day = value.slice(2, 4);
+        const year = value.slice(4, 8);
+        return `${month}/${day}/${year}`;
+    } else if (value.length === 8 && displayFormatWithoutSeperators === "YYYYMMDD") {
+        const year = value.slice(0, 4);
+        const month = value.slice(4, 6);
+        const day = value.slice(6, 8);
+        return `${year}/${month}/${day}`;
+    } else if (value.length === 8 && displayFormatWithoutSeperators === "DDMMYYYY") {
+        const day = value.slice(0, 2);
+        const month = value.slice(2, 4);
+        const year = value.slice(4, 8);
+        return `${day}/${month}/${year}`;
+    } else if (value.length === 6 && displayFormatWithoutSeperators === "MMDDYY") {
+        const month = value.slice(0, 2);
+        const day = value.slice(2, 4);
+        const year = value.slice(4, 6);
+        return `${month}/${day}/${year}`;
+    } else if (value.length === 6 && displayFormatWithoutSeperators === "YYMMDD") {
+        const year = value.slice(0, 2);
+        const month = value.slice(2, 4);
+        const day = value.slice(4, 6);
+        return `${year}/${month}/${day}`;
+    } else if (value.length === 6 && displayFormatWithoutSeperators === "DDMMYY") {
+        const day = value.slice(0, 2);
+        const month = value.slice(2, 4);
+        const year = value.slice(4, 6);
+        return `${day}/${month}/${year}`;
+    }
+    return value;
+}
