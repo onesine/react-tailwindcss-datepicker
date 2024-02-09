@@ -16,12 +16,16 @@ import {
 interface DatepickerStore {
     input?: React.RefObject<HTMLInputElement>;
     asSingle?: boolean;
+    asTimePicker?: boolean;
     primaryColor: ColorKeys;
     configs?: Configs;
     calendarContainer: React.RefObject<HTMLDivElement> | null;
     arrowContainer: React.RefObject<HTMLDivElement> | null;
     hideDatepicker: () => void;
     period: Period;
+    changeHour: (hour: string) => void;
+    changeMinute: (minute: string) => void;
+    changePeriodDay: (periodDay: "AM" | "PM") => void;
     changePeriod: (period: Period) => void;
     dayHover: string | null;
     changeDayHover: (day: string | null) => void;
@@ -69,6 +73,12 @@ const DatepickerContext = createContext<DatepickerStore>({
     inputText: "",
     // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
     changeInputText: text => {},
+    // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
+    changeHour: text => {},
+    // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
+    changeMinute: text => {},
+    // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
+    changePeriodDay: text => {},
     // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
     updateFirstDate: date => {},
     // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars

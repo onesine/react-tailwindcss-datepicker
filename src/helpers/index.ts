@@ -626,3 +626,28 @@ export function loadLanguageModule(language = LANGUAGE) {
 export function dateIsValid(date: Date | number) {
     return date instanceof Date && !isNaN(date.getTime());
 }
+
+export function formatDateTimeToISO(
+    dateIncoming: Date,
+    hourIncoming: number,
+    minute: number,
+    period: string
+): string {
+    // Adjust hour based on period (AM/PM)
+    const hour = (() => {
+        if (period === "PM" && hourIncoming !== 12) return hourIncoming + 12;
+
+        if (period === "AM" && hourIncoming === 12) return 0;
+
+        return hourIncoming;
+    })();
+
+    // Create a new Date object and set the components
+    const date = new Date(dateIncoming);
+    date.setHours(hour);
+    date.setMinutes(minute);
+
+    // Format date to ISO 8601
+    const isoString = date.toISOString();
+    return isoString;
+}

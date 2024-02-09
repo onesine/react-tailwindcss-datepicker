@@ -57,6 +57,7 @@ const Calendar: React.FC<Props> = ({
         changeDatepickerValue,
         hideDatepicker,
         asSingle,
+        asTimePicker,
         i18n,
         startWeekOn,
         input
@@ -129,7 +130,7 @@ const Calendar: React.FC<Props> = ({
                     },
                     ipt
                 );
-                hideDatepicker();
+                if (!asTimePicker) hideDatepicker();
             }
 
             if (period.start && period.end) {
@@ -185,16 +186,17 @@ const Calendar: React.FC<Props> = ({
             }
         },
         [
-            asSingle,
+            date,
+            period.start,
+            period.end,
+            showFooter,
+            input,
             changeDatepickerValue,
+            asTimePicker,
+            hideDatepicker,
             changeDayHover,
             changePeriod,
-            date,
-            hideDatepicker,
-            period.end,
-            period.start,
-            showFooter,
-            input
+            asSingle
         ]
     );
 

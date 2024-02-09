@@ -62,6 +62,7 @@ export interface DatepickerType {
     showShortcuts?: boolean;
     configs?: Configs;
     asSingle?: boolean;
+    asTimePicker?: boolean;
     placeholder?: string;
     separator?: string;
     startFrom?: Date | null;

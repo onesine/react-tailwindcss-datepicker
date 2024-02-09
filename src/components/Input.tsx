@@ -25,6 +25,7 @@ const Input: React.FC<Props> = (e: Props) => {
         hideDatepicker,
         changeDatepickerValue,
         asSingle,
+        asTimePicker,
         placeholder,
         separator,
         disabled,
@@ -70,7 +71,12 @@ const Input: React.FC<Props> = (e: Props) => {
 
             const dates = [];
 
-            if (asSingle) {
+            if (asSingle && asTimePicker) {
+                const date = parseFormattedDate(inputValue, displayFormat);
+                if (dateIsValid(date.toDate())) {
+                    dates.push(date.format(DATE_FORMAT));
+                }
+            } else if (asSingle) {
                 const date = parseFormattedDate(inputValue, displayFormat);
                 if (dateIsValid(date.toDate())) {
                     dates.push(date.format(DATE_FORMAT));
