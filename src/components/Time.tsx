@@ -2,16 +2,23 @@ import React, { ChangeEvent, useCallback, useContext } from "react";
 
 import { RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
-import { classNames as cn } from "../helpers";
-
-import { DoubleVerticalChevronRightIcon } from "./utils";
+import { classNames as cn, formatDateTimeToISO } from "../helpers";
 
 import { PeriodDay } from "types";
 
 const Time: React.FC = () => {
     // Contexts
-    const { primaryColor, changeHour, changeMinute, changePeriodDay } =
-        useContext(DatepickerContext);
+    const {
+        hour,
+        minute,
+        periodDay,
+        period,
+        primaryColor,
+        changeDatepickerValue,
+        changeHour,
+        changeMinute,
+        changePeriodDay
+    } = useContext(DatepickerContext);
 
     const ringFocusColor = RING_COLOR.focus[primaryColor as keyof typeof RING_COLOR.focus];
 
@@ -35,12 +42,38 @@ const Time: React.FC = () => {
     const HOURS = Array.from({ length: 12 });
     const MINUTES = Array.from({ length: 12 });
 
-    const handleChangeHour = (e: ChangeEvent<HTMLSelectElement>) => changeHour(e.target.value);
+    const handleChangeHour = (e: ChangeEvent<HTMLSelectElement>) => {
+        changeHour(e.target.value);
 
-    const handleChangeMinute = (e: ChangeEvent<HTMLSelectElement>) => changeMinute(e.target.value);
+        if (period.start && period.end) {
+            changeDatepickerValue({
+                startDate: formatDateTimeToISO(period.start, e.target.value, minute, periodDay),
+                endDate: formatDateTimeToISO(period.end, e.target.value, minute, periodDay)
+            });
+        }
+    };
 
-    const handleChangePeriodDay = (e: ChangeEvent<HTMLSelectElement>) =>
+    const handleChangeMinute = (e: ChangeEvent<HTMLSelectElement>) => {
+        changeMinute(e.target.value);
+
+        if (period.start && period.end) {
+            changeDatepickerValue({
+                startDate: formatDateTimeToISO(period.start, hour, e.target.value, periodDay),
+                endDate: formatDateTimeToISO(period.end, hour, e.target.value, periodDay)
+            });
+        }
+    };
+
+    const handleChangePeriodDay = (e: ChangeEvent<HTMLSelectElement>) => {
         changePeriodDay(e.target.value as PeriodDay);
+
+        if (period.start && period.end) {
+            changeDatepickerValue({
+                startDate: formatDateTimeToISO(period.start, hour, minute, e.target.value),
+                endDate: formatDateTimeToISO(period.end, hour, minute, e.target.value)
+            });
+        }
+    };
 
     return (
         <div className="w-full md:w-auto flex items-center justify-center space-x-3">
