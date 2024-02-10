@@ -1,10 +1,9 @@
-import React, { ChangeEvent, useCallback, useContext } from "react";
+import React, { ChangeEvent, useContext } from "react";
 
 import { RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { classNames as cn, formatDateTimeToISO } from "../helpers";
-
-import { PeriodDay } from "types";
+import { PeriodDay } from "../types";
 
 const Time: React.FC = () => {
     // Contexts
