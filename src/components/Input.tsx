@@ -71,12 +71,7 @@ const Input: React.FC<Props> = (e: Props) => {
 
             const dates = [];
 
-            if (asSingle && asTimePicker) {
-                const date = parseFormattedDate(inputValue, displayFormat);
-                if (dateIsValid(date.toDate())) {
-                    dates.push(date.format(DATE_FORMAT));
-                }
-            } else if (asSingle) {
+            if (asSingle || asTimePicker) {
                 const date = parseFormattedDate(inputValue, displayFormat);
                 if (dateIsValid(date.toDate())) {
                     dates.push(date.format(DATE_FORMAT));

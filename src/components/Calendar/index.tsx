@@ -5,6 +5,7 @@ import { CALENDAR_SIZE, DATE_FORMAT } from "../../constants";
 import DatepickerContext from "../../contexts/DatepickerContext";
 import {
     formatDate,
+    formatDateTimeToISO,
     getDaysInMonth,
     getFirstDayInMonth,
     getFirstDaysInMonth,
@@ -128,8 +129,12 @@ const Calendar: React.FC<Props> = ({
                 const ipt = input?.current;
                 changeDatepickerValue(
                     {
-                        startDate: dayjs(start).format(DATE_FORMAT),
-                        endDate: dayjs(end).format(DATE_FORMAT)
+                        startDate: asTimePicker
+                            ? formatDateTimeToISO(start, hour, minute, periodDay)
+                            : dayjs(start).format(DATE_FORMAT),
+                        endDate: asTimePicker
+                            ? formatDateTimeToISO(end, hour, minute, periodDay)
+                            : dayjs(end).format(DATE_FORMAT)
                     },
                     ipt
                 );
@@ -196,6 +201,9 @@ const Calendar: React.FC<Props> = ({
             input,
             changeDatepickerValue,
             asTimePicker,
+            hour,
+            minute,
+            periodDay,
             hideDatepicker,
             changeDayHover,
             changePeriod,
@@ -225,6 +233,10 @@ const Calendar: React.FC<Props> = ({
     useEffect(() => {
         setYear(date.year());
     }, [date]);
+
+    useEffect(() => {
+        console.log({ hour, minute, periodDay, period });
+    }, [hour, minute, periodDay, period]);
 
     // Variables
     const calendarData = useMemo(() => {
