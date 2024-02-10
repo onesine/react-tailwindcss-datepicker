@@ -1,27 +1,35 @@
 {
-    "compilerOptions": {
-        "target": "esnext",
-        "lib": ["dom", "esnext"],
-        "module": "esnext",
-        "jsx": "preserve",
-        "moduleResolution": "node",
-        "forceConsistentCasingInFileNames": true,
-        "strict": true,
-        "noImplicitReturns": true,
-        "allowSyntheticDefaultImports": true,
-        "esModuleInterop": true,
-        "baseUrl": "src/",
-        "declaration": true,
-        "outDir": "./dist",
-        "inlineSources": true,
-        "sourceMap": true,
-        "rootDir": "src",
-        "allowJs": true,
-        "skipLibCheck": true,
-        "noEmit": true,
-        "resolveJsonModule": true,
-        "isolatedModules": true
-    },
-    "include": ["src/**/*"],
-    "exclude": ["node_modules"]
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "module": "esnext",
+    "jsx": "preserve",
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "baseUrl": "src/",
+    "declaration": true,
+    "outDir": "./dist",
+    "inlineSources": true,
+    "sourceMap": true,
+    "rootDir": "src",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "incremental": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

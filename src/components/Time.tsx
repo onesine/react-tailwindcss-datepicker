@@ -1,9 +1,10 @@
-import dayjs from "dayjs";
 import React, { ChangeEvent, useCallback, useContext } from "react";
 
-import { BG_COLOR, BORDER_COLOR, DATE_FORMAT, RING_COLOR } from "../constants";
+import { RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { classNames as cn } from "../helpers";
+
+import { PeriodDay } from "types";
 
 const Time: React.FC = () => {
     // Contexts
@@ -27,7 +28,7 @@ const Time: React.FC = () => {
     const handleChangeMinute = (e: ChangeEvent<HTMLSelectElement>) => changeMinute(e.target.value);
 
     const handleChangePeriodDay = (e: ChangeEvent<HTMLSelectElement>) =>
-        changePeriodDay(e.target.value as "AM" | "PM");
+        changePeriodDay(e.target.value as PeriodDay);
 
     return (
         <div className="w-full md:w-auto flex items-center justify-center space-x-3">

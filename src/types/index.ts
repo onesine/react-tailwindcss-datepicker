@@ -2,6 +2,8 @@ import React from "react";
 
 import { COLORS } from "../constants";
 
+export type PeriodDay = "AM" | "PM";
+
 export interface Period {
     start: string | null;
     end: string | null;

@@ -120,7 +120,15 @@ const Input: React.FC<Props> = (e: Props) => {
 
             changeInputText(e.target.value);
         },
-        [asSingle, displayFormat, separator, changeDatepickerValue, changeDayHover, changeInputText]
+        [
+            asSingle,
+            asTimePicker,
+            changeInputText,
+            displayFormat,
+            separator,
+            changeDatepickerValue,
+            changeDayHover
+        ]
     );
 
     const handleInputKeyDown = useCallback(

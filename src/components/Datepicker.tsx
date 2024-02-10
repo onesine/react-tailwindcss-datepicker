@@ -10,7 +10,7 @@ import { COLORS, DATE_FORMAT, DEFAULT_COLOR, LANGUAGE } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { formatDate, nextMonth, previousMonth } from "../helpers";
 import useOnClickOutside from "../hooks";
-import { Period, DatepickerType, ColorKeys } from "../types";
+import { Period, DatepickerType, ColorKeys, PeriodDay } from "../types";
 
 import { Arrow, VerticalDash } from "./utils";
 
@@ -65,7 +65,7 @@ const Datepicker: React.FC<DatepickerType> = ({
 
     const [hour, setHour] = useState<string>("1");
     const [minute, setMinute] = useState<string>("00");
-    const [periodDay, setPeriodDay] = useState<"AM" | "PM">("PM");
+    const [periodDay, setPeriodDay] = useState<PeriodDay>("PM");
 
     // Custom Hooks use
     useOnClickOutside(containerRef, () => {
@@ -108,7 +108,7 @@ const Datepicker: React.FC<DatepickerType> = ({
         setMinute(minute);
     }, []);
 
-    const changePeriodDay = useCallback((periodDay: "AM" | "PM") => {
+    const changePeriodDay = useCallback((periodDay: PeriodDay) => {
         setPeriodDay(periodDay);
     }, []);
 
@@ -282,6 +282,9 @@ const Datepicker: React.FC<DatepickerType> = ({
             changeInputText: (newText: string) => setInputText(newText),
             updateFirstDate: (newDate: dayjs.Dayjs) => firstGotoDate(newDate),
             changeDatepickerValue: onChange,
+            hour,
+            minute,
+            periodDay,
             changeHour,
             changeMinute,
             changePeriodDay,
@@ -319,6 +322,9 @@ const Datepicker: React.FC<DatepickerType> = ({
         dayHover,
         inputText,
         onChange,
+        hour,
+        minute,
+        periodDay,
         changeHour,
         changeMinute,
         changePeriodDay,

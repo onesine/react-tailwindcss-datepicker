@@ -10,7 +10,8 @@ import {
     DateRangeType,
     ClassNamesTypeProp,
     PopoverDirectionType,
-    ColorKeys
+    ColorKeys,
+    PeriodDay
 } from "../types";
 
 interface DatepickerStore {
@@ -23,9 +24,12 @@ interface DatepickerStore {
     arrowContainer: React.RefObject<HTMLDivElement> | null;
     hideDatepicker: () => void;
     period: Period;
+    hour: string;
+    minute: string;
+    periodDay: PeriodDay;
     changeHour: (hour: string) => void;
     changeMinute: (minute: string) => void;
-    changePeriodDay: (periodDay: "AM" | "PM") => void;
+    changePeriodDay: (periodDay: PeriodDay) => void;
     changePeriod: (period: Period) => void;
     dayHover: string | null;
     changeDayHover: (day: string | null) => void;
@@ -73,6 +77,9 @@ const DatepickerContext = createContext<DatepickerStore>({
     inputText: "",
     // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
     changeInputText: text => {},
+    hour: "",
+    minute: "",
+    periodDay: "PM",
     // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
     changeHour: text => {},
     // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars

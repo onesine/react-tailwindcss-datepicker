@@ -50,6 +50,9 @@ const Calendar: React.FC<Props> = ({
 }) => {
     // Contexts
     const {
+        hour,
+        minute,
+        periodDay,
         period,
         changePeriod,
         changeDayHover,
