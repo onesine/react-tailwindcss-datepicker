@@ -22,16 +22,27 @@ const Time: React.FC = () => {
     const ringFocusColor = RING_COLOR.focus[primaryColor as keyof typeof RING_COLOR.focus];
 
     const svgString = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M8.35355 4.06066C8.15829 3.8654 7.84171 3.8654 7.64645 4.06066L5.35355 6.35355C5.15829 6.54882 4.84171 6.54882 4.64645 6.35355C4.45118 6.15829 4.45118 5.84171 4.64645 5.64645L6.93934 3.35356C7.52513 2.76777 8.47487 2.76777 9.06066 3.35355L11.3536 5.64645C11.5488 5.84171 11.5488 6.15829 11.3536 6.35355C11.1583 6.54882 10.8417 6.54882 10.6464 6.35355L8.35355 4.06066Z" fill="#6b7280"/>
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M8.35355 11.9393C8.15829 12.1346 7.84171 12.1346 7.64645 11.9393L5.35355 9.64645C5.15829 9.45119 4.84171 9.45119 4.64645 9.64645C4.45118 9.84171 4.45118 10.1583 4.64645 10.3536L6.93934 12.6464C7.52513 13.2322 8.47487 13.2322 9.06066 12.6464L11.3536 10.3536C11.5488 10.1583 11.5488 9.84171 11.3536 9.64645C11.1583 9.45119 10.8417 9.45119 10.6464 9.64645L8.35355 11.9393Z" fill="#6b7280"/>
+        <svg 
+            class="flex-shrink-0 w-3 h-3" 
+            xmlns="http://www.w3.org/2000/svg" 
+            width="24" 
+            height="24" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="#6b7280" 
+            stroke-width="2.5" 
+            stroke-linecap="round" 
+            stroke-linejoin="round"
+        >
+            <path d="m7 15 5 5 5-5"></path>
+            <path d="m7 9 5-5 5 5"></path>
         </svg>
       `;
     const dataUri = `data:image/svg+xml;base64,${Buffer.from(svgString).toString("base64")}`;
 
     const selectClassname = cn(
-        "!bg-[length:1rem_1rem]",
-        "bg-[right_0.25rem_center]",
+        "!bg-[length:0.75rem_0.75rem]",
+        "bg-[right_0.5rem_center]",
         "!bg-no-repeat !bg-transparent !text-sm !text-center !outline-none !focus:outline-none",
         "!pl-2 !pr-6 !py-1 rounded-[8px] !w-fit",
         "!border border-gray-300 focus:border-none",
