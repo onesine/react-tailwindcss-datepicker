@@ -1,7 +1,6 @@
-import dayjs from "dayjs";
 import React, { ChangeEvent, useContext } from "react";
 
-import { DATE_FORMAT, RING_COLOR } from "../constants";
+import { RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { classNames as cn, formatDateTimeToISO } from "../helpers";
 import { PeriodDay } from "../types";
