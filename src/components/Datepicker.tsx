@@ -100,18 +100,11 @@ const Datepicker: React.FC<DatepickerType> = ({
     }, []);
 
     /* Start Time */
-    const changeHour = useCallback((hour: string) => {
-        setHour(hour);
-    }, []);
+    const changeHour = useCallback((hour: string) => setHour(hour), []);
 
-    const changeMinute = useCallback((minute: string) => {
-        setMinute(minute);
-    }, []);
+    const changeMinute = useCallback((minute: string) => setMinute(minute), []);
 
-    const changePeriodDay = useCallback((periodDay: PeriodDay) => {
-        setPeriodDay(periodDay);
-    }, []);
-
+    const changePeriodDay = useCallback((periodDay: PeriodDay) => setPeriodDay(periodDay), []);
     /* End Time */
 
     /* Start First */

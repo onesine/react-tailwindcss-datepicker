@@ -1,6 +1,7 @@
+import dayjs from "dayjs";
 import React, { ChangeEvent, useContext } from "react";
 
-import { RING_COLOR } from "../constants";
+import { DATE_FORMAT, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { classNames as cn, formatDateTimeToISO } from "../helpers";
 import { PeriodDay } from "../types";
@@ -55,34 +56,36 @@ const Time: React.FC = () => {
     const handleChangeHour = (e: ChangeEvent<HTMLSelectElement>) => {
         changeHour(e.target.value);
 
-        if (period.start && period.end) {
+        if (period.start && period.end)
             changeDatepickerValue({
                 startDate: formatDateTimeToISO(period.start, e.target.value, minute, periodDay),
                 endDate: formatDateTimeToISO(period.end, e.target.value, minute, periodDay)
             });
-        }
     };
 
     const handleChangeMinute = (e: ChangeEvent<HTMLSelectElement>) => {
         changeMinute(e.target.value);
 
-        if (period.start && period.end) {
+        if (period.start && period.end)
             changeDatepickerValue({
                 startDate: formatDateTimeToISO(period.start, hour, e.target.value, periodDay),
                 endDate: formatDateTimeToISO(period.end, hour, e.target.value, periodDay)
             });
-        }
     };
 
     const handleChangePeriodDay = (e: ChangeEvent<HTMLSelectElement>) => {
         changePeriodDay(e.target.value as PeriodDay);
 
-        if (period.start && period.end) {
+        if (period.start && period.end)
             changeDatepickerValue({
-                startDate: formatDateTimeToISO(period.start, hour, minute, e.target.value),
-                endDate: formatDateTimeToISO(period.end, hour, minute, e.target.value)
+                startDate: formatDateTimeToISO(
+                    period.start,
+                    hour,
+                    minute,
+                    e.target.value as PeriodDay
+                ),
+                endDate: formatDateTimeToISO(period.end, hour, minute, e.target.value as PeriodDay)
             });
-        }
     };
 
     return (
@@ -97,10 +100,10 @@ const Time: React.FC = () => {
                     }}
                 >
                     {HOURS.map((_, index) => {
-                        const hour = index + 1;
+                        const hr = index + 1;
                         return (
-                            <option key={hour} value={hour}>
-                                {hour}
+                            <option key={hr} value={hr}>
+                                {hr}
                             </option>
                         );
                     })}
@@ -110,17 +113,18 @@ const Time: React.FC = () => {
                     name="minute"
                     className={cn(selectClassname, "mr-4")}
                     onChange={handleChangeMinute}
+                    value={minute}
                     style={{
                         backgroundImage: "url(" + dataUri + ")"
                     }}
                 >
                     {MINUTES.map((_, index) => {
-                        const minute = index * 5;
+                        const min = index * 5;
                         return (
-                            <option key={minute} value={minute}>
+                            <option key={min} value={min}>
                                 {new Intl.NumberFormat("en-US", {
                                     minimumIntegerDigits: 2
-                                }).format(minute)}
+                                }).format(min)}
                             </option>
                         );
                     })}
@@ -129,6 +133,7 @@ const Time: React.FC = () => {
                     name="ampm"
                     className={selectClassname}
                     onChange={handleChangePeriodDay}
+                    value={periodDay}
                     style={{
                         backgroundImage: "url(" + dataUri + ")"
                     }}

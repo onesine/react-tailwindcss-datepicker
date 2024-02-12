@@ -234,10 +234,6 @@ const Calendar: React.FC<Props> = ({
         setYear(date.year());
     }, [date]);
 
-    useEffect(() => {
-        console.log({ hour, minute, periodDay, period });
-    }, [hour, minute, periodDay, period]);
-
     // Variables
     const calendarData = useMemo(() => {
         return {

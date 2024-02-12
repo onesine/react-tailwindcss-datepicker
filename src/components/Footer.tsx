@@ -8,7 +8,7 @@ import { PrimaryButton, SecondaryButton } from "./utils";
 
 const Footer: React.FC = () => {
     // Contexts
-    const { hideDatepicker, period, changeDatepickerValue, configs, classNames } =
+    const { asTimePicker, period, configs, classNames, changeDatepickerValue, hideDatepicker } =
         useContext(DatepickerContext);
 
     // Functions
@@ -34,8 +34,12 @@ const Footer: React.FC = () => {
                     onClick={() => {
                         if (period.start && period.end) {
                             changeDatepickerValue({
-                                startDate: dayjs(period.start).format(DATE_FORMAT),
-                                endDate: dayjs(period.end).format(DATE_FORMAT)
+                                startDate: asTimePicker
+                                    ? dayjs(period.start).toISOString()
+                                    : dayjs(period.start).format(DATE_FORMAT),
+                                endDate: asTimePicker
+                                    ? dayjs(period.end).toISOString()
+                                    : dayjs(period.start).format(DATE_FORMAT)
                             });
                             hideDatepicker();
                         }
