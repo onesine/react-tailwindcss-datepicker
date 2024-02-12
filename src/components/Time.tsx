@@ -43,7 +43,7 @@ const Time: React.FC = () => {
     const selectClassname = cn(
         "!bg-[length:0.75rem_0.75rem]",
         "bg-[right_0.5rem_center]",
-        "!bg-no-repeat !bg-transparent !text-sm !text-center !outline-none !focus:outline-none",
+        "!bg-no-repeat !appearance-none !bg-transparent !text-sm !text-center !outline-none !focus:outline-none",
         "!pl-2 !pr-6 !py-1 rounded-[8px] !w-fit",
         "!border border-gray-300 focus:border-none",
         `${ringFocusColor}`
