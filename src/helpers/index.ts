@@ -2,10 +2,12 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import weekday from "dayjs/plugin/weekday";
 
+import { DATE_FORMAT, LANGUAGE } from "../constants";
+
 dayjs.extend(weekday);
 dayjs.extend(customParseFormat);
 
-import { DATE_FORMAT, LANGUAGE } from "../constants";
+import { PeriodDay } from "types";
 
 export function classNames(...classes: (false | null | undefined | string)[]) {
     return classes.filter(Boolean).join(" ");
@@ -625,4 +627,31 @@ export function loadLanguageModule(language = LANGUAGE) {
 
 export function dateIsValid(date: Date | number) {
     return date instanceof Date && !isNaN(date.getTime());
+}
+
+export function formatDateTimeToISO(
+    dateIncoming: Date | string,
+    hourIncoming: string,
+    minute: string,
+    periodDay: PeriodDay
+): string {
+    // Adjust hour based on period (AM/PM)
+    const calculateHour = (hourIncoming: string, periodDay: PeriodDay): string => {
+        if (periodDay === "PM" && hourIncoming !== String(12))
+            return String(Number(hourIncoming) + 12);
+
+        if (periodDay === "AM" && hourIncoming === String(12)) return "0";
+
+        return hourIncoming;
+    };
+
+    const hour = calculateHour(hourIncoming, periodDay);
+
+    // Create a new Date object and set the components
+    const date = dayjs(dateIncoming).add(Number(hour), "hours").add(Number(minute), "minutes");
+
+    // Format date to ISO 8601
+    const isoString = date.toISOString();
+
+    return isoString;
 }

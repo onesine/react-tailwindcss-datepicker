@@ -25,6 +25,7 @@ const Input: React.FC<Props> = (e: Props) => {
         hideDatepicker,
         changeDatepickerValue,
         asSingle,
+        asTimePicker,
         placeholder,
         separator,
         disabled,
@@ -70,7 +71,7 @@ const Input: React.FC<Props> = (e: Props) => {
 
             const dates = [];
 
-            if (asSingle) {
+            if (asSingle || asTimePicker) {
                 const date = parseFormattedDate(inputValue, displayFormat);
                 if (dateIsValid(date.toDate())) {
                     dates.push(date.format(DATE_FORMAT));
@@ -114,7 +115,15 @@ const Input: React.FC<Props> = (e: Props) => {
 
             changeInputText(e.target.value);
         },
-        [asSingle, displayFormat, separator, changeDatepickerValue, changeDayHover, changeInputText]
+        [
+            asSingle,
+            asTimePicker,
+            changeInputText,
+            displayFormat,
+            separator,
+            changeDatepickerValue,
+            changeDayHover
+        ]
     );
 
     const handleInputKeyDown = useCallback(

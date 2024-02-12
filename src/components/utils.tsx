@@ -4,7 +4,7 @@ import { BG_COLOR, BORDER_COLOR, BUTTON_COLOR, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 
 interface IconProps {
-    className: string;
+    className?: string;
 }
 
 interface Button {

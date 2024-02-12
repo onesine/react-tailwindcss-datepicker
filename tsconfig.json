@@ -20,7 +20,8 @@
         "skipLibCheck": true,
         "noEmit": true,
         "resolveJsonModule": true,
-        "isolatedModules": true
+        "isolatedModules": true,
+        "incremental": true
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules"]

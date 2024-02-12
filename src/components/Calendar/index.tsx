@@ -5,6 +5,7 @@ import { CALENDAR_SIZE, DATE_FORMAT } from "../../constants";
 import DatepickerContext from "../../contexts/DatepickerContext";
 import {
     formatDate,
+    formatDateTimeToISO,
     getDaysInMonth,
     getFirstDayInMonth,
     getFirstDaysInMonth,
@@ -50,6 +51,9 @@ const Calendar: React.FC<Props> = ({
 }) => {
     // Contexts
     const {
+        hour,
+        minute,
+        periodDay,
         period,
         changePeriod,
         changeDayHover,
@@ -57,6 +61,7 @@ const Calendar: React.FC<Props> = ({
         changeDatepickerValue,
         hideDatepicker,
         asSingle,
+        asTimePicker,
         i18n,
         startWeekOn,
         input
@@ -124,12 +129,16 @@ const Calendar: React.FC<Props> = ({
                 const ipt = input?.current;
                 changeDatepickerValue(
                     {
-                        startDate: dayjs(start).format(DATE_FORMAT),
-                        endDate: dayjs(end).format(DATE_FORMAT)
+                        startDate: asTimePicker
+                            ? formatDateTimeToISO(start, hour, minute, periodDay)
+                            : dayjs(start).format(DATE_FORMAT),
+                        endDate: asTimePicker
+                            ? formatDateTimeToISO(end, hour, minute, periodDay)
+                            : dayjs(end).format(DATE_FORMAT)
                     },
                     ipt
                 );
-                hideDatepicker();
+                if (!asTimePicker) hideDatepicker();
             }
 
             if (period.start && period.end) {
@@ -185,16 +194,20 @@ const Calendar: React.FC<Props> = ({
             }
         },
         [
-            asSingle,
+            date,
+            period.start,
+            period.end,
+            showFooter,
+            input,
             changeDatepickerValue,
+            asTimePicker,
+            hour,
+            minute,
+            periodDay,
+            hideDatepicker,
             changeDayHover,
             changePeriod,
-            date,
-            hideDatepicker,
-            period.end,
-            period.start,
-            showFooter,
-            input
+            asSingle
         ]
     );
 

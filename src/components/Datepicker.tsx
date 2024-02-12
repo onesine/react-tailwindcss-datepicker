@@ -5,11 +5,12 @@ import Calendar from "../components/Calendar";
 import Footer from "../components/Footer";
 import Input from "../components/Input";
 import Shortcuts from "../components/Shortcuts";
+import Time from "../components/Time";
 import { COLORS, DATE_FORMAT, DEFAULT_COLOR, LANGUAGE } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { formatDate, nextMonth, previousMonth } from "../helpers";
 import useOnClickOutside from "../hooks";
-import { Period, DatepickerType, ColorKeys } from "../types";
+import { Period, DatepickerType, ColorKeys, PeriodDay } from "../types";
 
 import { Arrow, VerticalDash } from "./utils";
 
@@ -22,6 +23,7 @@ const Datepicker: React.FC<DatepickerType> = ({
     showShortcuts = false,
     configs = undefined,
     asSingle = false,
+    asTimePicker = false,
     placeholder = null,
     separator = "~",
     startFrom = null,
@@ -61,6 +63,10 @@ const Datepicker: React.FC<DatepickerType> = ({
     const [inputText, setInputText] = useState<string>("");
     const [inputRef, setInputRef] = useState(React.createRef<HTMLInputElement>());
 
+    const [hour, setHour] = useState<string>("1");
+    const [minute, setMinute] = useState<string>("00");
+    const [periodDay, setPeriodDay] = useState<PeriodDay>("PM");
+
     // Custom Hooks use
     useOnClickOutside(containerRef, () => {
         const container = containerRef.current;
@@ -92,6 +98,14 @@ const Datepicker: React.FC<DatepickerType> = ({
             }, 300);
         }
     }, []);
+
+    /* Start Time */
+    const changeHour = useCallback((hour: string) => setHour(hour), []);
+
+    const changeMinute = useCallback((minute: string) => setMinute(minute), []);
+
+    const changePeriodDay = useCallback((periodDay: PeriodDay) => setPeriodDay(periodDay), []);
+    /* End Time */
 
     /* Start First */
     const firstGotoDate = useCallback(
@@ -247,6 +261,7 @@ const Datepicker: React.FC<DatepickerType> = ({
     const contextValues = useMemo(() => {
         return {
             asSingle,
+            asTimePicker,
             primaryColor: safePrimaryColor,
             configs,
             calendarContainer: calendarContainerRef,
@@ -260,6 +275,12 @@ const Datepicker: React.FC<DatepickerType> = ({
             changeInputText: (newText: string) => setInputText(newText),
             updateFirstDate: (newDate: dayjs.Dayjs) => firstGotoDate(newDate),
             changeDatepickerValue: onChange,
+            hour,
+            minute,
+            periodDay,
+            changeHour,
+            changeMinute,
+            changePeriodDay,
             showFooter,
             placeholder,
             separator,
@@ -286,6 +307,7 @@ const Datepicker: React.FC<DatepickerType> = ({
         };
     }, [
         asSingle,
+        asTimePicker,
         safePrimaryColor,
         configs,
         hideDatepicker,
@@ -293,6 +315,12 @@ const Datepicker: React.FC<DatepickerType> = ({
         dayHover,
         inputText,
         onChange,
+        hour,
+        minute,
+        periodDay,
+        changeHour,
+        changeMinute,
+        changePeriodDay,
         showFooter,
         placeholder,
         separator,
@@ -347,15 +375,18 @@ const Datepicker: React.FC<DatepickerType> = ({
                                     showShortcuts ? "md:pl-2" : "md:pl-1"
                                 } pr-2 lg:pr-1`}
                             >
-                                <Calendar
-                                    date={firstDate}
-                                    onClickPrevious={previousMonthFirst}
-                                    onClickNext={nextMonthFirst}
-                                    changeMonth={changeFirstMonth}
-                                    changeYear={changeFirstYear}
-                                    minDate={minDate}
-                                    maxDate={maxDate}
-                                />
+                                <div>
+                                    <Calendar
+                                        date={firstDate}
+                                        onClickPrevious={previousMonthFirst}
+                                        onClickNext={nextMonthFirst}
+                                        changeMonth={changeFirstMonth}
+                                        changeYear={changeFirstYear}
+                                        minDate={minDate}
+                                        maxDate={maxDate}
+                                    />
+                                    {asSingle && asTimePicker && <Time />}
+                                </div>
 
                                 {useRange && (
                                     <>
@@ -376,7 +407,6 @@ const Datepicker: React.FC<DatepickerType> = ({
                                 )}
                             </div>
                         </div>
-
                         {showFooter && <Footer />}
                     </div>
                 </div>
