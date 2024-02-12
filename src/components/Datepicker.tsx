@@ -375,15 +375,18 @@ const Datepicker: React.FC<DatepickerType> = ({
                                     showShortcuts ? "md:pl-2" : "md:pl-1"
                                 } pr-2 lg:pr-1`}
                             >
-                                <Calendar
-                                    date={firstDate}
-                                    onClickPrevious={previousMonthFirst}
-                                    onClickNext={nextMonthFirst}
-                                    changeMonth={changeFirstMonth}
-                                    changeYear={changeFirstYear}
-                                    minDate={minDate}
-                                    maxDate={maxDate}
-                                />
+                                <div>
+                                    <Calendar
+                                        date={firstDate}
+                                        onClickPrevious={previousMonthFirst}
+                                        onClickNext={nextMonthFirst}
+                                        changeMonth={changeFirstMonth}
+                                        changeYear={changeFirstYear}
+                                        minDate={minDate}
+                                        maxDate={maxDate}
+                                    />
+                                    {asSingle && asTimePicker && <Time />}
+                                </div>
 
                                 {useRange && (
                                     <>
@@ -404,7 +407,6 @@ const Datepicker: React.FC<DatepickerType> = ({
                                 )}
                             </div>
                         </div>
-                        {asSingle && asTimePicker && <Time />}
                         {showFooter && <Footer />}
                     </div>
                 </div>
