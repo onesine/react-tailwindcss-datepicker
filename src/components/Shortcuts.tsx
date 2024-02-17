@@ -22,15 +22,22 @@ const ItemTemplate = React.memo((props: ItemTemplateProps) => {
         dayHover,
         changeDayHover,
         hideDatepicker,
-        changeDatepickerValue
+        changeDatepickerValue,
+        shortcutItemClassName
     } = useContext(DatepickerContext);
 
     // Functions
     const getClassName: () => string = useCallback(() => {
         const textColor = TEXT_COLOR["600"][primaryColor as keyof (typeof TEXT_COLOR)["600"]];
         const textColorHover = TEXT_COLOR.hover[primaryColor as keyof typeof TEXT_COLOR.hover];
-        return `whitespace-nowrap w-1/2 md:w-1/3 lg:w-auto transition-all duration-300 hover:bg-gray-100 dark:hover:bg-white/10 p-2 rounded cursor-pointer ${textColor} ${textColorHover}`;
-    }, [primaryColor]);
+
+        const defaultShortcutClassName = `whitespace-nowrap w-1/2 md:w-1/3 lg:w-auto transition-all duration-300 hover:bg-gray-100 dark:hover:bg-white/10 p-2 rounded cursor-pointer ${textColor} ${textColorHover}`;
+        return typeof shortcutItemClassName === "function"
+            ? shortcutItemClassName(defaultShortcutClassName)
+            : typeof shortcutItemClassName === "string" && shortcutItemClassName !== ""
+            ? shortcutItemClassName
+            : defaultShortcutClassName;
+    }, [primaryColor, shortcutItemClassName]);
 
     const chosePeriod = useCallback(
         (item: Period) => {
@@ -81,7 +88,7 @@ const ItemTemplate = React.memo((props: ItemTemplateProps) => {
 
 const Shortcuts: React.FC = () => {
     // Contexts
-    const { configs } = useContext(DatepickerContext);
+    const { configs, shortcutClassName } = useContext(DatepickerContext);
 
     const callPastFunction = useCallback((data: unknown, numberValue: number) => {
         return typeof data === "function" ? data(numberValue) : null;
@@ -131,9 +138,19 @@ const Shortcuts: React.FC = () => {
         return item?.text ?? null;
     }, []);
 
+    const shurtcutClassNameOverload = useMemo(() => {
+        const defaultShortcutClassName =
+            "w-full tracking-wide flex flex-wrap lg:flex-col pb-1 lg:pb-0";
+        return typeof shortcutClassName === "function"
+            ? shortcutClassName(defaultShortcutClassName)
+            : typeof shortcutClassName === "string" && shortcutClassName !== ""
+            ? shortcutClassName
+            : defaultShortcutClassName;
+    }, [shortcutClassName]);
+
     return shortcutOptions?.length ? (
         <div className="md:border-b mb-3 lg:mb-0 lg:border-r lg:border-b-0 border-gray-300 dark:border-gray-700 pr-1">
-            <ul className="w-full tracking-wide flex flex-wrap lg:flex-col pb-1 lg:pb-0">
+            <ul className={shurtcutClassNameOverload}>
                 {shortcutOptions.map(([key, item], index: number) =>
                     Array.isArray(item) ? (
                         item.map((item, index) => (

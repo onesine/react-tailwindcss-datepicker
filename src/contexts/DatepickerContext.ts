@@ -36,6 +36,8 @@ interface DatepickerStore {
     value: DateValueType;
     disabled?: boolean;
     inputClassName?: ((className: string) => string) | string | null;
+    shortcutClassName?: ((className: string) => string) | string | null;
+    shortcutItemClassName?: ((className: string) => string) | string | null;
     containerClassName?: ((className: string) => string) | string | null;
     toggleClassName?: ((className: string) => string) | string | null;
     toggleIcon?: (open: boolean) => React.ReactNode;
@@ -78,6 +80,8 @@ const DatepickerContext = createContext<DatepickerStore>({
     i18n: LANGUAGE,
     disabled: false,
     inputClassName: "",
+    shortcutClassName: "",
+    shortcutItemClassName: "",
     containerClassName: "",
     toggleClassName: "",
     readOnly: false,
