@@ -132,14 +132,12 @@ const Datepicker: React.FC<DatepickerType> = ({
     /* Start Second */
     const secondGotoDate = useCallback(
         (date: dayjs.Dayjs) => {
-            const newDate = dayjs(formatDate(date, displayFormat));
-            const reformatDate = dayjs(formatDate(firstDate, displayFormat));
-            if (newDate.isSame(reformatDate) || newDate.isBefore(reformatDate)) {
+            if (date.isSame(firstDate) || date.isBefore(firstDate)) {
                 setFirstDate(previousMonth(date));
             }
             setSecondDate(date);
         },
-        [firstDate, displayFormat]
+        [firstDate]
     );
 
     const previousMonthSecond = useCallback(() => {
