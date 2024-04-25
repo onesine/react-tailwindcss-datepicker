@@ -4,15 +4,9 @@
     <a href="https://react-tailwindcss-datepicker.vercel.app/" target="_blank">
       <img alt="React Tailwindcss Datepicker" width="100" style="border-radius: 100%;" src="https://raw.githubusercontent.com/onesine/react-tailwindcss-datepicker/master/assets/img/calendar_logo.svg?raw=true">
     </a><br><br>
-    A modern date range picker component for React using Tailwind 3 and dayjs. Alternative to Litepie Datepicker which uses Vuejs.
+    A modern date range picker component for React using Tailwind 3 and dayjs. </br>
+    Forked from   <a href="https://github.com/onesine/react-tailwindcss-datepicker" target="_blank">React Tailwindcss Datepicker</a>.
 </p>
-
-<div align="center">
-    
-[![npm version](https://img.shields.io/npm/v/react-tailwindcss-datepicker?style=flat-square)](https://www.npmjs.com/package/react-tailwindcss-datepicker)
-[![npm downloads](https://img.shields.io/npm/dt/react-tailwindcss-datepicker?style=flat-square)](https://www.npmjs.com/package/react-tailwindcss-datepicker)
-    
-</div>
 
 ## Contents
 
@@ -51,7 +45,7 @@ Go to [full documentation](https://react-tailwindcss-datepicker.vercel.app/)
 ### Install via npm
 
 ```
-$ npm install react-tailwindcss-datepicker
+$ npm install @sciendis/react-tailwindcss-datepicker
 ```
 
 ### Install via yarn
@@ -153,14 +147,16 @@ Open a browser and navigate to `http://localhost:8888`
 ## Contributing
 
 See
-[CONTRIBUTING.md](https://github.com/onesine/react-tailwindcss-datepicker/blob/master/CONTRIBUTING.md)
+[CONTRIBUTING.md](https://github.com/sciendis/react-tailwind-datepicker/blob/master/CONTRIBUTING.md)
 
 ## Official Documentation repo
 
+Onesine's original documentation is still valid for this fork:
 [https://github.com/onesine/react-tailwindcss-datepicker-doc](https://github.com/onesine/react-tailwindcss-datepicker-doc)
 
 ## Thanks to
 
+-   [React Tailwindcss Datepicker ](https://github.com/onesine/react-tailwindcss-datepicker).
 -   [Vue Tailwind Datepicker](https://vue-tailwind-datepicker.com/)
 -   [React](https://reactjs.org/)
 -   [Tailwind CSS](https://tailwindcss.com/)
@@ -170,4 +166,4 @@ I thank you in advance for your contribution to this project.
 
 ## License
 
-[MIT](LICENSE) Licensed. Copyright (c) Lewhe Onesine 2022.
+[MIT](LICENSE) Licensed.

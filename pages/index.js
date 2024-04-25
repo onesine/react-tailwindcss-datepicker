@@ -482,7 +482,7 @@ export default function Playground() {
             </div>
             <div className="flex flex-row flex-wrap items-center justify-center w-full">
                 <a
-                    href="https://github.com/onesine/react-tailwindcss-datepicker"
+                    href="https://github.com/sciendis/react-tailwindcss-datepicker"
                     className="block text-gray-700 hover:text-gray-600"
                 >
                     <svg

@@ -15,7 +15,7 @@ review this document **before submitting a pull request**.
 
 It's never a fun experience to have your pull request declined after investing a lot of time and
 effort into a new feature. To avoid this from happening, we request that contributors create
-[an issue](https://github.com/onesine/react-tailwindcss-datepicker/issues) to first discuss any
+[an issue](https://github.com/sciendis/react-tailwindcss-datepicker/issues) to first discuss any
 significant new features.
 
 ## Installation
