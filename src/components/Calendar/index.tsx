@@ -4,6 +4,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from "re
 import { CALENDAR_SIZE, DATE_FORMAT } from "../../constants";
 import DatepickerContext from "../../contexts/DatepickerContext";
 import {
+    classNameOverloader,
     formatDate,
     getDaysInMonth,
     getFirstDayInMonth,
@@ -59,7 +60,8 @@ const Calendar: React.FC<Props> = ({
         asSingle,
         i18n,
         startWeekOn,
-        input
+        input,
+        btnContainerClassName
     } = useContext(DatepickerContext);
     loadLanguageModule(i18n);
 
@@ -241,9 +243,16 @@ const Calendar: React.FC<Props> = ({
         [maxDate]
     );
 
+    const btnContainerClassNameOverride = useMemo(() => {
+        const defaultBtnContainerClassName =
+            "flex items-center space-x-1.5 border border-gray-300 dark:border-gray-700 rounded-md px-2 py-1.5";
+        console.log(btnContainerClassName);
+        return classNameOverloader(defaultBtnContainerClassName, btnContainerClassName);
+    }, [btnContainerClassName]);
+
     return (
         <div className="w-full md:w-[296px] md:min-w-[296px]">
-            <div className="flex items-center space-x-1.5 border border-gray-300 dark:border-gray-700 rounded-md px-2 py-1.5">
+            <div className={btnContainerClassNameOverride}>
                 {!showMonths && !showYears && (
                     <div className="flex-none">
                         <RoundedButton roundedFull={true} onClick={onClickPrevious}>

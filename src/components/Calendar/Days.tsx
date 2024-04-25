@@ -1,10 +1,16 @@
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
-import React, { useCallback, useContext } from "react";
+import React, { useCallback, useContext, useMemo } from "react";
 
 import { BG_COLOR, TEXT_COLOR } from "../../constants";
 import DatepickerContext from "../../contexts/DatepickerContext";
-import { formatDate, nextMonth, previousMonth, classNames as cn } from "../../helpers";
+import {
+    formatDate,
+    nextMonth,
+    previousMonth,
+    classNames as cn,
+    classNameOverloader
+} from "../../helpers";
 import { Period } from "../../types";
 
 dayjs.extend(isBetween);
@@ -38,8 +44,58 @@ const Days: React.FC<Props> = ({
         changeDayHover,
         minDate,
         maxDate,
-        disabledDates
+        disabledDates,
+        baseDayClassName,
+        disabledClassName,
+        selectedClassName,
+        selectedStartClassName,
+        selectedFullClassName,
+        selectedEndClassName,
+        rangeClassName,
+        todayClassName
     } = useContext(DatepickerContext);
+
+    const baseDayClassNameOverload = useMemo(() => {
+        const defaultBaseDayClassName =
+            "flex items-center justify-center w-12 h-12 md:w-10 md:h-10";
+        return classNameOverloader(defaultBaseDayClassName, baseDayClassName);
+    }, [baseDayClassName]);
+
+    const rangeClassNameOverload = useMemo(() => {
+        const defaultRangeClassName = `${BG_COLOR["100"][primaryColor]} dark:bg-white/10`;
+        return classNameOverloader(defaultRangeClassName, rangeClassName);
+    }, [rangeClassName, primaryColor]);
+
+    const selectedClassNameOverload = useMemo(() => {
+        const defaultSelectedClassName = `text-white font-medium ${BG_COLOR["500"][primaryColor]}`;
+        return classNameOverloader(defaultSelectedClassName, selectedClassName);
+    }, [selectedClassName, primaryColor]);
+
+    const selectedStartClassNameOverload = useMemo(() => {
+        const defaultSelectedStartClassName = "rounded-l-full";
+        return classNameOverloader(defaultSelectedStartClassName, selectedStartClassName);
+    }, [selectedStartClassName]);
+
+    const selectedFullClassNameOverload = useMemo(() => {
+        const defaultSelectedFullClassName = "rounded-full";
+        return classNameOverloader(defaultSelectedFullClassName, selectedFullClassName);
+    }, [selectedFullClassName]);
+
+    const selectedEndClassNameOverload = useMemo(() => {
+        const defaultSelectedEndClassName = "rounded-r-full";
+        return classNameOverloader(defaultSelectedEndClassName, selectedEndClassName);
+    }, [selectedEndClassName]);
+
+    const disabledClassNameOverload = useMemo(() => {
+        const defaultDisabledClassName = "line-through";
+        return classNameOverloader(defaultDisabledClassName, disabledClassName);
+    }, [disabledClassName]);
+
+    const todayClassNameOverload = useMemo(() => {
+        const defaultTodayClassName =
+            TEXT_COLOR["500"][primaryColor as keyof (typeof TEXT_COLOR)["500"]];
+        return classNameOverloader(defaultTodayClassName, todayClassName);
+    }, [todayClassName, primaryColor]);
 
     // Functions
     const currentDateClass = useCallback(
@@ -47,11 +103,10 @@ const Days: React.FC<Props> = ({
             const itemDate = `${calendarData.date.year()}-${calendarData.date.month() + 1}-${
                 item >= 10 ? item : "0" + item
             }`;
-            if (formatDate(dayjs()) === formatDate(dayjs(itemDate)))
-                return TEXT_COLOR["500"][primaryColor as keyof (typeof TEXT_COLOR)["500"]];
+            if (formatDate(dayjs()) === formatDate(dayjs(itemDate))) return todayClassNameOverload;
             return "";
         },
-        [calendarData.date, primaryColor]
+        [calendarData.date, todayClassNameOverload]
     );
 
     const activeDateData = useCallback(
@@ -60,18 +115,18 @@ const Days: React.FC<Props> = ({
             let className = "";
 
             if (dayjs(fullDay).isSame(period.start) && dayjs(fullDay).isSame(period.end)) {
-                className = ` ${BG_COLOR["500"][primaryColor]} text-white font-medium rounded-full`;
+                className = ` ${selectedClassNameOverload} ${selectedFullClassNameOverload}`;
             } else if (dayjs(fullDay).isSame(period.start)) {
-                className = ` ${BG_COLOR["500"][primaryColor]} text-white font-medium ${
+                className = ` ${selectedClassNameOverload} ${
                     dayjs(fullDay).isSame(dayHover) && !period.end
-                        ? "rounded-full"
-                        : "rounded-l-full"
+                        ? selectedFullClassNameOverload
+                        : selectedStartClassNameOverload
                 }`;
             } else if (dayjs(fullDay).isSame(period.end)) {
-                className = ` ${BG_COLOR["500"][primaryColor]} text-white font-medium ${
+                className = ` ${selectedClassNameOverload} ${
                     dayjs(fullDay).isSame(dayHover) && !period.start
-                        ? "rounded-full"
-                        : "rounded-r-full"
+                        ? selectedFullClassNameOverload
+                        : selectedEndClassNameOverload
                 }`;
             }
 
@@ -80,7 +135,16 @@ const Days: React.FC<Props> = ({
                 className: className
             };
         },
-        [calendarData.date, dayHover, period.end, period.start, primaryColor]
+        [
+            calendarData.date,
+            dayHover,
+            period.end,
+            period.start,
+            selectedClassNameOverload,
+            selectedEndClassNameOverload,
+            selectedFullClassNameOverload,
+            selectedStartClassNameOverload
+        ]
     );
 
     const hoverClassByDay = useCallback(
@@ -92,9 +156,7 @@ const Days: React.FC<Props> = ({
 
             if (period.start && period.end) {
                 if (dayjs(fullDay).isBetween(period.start, period.end, "day", "[)")) {
-                    return ` ${BG_COLOR["100"][primaryColor]} ${currentDateClass(
-                        day
-                    )} dark:bg-white/10`;
+                    return ` ${rangeClassNameOverload} ${currentDateClass(day)}`;
                 }
             }
 
@@ -103,27 +165,33 @@ const Days: React.FC<Props> = ({
             }
 
             if (period.start && dayjs(fullDay).isBetween(period.start, dayHover, "day", "[)")) {
-                className = ` ${BG_COLOR["100"][primaryColor]} ${currentDateClass(
-                    day
-                )} dark:bg-white/10`;
+                className = ` ${rangeClassNameOverload} ${currentDateClass(day)}`;
             }
 
             if (period.end && dayjs(fullDay).isBetween(dayHover, period.end, "day", "[)")) {
-                className = ` ${BG_COLOR["100"][primaryColor]} ${currentDateClass(
-                    day
-                )} dark:bg-white/10`;
+                className = ` ${rangeClassNameOverload} ${currentDateClass(day)}`;
             }
 
             if (dayHover === fullDay) {
-                const bgColor = BG_COLOR["500"][primaryColor];
-                className = ` transition-all duration-500 text-white font-medium ${bgColor} ${
-                    period.start ? "rounded-r-full" : "rounded-l-full"
+                console.log(period.start);
+                className = ` ${selectedClassNameOverload} transition-all duration-500 ${
+                    period.start ? selectedEndClassNameOverload : selectedStartClassNameOverload
                 }`;
             }
 
             return className;
         },
-        [calendarData.date, currentDateClass, dayHover, period.end, period.start, primaryColor]
+        [
+            calendarData.date,
+            currentDateClass,
+            dayHover,
+            period.end,
+            period.start,
+            rangeClassNameOverload,
+            selectedClassNameOverload,
+            selectedStartClassNameOverload,
+            selectedEndClassNameOverload
+        ]
     );
 
     const isDateTooEarly = useCallback(
@@ -205,19 +273,28 @@ const Days: React.FC<Props> = ({
 
     const buttonClass = useCallback(
         (day: number, type: "current" | "next" | "previous") => {
-            const baseClass = "flex items-center justify-center w-12 h-12 lg:w-10 lg:h-10";
             if (type === "current") {
                 return cn(
-                    baseClass,
+                    baseDayClassNameOverload,
                     !activeDateData(day).active
                         ? hoverClassByDay(day)
                         : activeDateData(day).className,
-                    isDateDisabled(day, type) && "line-through"
+                    isDateDisabled(day, type) && disabledClassNameOverload
                 );
             }
-            return cn(baseClass, isDateDisabled(day, type) && "line-through", "text-gray-400");
+            return cn(
+                baseDayClassNameOverload,
+                isDateDisabled(day, type) && disabledClassNameOverload,
+                "text-gray-400"
+            );
         },
-        [activeDateData, hoverClassByDay, isDateDisabled]
+        [
+            activeDateData,
+            hoverClassByDay,
+            isDateDisabled,
+            disabledClassNameOverload,
+            baseDayClassNameOverload
+        ]
     );
 
     const checkIfHoverPeriodContainsDisabledPeriod = useCallback(

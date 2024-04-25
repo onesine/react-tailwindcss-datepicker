@@ -10,7 +10,8 @@ import {
     DateRangeType,
     ClassNamesTypeProp,
     PopoverDirectionType,
-    ColorKeys
+    ColorKeys,
+    ClassName
 } from "../types";
 
 interface DatepickerStore {
@@ -35,9 +36,23 @@ interface DatepickerStore {
     i18n: string;
     value: DateValueType;
     disabled?: boolean;
-    inputClassName?: ((className: string) => string) | string | null;
-    containerClassName?: ((className: string) => string) | string | null;
-    toggleClassName?: ((className: string) => string) | string | null;
+    inputClassName?: ClassName;
+    containerClassName?: ClassName;
+    toggleClassName?: ClassName;
+    calendarContainerClassName?: ClassName;
+    baseDayClassName?: ClassName;
+    disabledClassName?: ClassName;
+    selectedStartClassName?: ClassName;
+    selectedFullClassName?: ClassName;
+    selectedEndClassName?: ClassName;
+    selectedClassName?: ClassName;
+    rangeClassName?: ClassName;
+    btnClassName?: ClassName;
+    btnActiveClassName?: ClassName;
+    btnDisabledClassName?: ClassName;
+    btnFullRoundClassName?: ClassName;
+    btnContainerClassName?: ClassName;
+    todayClassName?: ClassName;
     toggleIcon?: (open: boolean) => React.ReactNode;
     readOnly?: boolean;
     startWeekOn?: string | null;
@@ -78,8 +93,21 @@ const DatepickerContext = createContext<DatepickerStore>({
     i18n: LANGUAGE,
     disabled: false,
     inputClassName: "",
-    containerClassName: "",
     toggleClassName: "",
+    calendarContainerClassName: "",
+    baseDayClassName: "",
+    disabledClassName: "",
+    selectedStartClassName: "",
+    selectedFullClassName: "",
+    selectedEndClassName: "",
+    selectedClassName: "",
+    rangeClassName: "",
+    btnClassName: "",
+    btnActiveClassName: "",
+    btnDisabledClassName: "",
+    btnFullRoundClassName: "",
+    btnContainerClassName: "",
+    todayClassName: "",
     readOnly: false,
     displayFormat: DATE_FORMAT,
     minDate: null,

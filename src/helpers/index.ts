@@ -7,8 +7,21 @@ dayjs.extend(customParseFormat);
 
 import { DATE_FORMAT, LANGUAGE } from "../constants";
 
+import { ClassName } from "types";
+
 export function classNames(...classes: (false | null | undefined | string)[]) {
     return classes.filter(Boolean).join(" ");
+}
+
+export function classNameOverloader(
+    defaultClassName: string,
+    overloadedClassName: ClassName | undefined = null
+) {
+    return typeof overloadedClassName === "function"
+        ? overloadedClassName(defaultClassName)
+        : typeof overloadedClassName === "string" && overloadedClassName !== ""
+        ? overloadedClassName
+        : defaultClassName;
 }
 
 export function getTextColorByPrimaryColor(color: string) {
