@@ -333,7 +333,8 @@ const Datepicker: React.FC<DatepickerType> = ({
                 <Input setContextRef={setInputRef} />
 
                 <div
-                    className="transition-all ease-out duration-300 absolute z-10 mt-[1px] text-sm lg:text-xs 2xl:text-sm translate-y-4 opacity-0 hidden"
+                    // increase z-index so that datepicker popover is always on top
+                    className="transition-all ease-out duration-300 absolute z-50 mt-[1px] text-sm lg:text-xs 2xl:text-sm translate-y-4 opacity-0 hidden"
                     ref={calendarContainerRef}
                 >
                     <Arrow ref={arrowRef} />
