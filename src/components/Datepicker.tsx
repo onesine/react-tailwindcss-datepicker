@@ -7,7 +7,7 @@ import Input from "../components/Input";
 import Shortcuts from "../components/Shortcuts";
 import { COLORS, DATE_FORMAT, DEFAULT_COLOR, LANGUAGE } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
-import { formatDate, nextMonth, previousMonth } from "../helpers";
+import { classNameOverloader, formatDate, nextMonth, previousMonth } from "../helpers";
 import useOnClickOutside from "../hooks";
 import { Period, DatepickerType, ColorKeys } from "../types";
 
@@ -30,6 +30,20 @@ const Datepicker: React.FC<DatepickerType> = ({
     inputClassName = null,
     containerClassName = null,
     toggleClassName = null,
+    baseDayClassName = null,
+    calendarContainerClassName = null,
+    disabledClassName = null,
+    todayClassName = null,
+    selectedClassName = null,
+    selectedStartClassName = null,
+    selectedFullClassName = null,
+    selectedEndClassName = null,
+    rangeClassName = null,
+    btnClassName = null,
+    btnActiveClassName = null,
+    btnDisabledClassName = null,
+    btnFullRoundClassName = null,
+    btnContainerClassName = null,
     toggleIcon = undefined,
     displayFormat = DATE_FORMAT,
     readOnly = false,
@@ -269,6 +283,19 @@ const Datepicker: React.FC<DatepickerType> = ({
             inputClassName,
             containerClassName,
             toggleClassName,
+            baseDayClassName,
+            disabledClassName,
+            selectedStartClassName,
+            selectedFullClassName,
+            selectedEndClassName,
+            selectedClassName,
+            rangeClassName,
+            btnClassName,
+            btnActiveClassName,
+            btnDisabledClassName,
+            btnFullRoundClassName,
+            btnContainerClassName,
+            todayClassName,
             toggleIcon,
             readOnly,
             displayFormat,
@@ -302,6 +329,19 @@ const Datepicker: React.FC<DatepickerType> = ({
         inputClassName,
         containerClassName,
         toggleClassName,
+        baseDayClassName,
+        disabledClassName,
+        selectedStartClassName,
+        selectedFullClassName,
+        selectedEndClassName,
+        selectedClassName,
+        rangeClassName,
+        btnClassName,
+        btnActiveClassName,
+        btnDisabledClassName,
+        btnFullRoundClassName,
+        btnContainerClassName,
+        todayClassName,
         toggleIcon,
         readOnly,
         displayFormat,
@@ -320,12 +360,14 @@ const Datepicker: React.FC<DatepickerType> = ({
 
     const containerClassNameOverload = useMemo(() => {
         const defaultContainerClassName = "relative w-full text-gray-700";
-        return typeof containerClassName === "function"
-            ? containerClassName(defaultContainerClassName)
-            : typeof containerClassName === "string" && containerClassName !== ""
-            ? containerClassName
-            : defaultContainerClassName;
+        return classNameOverloader(defaultContainerClassName, containerClassName);
     }, [containerClassName]);
+
+    const calendarContainerClassNameOverload = useMemo(() => {
+        const defaultCalendarContainerClassName =
+            "mt-2.5 shadow-sm border border-gray-300 px-1 py-0.5 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600 rounded-lg";
+        return classNameOverloader(defaultCalendarContainerClassName, calendarContainerClassName);
+    }, [calendarContainerClassName]);
 
     return (
         <DatepickerContext.Provider value={contextValues}>
@@ -338,7 +380,7 @@ const Datepicker: React.FC<DatepickerType> = ({
                 >
                     <Arrow ref={arrowRef} />
 
-                    <div className="mt-2.5 shadow-sm border border-gray-300 px-1 py-0.5 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600 rounded-lg">
+                    <div className={calendarContainerClassNameOverload}>
                         <div className="flex flex-col lg:flex-row py-2">
                             {showShortcuts && <Shortcuts />}
 

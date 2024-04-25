@@ -53,6 +53,7 @@ export type ClassNamesTypeProp = {
 
 export type PopoverDirectionType = "up" | "down";
 
+export type ClassName = ((className: string) => string) | string | null;
 export interface DatepickerType {
     primaryColor?: ColorKeys;
     value: DateValueType;
@@ -68,9 +69,23 @@ export interface DatepickerType {
     i18n?: string;
     disabled?: boolean;
     classNames?: ClassNamesTypeProp | undefined;
-    containerClassName?: ((className: string) => string) | string | null;
-    inputClassName?: ((className: string) => string) | string | null;
-    toggleClassName?: ((className: string) => string) | string | null;
+    containerClassName?: ClassName;
+    inputClassName?: ClassName;
+    toggleClassName?: ClassName;
+    calendarContainerClassName?: ClassName;
+    baseDayClassName?: ClassName;
+    disabledClassName?: ClassName;
+    selectedClassName?: ClassName;
+    selectedStartClassName?: ClassName;
+    selectedFullClassName?: ClassName;
+    selectedEndClassName?: ClassName;
+    rangeClassName?: ClassName;
+    btnClassName?: ClassName;
+    btnActiveClassName?: ClassName;
+    btnDisabledClassName?: ClassName;
+    btnFullRoundClassName?: ClassName;
+    btnContainerClassName?: ClassName;
+    todayClassName?: ClassName;
     toggleIcon?: (open: boolean) => React.ReactNode;
     inputId?: string;
     inputName?: string;

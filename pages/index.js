@@ -21,7 +21,21 @@ export default function Playground() {
     const [disabled, setDisabled] = useState(false);
     const [inputClassName, setInputClassName] = useState("");
     const [containerClassName, setContainerClassName] = useState("");
+    const [calendarContainerClassName, setCalendarContainerClassName] = useState("");
     const [toggleClassName, setToggleClassName] = useState("");
+    const [baseDayClassName, setBaseDayClassName] = useState("");
+    const [disabledClassName, setDisabledClassName] = useState("");
+    const [todayClassName, setTodayClassName] = useState("");
+    const [selectedClassName, setSelectedClassName] = useState("");
+    const [selectedStartClassName, setSelectedStartClassName] = useState("");
+    const [selectedFullClassName, setSelectedFullClassName] = useState("");
+    const [selectedEndClassName, setSelectedEndClassName] = useState("");
+    const [rangeClassName, setRangeClassName] = useState("");
+    const [btnClassName, setBtnClassName] = useState("");
+    const [btnActiveClassName, setBtnActiveClassName] = useState("");
+    const [btnDisabledClassName, setBtnDisabledClassName] = useState("");
+    const [btnFullRoundClassName, setBtnFullRoundClassName] = useState("");
+    const [btnContainerClassName, setBtnContainerClassName] = useState("");
     const [displayFormat, setDisplayFormat] = useState("YYYY-MM-DD");
     const [readOnly, setReadOnly] = useState(false);
     const [minDate, setMinDate] = useState("");
@@ -48,6 +62,7 @@ export default function Playground() {
                 </pre>
                 <span className="text-gray-700">PlayGround</span>
             </h1>
+            <div className="hidden rounded-l-lg rounded-r-lg text-green-100 m-2 bg-green-500/10 bg-green-500/20 bg-green-500/30 bg-green-500/40 bg-green-500/50 bg-green-500/60 bg-green-500/70 bg-green-500/80 bg-green-500/90 bg-green-500 hover:bg-green-500/50 hover:bg-green-500/10 hover:border-green-500 hover:border"></div>
 
             <div className="max-w-md mx-auto my-4">
                 <Datepicker
@@ -102,6 +117,20 @@ export default function Playground() {
                     inputClassName={inputClassName}
                     containerClassName={containerClassName}
                     toggleClassName={toggleClassName}
+                    calendarContainerClassName={calendarContainerClassName}
+                    baseDayClassName={baseDayClassName}
+                    disabledClassName={disabledClassName}
+                    selectedClassName={selectedClassName}
+                    selectedStartClassName={selectedStartClassName}
+                    selectedFullClassName={selectedFullClassName}
+                    selectedEndClassName={selectedEndClassName}
+                    rangeClassName={rangeClassName}
+                    btnClassName={btnClassName}
+                    btnActiveClassName={btnActiveClassName}
+                    btnDisabledClassName={btnDisabledClassName}
+                    btnFullRoundClassName={btnFullRoundClassName}
+                    btnContainerClassName={btnContainerClassName}
+                    todayClassName={todayClassName}
                     displayFormat={displayFormat}
                     readOnly={readOnly}
                     minDate={minDate}
@@ -216,8 +245,8 @@ export default function Playground() {
                         </div>
                     </div>
                 </div>
-                <div className="w-full sm:w-1/3 pr-2 flex flex-col">
-                    <div className="mb-2">
+                <div className="w-full sm:w-2/3 flex flex-col sm:grid sm:grid-cols-2 gap-2 mb-2">
+                    <div>
                         <label className="block" htmlFor="primaryColor">
                             Primary Color
                         </label>
@@ -236,7 +265,7 @@ export default function Playground() {
                             ))}
                         </select>
                     </div>
-                    <div className="mb-2">
+                    <div>
                         <label className="block" htmlFor="placeholder">
                             Placeholder
                         </label>
@@ -249,7 +278,7 @@ export default function Playground() {
                             }}
                         />
                     </div>
-                    <div className="mb-2">
+                    <div>
                         <label className="block" htmlFor="separator">
                             Separator
                         </label>
@@ -262,7 +291,7 @@ export default function Playground() {
                             }}
                         />
                     </div>
-                    <div className="mb-2">
+                    <div>
                         <label className="block" htmlFor="startFrom">
                             Start From
                         </label>
@@ -275,7 +304,7 @@ export default function Playground() {
                             }}
                         />
                     </div>
-                    <div className="mb-2">
+                    <div>
                         <label className="block" htmlFor="minDate">
                             Minimum Date
                         </label>
@@ -288,7 +317,7 @@ export default function Playground() {
                             }}
                         />
                     </div>
-                    <div className="mb-2">
+                    <div>
                         <label className="block" htmlFor="maxDate">
                             Maximum Date
                         </label>
@@ -301,7 +330,7 @@ export default function Playground() {
                             }}
                         />
                     </div>
-                    <div className="mb-2">
+                    <div>
                         <label className="block" htmlFor="dateLooking">
                             Date Looking
                         </label>
@@ -320,9 +349,7 @@ export default function Playground() {
                             ))}
                         </select>
                     </div>
-                </div>
-                <div className="w-full sm:w-1/3 pr-2 flex flex-col">
-                    <div className="mb-2">
+                    <div>
                         <label className="block" htmlFor="i18n">
                             i18n
                         </label>
@@ -335,7 +362,7 @@ export default function Playground() {
                             }}
                         />
                     </div>
-                    <div className="mb-2">
+                    <div>
                         <label className="block" htmlFor="displayFormat">
                             Display Format
                         </label>
@@ -348,7 +375,7 @@ export default function Playground() {
                             }}
                         />
                     </div>
-                    <div className="mb-2">
+                    <div>
                         <label className="block" htmlFor="inputClassName">
                             Input Class
                         </label>
@@ -361,7 +388,7 @@ export default function Playground() {
                             }}
                         />
                     </div>
-                    <div className="mb-2">
+                    <div>
                         <label className="block" htmlFor="containerClassName">
                             Container Class
                         </label>
@@ -374,8 +401,8 @@ export default function Playground() {
                             }}
                         />
                     </div>
-                    <div className="mb-2">
-                        <label className="block" htmlFor="containerClassName">
+                    <div>
+                        <label className="block" htmlFor="toggleClassName">
                             Toggle Class
                         </label>
                         <input
@@ -387,7 +414,189 @@ export default function Playground() {
                             }}
                         />
                     </div>
-                    <div className="mb-2">
+                    <div>
+                        <label className="block" htmlFor="calendarContainerClassName">
+                            Calendar Container Class
+                        </label>
+                        <input
+                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            id="calendarContainerClassName"
+                            value={calendarContainerClassName}
+                            onChange={e => {
+                                setCalendarContainerClassName(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <label className="block" htmlFor="baseDayClassName">
+                            Base Day Class
+                        </label>
+                        <input
+                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            id="baseDayClassName"
+                            value={baseDayClassName}
+                            onChange={e => {
+                                setBaseDayClassName(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <label className="block" htmlFor="disabledClassName">
+                            Disabled Class
+                        </label>
+                        <input
+                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            id="disabledClassName"
+                            value={disabledClassName}
+                            onChange={e => {
+                                setDisabledClassName(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <label className="block" htmlFor="todayClassName">
+                            Today Class
+                        </label>
+                        <input
+                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            id="todayClassName"
+                            value={todayClassName}
+                            onChange={e => {
+                                setTodayClassName(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <label className="block" htmlFor="selectedClassName">
+                            Selected Class
+                        </label>
+                        <input
+                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            id="selectedClassName"
+                            value={selectedClassName}
+                            onChange={e => {
+                                setSelectedClassName(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <label className="block" htmlFor="selectedStartClassName">
+                            Selected Start Class
+                        </label>
+                        <input
+                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            id="selectedStartClassName"
+                            value={selectedStartClassName}
+                            onChange={e => {
+                                setSelectedStartClassName(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <label className="block" htmlFor="selectedFullClassName">
+                            Selected Full Class
+                        </label>
+                        <input
+                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            id="selectedFullClassName"
+                            value={selectedFullClassName}
+                            onChange={e => {
+                                setSelectedFullClassName(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <label className="block" htmlFor="selectedEndClassName">
+                            Selected End Class
+                        </label>
+                        <input
+                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            id="selectedEndClassName"
+                            value={selectedEndClassName}
+                            onChange={e => {
+                                setSelectedEndClassName(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <label className="block" htmlFor="rangeClassName">
+                            Range Class
+                        </label>
+                        <input
+                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            id="rangeClassName"
+                            value={rangeClassName}
+                            onChange={e => {
+                                setRangeClassName(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <label className="block" htmlFor="btnClassName">
+                            Button Class
+                        </label>
+                        <input
+                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            id="btnClassName"
+                            value={btnClassName}
+                            onChange={e => {
+                                setBtnClassName(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <label className="block" htmlFor="btnActiveClassName">
+                            Button Active Class
+                        </label>
+                        <input
+                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            id="btnActiveClassName"
+                            value={btnActiveClassName}
+                            onChange={e => {
+                                setBtnActiveClassName(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <label className="block" htmlFor="btnDisabledClassName">
+                            Button Disabled Class
+                        </label>
+                        <input
+                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            id="btnDisabledClassName"
+                            value={btnDisabledClassName}
+                            onChange={e => {
+                                setBtnDisabledClassName(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <label className="block" htmlFor="btnFullRoundClassName">
+                            Button Full Round Class
+                        </label>
+                        <input
+                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            id="btnFullRoundClassName"
+                            value={btnFullRoundClassName}
+                            onChange={e => {
+                                setBtnFullRoundClassName(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <label className="block" htmlFor="btnContainerClassName">
+                            Button Container Class
+                        </label>
+                        <input
+                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            id="btnContainerClassName"
+                            value={btnContainerClassName}
+                            onChange={e => {
+                                setBtnContainerClassName(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <div>
                         <label className="block" htmlFor="startWeekOnClassName">
                             Start Week On
                         </label>
@@ -424,7 +633,7 @@ export default function Playground() {
                                 }}
                             />
                         </div>
-                        <div className="mb-2">
+                        <div>
                             <label className="block" htmlFor="endDate">
                                 End Date
                             </label>
