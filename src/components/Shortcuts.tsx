@@ -68,10 +68,14 @@ const ItemTemplate = React.memo((props: ItemTemplateProps) => {
     return (
         <li
             className={getClassName()}
-            onClick={() => {
+            onClick={e => {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 chosePeriod(props?.item.period);
+
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                props?.item?.onClick && props?.item.onClick(props?.item.text, e);
             }}
         >
             {children}
@@ -97,9 +101,13 @@ const Shortcuts: React.FC = () => {
                 return [[key, DEFAULT_SHORTCUTS[key]]];
             }
 
-            const { text, period } = customConfig as {
+            const { text, period, onClick } = customConfig as {
                 text: string;
                 period: { start: string; end: string };
+                onClick?: (
+                    text: string,
+                    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+                ) => void;
             };
             if (!text || !period) {
                 return [];
@@ -117,7 +125,8 @@ const Shortcuts: React.FC = () => {
                             period: {
                                 start: start.format(DATE_FORMAT),
                                 end: end.format(DATE_FORMAT)
-                            }
+                            },
+                            onClick: onClick
                         }
                     ]
                 ];
