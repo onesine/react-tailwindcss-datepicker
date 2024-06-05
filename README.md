@@ -2,7 +2,7 @@
 
 <p align="center">
     <a href="https://react-tailwindcss-datepicker.vercel.app/" target="_blank">
-      <img alt="React Tailwindcss Datepicker" width="100" style="border-radius: 100%;" src="https://raw.githubusercontent.com/onesine/react-tailwindcss-datepicker/master/assets/img/calendar_logo.svg?raw=true">
+      <img alt="React Tailwindcss Datepicker" width="100" style="border-radius: 100%;" src="https://raw.githubusercontent.com/maksimdygai/react-tailwindcss-datepicker/master/assets/img/calendar_logo.svg?raw=true">
     </a><br><br>
     A modern date range picker component for React using Tailwind 3 and dayjs. Alternative to Litepie Datepicker which uses Vuejs.
 </p>
@@ -13,6 +13,10 @@
 [![npm downloads](https://img.shields.io/npm/dt/react-tailwindcss-datepicker?style=flat-square)](https://www.npmjs.com/package/react-tailwindcss-datepicker)
     
 </div>
+
+## Contents
+
+This is a fork of the `react-tailwindcss-datepicker` library with additional functionality.
 
 ## Contents
 
@@ -51,13 +55,13 @@ Go to [full documentation](https://react-tailwindcss-datepicker.vercel.app/)
 ### Install via npm
 
 ```
-$ npm install react-tailwindcss-datepicker
+$ npm install @maksimdygai/react-tailwindcss-datepicker
 ```
 
 ### Install via yarn
 
 ```
-$ yarn add react-tailwindcss-datepicker
+$ yarn add @maksimdygai/react-tailwindcss-datepicker
 ```
 
 Make sure you have installed the peer dependencies as well with the below versions.
@@ -79,7 +83,7 @@ module.exports = {
     // ...
     content: [
         "./src/**/*.{js,jsx,ts,tsx}",
-        "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js"
+        "./node_modules/@maksimdygai/react-tailwindcss-datepicker/dist/index.esm.js"
     ]
     // ...
 };
@@ -89,7 +93,7 @@ Then use react-tailwindcss-select in your app:
 
 ```jsx
 import React, { useState } from "react";
-import Datepicker from "react-tailwindcss-datepicker";
+import Datepicker from "@maksimdygai/react-tailwindcss-datepicker";
 
 const App = () => {
     const [value, setValue] = useState({
@@ -116,17 +120,17 @@ export default App;
 
 **Light Mode**
 
-![Light Mode](https://raw.githubusercontent.com/onesine/react-tailwindcss-datepicker/master/assets/img/Screen_Shot_2022-08-04_at_17.04.09_light.png?raw=true)
+![Light Mode](https://raw.githubusercontent.com/maksimdygai/react-tailwindcss-datepicker/master/assets/img/Screen_Shot_2022-08-04_at_17.04.09_light.png?raw=true)
 
 **Dark Mode**
 
-![Dark Mode](https://raw.githubusercontent.com/onesine/react-tailwindcss-datepicker/master/assets/img/Screen_Shot_2022-08-04_at_17.04.09_dark.png?raw=true)
+![Dark Mode](https://raw.githubusercontent.com/maksimdygai/react-tailwindcss-datepicker/master/assets/img/Screen_Shot_2022-08-04_at_17.04.09_dark.png?raw=true)
 
 **Supported themes**
-![Theme supported](https://raw.githubusercontent.com/onesine/react-tailwindcss-datepicker/master/assets/img/Screen_Shot_2022-08-04_at_17.04.09_theme.png?raw=true)
+![Theme supported](https://raw.githubusercontent.com/maksimdygai/react-tailwindcss-datepicker/master/assets/img/Screen_Shot_2022-08-04_at_17.04.09_theme.png?raw=true)
 
 **Teal themes example**
-![Theme supported](https://raw.githubusercontent.com/onesine/react-tailwindcss-datepicker/master/assets/img/Screen_Shot_2022-08-04_at_17.04.09_teal.png?raw=true)
+![Theme supported](https://raw.githubusercontent.com/maksimdygai/react-tailwindcss-datepicker/master/assets/img/Screen_Shot_2022-08-04_at_17.04.09_teal.png?raw=true)
 
 You can find the demo at [here](https://react-tailwindcss-datepicker.vercel.app/demo)
 
@@ -153,11 +157,11 @@ Open a browser and navigate to `http://localhost:8888`
 ## Contributing
 
 See
-[CONTRIBUTING.md](https://github.com/onesine/react-tailwindcss-datepicker/blob/master/CONTRIBUTING.md)
+[CONTRIBUTING.md](https://github.com/maksimdygai/react-tailwindcss-datepicker/blob/master/CONTRIBUTING.md)
 
 ## Official Documentation repo
 
-[https://github.com/onesine/react-tailwindcss-datepicker-doc](https://github.com/onesine/react-tailwindcss-datepicker-doc)
+[https://github.com/maksimdygai/react-tailwindcss-datepicker-doc](https://github.com/maksimdygai/react-tailwindcss-datepicker-doc)
 
 ## Thanks to
 
