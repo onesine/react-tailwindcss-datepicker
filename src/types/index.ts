@@ -71,6 +71,7 @@ export interface DatepickerType {
     containerClassName?: ((className: string) => string) | string | null;
     inputClassName?: ((className: string) => string) | string | null;
     toggleClassName?: ((className: string) => string) | string | null;
+    toggleTitle?: string;
     toggleIcon?: (open: boolean) => React.ReactNode;
     inputId?: string;
     inputName?: string;
