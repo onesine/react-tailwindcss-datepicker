@@ -69,6 +69,7 @@ export interface DatepickerType {
     disabled?: boolean;
     classNames?: ClassNamesTypeProp | undefined;
     containerClassName?: ((className: string) => string) | string | null;
+    pickerClassName?: ((className: string) => string) | string | null;
     inputClassName?: ((className: string) => string) | string | null;
     toggleClassName?: ((className: string) => string) | string | null;
     toggleIcon?: (open: boolean) => React.ReactNode;
@@ -82,6 +83,7 @@ export interface DatepickerType {
     disabledDates?: DateRangeType[] | null;
     startWeekOn?: string | null;
     popoverDirection?: PopoverDirectionType;
+    inline?: boolean;
 }
 
 export type ColorKeys = (typeof COLORS)[number]; // "blue" | "orange"
