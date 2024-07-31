@@ -7,7 +7,7 @@ import Input from "../components/Input";
 import Shortcuts from "../components/Shortcuts";
 import { COLORS, DATE_FORMAT, DEFAULT_COLOR, LANGUAGE } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
-import { formatDate, nextMonth, previousMonth } from "../helpers";
+import { formatDate, nextMonth, previousMonth, classNames as classNamesUtil } from "../helpers";
 import useOnClickOutside from "../hooks";
 import { Period, DatepickerType, ColorKeys } from "../types";
 
@@ -29,6 +29,7 @@ const Datepicker: React.FC<DatepickerType> = ({
     disabled = false,
     inputClassName = null,
     containerClassName = null,
+    pickerClassName = null,
     toggleClassName = null,
     toggleIcon = undefined,
     displayFormat = DATE_FORMAT,
@@ -41,7 +42,8 @@ const Datepicker: React.FC<DatepickerType> = ({
     inputName,
     startWeekOn = "sun",
     classNames = undefined,
-    popoverDirection = undefined
+    popoverDirection = undefined,
+    inline = false
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -64,7 +66,7 @@ const Datepicker: React.FC<DatepickerType> = ({
     // Custom Hooks use
     useOnClickOutside(containerRef, () => {
         const container = containerRef.current;
-        if (container) {
+        if (container && !inline) {
             hideDatepicker();
         }
     });
@@ -327,18 +329,33 @@ const Datepicker: React.FC<DatepickerType> = ({
             : defaultContainerClassName;
     }, [containerClassName]);
 
+    const pickerClassNameOverload = useMemo(() => {
+        const defaultPickerClassName = classNamesUtil(
+            "shadow-sm border border-gray-300 px-1 py-0.5 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600 rounded-lg w-fit",
+            !inline && "mt-2.5"
+        );
+        return typeof pickerClassName === "function"
+            ? pickerClassName(defaultPickerClassName)
+            : typeof pickerClassName === "string" && pickerClassName !== ""
+            ? pickerClassName
+            : defaultPickerClassName;
+    }, [pickerClassName, inline]);
+
     return (
         <DatepickerContext.Provider value={contextValues}>
             <div className={containerClassNameOverload} ref={containerRef}>
-                <Input setContextRef={setInputRef} />
+                {!inline && <Input setContextRef={setInputRef} />}
 
                 <div
-                    className="transition-all ease-out duration-300 absolute z-10 mt-[1px] text-sm lg:text-xs 2xl:text-sm translate-y-4 opacity-0 hidden"
+                    className={classNamesUtil(
+                        "transition-all ease-out duration-300 mt-[1px] text-sm lg:text-xs 2xl:text-sm",
+                        !inline && "absolute z-10 opacity-0 hidden translate-y-4"
+                    )}
                     ref={calendarContainerRef}
                 >
-                    <Arrow ref={arrowRef} />
+                    {!inline && <Arrow ref={arrowRef} />}
 
-                    <div className="mt-2.5 shadow-sm border border-gray-300 px-1 py-0.5 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600 rounded-lg">
+                    <div className={pickerClassNameOverload}>
                         <div className="flex flex-col lg:flex-row py-2">
                             {showShortcuts && <Shortcuts />}
 
