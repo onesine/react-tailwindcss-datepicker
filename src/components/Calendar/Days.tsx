@@ -5,6 +5,7 @@ import React, { useCallback, useContext } from "react";
 import { BG_COLOR, TEXT_COLOR } from "../../constants";
 import DatepickerContext from "../../contexts/DatepickerContext";
 import { formatDate, nextMonth, previousMonth, classNames as cn } from "../../helpers";
+import { Period } from "../../types";
 
 dayjs.extend(isBetween);
 
@@ -59,20 +60,14 @@ const Days: React.FC<Props> = ({
             let className = "";
 
             if (dayjs(fullDay).isSame(period.start) && dayjs(fullDay).isSame(period.end)) {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
                 className = ` ${BG_COLOR["500"][primaryColor]} text-white font-medium rounded-full`;
             } else if (dayjs(fullDay).isSame(period.start)) {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
                 className = ` ${BG_COLOR["500"][primaryColor]} text-white font-medium ${
                     dayjs(fullDay).isSame(dayHover) && !period.end
                         ? "rounded-full"
                         : "rounded-l-full"
                 }`;
             } else if (dayjs(fullDay).isSame(period.end)) {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
                 className = ` ${BG_COLOR["500"][primaryColor]} text-white font-medium ${
                     dayjs(fullDay).isSame(dayHover) && !period.start
                         ? "rounded-full"
@@ -96,11 +91,7 @@ const Days: React.FC<Props> = ({
             }`;
 
             if (period.start && period.end) {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
                 if (dayjs(fullDay).isBetween(period.start, period.end, "day", "[)")) {
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
                     return ` ${BG_COLOR["100"][primaryColor]} ${currentDateClass(
                         day
                     )} dark:bg-white/10`;
@@ -108,34 +99,22 @@ const Days: React.FC<Props> = ({
             }
 
             if (!dayHover) {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
                 return className;
             }
 
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
             if (period.start && dayjs(fullDay).isBetween(period.start, dayHover, "day", "[)")) {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
                 className = ` ${BG_COLOR["100"][primaryColor]} ${currentDateClass(
                     day
                 )} dark:bg-white/10`;
             }
 
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
             if (period.end && dayjs(fullDay).isBetween(dayHover, period.end, "day", "[)")) {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
                 className = ` ${BG_COLOR["100"][primaryColor]} ${currentDateClass(
                     day
                 )} dark:bg-white/10`;
             }
 
             if (dayHover === fullDay) {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
                 const bgColor = BG_COLOR["500"][primaryColor];
                 className = ` transition-all duration-500 text-white font-medium ${bgColor} ${
                     period.start ? "rounded-r-full" : "rounded-l-full"
@@ -148,7 +127,7 @@ const Days: React.FC<Props> = ({
     );
 
     const isDateTooEarly = useCallback(
-        (day: number, type: string) => {
+        (day: number, type: "current" | "previous" | "next") => {
             if (!minDate) {
                 return false;
             }
@@ -158,10 +137,8 @@ const Days: React.FC<Props> = ({
                 next: nextMonth(calendarData.date)
             };
             const newDate = object[type as keyof typeof object];
-            const formattedDate = `${newDate.year()}-${newDate.month() + 1}-${
-                day >= 10 ? day : "0" + day
-            }`;
-            return dayjs(formattedDate).isSame(dayjs(minDate))
+            const formattedDate = newDate.set("date", day);
+            return dayjs(formattedDate).isSame(dayjs(minDate), "day")
                 ? false
                 : dayjs(formattedDate).isBefore(dayjs(minDate));
         },
@@ -169,7 +146,7 @@ const Days: React.FC<Props> = ({
     );
 
     const isDateTooLate = useCallback(
-        (day: number, type: string) => {
+        (day: number, type: "current" | "previous" | "next") => {
             if (!maxDate) {
                 return false;
             }
@@ -179,10 +156,8 @@ const Days: React.FC<Props> = ({
                 next: nextMonth(calendarData.date)
             };
             const newDate = object[type as keyof typeof object];
-            const formattedDate = `${newDate.year()}-${newDate.month() + 1}-${
-                day >= 10 ? day : "0" + day
-            }`;
-            return dayjs(formattedDate).isSame(maxDate)
+            const formattedDate = newDate.set("date", day);
+            return dayjs(formattedDate).isSame(dayjs(maxDate), "day")
                 ? false
                 : dayjs(formattedDate).isAfter(dayjs(maxDate));
         },
@@ -190,7 +165,7 @@ const Days: React.FC<Props> = ({
     );
 
     const isDateDisabled = useCallback(
-        (day: number, type: string) => {
+        (day: number, type: "current" | "previous" | "next") => {
             if (isDateTooEarly(day, type) || isDateTooLate(day, type)) {
                 return true;
             }
@@ -229,50 +204,143 @@ const Days: React.FC<Props> = ({
     );
 
     const buttonClass = useCallback(
-        (day: number, type: string) => {
+        (day: number, type: "current" | "next" | "previous") => {
             const baseClass = "flex items-center justify-center w-12 h-12 lg:w-10 lg:h-10";
-            return cn(
-                baseClass,
-                !activeDateData(day).active ? hoverClassByDay(day) : activeDateData(day).className,
-                isDateDisabled(day, type) && "line-through"
-            );
+            if (type === "current") {
+                return cn(
+                    baseClass,
+                    !activeDateData(day).active
+                        ? hoverClassByDay(day)
+                        : activeDateData(day).className,
+                    isDateDisabled(day, type) && "line-through"
+                );
+            }
+            return cn(baseClass, isDateDisabled(day, type) && "line-through", "text-gray-400");
         },
         [activeDateData, hoverClassByDay, isDateDisabled]
     );
 
+    const checkIfHoverPeriodContainsDisabledPeriod = useCallback(
+        (hoverPeriod: Period) => {
+            if (!Array.isArray(disabledDates)) {
+                return false;
+            }
+            for (let i = 0; i < disabledDates.length; i++) {
+                if (
+                    dayjs(hoverPeriod.start).isBefore(disabledDates[i].startDate) &&
+                    dayjs(hoverPeriod.end).isAfter(disabledDates[i].endDate)
+                ) {
+                    return true;
+                }
+            }
+            return false;
+        },
+        [disabledDates]
+    );
+
+    const getMetaData = useCallback(() => {
+        return {
+            previous: previousMonth(calendarData.date),
+            current: calendarData.date,
+            next: nextMonth(calendarData.date)
+        };
+    }, [calendarData.date]);
+
     const hoverDay = useCallback(
         (day: number, type: string) => {
-            const object = {
-                previous: previousMonth(calendarData.date),
-                current: calendarData.date,
-                next: nextMonth(calendarData.date)
-            };
+            const object = getMetaData();
             const newDate = object[type as keyof typeof object];
             const newHover = `${newDate.year()}-${newDate.month() + 1}-${
                 day >= 10 ? day : "0" + day
             }`;
 
             if (period.start && !period.end) {
+                const hoverPeriod = { ...period, end: newHover };
                 if (dayjs(newHover).isBefore(dayjs(period.start))) {
-                    changePeriod({
-                        start: null,
-                        end: period.start
-                    });
+                    hoverPeriod.start = newHover;
+                    hoverPeriod.end = period.start;
+                    if (!checkIfHoverPeriodContainsDisabledPeriod(hoverPeriod)) {
+                        changePeriod({
+                            start: null,
+                            end: period.start
+                        });
+                    }
                 }
-                changeDayHover(newHover);
+                if (!checkIfHoverPeriodContainsDisabledPeriod(hoverPeriod)) {
+                    changeDayHover(newHover);
+                }
             }
 
             if (!period.start && period.end) {
+                const hoverPeriod = { ...period, start: newHover };
                 if (dayjs(newHover).isAfter(dayjs(period.end))) {
-                    changePeriod({
-                        start: period.end,
-                        end: null
-                    });
+                    hoverPeriod.start = period.end;
+                    hoverPeriod.end = newHover;
+                    if (!checkIfHoverPeriodContainsDisabledPeriod(hoverPeriod)) {
+                        changePeriod({
+                            start: period.end,
+                            end: null
+                        });
+                    }
                 }
-                changeDayHover(newHover);
+                if (!checkIfHoverPeriodContainsDisabledPeriod(hoverPeriod)) {
+                    changeDayHover(newHover);
+                }
             }
         },
-        [calendarData.date, changeDayHover, changePeriod, period.end, period.start]
+        [
+            changeDayHover,
+            changePeriod,
+            checkIfHoverPeriodContainsDisabledPeriod,
+            getMetaData,
+            period
+        ]
+    );
+
+    const handleClickDay = useCallback(
+        (day: number, type: "previous" | "current" | "next") => {
+            function continueClick() {
+                if (type === "previous") {
+                    onClickPreviousDays(day);
+                }
+
+                if (type === "current") {
+                    onClickDay(day);
+                }
+
+                if (type === "next") {
+                    onClickNextDays(day);
+                }
+            }
+
+            if (disabledDates?.length) {
+                const object = getMetaData();
+                const newDate = object[type as keyof typeof object];
+                const clickDay = `${newDate.year()}-${newDate.month() + 1}-${
+                    day >= 10 ? day : "0" + day
+                }`;
+
+                if (period.start && !period.end) {
+                    dayjs(clickDay).isSame(dayHover) && continueClick();
+                } else if (!period.start && period.end) {
+                    dayjs(clickDay).isSame(dayHover) && continueClick();
+                } else {
+                    continueClick();
+                }
+            } else {
+                continueClick();
+            }
+        },
+        [
+            dayHover,
+            disabledDates?.length,
+            getMetaData,
+            onClickDay,
+            onClickNextDays,
+            onClickPreviousDays,
+            period.end,
+            period.start
+        ]
     );
 
     return (
@@ -282,8 +350,8 @@ const Days: React.FC<Props> = ({
                     type="button"
                     key={index}
                     disabled={isDateDisabled(item, "previous")}
-                    className="flex items-center justify-center text-gray-400 h-12 w-12 lg:w-10 lg:h-10"
-                    onClick={() => onClickPreviousDays(item)}
+                    className={`${buttonClass(item, "previous")}`}
+                    onClick={() => handleClickDay(item, "previous")}
                     onMouseOver={() => {
                         hoverDay(item, "previous");
                     }}
@@ -298,9 +366,7 @@ const Days: React.FC<Props> = ({
                     key={index}
                     disabled={isDateDisabled(item, "current")}
                     className={`${buttonClass(item, "current")}`}
-                    onClick={() => {
-                        onClickDay(item);
-                    }}
+                    onClick={() => handleClickDay(item, "current")}
                     onMouseOver={() => {
                         hoverDay(item, "current");
                     }}
@@ -313,11 +379,9 @@ const Days: React.FC<Props> = ({
                 <button
                     type="button"
                     key={index}
-                    disabled={isDateDisabled(index, "next")}
-                    className="flex items-center justify-center text-gray-400 h-12 w-12 lg:w-10 lg:h-10"
-                    onClick={() => {
-                        onClickNextDays(item);
-                    }}
+                    disabled={isDateDisabled(item, "next")}
+                    className={`${buttonClass(item, "next")}`}
+                    onClick={() => handleClickDay(item, "next")}
                     onMouseOver={() => {
                         hoverDay(item, "next");
                     }}

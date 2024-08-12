@@ -9,66 +9,18 @@ import { COLORS, DATE_FORMAT, DEFAULT_COLOR, LANGUAGE } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { formatDate, nextMonth, previousMonth } from "../helpers";
 import useOnClickOutside from "../hooks";
-import {
-    Period,
-    DateValueType,
-    DateType,
-    DateRangeType,
-    ClassNamesTypeProp,
-    ClassNameParam
-} from "../types";
+import { Period, DatepickerType, ColorKeys } from "../types";
 
 import { Arrow, VerticalDash } from "./utils";
 
-interface Props {
-    primaryColor?: string;
-    value: DateValueType;
-    onChange: (value: DateValueType, e?: HTMLInputElement | null | undefined) => void;
-    useRange?: boolean;
-    showFooter?: boolean;
-    showShortcuts?: boolean;
-    configs?: {
-        shortcuts?: {
-            today?: string;
-            yesterday?: string;
-            past?: (period: number) => string;
-            currentMonth?: string;
-            pastMonth?: string;
-        } | null;
-        footer?: {
-            cancel?: string;
-            apply?: string;
-        } | null;
-    } | null;
-    asSingle?: boolean;
-    placeholder?: string;
-    separator?: string;
-    startFrom?: Date | null;
-    i18n?: string;
-    disabled?: boolean;
-    classNames?: ClassNamesTypeProp | undefined;
-    inputClassName?: ((args?: ClassNameParam) => string) | string | null;
-    toggleClassName?: string | null;
-    toggleIcon?: ((open: ClassNameParam) => React.ReactNode) | undefined;
-    inputId?: string;
-    inputName?: string;
-    containerClassName?: ((args?: ClassNameParam) => string) | string | null;
-    displayFormat?: string;
-    readOnly?: boolean;
-    minDate?: DateType | null;
-    maxDate?: DateType | null;
-    disabledDates?: DateRangeType[] | null;
-    startWeekOn?: string | null;
-}
-
-const Datepicker: React.FC<Props> = ({
+const Datepicker: React.FC<DatepickerType> = ({
     primaryColor = "blue",
     value = null,
     onChange,
     useRange = true,
     showFooter = false,
     showShortcuts = false,
-    configs = null,
+    configs = undefined,
     asSingle = false,
     placeholder = null,
     separator = "~",
@@ -83,16 +35,18 @@ const Datepicker: React.FC<Props> = ({
     readOnly = false,
     minDate = null,
     maxDate = null,
+    dateLooking = "forward",
     disabledDates = null,
     inputId,
     inputName,
     startWeekOn = "sun",
-    classNames = undefined
+    classNames = undefined,
+    popoverDirection = undefined
 }) => {
     // Ref
-    const containerRef = useRef<HTMLDivElement>(null);
-    const calendarContainerRef = useRef<HTMLDivElement>(null);
-    const arrowRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const calendarContainerRef = useRef<HTMLDivElement | null>(null);
+    const arrowRef = useRef<HTMLDivElement | null>(null);
 
     // State
     const [firstDate, setFirstDate] = useState<dayjs.Dayjs>(
@@ -261,27 +215,39 @@ const Datepicker: React.FC<Props> = ({
 
     useEffect(() => {
         if (startFrom && dayjs(startFrom).isValid()) {
-            if (value?.startDate != null) {
-                setFirstDate(dayjs(value.startDate));
-                setSecondDate(nextMonth(dayjs(value.startDate)));
+            const startDate = value?.startDate;
+            const endDate = value?.endDate;
+            if (startDate && dayjs(startDate).isValid()) {
+                setFirstDate(dayjs(startDate));
+                if (!asSingle) {
+                    if (
+                        endDate &&
+                        dayjs(endDate).isValid() &&
+                        dayjs(endDate).startOf("month").isAfter(dayjs(startDate))
+                    ) {
+                        setSecondDate(dayjs(endDate));
+                    } else {
+                        setSecondDate(nextMonth(dayjs(startDate)));
+                    }
+                }
             } else {
                 setFirstDate(dayjs(startFrom));
                 setSecondDate(nextMonth(dayjs(startFrom)));
             }
         }
-    }, [startFrom, value]);
+    }, [asSingle, startFrom, value]);
 
     // Variables
-    const colorPrimary = useMemo(() => {
+    const safePrimaryColor = useMemo(() => {
         if (COLORS.includes(primaryColor)) {
-            return primaryColor;
+            return primaryColor as ColorKeys;
         }
         return DEFAULT_COLOR;
     }, [primaryColor]);
     const contextValues = useMemo(() => {
         return {
             asSingle,
-            primaryColor: colorPrimary,
+            primaryColor: safePrimaryColor,
             configs,
             calendarContainer: calendarContainerRef,
             arrowContainer: arrowRef,
@@ -308,17 +274,19 @@ const Datepicker: React.FC<Props> = ({
             displayFormat,
             minDate,
             maxDate,
+            dateLooking,
             disabledDates,
             inputId,
             inputName,
             startWeekOn,
             classNames,
             onChange,
-            input: inputRef
+            input: inputRef,
+            popoverDirection
         };
     }, [
         asSingle,
-        colorPrimary,
+        safePrimaryColor,
         configs,
         hideDatepicker,
         period,
@@ -337,23 +305,31 @@ const Datepicker: React.FC<Props> = ({
         toggleIcon,
         readOnly,
         displayFormat,
-        firstGotoDate,
         minDate,
         maxDate,
+        dateLooking,
         disabledDates,
         inputId,
         inputName,
         startWeekOn,
         classNames,
-        inputRef
+        inputRef,
+        popoverDirection,
+        firstGotoDate
     ]);
+
+    const containerClassNameOverload = useMemo(() => {
+        const defaultContainerClassName = "relative w-full text-gray-700";
+        return typeof containerClassName === "function"
+            ? containerClassName(defaultContainerClassName)
+            : typeof containerClassName === "string" && containerClassName !== ""
+            ? containerClassName
+            : defaultContainerClassName;
+    }, [containerClassName]);
 
     return (
         <DatepickerContext.Provider value={contextValues}>
-            <div
-                className={`relative w-full text-gray-700 ${containerClassName}`}
-                ref={containerRef}
-            >
+            <div className={containerClassNameOverload} ref={containerRef}>
                 <Input setContextRef={setInputRef} />
 
                 <div
@@ -377,6 +353,8 @@ const Datepicker: React.FC<Props> = ({
                                     onClickNext={nextMonthFirst}
                                     changeMonth={changeFirstMonth}
                                     changeYear={changeFirstYear}
+                                    minDate={minDate}
+                                    maxDate={maxDate}
                                 />
 
                                 {useRange && (
@@ -391,6 +369,8 @@ const Datepicker: React.FC<Props> = ({
                                             onClickNext={nextMonthSecond}
                                             changeMonth={changeSecondMonth}
                                             changeYear={changeSecondYear}
+                                            minDate={minDate}
+                                            maxDate={maxDate}
                                         />
                                     </>
                                 )}

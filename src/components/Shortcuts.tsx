@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import React, { useCallback, useContext, useMemo } from "react";
 
-import { TEXT_COLOR } from "../constants";
+import { DATE_FORMAT, TEXT_COLOR } from "../constants";
 import DEFAULT_SHORTCUTS from "../constants/shortcuts";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { Period, ShortcutsItem } from "../types";
@@ -18,7 +18,6 @@ const ItemTemplate = React.memo((props: ItemTemplateProps) => {
         primaryColor,
         period,
         changePeriod,
-        changeInputText,
         updateFirstDate,
         dayHover,
         changeDayHover,
@@ -44,7 +43,6 @@ const ItemTemplate = React.memo((props: ItemTemplateProps) => {
                     end: null
                 });
             }
-            changeInputText(`${item.start} ~ ${item.end}`);
             changePeriod(item);
             changeDatepickerValue({
                 startDate: item.start,
@@ -56,7 +54,6 @@ const ItemTemplate = React.memo((props: ItemTemplateProps) => {
         [
             changeDatepickerValue,
             changeDayHover,
-            changeInputText,
             changePeriod,
             dayHover,
             hideDatepicker,
@@ -66,8 +63,6 @@ const ItemTemplate = React.memo((props: ItemTemplateProps) => {
         ]
     );
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     const children = props?.children;
 
     return (
@@ -92,24 +87,54 @@ const Shortcuts: React.FC = () => {
         return typeof data === "function" ? data(numberValue) : null;
     }, []);
 
-    const shortcutOptions = useMemo(
-        () =>
-            configs
-                ? Object.entries(DEFAULT_SHORTCUTS).filter(([key]) => {
-                      return configs.shortcuts && Object.keys(configs.shortcuts).includes(key);
-                  })
-                : Object.entries(DEFAULT_SHORTCUTS),
-        [configs]
-    );
+    const shortcutOptions = useMemo<[string, ShortcutsItem | ShortcutsItem[]][]>(() => {
+        if (!configs?.shortcuts) {
+            return Object.entries(DEFAULT_SHORTCUTS);
+        }
+
+        return Object.entries(configs.shortcuts).flatMap(([key, customConfig]) => {
+            if (Object.prototype.hasOwnProperty.call(DEFAULT_SHORTCUTS, key)) {
+                return [[key, DEFAULT_SHORTCUTS[key]]];
+            }
+
+            const { text, period } = customConfig as {
+                text: string;
+                period: { start: string; end: string };
+            };
+            if (!text || !period) {
+                return [];
+            }
+
+            const start = dayjs(period.start);
+            const end = dayjs(period.end);
+
+            if (start.isValid() && end.isValid() && (start.isBefore(end) || start.isSame(end))) {
+                return [
+                    [
+                        text,
+                        {
+                            text,
+                            period: {
+                                start: start.format(DATE_FORMAT),
+                                end: end.format(DATE_FORMAT)
+                            }
+                        }
+                    ]
+                ];
+            }
+
+            return [];
+        });
+    }, [configs]);
 
     const printItemText = useCallback((item: ShortcutsItem) => {
         return item?.text ?? null;
     }, []);
 
-    return (
+    return shortcutOptions?.length ? (
         <div className="md:border-b mb-3 lg:mb-0 lg:border-r lg:border-b-0 border-gray-300 dark:border-gray-700 pr-1">
             <ul className="w-full tracking-wide flex flex-wrap lg:flex-col pb-1 lg:pb-0">
-                {shortcutOptions.map(([key, item], index) =>
+                {shortcutOptions.map(([key, item], index: number) =>
                     Array.isArray(item) ? (
                         item.map((item, index) => (
                             <ItemTemplate key={index} item={item}>
@@ -118,7 +143,10 @@ const Shortcuts: React.FC = () => {
                                     configs?.shortcuts &&
                                     key in configs.shortcuts &&
                                     item.daysNumber
-                                        ? callPastFunction(configs.shortcuts[key], item.daysNumber)
+                                        ? callPastFunction(
+                                              configs.shortcuts[key as "past"],
+                                              item.daysNumber
+                                          )
                                         : item.text}
                                 </>
                             </ItemTemplate>
@@ -127,7 +155,11 @@ const Shortcuts: React.FC = () => {
                         <ItemTemplate key={index} item={item}>
                             <>
                                 {configs?.shortcuts && key in configs.shortcuts
-                                    ? configs.shortcuts[key as keyof typeof configs.shortcuts]
+                                    ? typeof configs.shortcuts[
+                                          key as keyof typeof configs.shortcuts
+                                      ] === "object"
+                                        ? printItemText(item)
+                                        : configs.shortcuts[key as keyof typeof configs.shortcuts]
                                     : printItemText(item)}
                             </>
                         </ItemTemplate>
@@ -135,7 +167,7 @@ const Shortcuts: React.FC = () => {
                 )}
             </ul>
         </div>
-    );
+    ) : null;
 };
 
 export default Shortcuts;

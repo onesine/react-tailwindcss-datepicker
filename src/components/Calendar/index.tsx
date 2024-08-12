@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 
-import { CALENDAR_SIZE } from "../../constants";
+import { CALENDAR_SIZE, DATE_FORMAT } from "../../constants";
 import DatepickerContext from "../../contexts/DatepickerContext";
 import {
     formatDate,
@@ -27,8 +27,12 @@ import Months from "./Months";
 import Week from "./Week";
 import Years from "./Years";
 
+import { DateType } from "types";
+
 interface Props {
     date: dayjs.Dayjs;
+    minDate?: DateType | null;
+    maxDate?: DateType | null;
     onClickPrevious: () => void;
     onClickNext: () => void;
     changeMonth: (month: number) => void;
@@ -37,6 +41,8 @@ interface Props {
 
 const Calendar: React.FC<Props> = ({
     date,
+    minDate,
+    maxDate,
     onClickPrevious,
     onClickNext,
     changeMonth,
@@ -118,8 +124,8 @@ const Calendar: React.FC<Props> = ({
                 const ipt = input?.current;
                 changeDatepickerValue(
                     {
-                        startDate: dayjs(start).format("YYYY-MM-DD"),
-                        endDate: dayjs(end).format("YYYY-MM-DD")
+                        startDate: dayjs(start).format(DATE_FORMAT),
+                        endDate: dayjs(end).format(DATE_FORMAT)
                     },
                     ipt
                 );
@@ -226,9 +232,17 @@ const Calendar: React.FC<Props> = ({
             }
         };
     }, [current, date, next, previous]);
+    const minYear = React.useMemo(
+        () => (minDate && dayjs(minDate).isValid() ? dayjs(minDate).year() : null),
+        [minDate]
+    );
+    const maxYear = React.useMemo(
+        () => (maxDate && dayjs(maxDate).isValid() ? dayjs(maxDate).year() : null),
+        [maxDate]
+    );
 
     return (
-        <div className="w-full md:w-[297px] md:min-w-[297px]">
+        <div className="w-full md:w-[296px] md:min-w-[296px]">
             <div className="flex items-center space-x-1.5 border border-gray-300 dark:border-gray-700 rounded-md px-2 py-1.5">
                 {!showMonths && !showYears && (
                     <div className="flex-none">
@@ -298,9 +312,19 @@ const Calendar: React.FC<Props> = ({
             </div>
 
             <div className="px-0.5 sm:px-2 mt-0.5 min-h-[285px]">
-                {showMonths && <Months clickMonth={clickMonth} />}
+                {showMonths && (
+                    <Months currentMonth={calendarData.date.month() + 1} clickMonth={clickMonth} />
+                )}
 
-                {showYears && <Years year={year} clickYear={clickYear} />}
+                {showYears && (
+                    <Years
+                        year={year}
+                        minYear={minYear}
+                        maxYear={maxYear}
+                        currentYear={calendarData.date.year()}
+                        clickYear={clickYear}
+                    />
+                )}
 
                 {!showMonths && !showYears && (
                     <>

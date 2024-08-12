@@ -1,8 +1,9 @@
-import Datepicker from "../src";
-import { useState } from "react";
-import { COLORS } from "../src/constants";
 import dayjs from "dayjs";
 import Head from "next/head";
+import { useState } from "react";
+
+import Datepicker from "../src";
+import { COLORS, DATE_LOOKING_OPTIONS } from "../src/constants";
 
 export default function Playground() {
     const [value, setValue] = useState({
@@ -13,7 +14,6 @@ export default function Playground() {
     const [useRange, setUseRange] = useState(true);
     const [showFooter, setShowFooter] = useState(false);
     const [showShortcuts, setShowShortcuts] = useState(false);
-    const [configs, setConfigs] = useState(null);
     const [asSingle, setAsSingle] = useState(false);
     const [placeholder, setPlaceholder] = useState("");
     const [separator, setSeparator] = useState("~");
@@ -26,6 +26,7 @@ export default function Playground() {
     const [readOnly, setReadOnly] = useState(false);
     const [minDate, setMinDate] = useState("");
     const [maxDate, setMaxDate] = useState("");
+    const [dateLooking, setDateLooking] = useState(true);
     const [disabledDates, setDisabledDates] = useState([]);
     const [newDisabledDates, setNewDisabledDates] = useState({ startDate: "", endDate: "" });
     const [startFrom, setStartFrom] = useState("2023-03-01");
@@ -62,7 +63,28 @@ export default function Playground() {
                             yesterday: "YText",
                             past: period => `P-${period} Text`,
                             currentMonth: "CMText",
-                            pastMonth: "PMText"
+                            pastMonth: "PMText",
+                            last3Days: {
+                                text: "Last 3 days",
+                                period: {
+                                    start: new Date(new Date().setDate(new Date().getDate() - 3)),
+                                    end: new Date()
+                                }
+                            },
+                            thisDay: {
+                                text: "This Day",
+                                period: {
+                                    start: new Date(),
+                                    end: new Date()
+                                }
+                            },
+                            next8Days: {
+                                text: "Next 8 days",
+                                period: {
+                                    start: new Date(),
+                                    end: new Date(new Date().setDate(new Date().getDate() + 8))
+                                }
+                            }
                         },
                         footer: {
                             cancel: "CText",
@@ -78,21 +100,19 @@ export default function Playground() {
                     i18n={i18n}
                     disabled={disabled}
                     inputClassName={inputClassName}
-                    /**
-                     * `twMerge` Test
-                     */
-                    // inputClassName={twMerge(inputClassName, 'dark:bg-white')}
                     containerClassName={containerClassName}
                     toggleClassName={toggleClassName}
                     displayFormat={displayFormat}
                     readOnly={readOnly}
                     minDate={minDate}
                     maxDate={maxDate}
+                    dateLooking={dateLooking}
                     disabledDates={disabledDates}
                     startWeekOn={startWeekOn}
                     toggleIcon={isEmpty => {
                         return isEmpty ? "Select Date" : "Clear";
                     }}
+                    popoverDirection={"down"}
                     // classNames={{
                     //     input: ({ disabled, readOnly, className }) => {
                     //         if (disabled) {
@@ -109,7 +129,6 @@ export default function Playground() {
                     // }}
                 />
             </div>
-
             <div className="py-4 max-w-3xl mx-auto flex flex-row flex-wrap">
                 <div className="w-full sm:w-1/3 pr-2 flex flex-row flex-wrap sm:flex-col">
                     <div className="mb-2 w-1/2 sm:w-full">
@@ -281,6 +300,25 @@ export default function Playground() {
                                 setMaxDate(e.target.value);
                             }}
                         />
+                    </div>
+                    <div className="mb-2">
+                        <label className="block" htmlFor="dateLooking">
+                            Date Looking
+                        </label>
+                        <select
+                            className="rounded block w-full border-gray-200 border px-4 py-2"
+                            id="dateLooking"
+                            value={dateLooking}
+                            onChange={e => {
+                                setDateLooking(e.target.value);
+                            }}
+                        >
+                            {DATE_LOOKING_OPTIONS.map((option, i) => (
+                                <option key={i} value={option}>
+                                    {option}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                 </div>
                 <div className="w-full sm:w-1/3 pr-2 flex flex-col">

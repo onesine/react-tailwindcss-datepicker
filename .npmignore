@@ -9,6 +9,7 @@ pages
 styles
 .next
 .rollup.cache
+.husky
 ## Files
 babel.config.json
 tsconfig.json

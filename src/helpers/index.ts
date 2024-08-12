@@ -1,4 +1,9 @@
 import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import weekday from "dayjs/plugin/weekday";
+
+dayjs.extend(weekday);
+dayjs.extend(customParseFormat);
 
 import { DATE_FORMAT, LANGUAGE } from "../constants";
 
@@ -66,6 +71,10 @@ export function ucFirst(value: string) {
 
 export function formatDate(date: dayjs.Dayjs, format = DATE_FORMAT) {
     return date.format(format);
+}
+
+export function parseFormattedDate(date: string, format = DATE_FORMAT) {
+    return dayjs(date, format);
 }
 
 export function getFirstDayInMonth(date: string | dayjs.Dayjs) {
