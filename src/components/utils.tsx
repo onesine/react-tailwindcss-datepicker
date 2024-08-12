@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from "react";
+import React, { ReactNode, useCallback, useContext } from "react";
 
 import { BG_COLOR, BORDER_COLOR, BUTTON_COLOR, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
@@ -8,7 +8,7 @@ interface IconProps {
 }
 
 interface Button {
-    children: JSX.Element | JSX.Element[];
+    children: ReactNode;
     onClick: React.MouseEventHandler<HTMLButtonElement>;
     disabled?: boolean;
     roundedFull?: boolean;

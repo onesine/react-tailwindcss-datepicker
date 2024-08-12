@@ -1,4 +1,4 @@
-import React from "react";
+import { ReactNode } from "react";
 
 import { COLORS } from "../constants";
 
@@ -72,7 +72,7 @@ export interface DatepickerType {
     popupClassName?: ((className: string) => string) | string | null;
     inputClassName?: ((className: string) => string) | string | null;
     toggleClassName?: ((className: string) => string) | string | null;
-    toggleIcon?: (open: boolean) => React.ReactNode;
+    toggleIcon?: (open: boolean) => ReactNode;
     inputId?: string;
     inputName?: string;
     displayFormat?: string;

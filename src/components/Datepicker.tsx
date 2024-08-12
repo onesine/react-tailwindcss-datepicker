@@ -13,44 +13,47 @@ import { Period, DatepickerType, ColorKeys } from "../types";
 
 import { Arrow, VerticalDash } from "./utils";
 
-const Datepicker: React.FC<DatepickerType> = ({
-    primaryColor = "blue",
-    value = null,
-    onChange,
-    useRange = true,
-    showFooter = false,
-    showShortcuts = false,
-    configs = undefined,
-    asSingle = false,
-    placeholder = null,
-    separator = "~",
-    startFrom = null,
-    i18n = LANGUAGE,
-    disabled = false,
-    inputClassName = null,
-    containerClassName = null,
-    popupClassName = null,
-    toggleClassName = null,
-    toggleIcon = undefined,
-    displayFormat = DATE_FORMAT,
-    readOnly = false,
-    minDate = null,
-    maxDate = null,
-    dateLooking = "forward",
-    disabledDates = null,
-    inputId,
-    inputName,
-    startWeekOn = "sun",
-    classNames = undefined,
-    popoverDirection = undefined,
-    required = false
-}) => {
-    // Ref
+const Datepicker = (props: DatepickerType) => {
+    // Props
+    const {
+        primaryColor = "blue",
+        value = null,
+        onChange,
+        useRange = true,
+        showFooter = false,
+        showShortcuts = false,
+        configs = undefined,
+        asSingle = false,
+        placeholder = null,
+        separator = "~",
+        startFrom = null,
+        i18n = LANGUAGE,
+        disabled = false,
+        inputClassName = null,
+        containerClassName = null,
+        toggleClassName = null,
+        popupClassName = null,
+        toggleIcon = undefined,
+        displayFormat = DATE_FORMAT,
+        readOnly = false,
+        minDate = null,
+        maxDate = null,
+        dateLooking = "forward",
+        disabledDates = null,
+        inputId,
+        inputName,
+        startWeekOn = "sun",
+        classNames = undefined,
+        popoverDirection = undefined,
+        required = false
+    } = props;
+
+    // Refs
     const containerRef = useRef<HTMLDivElement | null>(null);
     const calendarContainerRef = useRef<HTMLDivElement | null>(null);
     const arrowRef = useRef<HTMLDivElement | null>(null);
 
-    // State
+    // States
     const [firstDate, setFirstDate] = useState<dayjs.Dayjs>(
         startFrom && dayjs(startFrom).isValid() ? dayjs(startFrom) : dayjs()
     );
@@ -246,6 +249,7 @@ const Datepicker: React.FC<DatepickerType> = ({
         }
         return DEFAULT_COLOR;
     }, [primaryColor]);
+
     const contextValues = useMemo(() => {
         return {
             asSingle,
@@ -318,8 +322,8 @@ const Datepicker: React.FC<DatepickerType> = ({
         classNames,
         inputRef,
         popoverDirection,
-        firstGotoDate,
-        required
+        required,
+        firstGotoDate
     ]);
 
     const containerClassNameOverload = useMemo(() => {

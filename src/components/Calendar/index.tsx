@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
 import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { DateType } from "types";
 
 import { CALENDAR_SIZE, DATE_FORMAT } from "../../constants";
 import DatepickerContext from "../../contexts/DatepickerContext";
@@ -28,6 +27,8 @@ import Months from "./Months";
 import Week from "./Week";
 import Years from "./Years";
 
+import { DateType } from "types";
+
 interface Props {
     date: dayjs.Dayjs;
     minDate?: DateType | null;
@@ -38,15 +39,10 @@ interface Props {
     changeYear: (year: number) => void;
 }
 
-const Calendar: React.FC<Props> = ({
-    date,
-    minDate,
-    maxDate,
-    onClickPrevious,
-    onClickNext,
-    changeMonth,
-    changeYear
-}) => {
+const Calendar: React.FC<Props> = props => {
+    // Props
+    const { date, minDate, maxDate, onClickPrevious, onClickNext, changeMonth, changeYear } = props;
+
     // Contexts
     const {
         period,
@@ -66,6 +62,7 @@ const Calendar: React.FC<Props> = ({
     const [showMonths, setShowMonths] = useState(false);
     const [showYears, setShowYears] = useState(false);
     const [year, setYear] = useState(date.year());
+
     // Functions
     const previous = useCallback(() => {
         return getLastDaysInMonth(
