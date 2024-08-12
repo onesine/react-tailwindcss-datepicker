@@ -69,6 +69,7 @@ export interface DatepickerType {
     disabled?: boolean;
     classNames?: ClassNamesTypeProp | undefined;
     containerClassName?: ((className: string) => string) | string | null;
+    popupClassName?: ((className: string) => string) | string | null;
     inputClassName?: ((className: string) => string) | string | null;
     toggleClassName?: ((className: string) => string) | string | null;
     toggleIcon?: (open: boolean) => React.ReactNode;
