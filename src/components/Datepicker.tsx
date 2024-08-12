@@ -41,7 +41,8 @@ const Datepicker: React.FC<DatepickerType> = ({
     inputName,
     startWeekOn = "sun",
     classNames = undefined,
-    popoverDirection = undefined
+    popoverDirection = undefined,
+    required = false
 }) => {
     // Ref
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -282,7 +283,8 @@ const Datepicker: React.FC<DatepickerType> = ({
             classNames,
             onChange,
             input: inputRef,
-            popoverDirection
+            popoverDirection,
+            required
         };
     }, [
         asSingle,
@@ -315,7 +317,8 @@ const Datepicker: React.FC<DatepickerType> = ({
         classNames,
         inputRef,
         popoverDirection,
-        firstGotoDate
+        firstGotoDate,
+        required
     ]);
 
     const containerClassNameOverload = useMemo(() => {
