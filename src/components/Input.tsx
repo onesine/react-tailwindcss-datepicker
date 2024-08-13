@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import React, { useCallback, useContext, useEffect, useRef } from "react";
+import React, { ChangeEvent, useCallback, useContext, useEffect, useRef } from "react";
 
 import { BORDER_COLOR, DATE_FORMAT, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
@@ -66,7 +66,7 @@ const Input: React.FC<Props> = (e: Props) => {
     }, [inputRef, classNames, primaryColor, inputClassName]);
 
     const handleInputChange = useCallback(
-        (e: React.ChangeEvent<HTMLInputElement>) => {
+        (e: ChangeEvent<HTMLInputElement>) => {
             const inputValue = e.target.value;
 
             const dates = [];
