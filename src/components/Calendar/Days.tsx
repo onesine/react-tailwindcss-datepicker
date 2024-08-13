@@ -4,7 +4,7 @@ import React, { useCallback, useContext } from "react";
 
 import { BG_COLOR, TEXT_COLOR } from "../../constants";
 import DatepickerContext from "../../contexts/DatepickerContext";
-import { formatDate, nextMonth, previousMonth, classNames as cn } from "../../helpers";
+import { classNames as cn, formatDate, nextMonth, previousMonth } from "../../helpers";
 import { Period } from "../../types";
 
 dayjs.extend(isBetween);
@@ -342,7 +342,7 @@ const Days: React.FC<Props> = props => {
     );
 
     return (
-        <div className="grid grid-cols-7 gap-y-0.5 my-1">
+        <div className="my-1 grid grid-cols-7 gap-y-0.5">
             {calendarData.days.previous.map((item, index) => (
                 <button
                     type="button"

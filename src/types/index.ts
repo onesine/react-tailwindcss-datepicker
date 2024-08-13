@@ -2,6 +2,8 @@ import { ReactNode } from "react";
 
 import { COLORS } from "../constants";
 
+export type PeriodDay = "AM" | "PM";
+
 export interface Period {
     start: string | null;
     end: string | null;
@@ -64,6 +66,7 @@ export interface DatepickerType {
     showShortcuts?: boolean;
     configs?: Configs;
     asSingle?: boolean;
+    asTimePicker?: boolean;
     placeholder?: string;
     separator?: string;
     startFrom?: Date | null;

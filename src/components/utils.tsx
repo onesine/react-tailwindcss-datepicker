@@ -4,7 +4,7 @@ import { BG_COLOR, BORDER_COLOR, BUTTON_COLOR, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 
 interface IconProps {
-    className: string;
+    className?: string;
 }
 
 interface Button {
@@ -123,7 +123,7 @@ export const Arrow = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
     return (
         <div
             ref={ref}
-            className="absolute z-20 h-4 w-4 rotate-45 mt-0.5 ml-[1.2rem] border-l border-t border-gray-300 bg-white dark:bg-slate-800 dark:border-slate-600"
+            className="absolute z-20 ml-[1.2rem] mt-0.5 h-4 w-4 rotate-45 border-l border-t border-gray-300 bg-white dark:border-slate-600 dark:bg-slate-800"
         />
     );
 });

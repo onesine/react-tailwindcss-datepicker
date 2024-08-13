@@ -93,7 +93,7 @@ const Shortcuts: React.FC = () => {
         }
 
         return Object.entries(configs.shortcuts).flatMap(([key, customConfig]) => {
-            if (Object.prototype.hasOwnProperty.call(DEFAULT_SHORTCUTS, key)) {
+            if (Object.prototype.hasOwnProperty?.call(DEFAULT_SHORTCUTS, key)) {
                 return [[key, DEFAULT_SHORTCUTS[key]]];
             }
 

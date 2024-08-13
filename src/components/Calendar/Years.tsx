@@ -1,9 +1,8 @@
 import React, { useContext } from "react";
 
+import DatepickerContext from "../../contexts/DatepickerContext";
 import { generateArrayNumber } from "../../helpers";
 import { RoundedButton } from "../utils";
-
-import DatepickerContext from "contexts/DatepickerContext";
 
 interface Props {
     year: number;
@@ -36,7 +35,7 @@ const Years: React.FC<Props> = ({ year, currentYear, minYear, maxYear, clickYear
     }
 
     return (
-        <div className="w-full grid grid-cols-2 gap-2 mt-2">
+        <div className="mt-2 grid w-full grid-cols-2 gap-2">
             {generateArrayNumber(startDate, endDate).map((item, index) => (
                 <RoundedButton
                     key={index}

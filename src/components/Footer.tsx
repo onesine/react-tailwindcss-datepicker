@@ -3,13 +3,23 @@ import React, { useCallback, useContext } from "react";
 
 import { DATE_FORMAT } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
+import { formatDateTimeToISO } from "../helpers";
 
 import { PrimaryButton, SecondaryButton } from "./utils";
 
 const Footer: React.FC = () => {
     // Contexts
-    const { hideDatepicker, period, changeDatepickerValue, configs, classNames } =
-        useContext(DatepickerContext);
+    const {
+        asTimePicker,
+        period,
+        hour,
+        minute,
+        periodDay,
+        configs,
+        classNames,
+        changeDatepickerValue,
+        hideDatepicker
+    } = useContext(DatepickerContext);
 
     // Functions
     const getClassName = useCallback(() => {
@@ -22,7 +32,7 @@ const Footer: React.FC = () => {
 
     return (
         <div className={getClassName()}>
-            <div className="w-full md:w-auto flex items-center justify-center space-x-3">
+            <div className="flex w-full items-center justify-center space-x-3 md:w-auto">
                 <SecondaryButton
                     onClick={() => {
                         hideDatepicker();
@@ -34,9 +44,14 @@ const Footer: React.FC = () => {
                     onClick={() => {
                         if (period.start && period.end) {
                             changeDatepickerValue({
-                                startDate: dayjs(period.start).format(DATE_FORMAT),
-                                endDate: dayjs(period.end).format(DATE_FORMAT)
+                                startDate: asTimePicker
+                                    ? formatDateTimeToISO(period.start, hour, minute, periodDay)
+                                    : dayjs(period.start).format(DATE_FORMAT),
+                                endDate: asTimePicker
+                                    ? formatDateTimeToISO(period.end, hour, minute, periodDay)
+                                    : dayjs(period.end).format(DATE_FORMAT)
                             });
+
                             hideDatepicker();
                         }
                     }}
