@@ -30,6 +30,7 @@ const Input: React.FC<Props> = (e: Props) => {
         disabled,
         inputClassName,
         toggleClassName,
+        toggleTitle,
         toggleIcon,
         readOnly,
         displayFormat,
@@ -294,6 +295,7 @@ const Input: React.FC<Props> = (e: Props) => {
                 ref={buttonRef}
                 disabled={disabled}
                 className={getToggleClassName()}
+                title={toggleTitle}
             >
                 {renderToggleIcon(inputText == null || !inputText?.length)}
             </button>
