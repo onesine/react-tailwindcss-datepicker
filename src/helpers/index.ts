@@ -6,7 +6,7 @@ dayjs.extend(weekday);
 dayjs.extend(customParseFormat);
 
 import { DATE_FORMAT, LANGUAGE } from "../constants";
-import { WeekStringType } from "../types";
+import { PeriodDay, WeekStringType } from "../types";
 
 export function classNames(...classes: (false | null | undefined | string)[]) {
     return classes.filter(Boolean).join(" ");
