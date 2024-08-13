@@ -10,7 +10,8 @@ import {
     DateRangeType,
     ClassNamesTypeProp,
     PopoverDirectionType,
-    ColorKeys
+    ColorKeys,
+    WeekStringType
 } from "../types";
 
 interface DatepickerStore {
@@ -40,7 +41,7 @@ interface DatepickerStore {
     toggleClassName?: ((className: string) => string) | string | null;
     toggleIcon?: (open: boolean) => React.ReactNode;
     readOnly?: boolean;
-    startWeekOn?: string | null;
+    startWeekOn?: WeekStringType | null;
     displayFormat: string;
     minDate?: DateType | null;
     maxDate?: DateType | null;
