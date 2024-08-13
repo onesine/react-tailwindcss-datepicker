@@ -93,7 +93,7 @@ const Shortcuts: React.FC = () => {
         }
 
         return Object.entries(configs.shortcuts).flatMap(([key, customConfig]) => {
-            if (Object.prototype.hasOwnProperty.call(DEFAULT_SHORTCUTS, key)) {
+            if (Object.prototype.hasOwnProperty?.call(DEFAULT_SHORTCUTS, key)) {
                 return [[key, DEFAULT_SHORTCUTS[key]]];
             }
 
@@ -132,8 +132,8 @@ const Shortcuts: React.FC = () => {
     }, []);
 
     return shortcutOptions?.length ? (
-        <div className="md:border-b mb-3 lg:mb-0 lg:border-r lg:border-b-0 border-gray-300 dark:border-gray-700 pr-1">
-            <ul className="w-full tracking-wide flex flex-wrap lg:flex-col pb-1 lg:pb-0">
+        <div className="mb-3 border-gray-300 pr-1 dark:border-gray-700 md:border-b lg:mb-0 lg:border-b-0 lg:border-r">
+            <ul className="flex w-full flex-wrap pb-1 tracking-wide lg:flex-col lg:pb-0">
                 {shortcutOptions.map(([key, item], index: number) =>
                     Array.isArray(item) ? (
                         item.map((item, index) => (

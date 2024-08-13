@@ -15,6 +15,7 @@ import {
     nextMonth,
     previousMonth
 } from "../../helpers";
+import { DateType } from "../../types";
 import {
     ChevronLeftIcon,
     ChevronRightIcon,
@@ -27,8 +28,6 @@ import Days from "./Days";
 import Months from "./Months";
 import Week from "./Week";
 import Years from "./Years";
-
-import { DateType } from "types";
 
 interface Props {
     date: dayjs.Dayjs;
@@ -256,7 +255,7 @@ const Calendar: React.FC<Props> = ({
 
     return (
         <div className="w-full md:w-[296px] md:min-w-[296px]">
-            <div className="flex items-center space-x-1.5 border border-gray-300 dark:border-gray-700 rounded-md px-2 py-1.5">
+            <div className="flex items-center space-x-1.5 rounded-md border border-gray-300 px-2 py-1.5 dark:border-gray-700">
                 {!showMonths && !showYears && (
                     <div className="flex-none">
                         <RoundedButton roundedFull={true} onClick={onClickPrevious}>
@@ -324,7 +323,7 @@ const Calendar: React.FC<Props> = ({
                 )}
             </div>
 
-            <div className="px-0.5 sm:px-2 mt-0.5 min-h-[285px]">
+            <div className="mt-0.5 min-h-[285px] px-0.5 sm:px-2">
                 {showMonths && (
                     <Months currentMonth={calendarData.date.month() + 1} clickMonth={clickMonth} />
                 )}

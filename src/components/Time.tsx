@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useContext } from "react";
 
-import { RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { classNames as cn, formatDateTimeToISO } from "../helpers";
 import { PeriodDay } from "../types";
@@ -12,14 +11,11 @@ const Time: React.FC = () => {
         minute,
         periodDay,
         period,
-        primaryColor,
         changeDatepickerValue,
         changeHour,
         changeMinute,
         changePeriodDay
     } = useContext(DatepickerContext);
-
-    const ringFocusColor = RING_COLOR.focus[primaryColor as keyof typeof RING_COLOR.focus];
 
     const svgString = `
         <svg 
@@ -45,8 +41,7 @@ const Time: React.FC = () => {
         "bg-[right_0.5rem_center]",
         "!bg-no-repeat !appearance-none !bg-transparent !text-sm !text-center !outline-none !focus:outline-none",
         "!pl-2 !pr-6 !py-1 rounded-[8px] !w-fit",
-        "!border border-gray-300 focus:border-none",
-        `${ringFocusColor}`
+        "!border border-gray-300 focus:border-primary-blue-100"
     );
 
     const HOURS = Array.from({ length: 12 });
@@ -88,12 +83,13 @@ const Time: React.FC = () => {
     };
 
     return (
-        <div className="w-full md:w-auto flex items-center justify-center space-x-3">
-            <div className="pb-6">
+        <div className="flex w-full items-center justify-center space-x-3 focus:ring-primary-blue-100 md:w-auto">
+            <div className="pb-2">
                 <select
                     name="hour"
                     className={selectClassname}
                     onChange={handleChangeHour}
+                    value={hour}
                     style={{
                         backgroundImage: "url(" + dataUri + ")"
                     }}
@@ -107,7 +103,7 @@ const Time: React.FC = () => {
                         );
                     })}
                 </select>
-                <span className="text-xl mx-3">:</span>
+                <span className="mx-3 text-xl">:</span>
                 <select
                     name="minute"
                     className={cn(selectClassname, "mr-4")}

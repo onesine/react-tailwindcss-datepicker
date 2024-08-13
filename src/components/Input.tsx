@@ -1,17 +1,27 @@
 import dayjs from "dayjs";
-import React, { useCallback, useContext, useEffect, useRef } from "react";
+import {
+    ChangeEvent,
+    FC,
+    KeyboardEvent,
+    RefObject,
+    useCallback,
+    useContext,
+    useEffect,
+    useRef
+} from "react";
 
 import { BORDER_COLOR, DATE_FORMAT, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { dateIsValid, parseFormattedDate } from "../helpers";
 
 import ToggleButton from "./ToggleButton";
+const ENTER = "Enter";
 
 type Props = {
-    setContextRef?: (ref: React.RefObject<HTMLInputElement>) => void;
+    setContextRef?: (ref: RefObject<HTMLInputElement>) => void;
 };
 
-const Input: React.FC<Props> = (e: Props) => {
+const Input: FC<Props> = (e: Props) => {
     // Context
     const {
         primaryColor,
@@ -66,7 +76,7 @@ const Input: React.FC<Props> = (e: Props) => {
     }, [inputRef, classNames, primaryColor, inputClassName]);
 
     const handleInputChange = useCallback(
-        (e: React.ChangeEvent<HTMLInputElement>) => {
+        (e: ChangeEvent<HTMLInputElement>) => {
             const inputValue = e.target.value;
 
             const dates = [];
@@ -127,8 +137,8 @@ const Input: React.FC<Props> = (e: Props) => {
     );
 
     const handleInputKeyDown = useCallback(
-        (e: React.KeyboardEvent<HTMLInputElement>) => {
-            if (e.key === "Enter") {
+        (e: KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === ENTER) {
                 const input = inputRef.current;
                 if (input) {
                     input.blur();
@@ -295,7 +305,6 @@ const Input: React.FC<Props> = (e: Props) => {
                 onChange={handleInputChange}
                 onKeyDown={handleInputKeyDown}
             />
-
             <button
                 type="button"
                 ref={buttonRef}

@@ -3,15 +3,15 @@ import React, { createContext } from "react";
 
 import { DATE_FORMAT, LANGUAGE, START_WEEK } from "../constants";
 import {
-    Configs,
-    Period,
-    DateValueType,
-    DateType,
-    DateRangeType,
     ClassNamesTypeProp,
-    PopoverDirectionType,
     ColorKeys,
-    PeriodDay
+    Configs,
+    DateRangeType,
+    DateType,
+    DateValueType,
+    Period,
+    PeriodDay,
+    PopoverDirectionType
 } from "../types";
 
 interface DatepickerStore {

@@ -3,11 +3,10 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import weekday from "dayjs/plugin/weekday";
 
 import { DATE_FORMAT, LANGUAGE } from "../constants";
+import { PeriodDay } from "../types";
 
 dayjs.extend(weekday);
 dayjs.extend(customParseFormat);
-
-import { PeriodDay } from "types";
 
 export function classNames(...classes: (false | null | undefined | string)[]) {
     return classes.filter(Boolean).join(" ");

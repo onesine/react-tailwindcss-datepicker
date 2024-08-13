@@ -5,13 +5,13 @@ import Calendar from "../components/Calendar";
 import Footer from "../components/Footer";
 import Input from "../components/Input";
 import Shortcuts from "../components/Shortcuts";
-import Time from "../components/Time";
 import { COLORS, DATE_FORMAT, DEFAULT_COLOR, LANGUAGE } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { formatDate, nextMonth, previousMonth } from "../helpers";
 import useOnClickOutside from "../hooks";
-import { Period, DatepickerType, ColorKeys, PeriodDay } from "../types";
+import { ColorKeys, DatepickerType, Period, PeriodDay } from "../types";
 
+import Time from "./Time";
 import { Arrow, VerticalDash } from "./utils";
 
 const Datepicker: React.FC<DatepickerType> = ({
@@ -63,9 +63,9 @@ const Datepicker: React.FC<DatepickerType> = ({
     const [inputText, setInputText] = useState<string>("");
     const [inputRef, setInputRef] = useState(React.createRef<HTMLInputElement>());
 
-    const [hour, setHour] = useState<string>("1");
+    const [hour, setHour] = useState<string>("8");
     const [minute, setMinute] = useState<string>("00");
-    const [periodDay, setPeriodDay] = useState<PeriodDay>("PM");
+    const [periodDay, setPeriodDay] = useState<PeriodDay>("AM");
 
     // Custom Hooks use
     useOnClickOutside(containerRef, () => {
@@ -361,17 +361,17 @@ const Datepicker: React.FC<DatepickerType> = ({
                 <Input setContextRef={setInputRef} />
 
                 <div
-                    className="transition-all ease-out duration-300 absolute z-10 mt-[1px] text-sm lg:text-xs 2xl:text-sm translate-y-4 opacity-0 hidden"
+                    className="absolute z-10 mt-[1px] hidden translate-y-4 text-sm opacity-0 transition-all duration-300 ease-out lg:text-xs 2xl:text-sm"
                     ref={calendarContainerRef}
                 >
                     <Arrow ref={arrowRef} />
 
-                    <div className="mt-2.5 shadow-sm border border-gray-300 px-1 py-0.5 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600 rounded-lg">
-                        <div className="flex flex-col lg:flex-row py-2">
+                    <div className="mt-2.5 rounded-lg border border-gray-300 bg-white px-1 py-0.5 shadow-sm dark:border-slate-600 dark:bg-slate-800 dark:text-white">
+                        <div className="flex flex-col py-2 lg:flex-row">
                             {showShortcuts && <Shortcuts />}
 
                             <div
-                                className={`flex items-stretch flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-1.5 ${
+                                className={`flex flex-col items-stretch space-y-4 md:flex-row md:space-x-1.5 md:space-y-0 ${
                                     showShortcuts ? "md:pl-2" : "md:pl-1"
                                 } pr-2 lg:pr-1`}
                             >
@@ -393,7 +393,6 @@ const Datepicker: React.FC<DatepickerType> = ({
                                         <div className="flex items-center">
                                             <VerticalDash />
                                         </div>
-
                                         <Calendar
                                             date={secondDate}
                                             onClickPrevious={previousMonthSecond}

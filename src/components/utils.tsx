@@ -123,7 +123,7 @@ export const Arrow = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
     return (
         <div
             ref={ref}
-            className="absolute z-20 h-4 w-4 rotate-45 mt-0.5 ml-[1.2rem] border-l border-t border-gray-300 bg-white dark:bg-slate-800 dark:border-slate-600"
+            className="absolute z-20 ml-[1.2rem] mt-0.5 h-4 w-4 rotate-45 border-l border-t border-gray-300 bg-white dark:border-slate-600 dark:bg-slate-800"
         />
     );
 });
@@ -204,5 +204,5 @@ export const VerticalDash = () => {
     const { primaryColor } = useContext(DatepickerContext);
     const bgColor = BG_COLOR["500"][primaryColor as keyof (typeof BG_COLOR)["500"]];
 
-    return <div className={`bg-blue-500 h-7 w-1 rounded-full hidden md:block ${bgColor}`} />;
+    return <div className={`h-7 w-1 rounded-full bg-blue-500 md:block ${bgColor}`} />;
 };
