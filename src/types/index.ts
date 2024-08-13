@@ -53,6 +53,8 @@ export type ClassNamesTypeProp = {
 
 export type PopoverDirectionType = "up" | "down";
 
+export type WeekStringType = "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun";
+
 export interface DatepickerType {
     primaryColor?: ColorKeys;
     value: DateValueType;
@@ -81,7 +83,7 @@ export interface DatepickerType {
     maxDate?: Date | null;
     dateLooking?: "forward" | "backward" | "middle";
     disabledDates?: DateRangeType[] | null;
-    startWeekOn?: string | null;
+    startWeekOn?: WeekStringType | null;
     popoverDirection?: PopoverDirectionType;
     required?: boolean;
 }
