@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useEffect, useRef } from "react";
 
 import { BORDER_COLOR, DATE_FORMAT, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
-import { dateIsValid, parseFormattedDate } from "../helpers";
+import { dateIsValid, normalizeDateInput, parseFormattedDate } from "../helpers";
 
 import ToggleButton from "./ToggleButton";
 
@@ -72,7 +72,8 @@ const Input: React.FC<Props> = (e: Props) => {
             const dates = [];
 
             if (asSingle) {
-                const date = parseFormattedDate(inputValue, displayFormat);
+                const normalized = normalizeDateInput(inputValue, displayFormat);
+                const date = parseFormattedDate(normalized, displayFormat);
                 if (dateIsValid(date.toDate())) {
                     dates.push(date.format(DATE_FORMAT));
                 }
