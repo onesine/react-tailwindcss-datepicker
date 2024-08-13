@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from "react";
+import React, { ReactNode, useCallback, useContext } from "react";
 
 import { BG_COLOR, BORDER_COLOR, BUTTON_COLOR, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
@@ -8,7 +8,7 @@ interface IconProps {
 }
 
 interface Button {
-    children: JSX.Element | JSX.Element[];
+    children: ReactNode;
     onClick: React.MouseEventHandler<HTMLButtonElement>;
     disabled?: boolean;
     roundedFull?: boolean;
@@ -204,5 +204,5 @@ export const VerticalDash = () => {
     const { primaryColor } = useContext(DatepickerContext);
     const bgColor = BG_COLOR["500"][primaryColor as keyof (typeof BG_COLOR)["500"]];
 
-    return <div className={`h-7 w-1 rounded-full bg-blue-500 md:block ${bgColor}`} />;
+    return <div className={`h-7 w-1 rounded-full hidden md:block ${bgColor || "bg-blue-500"}`} />;
 };

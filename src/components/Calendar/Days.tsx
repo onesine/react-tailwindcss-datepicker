@@ -23,12 +23,10 @@ interface Props {
     onClickNextDays: (day: number) => void;
 }
 
-const Days: React.FC<Props> = ({
-    calendarData,
-    onClickPreviousDays,
-    onClickDay,
-    onClickNextDays
-}) => {
+const Days: React.FC<Props> = props => {
+    // Props
+    const { calendarData, onClickPreviousDays, onClickDay, onClickNextDays } = props;
+
     // Contexts
     const {
         primaryColor,

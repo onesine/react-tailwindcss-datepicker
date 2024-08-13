@@ -73,10 +73,11 @@
     },
     "lint-staged": {
         "*.{ts,tsx}": [
-            "npm run lint"
+            "eslint",
+            "prettier --write"
         ],
-        "*.{ts,tsx,css,scss,md}": [
-            "npm run pret:fix"
+        "*.{css,scss,json,md}": [
+            "prettier --write"
         ]
     }
 }

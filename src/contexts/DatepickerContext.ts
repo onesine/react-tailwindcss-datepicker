@@ -4,14 +4,15 @@ import React, { createContext } from "react";
 import { DATE_FORMAT, LANGUAGE, START_WEEK } from "../constants";
 import {
     ClassNamesTypeProp,
-    ColorKeys,
     Configs,
     DateRangeType,
     DateType,
     DateValueType,
     Period,
     PeriodDay,
-    PopoverDirectionType
+    PopoverDirectionType,
+    ColorKeys,
+    WeekStringType
 } from "../types";
 
 interface DatepickerStore {
@@ -48,7 +49,7 @@ interface DatepickerStore {
     toggleClassName?: ((className: string) => string) | string | null;
     toggleIcon?: (open: boolean) => React.ReactNode;
     readOnly?: boolean;
-    startWeekOn?: string | null;
+    startWeekOn?: WeekStringType | null;
     displayFormat: string;
     minDate?: DateType | null;
     maxDate?: DateType | null;
@@ -58,6 +59,7 @@ interface DatepickerStore {
     inputName?: string;
     classNames?: ClassNamesTypeProp;
     popoverDirection?: PopoverDirectionType;
+    required?: boolean;
 }
 
 const DatepickerContext = createContext<DatepickerStore>({
@@ -109,6 +111,7 @@ const DatepickerContext = createContext<DatepickerStore>({
     toggleIcon: undefined,
     classNames: undefined,
     popoverDirection: undefined,
+    required: false,
     separator: "~"
 });
 

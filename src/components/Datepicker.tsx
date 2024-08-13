@@ -14,43 +14,48 @@ import { ColorKeys, DatepickerType, Period, PeriodDay } from "../types";
 import Time from "./Time";
 import { Arrow, VerticalDash } from "./utils";
 
-const Datepicker: React.FC<DatepickerType> = ({
-    primaryColor = "blue",
-    value = null,
-    onChange,
-    useRange = true,
-    showFooter = false,
-    showShortcuts = false,
-    configs = undefined,
-    asSingle = false,
-    asTimePicker = false,
-    placeholder = null,
-    separator = "~",
-    startFrom = null,
-    i18n = LANGUAGE,
-    disabled = false,
-    inputClassName = null,
-    containerClassName = null,
-    toggleClassName = null,
-    toggleIcon = undefined,
-    displayFormat = DATE_FORMAT,
-    readOnly = false,
-    minDate = null,
-    maxDate = null,
-    dateLooking = "forward",
-    disabledDates = null,
-    inputId,
-    inputName,
-    startWeekOn = "sun",
-    classNames = undefined,
-    popoverDirection = undefined
-}) => {
-    // Ref
+const Datepicker = (props: DatepickerType) => {
+    // Props
+    const {
+        primaryColor = "blue",
+        value = null,
+        onChange,
+        useRange = true,
+        showFooter = false,
+        showShortcuts = false,
+        configs = undefined,
+        asSingle = false,
+        placeholder = null,
+        separator = "~",
+        startFrom = null,
+        asTimePicker = false,
+        i18n = LANGUAGE,
+        disabled = false,
+        inputClassName = null,
+        containerClassName = null,
+        toggleClassName = null,
+        popupClassName = null,
+        toggleIcon = undefined,
+        displayFormat = DATE_FORMAT,
+        readOnly = false,
+        minDate = null,
+        maxDate = null,
+        dateLooking = "forward",
+        disabledDates = null,
+        inputId,
+        inputName,
+        startWeekOn = "sun",
+        classNames = undefined,
+        popoverDirection = undefined,
+        required = false
+    } = props;
+
+    // Refs
     const containerRef = useRef<HTMLDivElement | null>(null);
     const calendarContainerRef = useRef<HTMLDivElement | null>(null);
     const arrowRef = useRef<HTMLDivElement | null>(null);
 
-    // State
+    // States
     const [firstDate, setFirstDate] = useState<dayjs.Dayjs>(
         startFrom && dayjs(startFrom).isValid() ? dayjs(startFrom) : dayjs()
     );
@@ -258,6 +263,7 @@ const Datepicker: React.FC<DatepickerType> = ({
         }
         return DEFAULT_COLOR;
     }, [primaryColor]);
+
     const contextValues = useMemo(() => {
         return {
             asSingle,
@@ -303,7 +309,8 @@ const Datepicker: React.FC<DatepickerType> = ({
             classNames,
             onChange,
             input: inputRef,
-            popoverDirection
+            popoverDirection,
+            required
         };
     }, [
         asSingle,
@@ -343,6 +350,7 @@ const Datepicker: React.FC<DatepickerType> = ({
         classNames,
         inputRef,
         popoverDirection,
+        required,
         firstGotoDate
     ]);
 
@@ -355,15 +363,22 @@ const Datepicker: React.FC<DatepickerType> = ({
             : defaultContainerClassName;
     }, [containerClassName]);
 
+    const popupClassNameOverload = useMemo(() => {
+        const defaultPopupClassName =
+            "transition-all ease-out duration-300 absolute z-10 mt-[1px] text-sm lg:text-xs 2xl:text-sm translate-y-4 opacity-0 hidden";
+        return typeof popupClassName === "function"
+            ? popupClassName(defaultPopupClassName)
+            : typeof popupClassName === "string" && popupClassName !== ""
+            ? popupClassName
+            : defaultPopupClassName;
+    }, [popupClassName]);
+
     return (
         <DatepickerContext.Provider value={contextValues}>
             <div className={containerClassNameOverload} ref={containerRef}>
                 <Input setContextRef={setInputRef} />
 
-                <div
-                    className="absolute z-10 mt-[1px] hidden translate-y-4 text-sm opacity-0 transition-all duration-300 ease-out lg:text-xs 2xl:text-sm"
-                    ref={calendarContainerRef}
-                >
+                <div className={popupClassNameOverload} ref={calendarContainerRef}>
                     <Arrow ref={arrowRef} />
 
                     <div className="mt-2.5 rounded-lg border border-gray-300 bg-white px-1 py-0.5 shadow-sm dark:border-slate-600 dark:bg-slate-800 dark:text-white">

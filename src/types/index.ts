@@ -1,4 +1,4 @@
-import React from "react";
+import { ReactNode } from "react";
 
 import { COLORS } from "../constants";
 
@@ -55,6 +55,8 @@ export type ClassNamesTypeProp = {
 
 export type PopoverDirectionType = "up" | "down";
 
+export type WeekStringType = "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun";
+
 export interface DatepickerType {
     primaryColor?: ColorKeys;
     value: DateValueType;
@@ -72,9 +74,10 @@ export interface DatepickerType {
     disabled?: boolean;
     classNames?: ClassNamesTypeProp | undefined;
     containerClassName?: ((className: string) => string) | string | null;
+    popupClassName?: ((className: string) => string) | string | null;
     inputClassName?: ((className: string) => string) | string | null;
     toggleClassName?: ((className: string) => string) | string | null;
-    toggleIcon?: (open: boolean) => React.ReactNode;
+    toggleIcon?: (open: boolean) => ReactNode;
     inputId?: string;
     inputName?: string;
     displayFormat?: string;
@@ -83,8 +86,9 @@ export interface DatepickerType {
     maxDate?: Date | null;
     dateLooking?: "forward" | "backward" | "middle";
     disabledDates?: DateRangeType[] | null;
-    startWeekOn?: string | null;
+    startWeekOn?: WeekStringType | null;
     popoverDirection?: PopoverDirectionType;
+    required?: boolean;
 }
 
 export type ColorKeys = (typeof COLORS)[number]; // "blue" | "orange"

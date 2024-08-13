@@ -32,6 +32,7 @@ export default function Playground() {
     const [newDisabledDates, setNewDisabledDates] = useState({ startDate: "", endDate: "" });
     const [startFrom, setStartFrom] = useState("2023-03-01");
     const [startWeekOn, setStartWeekOn] = useState("");
+    const [required, setRequired] = useState(false);
 
     const handleChange = (value, e) => {
         setValue(value);
@@ -115,6 +116,7 @@ export default function Playground() {
                         return isEmpty ? "Select Date" : "Clear";
                     }}
                     popoverDirection={"down"}
+                    required={required}
                     // classNames={{
                     //     input: ({ disabled, readOnly, className }) => {
                     //         if (disabled) {
@@ -228,6 +230,20 @@ export default function Playground() {
                             />
                             <label className="block" htmlFor="readOnly">
                                 Read Only
+                            </label>
+                        </div>
+                    </div>
+                    <div className="mb-2 w-1/2 sm:w-full">
+                        <div className="inline-flex items-center">
+                            <input
+                                type="checkbox"
+                                className="mr-2 rounded"
+                                id="required"
+                                checked={required}
+                                onChange={e => setRequired(e.target.checked)}
+                            />
+                            <label className="block" htmlFor="required">
+                                Required
                             </label>
                         </div>
                     </div>

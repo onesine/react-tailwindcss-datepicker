@@ -39,15 +39,10 @@ interface Props {
     changeYear: (year: number) => void;
 }
 
-const Calendar: React.FC<Props> = ({
-    date,
-    minDate,
-    maxDate,
-    onClickPrevious,
-    onClickNext,
-    changeMonth,
-    changeYear
-}) => {
+const Calendar: React.FC<Props> = props => {
+    // Props
+    const { date, minDate, maxDate, onClickPrevious, onClickNext, changeMonth, changeYear } = props;
+
     // Contexts
     const {
         hour,
@@ -71,6 +66,7 @@ const Calendar: React.FC<Props> = ({
     const [showMonths, setShowMonths] = useState(false);
     const [showYears, setShowYears] = useState(false);
     const [year, setYear] = useState(date.year());
+
     // Functions
     const previous = useCallback(() => {
         return getLastDaysInMonth(
@@ -157,7 +153,9 @@ const Calendar: React.FC<Props> = ({
                 newStart = fullDay;
                 if (asSingle) {
                     newEnd = fullDay;
-                    chosePeriod(fullDay, fullDay);
+                    if (!showFooter) {
+                        chosePeriod(fullDay, fullDay);
+                    }
                 }
             } else {
                 if (period.start && !period.end) {
