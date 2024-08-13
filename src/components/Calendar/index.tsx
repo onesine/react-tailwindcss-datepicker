@@ -148,7 +148,9 @@ const Calendar: React.FC<Props> = ({
                 newStart = fullDay;
                 if (asSingle) {
                     newEnd = fullDay;
-                    chosePeriod(fullDay, fullDay);
+                    if (!showFooter) {
+                        chosePeriod(fullDay, fullDay);
+                    }
                 }
             } else {
                 if (period.start && !period.end) {
