@@ -35,6 +35,7 @@ export interface ShortcutsItem {
         start: Date | string;
         end: Date | string;
     };
+    onClick?: (text: string, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 export type DateType = string | null | Date;

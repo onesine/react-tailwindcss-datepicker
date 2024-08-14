@@ -71,6 +71,9 @@ export default function Playground() {
                                 period: {
                                     start: new Date(new Date().setDate(new Date().getDate() - 3)),
                                     end: new Date()
+                                },
+                                onClick: (text, e) => {
+                                    console.log("on click", text, e);
                                 }
                             },
                             thisDay: {
