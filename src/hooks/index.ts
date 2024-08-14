@@ -6,7 +6,7 @@ export default function useOnClickOutside(
 ) {
     useEffect(() => {
         const listener = (event: MouseEvent | TouchEvent) => {
-            if (!ref.current || ref.current.contains(event.target as Node)) {
+            if (!ref.current || ref.current.contains(event.composedPath()[0] as Node)) {
                 return;
             }
 
