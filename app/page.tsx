@@ -318,6 +318,7 @@ export default function Playground() {
                             className="rounded border px-4 py-2 w-full border-gray-200"
                             id="minDate"
                             type="date"
+                            max={maxDate}
                             value={minDate}
                             onChange={e => {
                                 setMinDate(e.target.value);
@@ -333,6 +334,7 @@ export default function Playground() {
                             className="rounded border px-4 py-2 w-full border-gray-200"
                             id="maxDate"
                             type="date"
+                            min={minDate}
                             value={maxDate}
                             onChange={e => {
                                 setMaxDate(e.target.value);
