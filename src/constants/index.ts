@@ -27,8 +27,6 @@ export const LANGUAGE = "en";
 
 export const DATE_FORMAT = "YYYY-MM-DD";
 
-export const DATE_TIME_FORMAT = "DD/MM/YYYY hh:mm A";
-
 export const START_WEEK = "sun";
 
 export const DATE_LOOKING_OPTIONS = ["forward", "backward", "middle"];

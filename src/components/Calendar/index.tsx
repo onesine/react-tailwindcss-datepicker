@@ -5,7 +5,6 @@ import { CALENDAR_SIZE, DATE_FORMAT } from "../../constants";
 import DatepickerContext from "../../contexts/DatepickerContext";
 import {
     formatDate,
-    formatDateTimeToISO,
     getDaysInMonth,
     getFirstDayInMonth,
     getFirstDaysInMonth,
@@ -15,7 +14,6 @@ import {
     nextMonth,
     previousMonth
 } from "../../helpers";
-import { DateType } from "../../types";
 import {
     ChevronLeftIcon,
     ChevronRightIcon,
@@ -28,6 +26,8 @@ import Days from "./Days";
 import Months from "./Months";
 import Week from "./Week";
 import Years from "./Years";
+
+import { DateType } from "types";
 
 interface Props {
     date: dayjs.Dayjs;
@@ -45,9 +45,6 @@ const Calendar: React.FC<Props> = props => {
 
     // Contexts
     const {
-        hour,
-        minute,
-        periodDay,
         period,
         changePeriod,
         changeDayHover,
@@ -55,7 +52,6 @@ const Calendar: React.FC<Props> = props => {
         changeDatepickerValue,
         hideDatepicker,
         asSingle,
-        asTimePicker,
         i18n,
         startWeekOn,
         input
@@ -124,16 +120,12 @@ const Calendar: React.FC<Props> = props => {
                 const ipt = input?.current;
                 changeDatepickerValue(
                     {
-                        startDate: asTimePicker
-                            ? formatDateTimeToISO(start, hour, minute, periodDay)
-                            : dayjs(start).format(DATE_FORMAT),
-                        endDate: asTimePicker
-                            ? formatDateTimeToISO(end, hour, minute, periodDay)
-                            : dayjs(end).format(DATE_FORMAT)
+                        startDate: dayjs(start).format(DATE_FORMAT),
+                        endDate: dayjs(end).format(DATE_FORMAT)
                     },
                     ipt
                 );
-                if (!asTimePicker) hideDatepicker();
+                hideDatepicker();
             }
 
             if (period.start && period.end) {
@@ -191,20 +183,16 @@ const Calendar: React.FC<Props> = props => {
             }
         },
         [
-            date,
-            period.start,
-            period.end,
-            showFooter,
-            input,
+            asSingle,
             changeDatepickerValue,
-            asTimePicker,
-            hour,
-            minute,
-            periodDay,
-            hideDatepicker,
             changeDayHover,
             changePeriod,
-            asSingle
+            date,
+            hideDatepicker,
+            period.end,
+            period.start,
+            showFooter,
+            input
         ]
     );
 
@@ -253,7 +241,7 @@ const Calendar: React.FC<Props> = props => {
 
     return (
         <div className="w-full md:w-[296px] md:min-w-[296px]">
-            <div className="flex items-center space-x-1.5 rounded-md border border-gray-300 px-2 py-1.5 dark:border-gray-700">
+            <div className="flex items-center space-x-1.5 border border-gray-300 dark:border-gray-700 rounded-md px-2 py-1.5">
                 {!showMonths && !showYears && (
                     <div className="flex-none">
                         <RoundedButton roundedFull={true} onClick={onClickPrevious}>
@@ -321,7 +309,7 @@ const Calendar: React.FC<Props> = props => {
                 )}
             </div>
 
-            <div className="mt-0.5 min-h-[285px] px-0.5 sm:px-2">
+            <div className="px-0.5 sm:px-2 mt-0.5 min-h-[285px]">
                 {showMonths && (
                     <Months currentMonth={calendarData.date.month() + 1} clickMonth={clickMonth} />
                 )}

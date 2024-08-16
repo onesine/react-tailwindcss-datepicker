@@ -1,28 +1,17 @@
 import dayjs from "dayjs";
-import React from "react";
-import {
-    ChangeEvent,
-    FC,
-    KeyboardEvent,
-    RefObject,
-    useCallback,
-    useContext,
-    useEffect,
-    useRef
-} from "react";
+import React, { ChangeEvent, useCallback, useContext, useEffect, useRef } from "react";
 
 import { BORDER_COLOR, DATE_FORMAT, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { dateIsValid, parseFormattedDate } from "../helpers";
 
 import ToggleButton from "./ToggleButton";
-const ENTER = "Enter";
 
 type Props = {
-    setContextRef?: (ref: RefObject<HTMLInputElement>) => void;
+    setContextRef?: (ref: React.RefObject<HTMLInputElement>) => void;
 };
 
-const Input: FC<Props> = (e: Props) => {
+const Input: React.FC<Props> = (e: Props) => {
     // Context
     const {
         primaryColor,
@@ -36,7 +25,6 @@ const Input: FC<Props> = (e: Props) => {
         hideDatepicker,
         changeDatepickerValue,
         asSingle,
-        asTimePicker,
         placeholder,
         separator,
         disabled,
@@ -83,7 +71,7 @@ const Input: FC<Props> = (e: Props) => {
 
             const dates = [];
 
-            if (asSingle || asTimePicker) {
+            if (asSingle) {
                 const date = parseFormattedDate(inputValue, displayFormat);
                 if (dateIsValid(date.toDate())) {
                     dates.push(date.format(DATE_FORMAT));
@@ -127,20 +115,12 @@ const Input: FC<Props> = (e: Props) => {
 
             changeInputText(e.target.value);
         },
-        [
-            asSingle,
-            asTimePicker,
-            changeInputText,
-            displayFormat,
-            separator,
-            changeDatepickerValue,
-            changeDayHover
-        ]
+        [asSingle, displayFormat, separator, changeDatepickerValue, changeDayHover, changeInputText]
     );
 
     const handleInputKeyDown = useCallback(
-        (e: KeyboardEvent<HTMLInputElement>) => {
-            if (e.key === ENTER) {
+        (e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === "Enter") {
                 const input = inputRef.current;
                 if (input) {
                     input.blur();
@@ -308,6 +288,7 @@ const Input: FC<Props> = (e: Props) => {
                 onChange={handleInputChange}
                 onKeyDown={handleInputKeyDown}
             />
+
             <button
                 type="button"
                 ref={buttonRef}

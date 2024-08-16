@@ -11,11 +11,10 @@ export default function Playground() {
         endDate: null
     });
     const [primaryColor, setPrimaryColor] = useState("blue");
-    const [useRange, setUseRange] = useState(false);
-    const [showFooter, setShowFooter] = useState(true);
+    const [useRange, setUseRange] = useState(true);
+    const [showFooter, setShowFooter] = useState(false);
     const [showShortcuts, setShowShortcuts] = useState(false);
-    const [asTimePicker, setAsTimePicker] = useState(true);
-    const [asSingle, setAsSingle] = useState(true);
+    const [asSingle, setAsSingle] = useState(false);
     const [placeholder, setPlaceholder] = useState("");
     const [separator, setSeparator] = useState("~");
     const [i18n, setI18n] = useState("en");
@@ -23,7 +22,7 @@ export default function Playground() {
     const [inputClassName, setInputClassName] = useState("");
     const [containerClassName, setContainerClassName] = useState("");
     const [toggleClassName, setToggleClassName] = useState("");
-    const [displayFormat, setDisplayFormat] = useState("DD/MM/YYYY hh:mm A");
+    const [displayFormat, setDisplayFormat] = useState("YYYY-MM-DD");
     const [readOnly, setReadOnly] = useState(false);
     const [minDate, setMinDate] = useState("");
     const [maxDate, setMaxDate] = useState("");
@@ -94,7 +93,6 @@ export default function Playground() {
                         }
                     }}
                     asSingle={asSingle}
-                    asTimePicker={asTimePicker}
                     placeholder={placeholder}
                     separator={separator}
                     startFrom={
@@ -188,20 +186,6 @@ export default function Playground() {
                             />
                             <label className="block" htmlFor="asSingle">
                                 As Single
-                            </label>
-                        </div>
-                    </div>
-                    <div className="mb-2 w-1/2 sm:w-full">
-                        <div className="inline-flex items-center">
-                            <input
-                                type="checkbox"
-                                className="mr-2 rounded"
-                                id="asTimePicker"
-                                checked={asTimePicker}
-                                onChange={e => setAsTimePicker(e.target.checked)}
-                            />
-                            <label className="block" htmlFor="showFooter">
-                                As Time Picker
                             </label>
                         </div>
                     </div>
