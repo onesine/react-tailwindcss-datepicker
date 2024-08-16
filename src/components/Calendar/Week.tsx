@@ -1,13 +1,17 @@
-import dayjs from "dayjs";
-import React, { useContext, useMemo } from "react";
+import { useContext, useEffect, useMemo } from "react";
 
 import { DAYS } from "../../constants";
 import DatepickerContext from "../../contexts/DatepickerContext";
-import { loadLanguageModule, shortString, ucFirst } from "../../helpers";
+import { shortString, ucFirst } from "../../helpers";
+import { dateFormat, loadLanguageModule } from "../../libs/date";
 
-const Week: React.FC = () => {
+const Week = () => {
     const { i18n, startWeekOn } = useContext(DatepickerContext);
-    loadLanguageModule(i18n);
+
+    useEffect(() => {
+        loadLanguageModule(i18n);
+    }, [i18n]);
+
     const startDateModifier = useMemo(() => {
         if (startWeekOn) {
             switch (startWeekOn) {
@@ -33,14 +37,16 @@ const Week: React.FC = () => {
     }, [startWeekOn]);
 
     return (
-        <div className="grid grid-cols-7 border-b border-gray-300 py-2 dark:border-gray-700">
+        <div className="grid grid-cols-7 border-b border-gray-300 dark:border-gray-700 py-2">
             {DAYS.map(item => (
-                <div key={item} className="text-center tracking-wide text-gray-500">
+                <div key={item} className="tracking-wide text-gray-500 text-center">
                     {ucFirst(
                         shortString(
-                            dayjs(`2022-11-${6 + (item + startDateModifier)}` as any)
-                                .locale(i18n)
-                                .format("ddd")
+                            dateFormat(
+                                new Date(`2022-11-${6 + item + startDateModifier}`),
+                                "ddd",
+                                i18n
+                            ) || ""
                         )
                     )}
                 </div>

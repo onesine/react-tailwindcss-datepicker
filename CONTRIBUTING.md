@@ -49,7 +49,7 @@ We currently use `next.js` as server for live testing.
 
 You can run the `dev` script and open your browser to `http://localhost:8888`.
 
-See complete `props` usage in `pages/index.js` file.
+See complete `props` usage in `app/page.tsx` file.
 
 **Using yarn**
 

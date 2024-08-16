@@ -1,25 +1,14 @@
-import dayjs from "dayjs";
-import React, { useCallback, useContext } from "react";
+import { useCallback, useContext } from "react";
 
-import { DATE_FORMAT } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
-import { formatDateTimeToISO } from "../helpers";
 
-import { PrimaryButton, SecondaryButton } from "./utils";
+import PrimaryButton from "./PrimaryButton";
+import SecondaryButton from "./SecondaryButton";
 
-const Footer: React.FC = () => {
+const Footer = () => {
     // Contexts
-    const {
-        asTimePicker,
-        period,
-        hour,
-        minute,
-        periodDay,
-        configs,
-        classNames,
-        changeDatepickerValue,
-        hideDatepicker
-    } = useContext(DatepickerContext);
+    const { hideDatepicker, period, changeDatepickerValue, configs, classNames } =
+        useContext(DatepickerContext);
 
     // Functions
     const getClassName = useCallback(() => {
@@ -32,7 +21,7 @@ const Footer: React.FC = () => {
 
     return (
         <div className={getClassName()}>
-            <div className="flex w-full items-center justify-center space-x-3 md:w-auto">
+            <div className="w-full md:w-auto flex items-center justify-center space-x-3">
                 <SecondaryButton
                     onClick={() => {
                         hideDatepicker();
@@ -40,18 +29,14 @@ const Footer: React.FC = () => {
                 >
                     <>{configs?.footer?.cancel ? configs.footer.cancel : "Cancel"}</>
                 </SecondaryButton>
+
                 <PrimaryButton
                     onClick={() => {
                         if (period.start && period.end) {
                             changeDatepickerValue({
-                                startDate: asTimePicker
-                                    ? formatDateTimeToISO(period.start, hour, minute, periodDay)
-                                    : dayjs(period.start).format(DATE_FORMAT),
-                                endDate: asTimePicker
-                                    ? formatDateTimeToISO(period.end, hour, minute, periodDay)
-                                    : dayjs(period.end).format(DATE_FORMAT)
+                                startDate: period.start,
+                                endDate: period.end
                             });
-
                             hideDatepicker();
                         }
                     }}

@@ -1,4 +1,17 @@
 import Datepicker from "./components/Datepicker";
 
-export * from "./types";
+export type {
+    ClassNamesTypeProp,
+    Configs,
+    ClassNameType,
+    DateLookingType,
+    DateRangeType,
+    DateType,
+    DateValueType,
+    PopoverDirectionType,
+    ColorKeys,
+    WeekStringType
+} from "./types";
+
+// export * from "./types";
 export default Datepicker;

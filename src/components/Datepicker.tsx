@@ -1,53 +1,80 @@
-import dayjs from "dayjs";
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createRef, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import Calendar from "../components/Calendar";
 import Footer from "../components/Footer";
 import Input from "../components/Input";
 import Shortcuts from "../components/Shortcuts";
-import { COLORS, DATE_FORMAT, DEFAULT_COLOR, LANGUAGE } from "../constants";
+import {
+    COLORS,
+    DATE_FORMAT,
+    DEFAULT_COLOR,
+    DEFAULT_DATE_LOOKING,
+    DEFAULT_SEPARATOR,
+    LANGUAGE,
+    START_WEEK
+} from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
-import { formatDate, nextMonth, previousMonth } from "../helpers";
 import useOnClickOutside from "../hooks";
-import { ColorKeys, DatepickerType, Period, PeriodDay } from "../types";
+import {
+    dateFormat,
+    dateIsAfter,
+    dateIsSameOrAfter,
+    dateIsSameOrBefore,
+    dateIsValid,
+    dateUpdateMonth,
+    dateUpdateYear,
+    firstDayOfMonth,
+    nextMonthBy,
+    previousMonthBy
+} from "../libs/date";
+import { Period, DatepickerType, ColorKeys, DateType } from "../types";
 
-import Time from "./Time";
-import { Arrow, VerticalDash } from "./utils";
+import Arrow from "./icons/Arrow";
+import VerticalDash from "./VerticalDash";
 
 const Datepicker = (props: DatepickerType) => {
     // Props
     const {
-        primaryColor = "blue",
-        value = null,
-        onChange,
-        useRange = true,
-        showFooter = false,
-        showShortcuts = false,
-        configs = undefined,
         asSingle = false,
-        placeholder = null,
-        separator = "~",
-        startFrom = null,
-        asTimePicker = false,
-        i18n = LANGUAGE,
-        disabled = false,
-        inputClassName = null,
+
+        classNames = undefined,
+        configs = undefined,
         containerClassName = null,
-        toggleClassName = null,
-        popupClassName = null,
-        toggleIcon = undefined,
-        displayFormat = DATE_FORMAT,
-        readOnly = false,
-        minDate = null,
-        maxDate = null,
-        dateLooking = "forward",
+
+        dateLooking = DEFAULT_DATE_LOOKING,
         disabledDates = null,
+        disabled = false,
+        displayFormat = DATE_FORMAT,
+
+        i18n = LANGUAGE,
+        inputClassName = null,
         inputId,
         inputName,
-        startWeekOn = "sun",
-        classNames = undefined,
+
+        minDate = undefined,
+        maxDate = undefined,
+
+        onChange,
+
+        placeholder = null,
+        popupClassName = null,
         popoverDirection = undefined,
-        required = false
+        primaryColor = DEFAULT_COLOR,
+
+        separator = DEFAULT_SEPARATOR,
+        showFooter = false,
+        showShortcuts = false,
+        startFrom = null,
+        startWeekOn = START_WEEK,
+
+        readOnly = false,
+        required = false,
+
+        toggleClassName = null,
+        toggleIcon = undefined,
+
+        useRange = true,
+        value = null
     } = props;
 
     // Refs
@@ -56,21 +83,17 @@ const Datepicker = (props: DatepickerType) => {
     const arrowRef = useRef<HTMLDivElement | null>(null);
 
     // States
-    const [firstDate, setFirstDate] = useState<dayjs.Dayjs>(
-        startFrom && dayjs(startFrom).isValid() ? dayjs(startFrom) : dayjs()
+    const [firstDate, setFirstDate] = useState<Date>(
+        startFrom && dateIsValid(startFrom) ? startFrom : new Date()
     );
-    const [secondDate, setSecondDate] = useState<dayjs.Dayjs>(nextMonth(firstDate));
+    const [secondDate, setSecondDate] = useState<Date>(nextMonthBy(firstDate));
     const [period, setPeriod] = useState<Period>({
         start: null,
         end: null
     });
-    const [dayHover, setDayHover] = useState<string | null>(null);
+    const [dayHover, setDayHover] = useState<DateType>(null);
     const [inputText, setInputText] = useState<string>("");
-    const [inputRef, setInputRef] = useState(React.createRef<HTMLInputElement>());
-
-    const [hour, setHour] = useState<string>("8");
-    const [minute, setMinute] = useState<string>("00");
-    const [periodDay, setPeriodDay] = useState<PeriodDay>("AM");
+    const [inputRef, setInputRef] = useState(createRef<HTMLInputElement>());
 
     // Custom Hooks use
     useOnClickOutside(containerRef, () => {
@@ -104,21 +127,11 @@ const Datepicker = (props: DatepickerType) => {
         }
     }, []);
 
-    /* Start Time */
-    const changeHour = useCallback((hour: string) => setHour(hour), []);
-
-    const changeMinute = useCallback((minute: string) => setMinute(minute), []);
-
-    const changePeriodDay = useCallback((periodDay: PeriodDay) => setPeriodDay(periodDay), []);
-    /* End Time */
-
     /* Start First */
     const firstGotoDate = useCallback(
-        (date: dayjs.Dayjs) => {
-            const newDate = dayjs(formatDate(date));
-            const reformatDate = dayjs(formatDate(secondDate));
-            if (newDate.isSame(reformatDate) || newDate.isAfter(reformatDate)) {
-                setSecondDate(nextMonth(date));
+        (date: Date) => {
+            if (dateIsSameOrAfter(date, secondDate, "date")) {
+                setSecondDate(nextMonthBy(date));
             }
             setFirstDate(date);
         },
@@ -126,23 +139,23 @@ const Datepicker = (props: DatepickerType) => {
     );
 
     const previousMonthFirst = useCallback(() => {
-        setFirstDate(previousMonth(firstDate));
+        setFirstDate(previousMonthBy(firstDate));
     }, [firstDate]);
 
     const nextMonthFirst = useCallback(() => {
-        firstGotoDate(nextMonth(firstDate));
+        firstGotoDate(nextMonthBy(firstDate));
     }, [firstDate, firstGotoDate]);
 
     const changeFirstMonth = useCallback(
         (month: number) => {
-            firstGotoDate(dayjs(`${firstDate.year()}-${month < 10 ? "0" : ""}${month}-01`));
+            firstGotoDate(dateUpdateMonth(firstDate, month - 1));
         },
         [firstDate, firstGotoDate]
     );
 
     const changeFirstYear = useCallback(
         (year: number) => {
-            firstGotoDate(dayjs(`${year}-${firstDate.month() + 1}-01`));
+            firstGotoDate(dateUpdateYear(firstDate, year));
         },
         [firstDate, firstGotoDate]
     );
@@ -150,35 +163,34 @@ const Datepicker = (props: DatepickerType) => {
 
     /* Start Second */
     const secondGotoDate = useCallback(
-        (date: dayjs.Dayjs) => {
-            const newDate = dayjs(formatDate(date, displayFormat));
-            const reformatDate = dayjs(formatDate(firstDate, displayFormat));
-            if (newDate.isSame(reformatDate) || newDate.isBefore(reformatDate)) {
-                setFirstDate(previousMonth(date));
+        (date: Date) => {
+            dateIsSameOrBefore(date, firstDate, "date");
+            if (dateIsSameOrBefore(date, firstDate, "date")) {
+                setFirstDate(previousMonthBy(date));
             }
             setSecondDate(date);
         },
-        [firstDate, displayFormat]
+        [firstDate]
     );
 
     const previousMonthSecond = useCallback(() => {
-        secondGotoDate(previousMonth(secondDate));
+        secondGotoDate(previousMonthBy(secondDate));
     }, [secondDate, secondGotoDate]);
 
     const nextMonthSecond = useCallback(() => {
-        setSecondDate(nextMonth(secondDate));
+        setSecondDate(nextMonthBy(secondDate));
     }, [secondDate]);
 
     const changeSecondMonth = useCallback(
         (month: number) => {
-            secondGotoDate(dayjs(`${secondDate.year()}-${month < 10 ? "0" : ""}${month}-01`));
+            secondGotoDate(dateUpdateMonth(secondDate, month - 1));
         },
         [secondDate, secondGotoDate]
     );
 
     const changeSecondYear = useCallback(
         (year: number) => {
-            secondGotoDate(dayjs(`${year}-${secondDate.month() + 1}-01`));
+            secondGotoDate(dateUpdateYear(secondDate, year));
         },
         [secondDate, secondGotoDate]
     );
@@ -205,19 +217,15 @@ const Datepicker = (props: DatepickerType) => {
 
     useEffect(() => {
         if (value && value.startDate && value.endDate) {
-            const startDate = dayjs(value.startDate);
-            const endDate = dayjs(value.endDate);
-            const validDate = startDate.isValid() && endDate.isValid();
-            const condition =
-                validDate && (startDate.isSame(endDate) || startDate.isBefore(endDate));
-            if (condition) {
+            if (dateIsSameOrBefore(value.startDate, value.endDate, "date")) {
                 setPeriod({
-                    start: formatDate(startDate),
-                    end: formatDate(endDate)
+                    start: value.startDate,
+                    end: value.endDate
                 });
+
                 setInputText(
-                    `${formatDate(startDate, displayFormat)}${
-                        asSingle ? "" : ` ${separator} ${formatDate(endDate, displayFormat)}`
+                    `${dateFormat(value.startDate, displayFormat)}${
+                        asSingle ? "" : ` ${separator} ${dateFormat(value.endDate, displayFormat)}`
                     }`
                 );
             }
@@ -228,30 +236,32 @@ const Datepicker = (props: DatepickerType) => {
                 start: null,
                 end: null
             });
+
             setInputText("");
         }
     }, [asSingle, value, displayFormat, separator]);
 
     useEffect(() => {
-        if (startFrom && dayjs(startFrom).isValid()) {
+        if (startFrom && dateIsValid(startFrom)) {
             const startDate = value?.startDate;
             const endDate = value?.endDate;
-            if (startDate && dayjs(startDate).isValid()) {
-                setFirstDate(dayjs(startDate));
+
+            if (startDate && dateIsValid(startDate)) {
+                setFirstDate(startDate);
                 if (!asSingle) {
                     if (
                         endDate &&
-                        dayjs(endDate).isValid() &&
-                        dayjs(endDate).startOf("month").isAfter(dayjs(startDate))
+                        dateIsValid(endDate) &&
+                        dateIsAfter(firstDayOfMonth(endDate), startDate, "date")
                     ) {
-                        setSecondDate(dayjs(endDate));
+                        setSecondDate(endDate);
                     } else {
-                        setSecondDate(nextMonth(dayjs(startDate)));
+                        setSecondDate(nextMonthBy(startDate));
                     }
                 }
             } else {
-                setFirstDate(dayjs(startFrom));
-                setSecondDate(nextMonth(dayjs(startFrom)));
+                setFirstDate(startFrom);
+                setSecondDate(nextMonthBy(startFrom));
             }
         }
     }, [asSingle, startFrom, value]);
@@ -265,56 +275,66 @@ const Datepicker = (props: DatepickerType) => {
     }, [primaryColor]);
 
     const contextValues = useMemo(() => {
+        if (minDate && !dateIsValid(minDate)) {
+            /* eslint-disable */
+            console.error(`minDate (${minDate}) is invalid date`);
+            /* eslint-enable */
+        }
+
+        if (maxDate && !dateIsValid(maxDate)) {
+            /* eslint-disable */
+            console.error(`minDate (${maxDate}) is invalid date`);
+            /* eslint-enable */
+        }
+
+        if (!i18n || i18n.length === 0) {
+            /* eslint-disable */
+            console.error(`i18n (${i18n}) is invalid`);
+            /* eslint-enable */
+        }
+
         return {
-            asSingle,
-            asTimePicker,
-            primaryColor: safePrimaryColor,
-            configs,
-            calendarContainer: calendarContainerRef,
             arrowContainer: arrowRef,
-            hideDatepicker,
-            period,
-            changePeriod: (newPeriod: Period) => setPeriod(newPeriod),
-            dayHover,
-            changeDayHover: (newDay: string | null) => setDayHover(newDay),
-            inputText,
-            changeInputText: (newText: string) => setInputText(newText),
-            updateFirstDate: (newDate: dayjs.Dayjs) => firstGotoDate(newDate),
+            asSingle,
+            calendarContainer: calendarContainerRef,
             changeDatepickerValue: onChange,
-            hour,
-            minute,
-            periodDay,
-            changeHour,
-            changeMinute,
-            changePeriodDay,
-            showFooter,
-            placeholder,
-            separator,
-            i18n,
-            value,
-            disabled,
-            inputClassName,
+            changeDayHover: (newDay: DateType) => setDayHover(newDay),
+            changeInputText: (newText: string) => setInputText(newText),
+            changePeriod: (newPeriod: Period) => setPeriod(newPeriod),
+            classNames,
+            configs,
             containerClassName,
-            toggleClassName,
-            toggleIcon,
-            readOnly,
-            displayFormat,
-            minDate,
-            maxDate,
             dateLooking,
+            dayHover,
+            disabled,
             disabledDates,
+            displayFormat,
+            hideDatepicker,
+            i18n: i18n && i18n.length > 0 ? i18n : LANGUAGE,
+            input: inputRef,
+            inputClassName,
             inputId,
             inputName,
-            startWeekOn,
-            classNames,
+            inputText,
+            maxDate,
+            minDate,
             onChange,
-            input: inputRef,
+            period,
+            placeholder,
             popoverDirection,
-            required
+            primaryColor: safePrimaryColor,
+            readOnly,
+            required,
+            separator,
+            showFooter,
+            startWeekOn,
+            toggleClassName,
+            toggleIcon,
+            updateFirstDate: (newDate: Date) => firstGotoDate(newDate),
+            value
         };
     }, [
         asSingle,
-        asTimePicker,
         safePrimaryColor,
         configs,
         hideDatepicker,
@@ -322,12 +342,6 @@ const Datepicker = (props: DatepickerType) => {
         dayHover,
         inputText,
         onChange,
-        hour,
-        minute,
-        periodDay,
-        changeHour,
-        changeMinute,
-        changePeriodDay,
         showFooter,
         placeholder,
         separator,
@@ -359,8 +373,8 @@ const Datepicker = (props: DatepickerType) => {
         return typeof containerClassName === "function"
             ? containerClassName(defaultContainerClassName)
             : typeof containerClassName === "string" && containerClassName !== ""
-            ? containerClassName
-            : defaultContainerClassName;
+              ? containerClassName
+              : defaultContainerClassName;
     }, [containerClassName]);
 
     const popupClassNameOverload = useMemo(() => {
@@ -369,8 +383,8 @@ const Datepicker = (props: DatepickerType) => {
         return typeof popupClassName === "function"
             ? popupClassName(defaultPopupClassName)
             : typeof popupClassName === "string" && popupClassName !== ""
-            ? popupClassName
-            : defaultPopupClassName;
+              ? popupClassName
+              : defaultPopupClassName;
     }, [popupClassName]);
 
     return (
@@ -381,33 +395,31 @@ const Datepicker = (props: DatepickerType) => {
                 <div className={popupClassNameOverload} ref={calendarContainerRef}>
                     <Arrow ref={arrowRef} />
 
-                    <div className="mt-2.5 rounded-lg border border-gray-300 bg-white px-1 py-0.5 shadow-sm dark:border-slate-600 dark:bg-slate-800 dark:text-white">
-                        <div className="flex flex-col py-2 lg:flex-row">
+                    <div className="mt-2.5 shadow-sm border border-gray-300 px-1 py-0.5 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600 rounded-lg">
+                        <div className="flex flex-col lg:flex-row py-2">
                             {showShortcuts && <Shortcuts />}
 
                             <div
-                                className={`flex flex-col items-stretch space-y-4 md:flex-row md:space-x-1.5 md:space-y-0 ${
+                                className={`flex items-stretch flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-1.5 ${
                                     showShortcuts ? "md:pl-2" : "md:pl-1"
                                 } pr-2 lg:pr-1`}
                             >
-                                <div>
-                                    <Calendar
-                                        date={firstDate}
-                                        onClickPrevious={previousMonthFirst}
-                                        onClickNext={nextMonthFirst}
-                                        changeMonth={changeFirstMonth}
-                                        changeYear={changeFirstYear}
-                                        minDate={minDate}
-                                        maxDate={maxDate}
-                                    />
-                                    {asSingle && asTimePicker && <Time />}
-                                </div>
+                                <Calendar
+                                    date={firstDate}
+                                    onClickPrevious={previousMonthFirst}
+                                    onClickNext={nextMonthFirst}
+                                    changeMonth={changeFirstMonth}
+                                    changeYear={changeFirstYear}
+                                    minDate={minDate}
+                                    maxDate={maxDate}
+                                />
 
                                 {useRange && (
                                     <>
                                         <div className="flex items-center">
                                             <VerticalDash />
                                         </div>
+
                                         <Calendar
                                             date={secondDate}
                                             onClickPrevious={previousMonthSecond}
@@ -421,6 +433,7 @@ const Datepicker = (props: DatepickerType) => {
                                 )}
                             </div>
                         </div>
+
                         {showFooter && <Footer />}
                     </div>
                 </div>
