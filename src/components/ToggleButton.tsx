@@ -1,12 +1,11 @@
-import React from "react";
+import CloseIcon from "./icons/CloseIcon";
+import DateIcon from "./icons/DateIcon";
 
-import { CloseIcon, DateIcon } from "./utils";
-
-interface ToggleButtonProps {
+interface Props {
     isEmpty: boolean;
 }
 
-const ToggleButton: React.FC<ToggleButtonProps> = (e: ToggleButtonProps): JSX.Element => {
+const ToggleButton = (e: Props) => {
     return e.isEmpty ? <DateIcon className="h-5 w-5" /> : <CloseIcon className="h-5 w-5" />;
 };
 

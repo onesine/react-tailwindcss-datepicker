@@ -1,9 +1,9 @@
-import dayjs from "dayjs";
-import React, { ReactNode, useCallback, useContext, useMemo } from "react";
+import { memo, ReactNode, useCallback, useContext, useMemo } from "react";
 
-import { DATE_FORMAT, TEXT_COLOR } from "../constants";
+import { TEXT_COLOR } from "../constants";
 import DEFAULT_SHORTCUTS from "../constants/shortcuts";
 import DatepickerContext from "../contexts/DatepickerContext";
+import { dateIsSameOrBefore } from "../libs/date";
 import { Period, ShortcutsItem } from "../types";
 
 interface ItemTemplateProps {
@@ -12,8 +12,7 @@ interface ItemTemplateProps {
     item: ShortcutsItem | ShortcutsItem[];
 }
 
-// eslint-disable-next-line react/display-name
-const ItemTemplate = React.memo((props: ItemTemplateProps) => {
+const ItemTemplate = memo((props: ItemTemplateProps) => {
     const {
         primaryColor,
         period,
@@ -48,7 +47,8 @@ const ItemTemplate = React.memo((props: ItemTemplateProps) => {
                 startDate: item.start,
                 endDate: item.end
             });
-            updateFirstDate(dayjs(item.start));
+
+            if (item.start) updateFirstDate(item.start);
             hideDatepicker();
         },
         [
@@ -79,7 +79,9 @@ const ItemTemplate = React.memo((props: ItemTemplateProps) => {
     );
 });
 
-const Shortcuts: React.FC = () => {
+ItemTemplate.displayName = "ItemTemplate";
+
+const Shortcuts = () => {
     // Contexts
     const { configs } = useContext(DatepickerContext);
 
@@ -97,26 +99,23 @@ const Shortcuts: React.FC = () => {
                 return [[key, DEFAULT_SHORTCUTS[key]]];
             }
 
-            const { text, period } = customConfig as {
-                text: string;
-                period: { start: string; end: string };
-            };
+            const { text, period } = customConfig as ShortcutsItem;
+
             if (!text || !period) {
                 return [];
             }
 
-            const start = dayjs(period.start);
-            const end = dayjs(period.end);
+            const { start, end } = period;
 
-            if (start.isValid() && end.isValid() && (start.isBefore(end) || start.isSame(end))) {
+            if (dateIsSameOrBefore(start, end, "date")) {
                 return [
                     [
                         text,
                         {
                             text,
                             period: {
-                                start: start.format(DATE_FORMAT),
-                                end: end.format(DATE_FORMAT)
+                                start: start,
+                                end: end
                             }
                         }
                     ]

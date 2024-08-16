@@ -1,12 +1,24 @@
-import dayjs from "dayjs";
+"use client";
+
 import Head from "next/head";
 import { useState } from "react";
 
-import Datepicker from "../src";
+import Datepicker, {
+    ColorKeys,
+    DateLookingType,
+    DateRangeType,
+    DateValueType,
+    PopoverDirectionType,
+    WeekStringType
+} from "../src";
 import { COLORS, DATE_LOOKING_OPTIONS } from "../src/constants";
+import { dateFormat, dateIsValid } from "../src/libs/date";
+
+const WEEK_DAY = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"] as const;
+const POPOVER_DIRECTION = ["up", "down"] as const;
 
 export default function Playground() {
-    const [value, setValue] = useState({
+    const [value, setValue] = useState<DateValueType>({
         startDate: null,
         endDate: null
     });
@@ -26,18 +38,14 @@ export default function Playground() {
     const [readOnly, setReadOnly] = useState(false);
     const [minDate, setMinDate] = useState("");
     const [maxDate, setMaxDate] = useState("");
-    const [dateLooking, setDateLooking] = useState(true);
-    const [disabledDates, setDisabledDates] = useState([]);
+    const [dateLooking, setDateLooking] = useState<DateLookingType | undefined>(undefined);
+    const [disabledDates, setDisabledDates] = useState<DateRangeType[]>([]);
     const [newDisabledDates, setNewDisabledDates] = useState({ startDate: "", endDate: "" });
-    const [startFrom, setStartFrom] = useState("2023-03-01");
-    const [startWeekOn, setStartWeekOn] = useState("");
+    const [startFrom, setStartFrom] = useState(dateFormat(new Date(), "YYYY-MM-DD") || "");
+    const [startWeekOn, setStartWeekOn] = useState<WeekStringType>("mon");
     const [required, setRequired] = useState(false);
+    const [popoverDirection, setPopoverDirection] = useState<PopoverDirectionType>("down");
 
-    const handleChange = (value, e) => {
-        setValue(value);
-        console.log(e);
-        console.log("value", value);
-    };
     return (
         <div className="px-4 py-8">
             <Head>
@@ -53,18 +61,25 @@ export default function Playground() {
             <div className="max-w-md mx-auto my-4">
                 <Datepicker
                     value={value}
-                    primaryColor={primaryColor}
-                    onChange={handleChange}
+                    primaryColor={primaryColor as ColorKeys}
+                    onChange={(value, e) => {
+                        setValue(value);
+                        console.log(e);
+                        console.log("value", {
+                            startDate: value?.startDate?.toLocaleDateString(),
+                            endDate: value?.endDate?.toLocaleDateString()
+                        });
+                    }}
                     useRange={useRange}
                     showFooter={showFooter}
                     showShortcuts={showShortcuts}
                     configs={{
                         shortcuts: {
-                            today: "TText",
-                            yesterday: "YText",
-                            past: period => `P-${period} Text`,
-                            currentMonth: "CMText",
-                            pastMonth: "PMText",
+                            today: "Today",
+                            yesterday: "Yesterday",
+                            past: period => `Last ${period} days`,
+                            currentMonth: "This month",
+                            pastMonth: "Last month",
                             last3Days: {
                                 text: "Last 3 days",
                                 period: {
@@ -95,9 +110,7 @@ export default function Playground() {
                     asSingle={asSingle}
                     placeholder={placeholder}
                     separator={separator}
-                    startFrom={
-                        startFrom.length && dayjs(startFrom).isValid() ? new Date(startFrom) : null
-                    }
+                    startFrom={dateIsValid(new Date(startFrom)) ? new Date(startFrom) : null}
                     i18n={i18n}
                     disabled={disabled}
                     inputClassName={inputClassName}
@@ -105,15 +118,15 @@ export default function Playground() {
                     toggleClassName={toggleClassName}
                     displayFormat={displayFormat}
                     readOnly={readOnly}
-                    minDate={minDate}
-                    maxDate={maxDate}
+                    minDate={dateIsValid(new Date(minDate)) ? new Date(minDate) : undefined}
+                    maxDate={dateIsValid(new Date(maxDate)) ? new Date(maxDate) : undefined}
                     dateLooking={dateLooking}
                     disabledDates={disabledDates}
-                    startWeekOn={startWeekOn}
+                    startWeekOn={startWeekOn as WeekStringType}
                     toggleIcon={isEmpty => {
                         return isEmpty ? "Select Date" : "Clear";
                     }}
-                    popoverDirection={"down"}
+                    popoverDirection={popoverDirection}
                     required={required}
                     // classNames={{
                     //     input: ({ disabled, readOnly, className }) => {
@@ -232,6 +245,7 @@ export default function Playground() {
                         </div>
                     </div>
                 </div>
+
                 <div className="w-full sm:w-1/3 pr-2 flex flex-col">
                     <div className="mb-2">
                         <label className="block" htmlFor="primaryColor">
@@ -252,6 +266,7 @@ export default function Playground() {
                             ))}
                         </select>
                     </div>
+
                     <div className="mb-2">
                         <label className="block" htmlFor="placeholder">
                             Placeholder
@@ -265,6 +280,7 @@ export default function Playground() {
                             }}
                         />
                     </div>
+
                     <div className="mb-2">
                         <label className="block" htmlFor="separator">
                             Separator
@@ -278,6 +294,7 @@ export default function Playground() {
                             }}
                         />
                     </div>
+
                     <div className="mb-2">
                         <label className="block" htmlFor="startFrom">
                             Start From
@@ -285,12 +302,14 @@ export default function Playground() {
                         <input
                             className="rounded border px-4 py-2 w-full border-gray-200"
                             id="startFrom"
+                            type="date"
                             value={startFrom}
                             onChange={e => {
                                 setStartFrom(e.target.value);
                             }}
                         />
                     </div>
+
                     <div className="mb-2">
                         <label className="block" htmlFor="minDate">
                             Minimum Date
@@ -298,12 +317,14 @@ export default function Playground() {
                         <input
                             className="rounded border px-4 py-2 w-full border-gray-200"
                             id="minDate"
+                            type="date"
                             value={minDate}
                             onChange={e => {
                                 setMinDate(e.target.value);
                             }}
                         />
                     </div>
+
                     <div className="mb-2">
                         <label className="block" htmlFor="maxDate">
                             Maximum Date
@@ -311,12 +332,14 @@ export default function Playground() {
                         <input
                             className="rounded border px-4 py-2 w-full border-gray-200"
                             id="maxDate"
+                            type="date"
                             value={maxDate}
                             onChange={e => {
                                 setMaxDate(e.target.value);
                             }}
                         />
                     </div>
+
                     <div className="mb-2">
                         <label className="block" htmlFor="dateLooking">
                             Date Looking
@@ -326,7 +349,7 @@ export default function Playground() {
                             id="dateLooking"
                             value={dateLooking}
                             onChange={e => {
-                                setDateLooking(e.target.value);
+                                setDateLooking(e.target.value as DateLookingType);
                             }}
                         >
                             {DATE_LOOKING_OPTIONS.map((option, i) => (
@@ -337,6 +360,7 @@ export default function Playground() {
                         </select>
                     </div>
                 </div>
+
                 <div className="w-full sm:w-1/3 pr-2 flex flex-col">
                     <div className="mb-2">
                         <label className="block" htmlFor="i18n">
@@ -351,6 +375,7 @@ export default function Playground() {
                             }}
                         />
                     </div>
+
                     <div className="mb-2">
                         <label className="block" htmlFor="displayFormat">
                             Display Format
@@ -364,6 +389,7 @@ export default function Playground() {
                             }}
                         />
                     </div>
+
                     <div className="mb-2">
                         <label className="block" htmlFor="inputClassName">
                             Input Class
@@ -377,6 +403,7 @@ export default function Playground() {
                             }}
                         />
                     </div>
+
                     <div className="mb-2">
                         <label className="block" htmlFor="containerClassName">
                             Container Class
@@ -390,6 +417,7 @@ export default function Playground() {
                             }}
                         />
                     </div>
+
                     <div className="mb-2">
                         <label className="block" htmlFor="containerClassName">
                             Toggle Class
@@ -403,33 +431,69 @@ export default function Playground() {
                             }}
                         />
                     </div>
+
                     <div className="mb-2">
                         <label className="block" htmlFor="startWeekOnClassName">
                             Start Week On
                         </label>
-                        <input
-                            className="rounded border px-4 py-2 w-full border-gray-200"
+
+                        <select
+                            className="rounded block w-full border-gray-200 border px-4 py-2"
                             id="startWeekOnClassName"
                             value={startWeekOn}
                             onChange={e => {
-                                setStartWeekOn(e.target.value);
+                                setStartWeekOn(e.target.value as WeekStringType);
                             }}
-                        />
+                        >
+                            {WEEK_DAY.map((item, index) => (
+                                <option key={index} value={item}>
+                                    {item}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="mb-2">
+                        <label className="block" htmlFor="startWeekOnClassName">
+                            Popover direction
+                        </label>
+
+                        <select
+                            className="rounded block w-full border-gray-200 border px-4 py-2"
+                            id="startWeekOnClassName"
+                            value={popoverDirection}
+                            onChange={e => {
+                                setPopoverDirection(e.target.value as PopoverDirectionType);
+                            }}
+                        >
+                            {POPOVER_DIRECTION.map((item, index) => (
+                                <option key={index} value={item}>
+                                    {item}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                 </div>
-                <div className="w-full grid sm:grid-cols-3">
-                    <div className="sm:col-start-2 sm:col-span-2 p-2 border-t grid grid-cols-2">
-                        <h1 className="mb-2 text-lg font-semibold text-center col-span-3">
-                            Disable Dates
-                        </h1>
-                        <div className="mb-2 sm:col-span-2 mr-2">
+
+                <div className="w-full sm:w-2/3 pr-2 flex flex-col ml-auto">
+                    <hr className="my-3" />
+
+                    <h1 className="mb-2 text-lg font-semibold text-center col-span-3">
+                        Disable Dates
+                    </h1>
+
+                    <div className="grid grid-cols-2 gap-3 w-full">
+                        <div className="mb-2 w-full">
                             <label className="block" htmlFor="startDate">
                                 Start Date
                             </label>
+
                             <input
-                                className="rounded border px-4 py-2 border-gray-200 sm:w-full w-3/4"
+                                className="rounded border px-4 py-2 border-gray-200 sm:w-full w-full"
                                 id="startDate"
+                                type="date"
                                 value={newDisabledDates.startDate}
+                                max={newDisabledDates.endDate}
                                 onChange={e => {
                                     setNewDisabledDates(prev => {
                                         return {
@@ -440,14 +504,18 @@ export default function Playground() {
                                 }}
                             />
                         </div>
-                        <div className="mb-2">
+
+                        <div className="mb-2 w-full">
                             <label className="block" htmlFor="endDate">
                                 End Date
                             </label>
+
                             <input
-                                className="rounded border px-4 py-2 border-gray-200 sm:w-full w-3/4"
+                                className="rounded border px-4 py-2 border-gray-200 sm:w-full w-full"
                                 id="endDate"
+                                type="date"
                                 value={newDisabledDates.endDate}
+                                min={newDisabledDates.startDate}
                                 onChange={e => {
                                     setNewDisabledDates(prev => {
                                         return {
@@ -458,44 +526,54 @@ export default function Playground() {
                                 }}
                             />
                         </div>
-                        <div className="mb-2 col-span-3">
-                            <button
-                                onClick={() => {
-                                    if (
-                                        newDisabledDates.startDate !== "" &&
-                                        newDisabledDates.endDate !== ""
-                                    ) {
-                                        setDisabledDates(prev => [...prev, newDisabledDates]);
-                                        setNewDisabledDates({ startDate: "", endDate: "" });
-                                    }
-                                }}
-                                className="w-full bg-black text-white text-lg text-center p-2 rounded-lg"
-                            >
-                                Add
-                            </button>
-                        </div>
-                        <div className="mb-2 grid col-span-3 grid-col-2">
-                            {disabledDates.map((range, index) => (
-                                <div className="mb-2 p-2" key={index}>
-                                    <button
-                                        className="bg-red-500 text-white text-center rounded-xl p-2"
-                                        onClick={() => {
-                                            setDisabledDates(
-                                                disabledDates.filter(r => r !== range)
-                                            );
-                                        }}
-                                    >
-                                        Delete
-                                    </button>
-                                    <span className="pl-2">
-                                        {range.startDate} - {range.endDate}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
+                    </div>
+
+                    <div className="mb-2 col-span-3">
+                        <button
+                            onClick={() => {
+                                if (
+                                    newDisabledDates.startDate !== "" &&
+                                    newDisabledDates.endDate !== ""
+                                ) {
+                                    setDisabledDates(prev => {
+                                        return [
+                                            ...prev,
+                                            {
+                                                startDate: new Date(newDisabledDates.startDate),
+                                                endDate: new Date(newDisabledDates.endDate)
+                                            }
+                                        ];
+                                    });
+                                    setNewDisabledDates({ startDate: "", endDate: "" });
+                                }
+                            }}
+                            className="w-full bg-black text-white text-lg text-center p-2 rounded-lg"
+                        >
+                            Add
+                        </button>
+                    </div>
+
+                    <div className="mb-2 grid col-span-3 grid-col-2">
+                        {disabledDates.map((range, index) => (
+                            <div className="mb-2 p-2" key={index}>
+                                <button
+                                    className="bg-red-500 text-white text-center rounded-xl p-2"
+                                    onClick={() => {
+                                        setDisabledDates(disabledDates.filter(r => r !== range));
+                                    }}
+                                >
+                                    Delete
+                                </button>
+                                <span className="pl-2">
+                                    {range.startDate?.toLocaleDateString()} -{" "}
+                                    {range.endDate?.toLocaleDateString()}
+                                </span>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
+
             <div className="flex flex-row flex-wrap items-center justify-center w-full">
                 <a
                     href="https://github.com/onesine/react-tailwindcss-datepicker"

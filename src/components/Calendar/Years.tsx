@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import { useContext, useMemo } from "react";
 
 import { generateArrayNumber } from "../../helpers";
-import { RoundedButton } from "../utils";
+import RoundedButton from "../RoundedButton";
 
 import DatepickerContext from "contexts/DatepickerContext";
 
@@ -13,31 +13,40 @@ interface Props {
     clickYear: (data: number) => void;
 }
 
-const Years: React.FC<Props> = ({ year, currentYear, minYear, maxYear, clickYear }) => {
+const Years = (props: Props) => {
+    const { year, currentYear, minYear, maxYear, clickYear } = props;
+
     const { dateLooking } = useContext(DatepickerContext);
 
-    let startDate = 0;
-    let endDate = 0;
+    const date = useMemo(() => {
+        let start: number;
+        let end: number;
 
-    switch (dateLooking) {
-        case "backward":
-            startDate = year - 11;
-            endDate = year;
-            break;
-        case "middle":
-            startDate = year - 4;
-            endDate = year + 7;
-            break;
-        case "forward":
-        default:
-            startDate = year;
-            endDate = year + 11;
-            break;
-    }
+        switch (dateLooking) {
+            case "backward":
+                start = year - 11;
+                end = year;
+                break;
+            case "middle":
+                start = year - 4;
+                end = year + 7;
+                break;
+            case "forward":
+            default:
+                start = year;
+                end = year + 11;
+                break;
+        }
+
+        return {
+            start,
+            end
+        };
+    }, [dateLooking, year]);
 
     return (
         <div className="w-full grid grid-cols-2 gap-2 mt-2">
-            {generateArrayNumber(startDate, endDate).map((item, index) => (
+            {generateArrayNumber(date.start, date.end).map((item, index) => (
                 <RoundedButton
                     key={index}
                     padding="py-3"

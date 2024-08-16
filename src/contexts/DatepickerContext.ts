@@ -1,7 +1,13 @@
-import dayjs from "dayjs";
-import React, { createContext } from "react";
+import { createContext, ReactNode, RefObject } from "react";
 
-import { DATE_FORMAT, LANGUAGE, START_WEEK } from "../constants";
+import {
+    DATE_FORMAT,
+    DEFAULT_COLOR,
+    DEFAULT_DATE_LOOKING,
+    DEFAULT_SEPARATOR,
+    LANGUAGE,
+    START_WEEK
+} from "../constants";
 import {
     Configs,
     Period,
@@ -11,91 +17,111 @@ import {
     ClassNamesTypeProp,
     PopoverDirectionType,
     ColorKeys,
-    WeekStringType
+    WeekStringType,
+    DateLookingType
 } from "../types";
 
 interface DatepickerStore {
-    input?: React.RefObject<HTMLInputElement>;
+    arrowContainer: RefObject<HTMLDivElement> | null;
     asSingle?: boolean;
-    primaryColor: ColorKeys;
-    configs?: Configs;
-    calendarContainer: React.RefObject<HTMLDivElement> | null;
-    arrowContainer: React.RefObject<HTMLDivElement> | null;
-    hideDatepicker: () => void;
-    period: Period;
-    changePeriod: (period: Period) => void;
-    dayHover: string | null;
-    changeDayHover: (day: string | null) => void;
-    inputText: string;
-    changeInputText: (text: string) => void;
-    updateFirstDate: (date: dayjs.Dayjs) => void;
+
+    calendarContainer: RefObject<HTMLDivElement> | null;
     changeDatepickerValue: (value: DateValueType, e?: HTMLInputElement | null | undefined) => void;
-    showFooter?: boolean;
-    placeholder?: string | null;
-    separator: string;
-    i18n: string;
-    value: DateValueType;
-    disabled?: boolean;
-    inputClassName?: ((className: string) => string) | string | null;
+    changeDayHover: (day: DateType) => void;
+    changeInputText: (text: string) => void;
+    changePeriod: (period: Period) => void;
+    classNames?: ClassNamesTypeProp;
+    configs?: Configs;
     containerClassName?: ((className: string) => string) | string | null;
-    toggleClassName?: ((className: string) => string) | string | null;
-    toggleIcon?: (open: boolean) => React.ReactNode;
-    readOnly?: boolean;
-    startWeekOn?: WeekStringType | null;
-    displayFormat: string;
-    minDate?: DateType | null;
-    maxDate?: DateType | null;
-    dateLooking?: "forward" | "backward" | "middle";
+
+    dateLooking?: DateLookingType;
+    dayHover: DateType;
+    disabled?: boolean;
     disabledDates?: DateRangeType[] | null;
+    displayFormat: string;
+
+    hideDatepicker: () => void;
+
+    i18n: string;
+    input?: RefObject<HTMLInputElement>;
+    inputClassName?: ((className: string) => string) | string | null;
     inputId?: string;
     inputName?: string;
-    classNames?: ClassNamesTypeProp;
+    inputText: string;
+
+    maxDate?: DateType | null;
+    minDate?: DateType | null;
+
+    period: Period;
+    placeholder?: string | null;
     popoverDirection?: PopoverDirectionType;
+    primaryColor: ColorKeys;
+
+    readOnly?: boolean;
     required?: boolean;
+    separator: string;
+
+    showFooter?: boolean;
+    startWeekOn?: WeekStringType | null;
+
+    toggleClassName?: ((className: string) => string) | string | null;
+    toggleIcon?: (open: boolean) => ReactNode;
+
+    updateFirstDate: (date: Date) => void;
+
+    value: DateValueType;
 }
 
 const DatepickerContext = createContext<DatepickerStore>({
-    input: undefined,
-    primaryColor: "blue",
-    configs: undefined,
-    calendarContainer: null,
     arrowContainer: null,
-    period: { start: null, end: null },
-    // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-    changePeriod: period => {},
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    hideDatepicker: () => {},
-    dayHover: null,
-    // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-    changeDayHover: (day: string | null) => {},
-    inputText: "",
-    // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-    changeInputText: text => {},
-    // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-    updateFirstDate: date => {},
-    // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-    changeDatepickerValue: (value: DateValueType, e: HTMLInputElement | null | undefined) => {},
-    showFooter: false,
-    value: null,
-    i18n: LANGUAGE,
-    disabled: false,
-    inputClassName: "",
+    asSingle: false,
+
+    calendarContainer: null,
+    changeDatepickerValue: () => {},
+    changeDayHover: () => {},
+    changeInputText: () => {},
+    changePeriod: () => {},
+    classNames: undefined,
+    configs: undefined,
     containerClassName: "",
-    toggleClassName: "",
-    readOnly: false,
-    displayFormat: DATE_FORMAT,
-    minDate: null,
-    maxDate: null,
-    dateLooking: "forward",
+
+    dateLooking: DEFAULT_DATE_LOOKING,
+    dayHover: null,
+    disabled: false,
     disabledDates: null,
+    displayFormat: DATE_FORMAT,
+
+    hideDatepicker: () => {},
+
+    i18n: LANGUAGE,
+
+    input: undefined,
+    inputClassName: "",
+
     inputId: undefined,
     inputName: undefined,
-    startWeekOn: START_WEEK,
-    toggleIcon: undefined,
-    classNames: undefined,
+    inputText: "",
+
+    maxDate: null,
+    minDate: null,
+
+    period: { start: null, end: null },
     popoverDirection: undefined,
+    primaryColor: DEFAULT_COLOR,
+
+    readOnly: false,
     required: false,
-    separator: "~"
+
+    separator: DEFAULT_SEPARATOR,
+    showFooter: false,
+    startWeekOn: START_WEEK,
+
+    toggleClassName: "",
+    toggleIcon: undefined,
+
+    updateFirstDate: () => {},
+
+    value: null
 });
 
 export default DatepickerContext;
