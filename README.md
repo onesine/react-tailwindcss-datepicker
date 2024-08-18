@@ -1,13 +1,13 @@
 # React Tailwindcss Datepicker
 
-<p align="center">
+<p style="text-align: center">
     <a href="https://react-tailwindcss-datepicker.vercel.app/" target="_blank">
       <img alt="React Tailwindcss Datepicker" width="100" style="border-radius: 100%;" src="https://raw.githubusercontent.com/onesine/react-tailwindcss-datepicker/master/assets/img/calendar_logo.svg?raw=true">
     </a><br><br>
     A modern date range picker component for React using Tailwind 3 and dayjs. Alternative to Litepie Datepicker which uses Vuejs.
 </p>
 
-<div align="center">
+<div style="text-align: center">
     
 [![npm version](https://img.shields.io/npm/v/react-tailwindcss-datepicker?style=flat-square)](https://www.npmjs.com/package/react-tailwindcss-datepicker)
 [![npm downloads](https://img.shields.io/npm/dt/react-tailwindcss-datepicker?style=flat-square)](https://www.npmjs.com/package/react-tailwindcss-datepicker)
@@ -87,24 +87,24 @@ module.exports = {
 
 Then use react-tailwindcss-select in your app:
 
-```jsx
+```tsx
 import React, { useState } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
 
 const App = () => {
     const [value, setValue] = useState({
-        startDate: new Date(),
-        endDate: new Date().setMonth(11)
+        startDate: null,
+        endDate: null
     });
-
-    const handleValueChange = newValue => {
-        console.log("newValue:", newValue);
-        setValue(newValue);
-    };
 
     return (
         <div>
-            <Datepicker value={value} onChange={handleValueChange} />
+            <Datepicker
+                value={value}
+                onChange={newValue => {
+                    setValue(newValue);
+                }}
+            />
         </div>
     );
 };
