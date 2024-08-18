@@ -88,7 +88,7 @@ module.exports = {
 Then use react-tailwindcss-select in your app:
 
 ```tsx
-import React, { useState } from "react";
+import { useState } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
 
 const App = () => {
@@ -98,9 +98,9 @@ const App = () => {
     });
 
     return (
-        <div>
+        <>
             <Datepicker value={value} onChange={newValue => setValue(newValue)} />
-        </div>
+        </>
     );
 };
 
