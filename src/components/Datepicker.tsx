@@ -327,7 +327,7 @@ const Datepicker = (props: DatepickerType) => {
             required,
             separator,
             showFooter,
-            startWeekOn,
+            startWeekOn: startWeekOn || START_WEEK,
             toggleClassName,
             toggleIcon,
             updateFirstDate: (newDate: Date) => firstGotoDate(newDate),

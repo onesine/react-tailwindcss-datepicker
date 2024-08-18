@@ -577,32 +577,33 @@ export function dayIndexInWeek(date?: Date) {
 export function previousDaysInWeek(date: Date, weekStartDayIndex: WeekDaysIndexType = 0) {
     if (!dateIsValid(date)) return [];
 
-    const dayIndex = dayIndexInWeek(date);
-
     const previousDays: Date[] = [];
 
-    for (let i = weekStartDayIndex; i < dayIndex; i++) {
-        previousDays.push(dayjs(date).day(i).toDate());
+    let i = 1;
+    let previousDay = dateAdd(date, -i, "day");
+    while (dayIndexInWeek(previousDay) !== weekStartDayIndex) {
+        previousDays.push(previousDay);
+        i++;
+        previousDay = dateAdd(date, -i, "day");
     }
 
-    return previousDays;
+    return previousDays.sort((a, b) => {
+        if (dateIsAfter(a, b, "date")) return 1;
+        return -1;
+    });
 }
 
 export function nextDaysInWeek(date: Date, weekStartDayIndex: WeekDaysIndexType = 0) {
     if (!dateIsValid(date)) return [];
 
-    const dayIndex = dayIndexInWeek(date);
-
     const nextDays: Date[] = [];
 
-    let i = dayIndex + 1;
-
-    if (weekStartDayIndex > i) {
-        i = weekStartDayIndex;
-    }
-
-    for (i; i <= 6; i++) {
-        nextDays.push(dayjs(date).day(i).toDate());
+    let i = 1;
+    let nextDay = dateAdd(date, i, "day");
+    while (dayIndexInWeek(nextDay) !== weekStartDayIndex) {
+        nextDays.push(nextDay);
+        i++;
+        nextDay = dateAdd(date, i, "day");
     }
 
     return nextDays;

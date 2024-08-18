@@ -1,6 +1,6 @@
 import Datepicker from "./components/Datepicker";
 
-export type {
+/*export type {
     ClassNamesTypeProp,
     Configs,
     ClassNameType,
@@ -11,7 +11,8 @@ export type {
     PopoverDirectionType,
     ColorKeys,
     WeekStringType
-} from "./types";
+} from "./types";*/
 
-// export * from "./types";
+// eslint-disable-next-line react-refresh/only-export-components
+export * from "./types";
 export default Datepicker;
