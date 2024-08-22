@@ -16,5 +16,5 @@ export function shortString(value: string, limit = 3) {
 }
 
 export function ucFirst(value: string) {
-    return `${(value[0] || "").toUpperCase()}${(value || "").slice(1, value.length)}`;
+    return `${(value[0] || "")?.toUpperCase()}${(value || "").slice(1, value.length)}`;
 }
