@@ -224,8 +224,10 @@ const Datepicker = (props: DatepickerType) => {
                 });
 
                 setInputText(
-                    `${dateFormat(value.startDate, displayFormat)}${
-                        asSingle ? "" : ` ${separator} ${dateFormat(value.endDate, displayFormat)}`
+                    `${dateFormat(value.startDate, displayFormat, i18n)}${
+                        asSingle
+                            ? ""
+                            : ` ${separator} ${dateFormat(value.endDate, displayFormat, i18n)}`
                     }`
                 );
             }
@@ -239,7 +241,7 @@ const Datepicker = (props: DatepickerType) => {
 
             setInputText("");
         }
-    }, [asSingle, value, displayFormat, separator]);
+    }, [asSingle, value, displayFormat, separator, i18n]);
 
     useEffect(() => {
         if (startFrom && dateIsValid(startFrom)) {
