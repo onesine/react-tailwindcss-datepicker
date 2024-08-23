@@ -66,8 +66,8 @@ export default function Playground() {
                         setValue(value);
                         console.log(e);
                         console.log("value", {
-                            startDate: value?.startDate?.toLocaleDateString(),
-                            endDate: value?.endDate?.toLocaleDateString()
+                            startDate: value?.startDate?.toLocaleDateString() || null,
+                            endDate: value?.endDate?.toLocaleDateString() || null
                         });
                     }}
                     useRange={useRange}
