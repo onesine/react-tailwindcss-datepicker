@@ -85,9 +85,23 @@ const Input: React.FC<Props> = (e: Props) => {
         return formattedInput;
     }, []);
 
+    /**
+     * detect and delete non-numeric user input
+     */
+    const clearInvalidInput = useCallback(
+        (value: string) => {
+            if (value && value[value.length - 1].match(/\D/g)) {
+                return value.slice(0, value.length - 1);
+            }
+            return value;
+        },
+
+        []
+    );
+
     const handleInputChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
-            const inputValue = e.target.value;
+            const inputValue = clearInvalidInput(e.target.value);
 
             const dates = [];
 
