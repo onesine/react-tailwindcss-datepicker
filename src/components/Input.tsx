@@ -64,6 +64,27 @@ const Input: React.FC<Props> = (e: Props) => {
             : defaultInputClassName;
     }, [inputRef, classNames, primaryColor, inputClassName]);
 
+    /**
+     * automatically adds correct separator character to date input
+     */
+    const addSeparatorToDate = useCallback((inputValue: string, format: string) => {
+        // fallback separator; repleace by locale separator
+        let separator = "/";
+        const localeSeparator = format.match(/\W/g);
+        if (localeSeparator?.length) {
+            separator = localeSeparator[0];
+        }
+
+        let formattedInput = inputValue;
+        // adding separator after day and month
+        // currently only supports DMY/MDY and not YMD/YDM
+        if (inputValue.length === 2 || inputValue.length === 5) {
+            formattedInput = inputValue + separator[0];
+        }
+
+        return formattedInput;
+    }, []);
+
     const handleInputChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             const inputValue = e.target.value;
@@ -112,7 +133,7 @@ const Input: React.FC<Props> = (e: Props) => {
                 else changeDayHover(dates[0]);
             }
 
-            changeInputText(e.target.value);
+            changeInputText(addSeparatorToDate(inputValue, displayFormat));
         },
         [asSingle, displayFormat, separator, changeDatepickerValue, changeDayHover, changeInputText]
     );
