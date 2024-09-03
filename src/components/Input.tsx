@@ -1,4 +1,6 @@
 import dayjs from "dayjs";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+require("dayjs/locale/de");
 import React, { useCallback, useContext, useEffect, useRef } from "react";
 
 import { BORDER_COLOR, DATE_FORMAT, RING_COLOR } from "../constants";
@@ -6,6 +8,8 @@ import DatepickerContext from "../contexts/DatepickerContext";
 import { dateIsValid, parseFormattedDate } from "../helpers";
 
 import ToggleButton from "./ToggleButton";
+
+dayjs.extend(localizedFormat);
 
 type Props = {
     setContextRef?: (ref: React.RefObject<HTMLInputElement>) => void;
@@ -67,20 +71,37 @@ const Input: React.FC<Props> = (e: Props) => {
     /**
      * automatically adds correct separator character to date input
      */
-    const addSeparatorToDate = useCallback((inputValue: string, format: string) => {
-        // fallback separator; repleace by locale separator
-        let separator = "/";
-        const localeSeparator = format.match(/\W/g);
-        if (localeSeparator?.length) {
-            separator = localeSeparator[0];
+    const addSeparatorToDate = useCallback((inputValue: string, displayFormat: string) => {
+        // fallback separator; replaced by user defined separator;
+        const separators = ["/", "/"];
+        const separatorIndices: number[] = [];
+        let formattedInput = inputValue;
+
+        // note that we are not using locale to avoid redundancy;
+        // instead preferred locale is determined by displayFormat
+        const localeSeparators = displayFormat.match(/\W/g);
+        if (localeSeparators?.length) {
+            // replace fallbacks with localized separators
+            separators.splice(0, separators.length, ...localeSeparators);
         }
 
-        let formattedInput = inputValue;
+        // find indices of separators
+        // required to distinguish between i.a. YDM and DMY
+        let start = 0;
+        separators.forEach(localeSeparator => {
+            const idx = displayFormat.indexOf(localeSeparator, start);
+            if (idx !== -1) {
+                start = idx + 1;
+                separatorIndices.push(idx);
+            }
+        });
+
         // adding separator after day and month
-        // currently only supports DMY/MDY and not YMD/YDM
-        if (inputValue.length === 2 || inputValue.length === 5) {
-            formattedInput = inputValue + separator[0];
-        }
+        separatorIndices.forEach((separatorIndex, idx) => {
+            if (inputValue.length === separatorIndex) {
+                formattedInput = inputValue + separators[idx];
+            }
+        });
 
         return formattedInput;
     }, []);
@@ -149,7 +170,16 @@ const Input: React.FC<Props> = (e: Props) => {
 
             changeInputText(addSeparatorToDate(inputValue, displayFormat));
         },
-        [asSingle, displayFormat, separator, changeDatepickerValue, changeDayHover, changeInputText]
+        [
+            addSeparatorToDate,
+            asSingle,
+            changeDatepickerValue,
+            changeDayHover,
+            changeInputText,
+            clearInvalidInput,
+            displayFormat,
+            separator
+        ]
     );
 
     const handleInputKeyDown = useCallback(
