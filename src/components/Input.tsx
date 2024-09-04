@@ -43,6 +43,22 @@ const Input: React.FC<Props> = (e: Props) => {
     const buttonRef = useRef<HTMLButtonElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
+    const checkClassName = useCallback(
+        (
+            defaultToggleClassName: string,
+            toggleClassName?: string | ((className: string) => string) | null
+        ) => {
+            if (typeof toggleClassName === "function") {
+                return toggleClassName(defaultToggleClassName);
+            }
+            if (typeof toggleClassName === "string" && toggleClassName !== "") {
+                return toggleClassName;
+            }
+            return defaultToggleClassName;
+        },
+        []
+    );
+
     // Functions
     const getClassName = useCallback(() => {
         const input = inputRef.current;
@@ -51,18 +67,13 @@ const Input: React.FC<Props> = (e: Props) => {
             return classNames.input(input);
         }
 
-        const border = BORDER_COLOR.focus[primaryColor as keyof typeof BORDER_COLOR.focus];
-        const ring =
-            RING_COLOR["second-focus"][primaryColor as keyof (typeof RING_COLOR)["second-focus"]];
+        const border = BORDER_COLOR.focus[primaryColor];
+        const ring = RING_COLOR["second-focus"][primaryColor];
 
         const defaultInputClassName = `relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring disabled:opacity-40 disabled:cursor-not-allowed ${border} ${ring}`;
 
-        return typeof inputClassName === "function"
-            ? inputClassName(defaultInputClassName)
-            : typeof inputClassName === "string" && inputClassName !== ""
-            ? inputClassName
-            : defaultInputClassName;
-    }, [inputRef, classNames, primaryColor, inputClassName]);
+        return checkClassName(defaultInputClassName, inputClassName);
+    }, [checkClassName, classNames, inputClassName, primaryColor]);
 
     /**
      * automatically adds correct separator character to date input
@@ -129,7 +140,7 @@ const Input: React.FC<Props> = (e: Props) => {
      */
     const clearInvalidInput = useCallback(
         (value: string) => {
-            if (value && value[value.length - 1].match(/\D/g)) {
+            if (value[value?.length - 1].match(/\D/g)) {
                 return value.slice(0, value.length - 1);
             }
             return value;
@@ -257,12 +268,8 @@ const Input: React.FC<Props> = (e: Props) => {
         const defaultToggleClassName =
             "absolute right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed";
 
-        return typeof toggleClassName === "function"
-            ? toggleClassName(defaultToggleClassName)
-            : typeof toggleClassName === "string" && toggleClassName !== ""
-            ? toggleClassName
-            : defaultToggleClassName;
-    }, [toggleClassName, buttonRef, classNames]);
+        return checkClassName(defaultToggleClassName, toggleClassName);
+    }, [toggleClassName, checkClassName, classNames]);
 
     // UseEffects && UseLayoutEffect
     useEffect(() => {
@@ -324,7 +331,7 @@ const Input: React.FC<Props> = (e: Props) => {
         const arrow = arrowContainer?.current;
 
         function showCalendarContainer() {
-            if (arrow && div && div.classList.contains("hidden")) {
+            if (arrow && div?.classList.contains("hidden")) {
                 div.classList.remove("hidden");
                 div.classList.add("block");
 
@@ -376,15 +383,13 @@ const Input: React.FC<Props> = (e: Props) => {
                 disabled={disabled}
                 readOnly={readOnly}
                 placeholder={
-                    placeholder
-                        ? placeholder
-                        : `${displayFormat}${asSingle ? "" : ` ${separator} ${displayFormat}`}`
+                    placeholder ||
+                    `${displayFormat}${asSingle ? "" : ` ${separator} ${displayFormat}`}`
                 }
                 value={inputText}
                 id={inputId}
                 name={inputName}
                 autoComplete="off"
-                role="presentation"
                 onChange={handleInputChange}
                 onKeyDown={handleInputKeyDown}
             />
@@ -395,7 +400,7 @@ const Input: React.FC<Props> = (e: Props) => {
                 disabled={disabled}
                 className={getToggleClassName()}
             >
-                {renderToggleIcon(inputText == null || !inputText?.length)}
+                {renderToggleIcon(!inputText.length)}
             </button>
         </>
     );
