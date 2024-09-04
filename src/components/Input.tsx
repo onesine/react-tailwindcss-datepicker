@@ -3,7 +3,13 @@ import React, { useCallback, useContext, useEffect, useRef } from "react";
 
 import { BORDER_COLOR, DATE_FORMAT, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
-import { clearInvalidInput, dateIsValid, parseFormattedDate, shortString } from "../helpers";
+import {
+    checkClassName,
+    clearInvalidInput,
+    dateIsValid,
+    parseFormattedDate,
+    shortString
+} from "../helpers";
 
 import ToggleButton from "./ToggleButton";
 
@@ -43,22 +49,6 @@ const Input: React.FC<Props> = (e: Props) => {
     const buttonRef = useRef<HTMLButtonElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const checkClassName = useCallback(
-        (
-            defaultToggleClassName: string,
-            toggleClassName?: string | ((className: string) => string) | null
-        ) => {
-            if (typeof toggleClassName === "function") {
-                return toggleClassName(defaultToggleClassName);
-            }
-            if (typeof toggleClassName === "string" && toggleClassName !== "") {
-                return toggleClassName;
-            }
-            return defaultToggleClassName;
-        },
-        []
-    );
-
     // Functions
     const getClassName = useCallback(() => {
         const input = inputRef.current;
@@ -73,7 +63,7 @@ const Input: React.FC<Props> = (e: Props) => {
         const defaultInputClassName = `relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring disabled:opacity-40 disabled:cursor-not-allowed ${border} ${ring}`;
 
         return checkClassName(defaultInputClassName, inputClassName);
-    }, [checkClassName, classNames, inputClassName, primaryColor]);
+    }, [classNames, inputClassName, primaryColor]);
 
     /**
      * automatically adds correct separator character to date input
@@ -208,7 +198,7 @@ const Input: React.FC<Props> = (e: Props) => {
                 if (input) {
                     let lastChar = input.value[input.value.length - 1];
                     // cut off all non-numeric values
-                    while (lastChar?.match(/\D/)) {
+                    while (RegExp(/\D/).exec(lastChar)) {
                         const shortenedString = shortString(input.value, input.value.length - 1);
                         input.value = shortenedString;
                         lastChar = shortenedString[shortenedString.length - 1];
@@ -254,7 +244,7 @@ const Input: React.FC<Props> = (e: Props) => {
             "absolute right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed";
 
         return checkClassName(defaultToggleClassName, toggleClassName);
-    }, [toggleClassName, checkClassName, classNames]);
+    }, [toggleClassName, classNames]);
 
     // UseEffects && UseLayoutEffect
     useEffect(() => {
