@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useEffect, useRef } from "react";
 
 import { BORDER_COLOR, DATE_FORMAT, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
-import { dateIsValid, parseFormattedDate, shortString } from "../helpers";
+import { clearInvalidInput, dateIsValid, parseFormattedDate, shortString } from "../helpers";
 
 import ToggleButton from "./ToggleButton";
 
@@ -124,20 +124,6 @@ const Input: React.FC<Props> = (e: Props) => {
         [asSingle, separator]
     );
 
-    /**
-     * detect and delete non-numeric user input
-     */
-    const clearInvalidInput = useCallback(
-        (value: string) => {
-            if (value && value[value.length - 1].match(/\D/g)) {
-                return value.slice(0, value.length - 1);
-            }
-            return value;
-        },
-
-        []
-    );
-
     const handleInputChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             const inputValue = clearInvalidInput(e.target.value);
@@ -194,7 +180,6 @@ const Input: React.FC<Props> = (e: Props) => {
             changeDatepickerValue,
             changeDayHover,
             changeInputText,
-            clearInvalidInput,
             displayFormat,
             separator
         ]
