@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useEffect, useRef } from "react";
 
 import { BORDER_COLOR, DATE_FORMAT, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
-import { dateIsValid, parseFormattedDate } from "../helpers";
+import { clearInvalidInput, dateIsValid, parseFormattedDate, shortString } from "../helpers";
 
 import ToggleButton from "./ToggleButton";
 
@@ -64,9 +64,69 @@ const Input: React.FC<Props> = (e: Props) => {
             : defaultInputClassName;
     }, [inputRef, classNames, primaryColor, inputClassName]);
 
+    /**
+     * automatically adds correct separator character to date input
+     */
+    const addSeparatorToDate = useCallback(
+        (inputValue: string, displayFormat: string) => {
+            // fallback separator; replaced by user defined separator;
+            const separators = ["-", "-"];
+            const separatorIndices: number[] = [];
+            let formattedInput = inputValue;
+
+            // note that we are not using locale to avoid redundancy;
+            // instead preferred locale is determined by displayFormat
+            const localeSeparators = displayFormat.match(/\W/g);
+            if (localeSeparators?.length) {
+                // replace fallbacks with localized separators
+                separators.splice(0, separators.length, ...localeSeparators);
+            }
+
+            // find indices of separators
+            // required to distinguish between i.a. YDM and DMY
+            let start = 0;
+            separators.forEach(localeSeparator => {
+                const idx = displayFormat.indexOf(localeSeparator, start);
+                if (idx !== -1) {
+                    start = idx + 1;
+                    separatorIndices.push(idx);
+                }
+            });
+
+            // adding separator after day and month
+            separatorIndices.forEach((separatorIndex, idx) => {
+                if (inputValue.length === separatorIndex) {
+                    formattedInput = inputValue + separators[idx];
+                }
+            });
+
+            // add middle separator for range dates and format end date
+            if (!asSingle && inputValue.length >= displayFormat.length) {
+                // get startDate and add separator
+                let rangeDate = inputValue.substring(0, displayFormat.length);
+                rangeDate = rangeDate + " " + separator + " ";
+
+                // cut off everything startdate and separator including blank spaces
+                let endDate = inputValue.substring(displayFormat.length + 2 + separator.length);
+                if (endDate.length) {
+                    separatorIndices.forEach((separatorIndex, idx) => {
+                        if (endDate.length === separatorIndex) {
+                            endDate = endDate + separators[idx];
+                        }
+                    });
+                    rangeDate = rangeDate + endDate;
+                }
+                return rangeDate;
+            }
+
+            return formattedInput;
+        },
+        [asSingle, separator]
+    );
+
     const handleInputChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
-            const inputValue = e.target.value;
+            const inputValue = clearInvalidInput(e.target.value);
 
             const dates = [];
 
@@ -112,13 +172,40 @@ const Input: React.FC<Props> = (e: Props) => {
                 else changeDayHover(dates[0]);
             }
 
-            changeInputText(e.target.value);
+            changeInputText(addSeparatorToDate(inputValue, displayFormat));
         },
-        [asSingle, displayFormat, separator, changeDatepickerValue, changeDayHover, changeInputText]
+        [
+            addSeparatorToDate,
+            asSingle,
+            changeDatepickerValue,
+            changeDayHover,
+            changeInputText,
+            displayFormat,
+            separator
+        ]
     );
 
     const handleInputKeyDown = useCallback(
         (e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === "Backspace") {
+                // stop propagation
+                e.preventDefault();
+
+                // force deletion of separators
+                const input = inputRef.current;
+                // necessary because the addSeparator function will overwrite regular deletion
+                if (input) {
+                    let lastChar = input.value[input.value.length - 1];
+                    // cut off all non-numeric values
+                    while (lastChar?.match(/\D/)) {
+                        const shortenedString = shortString(input.value, input.value.length - 1);
+                        input.value = shortenedString;
+                        lastChar = shortenedString[shortenedString.length - 1];
+                    }
+                    // cut off last numeric value
+                    input.value = shortString(input.value, input.value.length - 1);
+                }
+            }
             if (e.key === "Enter") {
                 const input = inputRef.current;
                 if (input) {

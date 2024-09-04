@@ -19,6 +19,7 @@
         "build": "npm run code-style && npm run clean && rollup -c",
         "pub": "npm run build && npm publish",
         "dev": "next dev -p 8888",
+        "test": "jest",
         "prepare": "husky install"
     },
     "repository": {
@@ -42,6 +43,7 @@
         "react": "^17.0.2 || ^18.2.0"
     },
     "devDependencies": {
+        "@jest/globals": "^29.7.0",
         "@rollup/plugin-commonjs": "^24.0.1",
         "@rollup/plugin-node-resolve": "^15.0.1",
         "@rollup/plugin-typescript": "^11.0.0",
@@ -60,6 +62,7 @@
         "eslint-plugin-react": "^7.31.11",
         "eslint-plugin-react-hooks": "^4.6.0",
         "husky": "^8.0.0",
+        "jest": "^29.7.0",
         "lint-staged": "^13.2.3",
         "next": "^13.1.1",
         "postcss": "^8.4.19",
@@ -68,6 +71,7 @@
         "react-dom": "^18.2.0",
         "rollup": "^2.77.2",
         "tailwindcss": "^3.2.4",
+        "ts-jest": "^29.2.5",
         "tslib": "^2.4.0",
         "typescript": "^4.8.4"
     },
