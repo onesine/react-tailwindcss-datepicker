@@ -1,6 +1,4 @@
 import dayjs from "dayjs";
-import localizedFormat from "dayjs/plugin/localizedFormat";
-require("dayjs/locale/de");
 import React, { useCallback, useContext, useEffect, useRef } from "react";
 
 import { BORDER_COLOR, DATE_FORMAT, RING_COLOR } from "../constants";
@@ -8,8 +6,6 @@ import DatepickerContext from "../contexts/DatepickerContext";
 import { dateIsValid, parseFormattedDate } from "../helpers";
 
 import ToggleButton from "./ToggleButton";
-
-dayjs.extend(localizedFormat);
 
 type Props = {
     setContextRef?: (ref: React.RefObject<HTMLInputElement>) => void;
@@ -71,40 +67,62 @@ const Input: React.FC<Props> = (e: Props) => {
     /**
      * automatically adds correct separator character to date input
      */
-    const addSeparatorToDate = useCallback((inputValue: string, displayFormat: string) => {
-        // fallback separator; replaced by user defined separator;
-        const separators = ["/", "/"];
-        const separatorIndices: number[] = [];
-        let formattedInput = inputValue;
+    const addSeparatorToDate = useCallback(
+        (inputValue: string, displayFormat: string) => {
+            // fallback separator; replaced by user defined separator;
+            const separators = ["-", "-"];
+            const separatorIndices: number[] = [];
+            let formattedInput = inputValue;
 
-        // note that we are not using locale to avoid redundancy;
-        // instead preferred locale is determined by displayFormat
-        const localeSeparators = displayFormat.match(/\W/g);
-        if (localeSeparators?.length) {
-            // replace fallbacks with localized separators
-            separators.splice(0, separators.length, ...localeSeparators);
-        }
-
-        // find indices of separators
-        // required to distinguish between i.a. YDM and DMY
-        let start = 0;
-        separators.forEach(localeSeparator => {
-            const idx = displayFormat.indexOf(localeSeparator, start);
-            if (idx !== -1) {
-                start = idx + 1;
-                separatorIndices.push(idx);
+            // note that we are not using locale to avoid redundancy;
+            // instead preferred locale is determined by displayFormat
+            const localeSeparators = displayFormat.match(/\W/g);
+            if (localeSeparators?.length) {
+                // replace fallbacks with localized separators
+                separators.splice(0, separators.length, ...localeSeparators);
             }
-        });
 
-        // adding separator after day and month
-        separatorIndices.forEach((separatorIndex, idx) => {
-            if (inputValue.length === separatorIndex) {
-                formattedInput = inputValue + separators[idx];
+            // find indices of separators
+            // required to distinguish between i.a. YDM and DMY
+            let start = 0;
+            separators.forEach(localeSeparator => {
+                const idx = displayFormat.indexOf(localeSeparator, start);
+                if (idx !== -1) {
+                    start = idx + 1;
+                    separatorIndices.push(idx);
+                }
+            });
+
+            // adding separator after day and month
+            separatorIndices.forEach((separatorIndex, idx) => {
+                if (inputValue.length === separatorIndex) {
+                    formattedInput = inputValue + separators[idx];
+                }
+            });
+
+            // add middle separator for range dates and format end date
+            if (!asSingle && inputValue.length >= displayFormat.length) {
+                // get startDate and add separator
+                let rangeDate = inputValue.substring(0, displayFormat.length);
+                rangeDate = rangeDate + " " + separator + " ";
+
+                // cut off everything startdate and separator including blank spaces
+                let endDate = inputValue.substring(displayFormat.length + 2 + separator.length);
+                if (endDate.length) {
+                    separatorIndices.forEach((separatorIndex, idx) => {
+                        if (endDate.length === separatorIndex) {
+                            endDate = endDate + separators[idx];
+                        }
+                    });
+                    rangeDate = rangeDate + endDate;
+                }
+                return rangeDate;
             }
-        });
 
-        return formattedInput;
-    }, []);
+            return formattedInput;
+        },
+        [asSingle, separator]
+    );
 
     /**
      * detect and delete non-numeric user input
