@@ -11,6 +11,17 @@ export function classNames(...classes: (false | null | undefined | string)[]) {
     return classes.filter(Boolean).join(" ");
 }
 
+/**
+ * detect and delete non-numeric user input
+ * @returns shortened string
+ */
+export const clearInvalidInput = (value: string): string => {
+    if (value && value[value.length - 1].match(/\D/g)) {
+        return shortString(value, value.length - 1);
+    }
+    return value;
+};
+
 export function getTextColorByPrimaryColor(color: string) {
     switch (color) {
         case "blue":
