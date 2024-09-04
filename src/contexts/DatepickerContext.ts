@@ -3,14 +3,15 @@ import React, { createContext } from "react";
 
 import { DATE_FORMAT, LANGUAGE, START_WEEK } from "../constants";
 import {
-    Configs,
-    Period,
-    DateValueType,
-    DateType,
-    DateRangeType,
     ClassNamesTypeProp,
-    PopoverDirectionType,
-    ColorKeys
+    ClassType,
+    ColorKeys,
+    Configs,
+    DateRangeType,
+    DateType,
+    DateValueType,
+    Period,
+    PopoverDirectionType
 } from "../types";
 
 interface DatepickerStore {
@@ -35,9 +36,9 @@ interface DatepickerStore {
     i18n: string;
     value: DateValueType;
     disabled?: boolean;
-    inputClassName?: ((className: string) => string) | string | null;
-    containerClassName?: ((className: string) => string) | string | null;
-    toggleClassName?: ((className: string) => string) | string | null;
+    inputClassName?: ClassType;
+    containerClassName?: ClassType;
+    toggleClassName?: ClassType;
     toggleIcon?: (open: boolean) => React.ReactNode;
     readOnly?: boolean;
     startWeekOn?: string | null;

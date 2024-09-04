@@ -44,6 +44,8 @@ export type DateRangeType = {
 
 export type DateValueType = DateRangeType | null;
 
+export type ClassType = ((className: string) => string) | string | null;
+
 export type ClassNamesTypeProp = {
     container?: (p?: object | null | undefined) => string | undefined;
     input?: (p?: object | null | undefined) => string | undefined;
@@ -67,10 +69,10 @@ export interface DatepickerType {
     startFrom?: Date | null;
     i18n?: string;
     disabled?: boolean;
-    classNames?: ClassNamesTypeProp | undefined;
-    containerClassName?: ((className: string) => string) | string | null;
-    inputClassName?: ((className: string) => string) | string | null;
-    toggleClassName?: ((className: string) => string) | string | null;
+    classNames?: ClassNamesTypeProp;
+    containerClassName?: ClassType;
+    inputClassName?: ClassType;
+    toggleClassName?: ClassType;
     toggleIcon?: (open: boolean) => React.ReactNode;
     inputId?: string;
     inputName?: string;
