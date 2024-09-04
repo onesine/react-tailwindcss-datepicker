@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useEffect, useRef } from "react";
 
 import { BORDER_COLOR, DATE_FORMAT, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
-import { dateIsValid, parseFormattedDate } from "../helpers";
+import { dateIsValid, parseFormattedDate, shortString } from "../helpers";
 
 import ToggleButton from "./ToggleButton";
 
@@ -202,6 +202,25 @@ const Input: React.FC<Props> = (e: Props) => {
 
     const handleInputKeyDown = useCallback(
         (e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === "Backspace") {
+                // stop propagation
+                e.preventDefault();
+
+                // force deletion of separators
+                const input = inputRef.current;
+                // necessary because the addSeparator function will overwrite regular deletion
+                if (input) {
+                    let lastChar = input.value[input.value.length - 1];
+                    // cut off all non-numeric values
+                    while (lastChar?.match(/\D/)) {
+                        const shortenedString = shortString(input.value, input.value.length - 1);
+                        input.value = shortenedString;
+                        lastChar = shortenedString[shortenedString.length - 1];
+                    }
+                    // cut off last numeric value
+                    input.value = shortString(input.value, input.value.length - 1);
+                }
+            }
             if (e.key === "Enter") {
                 const input = inputRef.current;
                 if (input) {
