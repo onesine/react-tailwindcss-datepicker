@@ -16,10 +16,26 @@ export function classNames(...classes: (false | null | undefined | string)[]) {
  * @returns shortened string
  */
 export const clearInvalidInput = (value: string): string => {
-    if (value && value[value.length - 1].match(/\D/g)) {
+    if (value[value.length - 1]?.match(/\D/g)) {
         return shortString(value, value.length - 1);
     }
     return value;
+};
+
+/**
+ * checks and returns user-defined className or default className
+ */
+export const checkClassName = (
+    defaultToggleClassName: string,
+    toggleClassName?: string | ((className: string) => string) | null
+) => {
+    if (typeof toggleClassName === "function") {
+        return toggleClassName(defaultToggleClassName);
+    }
+    if (typeof toggleClassName === "string" && toggleClassName !== "") {
+        return toggleClassName;
+    }
+    return defaultToggleClassName;
 };
 
 export function getTextColorByPrimaryColor(color: string) {

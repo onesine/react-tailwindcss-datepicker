@@ -32,10 +32,8 @@ export default function Playground() {
     const [startFrom, setStartFrom] = useState("2023-03-01");
     const [startWeekOn, setStartWeekOn] = useState("");
 
-    const handleChange = (value, e) => {
+    const handleChange = value => {
         setValue(value);
-        console.log(e);
-        console.log("value", value);
     };
     return (
         <div className="px-4 py-8">
