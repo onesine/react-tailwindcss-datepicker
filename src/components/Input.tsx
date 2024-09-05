@@ -195,7 +195,7 @@ const Input: React.FC<Props> = (e: Props) => {
                 // force deletion of separators
                 const input = inputRef.current;
                 // necessary because the addSeparator function will overwrite regular deletion
-                if (input) {
+                if (input?.value.length) {
                     let lastChar = input.value[input.value.length - 1];
                     // cut off all non-numeric values
                     while (RegExp(/\D/).exec(lastChar)) {
