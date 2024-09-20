@@ -61,19 +61,19 @@ const DatepickerContext = createContext<DatepickerStore>({
     arrowContainer: null,
     period: { start: null, end: null },
     // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-    changePeriod: period => {},
+    changePeriod: _period => {},
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     hideDatepicker: () => {},
     dayHover: null,
     // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-    changeDayHover: (day: string | null) => {},
+    changeDayHover: (_day: string | null) => {},
     inputText: "",
     // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-    changeInputText: text => {},
+    changeInputText: _text => {},
     // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-    updateFirstDate: date => {},
+    updateFirstDate: _date => {},
     // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-    changeDatepickerValue: (value: DateValueType, e: HTMLInputElement | null | undefined) => {},
+    changeDatepickerValue: (_value: DateValueType, _e: HTMLInputElement | null | undefined) => {},
     showFooter: false,
     value: null,
     i18n: LANGUAGE,

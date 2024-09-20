@@ -119,7 +119,7 @@ export const DoubleChevronRightIcon: React.FC<IconProps> = ({ className = "w-6 h
 };
 
 // eslint-disable-next-line react/display-name,@typescript-eslint/ban-types
-export const Arrow = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
+export const Arrow = React.forwardRef<HTMLDivElement, {}>((_props, ref) => {
     return (
         <div
             ref={ref}
