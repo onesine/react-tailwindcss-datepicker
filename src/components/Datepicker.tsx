@@ -24,7 +24,7 @@ const Datepicker: React.FC<DatepickerType> = ({
     asSingle = false,
     placeholder = null,
     separator = "~",
-    startFrom = null,
+    startFrom = new Date(),
     i18n = LANGUAGE,
     disabled = false,
     inputClassName = null,
@@ -52,6 +52,7 @@ const Datepicker: React.FC<DatepickerType> = ({
     const [firstDate, setFirstDate] = useState<dayjs.Dayjs>(
         startFrom && dayjs(startFrom).isValid() ? dayjs(startFrom) : dayjs()
     );
+
     const [secondDate, setSecondDate] = useState<dayjs.Dayjs>(nextMonth(firstDate));
     const [period, setPeriod] = useState<Period>({
         start: null,
