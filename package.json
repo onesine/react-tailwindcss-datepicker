@@ -1,6 +1,6 @@
 {
     "name": "@sciendis/react-tailwindcss-datepicker",
-    "version": "1.7.1",
+    "version": "1.7.2",
     "description": " Modern date range picker component for React using Tailwind and dayjs.",
     "main": "dist/index.cjs.js",
     "module": "dist/index.esm.js",
