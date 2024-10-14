@@ -1,16 +1,17 @@
 import dayjs from "dayjs";
 import Head from "next/head";
-import { useState } from "react";
+import React, { useState } from "react";
 
 import Datepicker from "../src";
 import { COLORS, DATE_LOOKING_OPTIONS } from "../src/constants";
+import { ColorKeys } from "../src/types";
 
 export default function Playground() {
     const [value, setValue] = useState({
         startDate: null,
         endDate: null
     });
-    const [primaryColor, setPrimaryColor] = useState("blue");
+    const [primaryColor, setPrimaryColor] = useState < ColorKeys > "blue";
     const [useRange, setUseRange] = useState(true);
     const [showFooter, setShowFooter] = useState(false);
     const [showShortcuts, setShowShortcuts] = useState(false);

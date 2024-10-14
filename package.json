@@ -2,8 +2,8 @@
     "name": "@sciendis/react-tailwindcss-datepicker",
     "version": "1.7.2",
     "description": " Modern date range picker component for React using Tailwind and dayjs.",
-    "main": "dist/index.cjs.js",
-    "module": "dist/index.esm.js",
+    "main": "dist/index.js",
+    "module": "dist/index.mjs",
     "types": "dist/index.d.ts",
     "author": "sciendis",
     "license": "MIT",
@@ -16,7 +16,7 @@
         "pret:fix": "prettier --ignore-path .gitignore --config ./.prettierrc --write './**/*.{js,jsx,ts,tsx,css,md,json}'",
         "code-style": "npm run pret && npm run lint",
         "code-style:fix": "npm run pret:fix && npm run pret:fix",
-        "build": "npm run code-style && npm run clean && rollup -c rollup.config.js --bundleConfigAsCjs",
+        "build": "npm run code-style && npm run clean && tsup src/index.tsx --format cjs,esm --dts",
         "pub": "npm run build && npm publish",
         "dev": "next dev -p 8888",
         "test": "jest",
@@ -44,12 +44,9 @@
     },
     "devDependencies": {
         "@jest/globals": "^29.7.0",
-        "@rollup/plugin-commonjs": "^26.0.1",
-        "@rollup/plugin-node-resolve": "^15.2.3",
-        "@rollup/plugin-typescript": "^11.1.6",
         "@tailwindcss/forms": "^0.5.3",
-        "@types/node": "18.14.5",
-        "@types/react": "^18.0.21",
+        "@types/node": "^22.7.5",
+        "@types/react": "^18.3.11",
         "@typescript-eslint/eslint-plugin": "^5.45.0",
         "@typescript-eslint/parser": "^5.45.0",
         "autoprefixer": "^10.4.13",
@@ -69,11 +66,11 @@
         "prettier": "^2.8.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "rollup": "^4.22.0",
         "tailwindcss": "^3.2.4",
         "ts-jest": "^29.2.5",
         "tslib": "^2.7.0",
-        "typescript": "^4.8.4"
+        "tsup": "^8.3.0",
+        "typescript": "^5.6.2"
     },
     "lint-staged": {
         "*.{ts,tsx}": [
@@ -86,5 +83,8 @@
     "bugs": {
         "url": "https://github.com/sciendis/react-tailwindcss-datepicker/issues"
     },
-    "homepage": "https://github.com/sciendis/react-tailwindcss-datepicker#readme"
+    "homepage": "https://github.com/sciendis/react-tailwindcss-datepicker#readme",
+    "dependencies": {
+        "@changesets/cli": "^2.27.8"
+    }
 }

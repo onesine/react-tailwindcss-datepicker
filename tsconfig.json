@@ -3,7 +3,7 @@
         "target": "esnext",
         "lib": ["dom", "esnext"],
         "module": "esnext",
-        "jsx": "preserve",
+        "jsx": "react-jsx",
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "moduleResolution": "node",
@@ -23,8 +23,8 @@
         "skipLibCheck": true,
         "noEmit": true,
         "resolveJsonModule": true,
-        "isolatedModules": true,
-        "incremental": true
+        "isolatedModules": true
+        // "noUncheckedIndexedAccess": true // should be enabled
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules"]
