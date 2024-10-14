@@ -30,7 +30,7 @@ const Months = (props: Props) => {
                     }}
                     active={currentMonth === item}
                 >
-                    {dateFormat(new Date(`2022-${item}-01`), "MMM", i18n)}
+                    {dateFormat(new Date(2022, item - 1, 1), "MMM", i18n)}
                 </RoundedButton>
             ))}
         </div>
