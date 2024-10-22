@@ -97,7 +97,7 @@ Follow the prompts to document your changes.
 To release a new version use
 
 ```sh
-npx changeset
+npx changeset version
 ```
 
 This consumes all changesets, and updates to the most appropriate semver version based on those
