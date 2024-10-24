@@ -371,7 +371,7 @@ const Datepicker = (props: DatepickerType) => {
     ]);
 
     const containerClassNameOverload = useMemo(() => {
-        const defaultContainerClassName = "relative w-full text-gray-700";
+        const defaultContainerClassName = "relative w-full h-full text-gray-700";
         return typeof containerClassName === "function"
             ? containerClassName(defaultContainerClassName)
             : typeof containerClassName === "string" && containerClassName !== ""
