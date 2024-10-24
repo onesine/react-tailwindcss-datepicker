@@ -1,7 +1,7 @@
-import dayjs from "dayjs";
-
-import { formatDate, previousMonth } from "../helpers";
+import { dateAdd, endDayOfMonth, firstDayOfMonth, previousMonthBy } from "../libs/date";
 import { ShortcutsItem } from "../types";
+
+const CURRENT_DATE = new Date();
 
 const DEFAULT_SHORTCUTS: {
     [key in string]: ShortcutsItem | ShortcutsItem[];
@@ -9,15 +9,15 @@ const DEFAULT_SHORTCUTS: {
     today: {
         text: "Today",
         period: {
-            start: formatDate(dayjs()),
-            end: formatDate(dayjs())
+            start: CURRENT_DATE,
+            end: CURRENT_DATE
         }
     },
     yesterday: {
         text: "Yesterday",
         period: {
-            start: formatDate(dayjs().subtract(1, "d")),
-            end: formatDate(dayjs().subtract(1, "d"))
+            start: dateAdd(CURRENT_DATE, -1, "day"),
+            end: dateAdd(CURRENT_DATE, -1, "day")
         }
     },
     past: [
@@ -25,31 +25,31 @@ const DEFAULT_SHORTCUTS: {
             daysNumber: 7,
             text: "Last 7 days",
             period: {
-                start: formatDate(dayjs().subtract(7, "d")),
-                end: formatDate(dayjs())
+                start: dateAdd(CURRENT_DATE, -7, "day"),
+                end: CURRENT_DATE
             }
         },
         {
             daysNumber: 30,
             text: "Last 30 days",
             period: {
-                start: formatDate(dayjs().subtract(30, "d")),
-                end: formatDate(dayjs())
+                start: dateAdd(CURRENT_DATE, -30, "day"),
+                end: CURRENT_DATE
             }
         }
     ],
     currentMonth: {
         text: "This month",
         period: {
-            start: formatDate(dayjs().startOf("month")),
-            end: formatDate(dayjs().endOf("month"))
+            start: firstDayOfMonth(CURRENT_DATE),
+            end: endDayOfMonth(CURRENT_DATE)
         }
     },
     pastMonth: {
         text: "Last month",
         period: {
-            start: formatDate(previousMonth(dayjs()).startOf("month")),
-            end: formatDate(previousMonth(dayjs()).endOf("month"))
+            start: firstDayOfMonth(previousMonthBy(CURRENT_DATE)),
+            end: endDayOfMonth(previousMonthBy(CURRENT_DATE))
         }
     }
 };

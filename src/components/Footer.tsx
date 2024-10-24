@@ -1,12 +1,11 @@
-import dayjs from "dayjs";
-import React, { useCallback, useContext } from "react";
+import { useCallback, useContext } from "react";
 
-import { DATE_FORMAT } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
 
-import { PrimaryButton, SecondaryButton } from "./utils";
+import PrimaryButton from "./PrimaryButton";
+import SecondaryButton from "./SecondaryButton";
 
-const Footer: React.FC = () => {
+const Footer = () => {
     // Contexts
     const { hideDatepicker, period, changeDatepickerValue, configs, classNames } =
         useContext(DatepickerContext);
@@ -30,12 +29,13 @@ const Footer: React.FC = () => {
                 >
                     <>{configs?.footer?.cancel ? configs.footer.cancel : "Cancel"}</>
                 </SecondaryButton>
+
                 <PrimaryButton
                     onClick={() => {
                         if (period.start && period.end) {
                             changeDatepickerValue({
-                                startDate: dayjs(period.start).format(DATE_FORMAT),
-                                endDate: dayjs(period.end).format(DATE_FORMAT)
+                                startDate: period.start,
+                                endDate: period.end
                             });
                             hideDatepicker();
                         }

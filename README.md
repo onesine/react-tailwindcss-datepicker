@@ -51,13 +51,13 @@ Go to [full documentation](https://react-tailwindcss-datepicker.vercel.app/)
 ### Install via npm
 
 ```
-$ npm install react-tailwindcss-datepicker
+npm install react-tailwindcss-datepicker
 ```
 
 ### Install via yarn
 
 ```
-$ yarn add react-tailwindcss-datepicker
+yarn add react-tailwindcss-datepicker
 ```
 
 Make sure you have installed the peer dependencies as well with the below versions.
@@ -87,25 +87,20 @@ module.exports = {
 
 Then use react-tailwindcss-select in your app:
 
-```jsx
-import React, { useState } from "react";
+```tsx
+import { useState } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
 
 const App = () => {
     const [value, setValue] = useState({
-        startDate: new Date(),
-        endDate: new Date().setMonth(11)
+        startDate: null,
+        endDate: null
     });
 
-    const handleValueChange = newValue => {
-        console.log("newValue:", newValue);
-        setValue(newValue);
-    };
-
     return (
-        <div>
-            <Datepicker value={value} onChange={handleValueChange} />
-        </div>
+        <>
+            <Datepicker value={value} onChange={newValue => setValue(newValue)} />
+        </>
     );
 };
 

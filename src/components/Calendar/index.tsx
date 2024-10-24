@@ -1,26 +1,26 @@
-import dayjs from "dayjs";
-import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 
-import { CALENDAR_SIZE, DATE_FORMAT } from "../../constants";
+import { START_WEEK } from "../../constants";
 import DatepickerContext from "../../contexts/DatepickerContext";
 import {
-    formatDate,
-    getDaysInMonth,
-    getFirstDayInMonth,
-    getFirstDaysInMonth,
-    getLastDaysInMonth,
-    getNumberOfDay,
+    allDaysInMonth,
+    dateFormat,
+    dateIsSameOrAfter,
+    dateIsSameOrBefore,
+    dateIsValid,
+    endDayOfMonth,
+    firstDayOfMonth,
+    getNextDates,
     loadLanguageModule,
-    nextMonth,
-    previousMonth
-} from "../../helpers";
-import {
-    ChevronLeftIcon,
-    ChevronRightIcon,
-    DoubleChevronLeftIcon,
-    DoubleChevronRightIcon,
-    RoundedButton
-} from "../utils";
+    nextDaysInWeek,
+    previousDaysInWeek,
+    weekDayStringToIndex
+} from "../../libs/date";
+import ChevronLeftIcon from "../icons/ChevronLeftIcon";
+import ChevronRightIcon from "../icons/ChevronRightIcon";
+import DoubleChevronLeftIcon from "../icons/DoubleChevronLeftIcon";
+import DoubleChevronRightIcon from "../icons/DoubleChevronRightIcon";
+import RoundedButton from "../RoundedButton";
 
 import Days from "./Days";
 import Months from "./Months";
@@ -29,25 +29,23 @@ import Years from "./Years";
 
 import { DateType } from "types";
 
+const NUMBER_YEARS_SHOW = 12;
+const CALENDAR_SIZE = 42;
+
 interface Props {
-    date: dayjs.Dayjs;
-    minDate?: DateType | null;
-    maxDate?: DateType | null;
+    date: Date;
+    minDate?: DateType;
+    maxDate?: DateType;
     onClickPrevious: () => void;
     onClickNext: () => void;
     changeMonth: (month: number) => void;
     changeYear: (year: number) => void;
 }
 
-const Calendar: React.FC<Props> = ({
-    date,
-    minDate,
-    maxDate,
-    onClickPrevious,
-    onClickNext,
-    changeMonth,
-    changeYear
-}) => {
+const Calendar = (props: Props) => {
+    // Props
+    const { date, minDate, maxDate, onClickPrevious, onClickNext, changeMonth, changeYear } = props;
+
     // Contexts
     const {
         period,
@@ -66,32 +64,15 @@ const Calendar: React.FC<Props> = ({
     // States
     const [showMonths, setShowMonths] = useState(false);
     const [showYears, setShowYears] = useState(false);
-    const [year, setYear] = useState(date.year());
+    const [year, setYear] = useState(date.getFullYear());
+
     // Functions
-    const previous = useCallback(() => {
-        return getLastDaysInMonth(
-            previousMonth(date),
-            getNumberOfDay(getFirstDayInMonth(date).ddd, startWeekOn)
-        );
-    }, [date, startWeekOn]);
-
-    const current = useCallback(() => {
-        return getDaysInMonth(formatDate(date));
-    }, [date]);
-
-    const next = useCallback(() => {
-        return getFirstDaysInMonth(
-            previousMonth(date),
-            CALENDAR_SIZE - (previous().length + current().length)
-        );
-    }, [current, date, previous]);
-
     const hideMonths = useCallback(() => {
-        showMonths && setShowMonths(false);
+        if (showMonths) setShowMonths(false);
     }, [showMonths]);
 
     const hideYears = useCallback(() => {
-        showYears && setShowYears(false);
+        if (showYears) setShowYears(false);
     }, [showYears]);
 
     const clickMonth = useCallback(
@@ -115,27 +96,27 @@ const Calendar: React.FC<Props> = ({
     );
 
     const clickDay = useCallback(
-        (day: number, month = date.month() + 1, year = date.year()) => {
-            const fullDay = `${year}-${month}-${day}`;
+        (day: Date, after?: () => void) => {
             let newStart;
             let newEnd = null;
 
-            function chosePeriod(start: string, end: string) {
+            function chosePeriod(start: Date, end: Date) {
                 const ipt = input?.current;
+
                 changeDatepickerValue(
                     {
-                        startDate: dayjs(start).format(DATE_FORMAT),
-                        endDate: dayjs(end).format(DATE_FORMAT)
+                        startDate: start,
+                        endDate: end
                     },
                     ipt
                 );
+
                 hideDatepicker();
             }
 
             if (period.start && period.end) {
-                if (changeDayHover) {
-                    changeDayHover(null);
-                }
+                changeDayHover(null);
+
                 changePeriod({
                     start: null,
                     end: null
@@ -144,30 +125,30 @@ const Calendar: React.FC<Props> = ({
 
             if ((!period.start && !period.end) || (period.start && period.end)) {
                 if (!period.start && !period.end) {
-                    changeDayHover(fullDay);
+                    changeDayHover(day);
                 }
-                newStart = fullDay;
+
+                newStart = day;
+
                 if (asSingle) {
-                    newEnd = fullDay;
-                    chosePeriod(fullDay, fullDay);
+                    newEnd = day;
+                    if (!showFooter) {
+                        chosePeriod(day, day);
+                    }
                 }
             } else {
                 if (period.start && !period.end) {
                     // start not null
                     // end null
-                    const condition =
-                        dayjs(fullDay).isSame(dayjs(period.start)) ||
-                        dayjs(fullDay).isAfter(dayjs(period.start));
-                    newStart = condition ? period.start : fullDay;
-                    newEnd = condition ? fullDay : period.start;
+                    const condition = dateIsSameOrAfter(day, period.start, "date");
+                    newStart = condition ? period.start : day;
+                    newEnd = condition ? day : period.start;
                 } else {
                     // Start null
                     // End not null
-                    const condition =
-                        dayjs(fullDay).isSame(dayjs(period.end)) ||
-                        dayjs(fullDay).isBefore(dayjs(period.end));
-                    newStart = condition ? fullDay : period.start;
-                    newEnd = condition ? period.end : fullDay;
+                    const condition = dateIsSameOrBefore(day, period.end, "date");
+                    newStart = condition ? day : period.start;
+                    newEnd = condition ? period.end : day;
                 }
 
                 if (!showFooter) {
@@ -183,13 +164,18 @@ const Calendar: React.FC<Props> = ({
                     end: newEnd
                 });
             }
+
+            if (after) {
+                setTimeout(() => {
+                    after();
+                }, 50);
+            }
         },
         [
             asSingle,
             changeDatepickerValue,
             changeDayHover,
             changePeriod,
-            date,
             hideDatepicker,
             period.end,
             period.start,
@@ -199,47 +185,60 @@ const Calendar: React.FC<Props> = ({
     );
 
     const clickPreviousDays = useCallback(
-        (day: number) => {
-            const newDate = previousMonth(date);
-            clickDay(day, newDate.month() + 1, newDate.year());
-            onClickPrevious();
+        (day: Date) => {
+            clickDay(day, () => {
+                onClickPrevious();
+            });
         },
-        [clickDay, date, onClickPrevious]
+        [clickDay, onClickPrevious]
     );
 
     const clickNextDays = useCallback(
-        (day: number) => {
-            const newDate = nextMonth(date);
-            clickDay(day, newDate.month() + 1, newDate.year());
-            onClickNext();
+        (day: Date) => {
+            clickDay(day, () => {
+                onClickNext();
+            });
         },
-        [clickDay, date, onClickNext]
+        [clickDay, onClickNext]
     );
 
     // UseEffects & UseLayoutEffect
     useEffect(() => {
-        setYear(date.year());
+        setYear(date.getFullYear());
     }, [date]);
 
     // Variables
     const calendarData = useMemo(() => {
+        const firstDateCurrentMonth = firstDayOfMonth(date);
+        const lastDateCurrentMonth = endDayOfMonth(date);
+
+        const startWeekOnIndex = weekDayStringToIndex(startWeekOn || START_WEEK);
+
+        const previous = previousDaysInWeek(firstDateCurrentMonth, startWeekOnIndex);
+        const current = allDaysInMonth(date);
+        const next = nextDaysInWeek(lastDateCurrentMonth, startWeekOnIndex);
+
+        const remainingDaysLength =
+            CALENDAR_SIZE - (previous.length + current.length + next.length);
+
+        if (remainingDaysLength > 0) {
+            const lastNextDate = next[next.length - 1] || current[current.length - 1];
+            next.push(...getNextDates(lastNextDate, remainingDaysLength));
+        }
+
         return {
-            date: date,
-            days: {
-                previous: previous(),
-                current: current(),
-                next: next()
-            }
+            previous: previous,
+            current: current,
+            next: next
         };
-    }, [current, date, next, previous]);
-    const minYear = React.useMemo(
-        () => (minDate && dayjs(minDate).isValid() ? dayjs(minDate).year() : null),
-        [minDate]
-    );
-    const maxYear = React.useMemo(
-        () => (maxDate && dayjs(maxDate).isValid() ? dayjs(maxDate).year() : null),
-        [maxDate]
-    );
+    }, [date, startWeekOn]);
+
+    const years = useMemo(() => {
+        return {
+            min: minDate && dateIsValid(minDate) ? minDate.getFullYear() : null,
+            max: maxDate && dateIsValid(maxDate) ? maxDate.getFullYear() : null
+        };
+    }, [maxDate, minDate]);
 
     return (
         <div className="w-full md:w-[296px] md:min-w-[296px]">
@@ -257,7 +256,7 @@ const Calendar: React.FC<Props> = ({
                         <RoundedButton
                             roundedFull={true}
                             onClick={() => {
-                                setYear(year - 12);
+                                setYear(year - NUMBER_YEARS_SHOW);
                             }}
                         >
                             <DoubleChevronLeftIcon className="h-5 w-5" />
@@ -273,7 +272,7 @@ const Calendar: React.FC<Props> = ({
                                 hideYears();
                             }}
                         >
-                            <>{calendarData.date.locale(i18n).format("MMM")}</>
+                            {dateFormat(date, "MMM", i18n)}
                         </RoundedButton>
                     </div>
 
@@ -284,7 +283,7 @@ const Calendar: React.FC<Props> = ({
                                 hideMonths();
                             }}
                         >
-                            <>{calendarData.date.year()}</>
+                            <>{date.getFullYear()}</>
                         </RoundedButton>
                     </div>
                 </div>
@@ -294,7 +293,7 @@ const Calendar: React.FC<Props> = ({
                         <RoundedButton
                             roundedFull={true}
                             onClick={() => {
-                                setYear(year + 12);
+                                setYear(year + NUMBER_YEARS_SHOW);
                             }}
                         >
                             <DoubleChevronRightIcon className="h-5 w-5" />
@@ -313,15 +312,15 @@ const Calendar: React.FC<Props> = ({
 
             <div className="px-0.5 sm:px-2 mt-0.5 min-h-[285px]">
                 {showMonths && (
-                    <Months currentMonth={calendarData.date.month() + 1} clickMonth={clickMonth} />
+                    <Months currentMonth={date.getMonth() + 1} clickMonth={clickMonth} />
                 )}
 
                 {showYears && (
                     <Years
                         year={year}
-                        minYear={minYear}
-                        maxYear={maxYear}
-                        currentYear={calendarData.date.year()}
+                        minYear={years.min}
+                        maxYear={years.max}
+                        currentYear={date.getFullYear()}
                         clickYear={clickYear}
                     />
                 )}
@@ -331,7 +330,7 @@ const Calendar: React.FC<Props> = ({
                         <Week />
 
                         <Days
-                            calendarData={calendarData}
+                            days={calendarData}
                             onClickPreviousDays={clickPreviousDays}
                             onClickDay={clickDay}
                             onClickNextDays={clickNextDays}

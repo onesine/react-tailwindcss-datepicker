@@ -13,7 +13,6 @@
         "plugin:react-hooks/recommended",
         "next/core-web-vitals"
     ],
-    "overrides": [],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": "latest",
@@ -27,12 +26,19 @@
             "version": "detect"
         }
     },
-    "plugins": ["react", "@typescript-eslint", "import", "prettier", "@next/eslint-plugin-next"],
+    "plugins": [
+        "react",
+        "react-refresh",
+        "import",
+        "prettier",
+        "@next/eslint-plugin-next",
+        "@typescript-eslint"
+    ],
     "rules": {
         "indent": "off",
-        "linebreak-style": ["error", "unix"],
-        "quotes": ["error", "double"],
-        "semi": ["error", "always"],
+        "no-console": "warn",
+        "quotes": "error",
+        "semi": "error",
         "import/order": [
             "error",
             {
@@ -43,12 +49,18 @@
                 "newlines-between": "always"
             }
         ],
-        "react/prop-types": "off",
-        "react/jsx-uses-react": "off",
         "react/react-in-jsx-scope": "off",
+        "react-refresh/only-export-components": "warn",
         "react-hooks/rules-of-hooks": "error",
-        "react-hooks/exhaustive-deps": "warn",
         "@typescript-eslint/no-var-requires": 0,
         "prettier/prettier": ["error", { "endOfLine": "auto" }, { "usePrettierrc": true }]
-    }
+    },
+    "overrides": [
+        {
+            "files": ["app/page.tsx"],
+            "rules": {
+                "no-console": "off"
+            }
+        }
+    ]
 }

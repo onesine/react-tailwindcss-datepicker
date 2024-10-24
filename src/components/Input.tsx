@@ -1,17 +1,25 @@
-import dayjs from "dayjs";
-import React, { useCallback, useContext, useEffect, useRef } from "react";
+import {
+    ChangeEvent,
+    KeyboardEvent,
+    RefObject,
+    useCallback,
+    useContext,
+    useEffect,
+    useRef
+} from "react";
 
-import { BORDER_COLOR, DATE_FORMAT, RING_COLOR } from "../constants";
+import { BORDER_COLOR, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
-import { dateIsValid, parseFormattedDate } from "../helpers";
+import { dateAdd, dateIsBefore, dateStringToDate } from "../libs/date";
+import { DateType } from "../types";
 
 import ToggleButton from "./ToggleButton";
 
 type Props = {
-    setContextRef?: (ref: React.RefObject<HTMLInputElement>) => void;
+    setContextRef?: (ref: RefObject<HTMLInputElement>) => void;
 };
 
-const Input: React.FC<Props> = (e: Props) => {
+const Input = (e: Props) => {
     // Context
     const {
         primaryColor,
@@ -36,7 +44,8 @@ const Input: React.FC<Props> = (e: Props) => {
         inputId,
         inputName,
         classNames,
-        popoverDirection
+        popoverDirection,
+        required
     } = useContext(DatepickerContext);
 
     // UseRefs
@@ -60,43 +69,41 @@ const Input: React.FC<Props> = (e: Props) => {
         return typeof inputClassName === "function"
             ? inputClassName(defaultInputClassName)
             : typeof inputClassName === "string" && inputClassName !== ""
-            ? inputClassName
-            : defaultInputClassName;
+              ? inputClassName
+              : defaultInputClassName;
     }, [inputRef, classNames, primaryColor, inputClassName]);
 
     const handleInputChange = useCallback(
-        (e: React.ChangeEvent<HTMLInputElement>) => {
+        (e: ChangeEvent<HTMLInputElement>) => {
             const inputValue = e.target.value;
 
-            const dates = [];
+            const dates: Date[] = [];
 
             if (asSingle) {
-                const date = parseFormattedDate(inputValue, displayFormat);
-                if (dateIsValid(date.toDate())) {
-                    dates.push(date.format(DATE_FORMAT));
+                // const date = parseFormattedDate(inputValue, displayFormat);
+                const date = dateStringToDate(inputValue);
+                if (date) {
+                    dates.push(date);
                 }
             } else {
                 const parsed = inputValue.split(separator);
 
-                let startDate = null;
-                let endDate = null;
+                let startDate: DateType;
+                let endDate: DateType;
 
                 if (parsed.length === 2) {
-                    startDate = parseFormattedDate(parsed[0], displayFormat);
-                    endDate = parseFormattedDate(parsed[1], displayFormat);
+                    dateStringToDate(parsed[0]);
+                    startDate = dateStringToDate(parsed[0]);
+                    endDate = dateStringToDate(parsed[1]);
                 } else {
                     const middle = Math.floor(inputValue.length / 2);
-                    startDate = parseFormattedDate(inputValue.slice(0, middle), displayFormat);
-                    endDate = parseFormattedDate(inputValue.slice(middle), displayFormat);
+                    startDate = dateStringToDate(inputValue.slice(0, middle));
+                    endDate = dateStringToDate(inputValue.slice(middle));
                 }
 
-                if (
-                    dateIsValid(startDate.toDate()) &&
-                    dateIsValid(endDate.toDate()) &&
-                    startDate.isBefore(endDate)
-                ) {
-                    dates.push(startDate.format(DATE_FORMAT));
-                    dates.push(endDate.format(DATE_FORMAT));
+                if (startDate && endDate && dateIsBefore(startDate, endDate, "date")) {
+                    dates.push(startDate);
+                    dates.push(endDate);
                 }
             }
 
@@ -108,17 +115,21 @@ const Input: React.FC<Props> = (e: Props) => {
                     },
                     e.target
                 );
-                if (dates[1]) changeDayHover(dayjs(dates[1]).add(-1, "day").format(DATE_FORMAT));
-                else changeDayHover(dates[0]);
+
+                if (dates[1]) {
+                    changeDayHover(dateAdd(dates[1], -1, "day"));
+                } else {
+                    changeDayHover(dates[0]);
+                }
             }
 
             changeInputText(e.target.value);
         },
-        [asSingle, displayFormat, separator, changeDatepickerValue, changeDayHover, changeInputText]
+        [asSingle, separator, changeDatepickerValue, changeDayHover, changeInputText]
     );
 
     const handleInputKeyDown = useCallback(
-        (e: React.KeyboardEvent<HTMLInputElement>) => {
+        (e: KeyboardEvent<HTMLInputElement>) => {
             if (e.key === "Enter") {
                 const input = inputRef.current;
                 if (input) {
@@ -158,8 +169,8 @@ const Input: React.FC<Props> = (e: Props) => {
         return typeof toggleClassName === "function"
             ? toggleClassName(defaultToggleClassName)
             : typeof toggleClassName === "string" && toggleClassName !== ""
-            ? toggleClassName
-            : defaultToggleClassName;
+              ? toggleClassName
+              : defaultToggleClassName;
     }, [toggleClassName, buttonRef, classNames]);
 
     // UseEffects && UseLayoutEffect
@@ -273,6 +284,7 @@ const Input: React.FC<Props> = (e: Props) => {
                 className={getClassName()}
                 disabled={disabled}
                 readOnly={readOnly}
+                required={required}
                 placeholder={
                     placeholder
                         ? placeholder

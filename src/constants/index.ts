@@ -1,4 +1,4 @@
-import { ColorKeys, Colors } from "../types";
+import { ColorKeys, Colors, DateLookingType, WeekStringType } from "../types";
 
 export const COLORS = [
     "blue",
@@ -23,19 +23,21 @@ export const COLORS = [
 
 export const DEFAULT_COLOR: ColorKeys = "blue";
 
+export const DEFAULT_SEPARATOR = "~";
+
 export const LANGUAGE = "en";
 
 export const DATE_FORMAT = "YYYY-MM-DD";
 
-export const START_WEEK = "sun";
+export const START_WEEK: WeekStringType = "sun";
 
-export const DATE_LOOKING_OPTIONS = ["forward", "backward", "middle"];
+export const DATE_LOOKING_OPTIONS = ["forward", "backward", "middle"] as const;
 
-export const DAYS = [0, 1, 2, 3, 4, 5, 6];
+export const DEFAULT_DATE_LOOKING: DateLookingType = "forward";
+
+export const DAYS = [0, 1, 2, 3, 4, 5, 6] as const;
 
 export const MONTHS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
-export const CALENDAR_SIZE = 42;
 
 // Beware, these maps of colors cannot be replaced with functions using string interpolation such as `bg-${color}-100`
 // as described in Tailwind documentation https://tailwindcss.com/docs/content-configuration#dynamic-class-names

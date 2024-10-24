@@ -3,25 +3,34 @@
         "target": "esnext",
         "lib": ["dom", "esnext"],
         "module": "esnext",
-        "jsx": "preserve",
+        "skipLibCheck": true,
         "moduleResolution": "node",
-        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "esModuleInterop": true,
+        "noEmit": true,
+        "jsx": "react-jsx",
+        "allowJs": true,
         "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "forceConsistentCasingInFileNames": true,
         "noImplicitReturns": true,
         "allowSyntheticDefaultImports": true,
-        "esModuleInterop": true,
+        "incremental": true,
+        "rootDir": "src",
+        "sourceMap": true,
         "baseUrl": "src/",
         "declaration": true,
+        "declarationDir": "./dist",
         "outDir": "./dist",
         "inlineSources": true,
-        "sourceMap": true,
-        "rootDir": "src",
-        "allowJs": true,
-        "skipLibCheck": true,
-        "noEmit": true,
-        "resolveJsonModule": true,
-        "isolatedModules": true
+        "plugins": [
+            {
+                "name": "next"
+            }
+        ]
     },
-    "include": ["src/**/*"],
+    "include": ["src/**/*", ".next/types/**/*.ts"],
     "exclude": ["node_modules"]
 }
