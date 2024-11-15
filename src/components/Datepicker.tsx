@@ -236,7 +236,7 @@ const Datepicker: React.FC<DatepickerType> = ({
                 setSecondDate(nextMonth(dayjs(startFrom)));
             }
         }
-    }, [asSingle, startFrom, value]);
+    }, [asSingle, startFrom.getDate(), value]);
 
     // Variables
     const safePrimaryColor = useMemo(() => {
