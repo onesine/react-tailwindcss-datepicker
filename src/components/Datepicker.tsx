@@ -50,6 +50,7 @@ const Datepicker = (props: DatepickerType) => {
         inputClassName = null,
         inputId,
         inputName,
+        inputTabIndex,
 
         minDate = undefined,
         maxDate = undefined,
@@ -318,6 +319,7 @@ const Datepicker = (props: DatepickerType) => {
             inputId,
             inputName,
             inputText,
+            inputTabIndex,
             maxDate,
             minDate,
             onChange,
@@ -351,6 +353,7 @@ const Datepicker = (props: DatepickerType) => {
         value,
         disabled,
         inputClassName,
+        inputTabIndex,
         containerClassName,
         toggleClassName,
         toggleIcon,
