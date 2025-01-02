@@ -22,10 +22,10 @@ import {
 } from "../types";
 
 interface DatepickerStore {
-    arrowContainer: RefObject<HTMLDivElement> | null;
+    arrowContainer: RefObject<HTMLDivElement | null> | null;
     asSingle?: boolean;
 
-    calendarContainer: RefObject<HTMLDivElement> | null;
+    calendarContainer: RefObject<HTMLDivElement | null> | null;
     changeDatepickerValue: (value: DateValueType, e?: HTMLInputElement | null | undefined) => void;
     changeDayHover: (day: DateType) => void;
     changeInputText: (text: string) => void;
@@ -43,7 +43,7 @@ interface DatepickerStore {
     hideDatepicker: () => void;
 
     i18n: string;
-    input?: RefObject<HTMLInputElement>;
+    input?: RefObject<HTMLInputElement | null>;
     inputClassName?: ((className: string) => string) | string | null;
     inputId?: string;
     inputName?: string;

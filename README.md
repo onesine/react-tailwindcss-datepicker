@@ -16,27 +16,27 @@
 
 ## Contents
 
--   [Features](#features)
--   [Documentation](#documentation)
--   [Installation](#installation)
--   [Simple Usage](#simple-usage)
--   [Theming Options](#theming-options)
--   [Playground](#playground)
--   [Contributing](#contributing)
+- [Features](#features)
+- [Documentation](#documentation)
+- [Installation](#installation)
+- [Simple Usage](#simple-usage)
+- [Theming Options](#theming-options)
+- [Playground](#playground)
+- [Contributing](#contributing)
 
 ## Features
 
--   ✅ Theming options
--   ✅ Dark mode
--   ✅ Single Date
--   ✅ Single date use Range
--   ✅ Shortcuts
--   ✅ TypeScript support
--   ✅ Localization(i18n)
--   ✅ Date formatting
--   ✅ Disable specific dates
--   ✅ Minimum Date and Maximum Date
--   ✅ Custom shortcuts
+- ✅ Theming options
+- ✅ Dark mode
+- ✅ Single Date
+- ✅ Single date use Range
+- ✅ Shortcuts
+- ✅ TypeScript support
+- ✅ Localization(i18n)
+- ✅ Date formatting
+- ✅ Disable specific dates
+- ✅ Minimum Date and Maximum Date
+- ✅ Custom shortcuts
 
 ## Documentation
 
@@ -156,10 +156,10 @@ See
 
 ## Thanks to
 
--   [Vue Tailwind Datepicker](https://vue-tailwind-datepicker.com/)
--   [React](https://reactjs.org/)
--   [Tailwind CSS](https://tailwindcss.com/)
--   [dayjs](https://day.js.org/)
+- [Vue Tailwind Datepicker](https://vue-tailwind-datepicker.com/)
+- [React](https://reactjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [dayjs](https://day.js.org/)
 
 I thank you in advance for your contribution to this project.
 

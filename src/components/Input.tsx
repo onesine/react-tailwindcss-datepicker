@@ -16,7 +16,7 @@ import { DateType } from "../types";
 import ToggleButton from "./ToggleButton";
 
 type Props = {
-    setContextRef?: (ref: RefObject<HTMLInputElement>) => void;
+    setContextRef?: (ref: RefObject<HTMLInputElement | null>) => void;
 };
 
 const Input = (e: Props) => {

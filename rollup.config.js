@@ -19,5 +19,11 @@ module.exports = {
         }
     ],
     external: ["react", "dayjs"],
-    plugins: [resolve(), commonjs(), typescript({ tsconfig: "./tsconfig.json" })]
+    plugins: [resolve(), commonjs(), typescript({ tsconfig: "./tsconfig.json" })],
+    jsx: {
+        mode: "preserve",
+        factory: "React.createElement",
+        fragment: "React.Fragment",
+        importSource: "react"
+    }
 };

@@ -158,7 +158,9 @@ const Shortcuts = () => {
                                           key as keyof typeof configs.shortcuts
                                       ] === "object"
                                         ? printItemText(item)
-                                        : configs.shortcuts[key as keyof typeof configs.shortcuts]
+                                        : (configs.shortcuts[
+                                              key as keyof typeof configs.shortcuts
+                                          ] as string)
                                     : printItemText(item)}
                             </>
                         </ItemTemplate>
