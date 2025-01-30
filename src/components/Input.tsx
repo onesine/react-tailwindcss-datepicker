@@ -37,6 +37,7 @@ const Input = (e: Props) => {
         separator,
         disabled,
         inputClassName,
+        inputTabIndex,
         toggleClassName,
         toggleIcon,
         readOnly,
@@ -173,6 +174,15 @@ const Input = (e: Props) => {
               : defaultToggleClassName;
     }, [toggleClassName, buttonRef, classNames]);
 
+    const handleOnBlur = useCallback(() => {
+        const input = inputRef.current;
+        if (input) {
+            if (input.tabIndex !== undefined) {
+                hideDatepicker();
+            }
+        }
+    }, [inputTabIndex]);
+
     // UseEffects && UseLayoutEffect
     useEffect(() => {
         if (inputRef && e.setContextRef && typeof e.setContextRef === "function") {
@@ -282,6 +292,7 @@ const Input = (e: Props) => {
                 ref={inputRef}
                 type="text"
                 className={getClassName()}
+                tabIndex={inputTabIndex}
                 disabled={disabled}
                 readOnly={readOnly}
                 required={required}
@@ -297,6 +308,7 @@ const Input = (e: Props) => {
                 role="presentation"
                 onChange={handleInputChange}
                 onKeyDown={handleInputKeyDown}
+                onBlur={handleOnBlur}
             />
 
             <button

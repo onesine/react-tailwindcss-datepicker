@@ -45,6 +45,7 @@ export default function Playground() {
     const [startWeekOn, setStartWeekOn] = useState<WeekStringType>("mon");
     const [required, setRequired] = useState(false);
     const [popoverDirection, setPopoverDirection] = useState<PopoverDirectionType>("down");
+    const [tabIndex, setTabIndex] = useState<number | undefined>(undefined);
 
     return (
         <div className="px-4 py-8">
@@ -114,6 +115,7 @@ export default function Playground() {
                     i18n={i18n}
                     disabled={disabled}
                     inputClassName={inputClassName}
+                    inputTabIndex={tabIndex}
                     containerClassName={containerClassName}
                     toggleClassName={toggleClassName}
                     displayFormat={displayFormat}
@@ -241,6 +243,23 @@ export default function Playground() {
                             />
                             <label className="block" htmlFor="required">
                                 Required
+                            </label>
+                        </div>
+                    </div>
+                    <div className="mb-2 w-1/2 sm:w-full">
+                        <div className="inline-flex items-center">
+                            <input
+                                type="number"
+                                className="mr-2 w-24 rounded"
+                                id="tabIndex"
+                                value={tabIndex}
+                                onChange={function (e) {
+                                    console.log(e.target.value, parseInt(e.target.value));
+                                    return setTabIndex(parseInt(e.target.value));
+                                }}
+                            />
+                            <label className="block" htmlFor="required">
+                                Tab Index
                             </label>
                         </div>
                     </div>

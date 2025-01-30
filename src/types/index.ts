@@ -83,6 +83,7 @@ export interface DatepickerType {
     toggleIcon?: (open: boolean) => ReactNode;
     inputId?: string;
     inputName?: string;
+    inputTabIndex?: number;
     displayFormat?: string;
     readOnly?: boolean;
     minDate?: DateType;

@@ -48,6 +48,7 @@ interface DatepickerStore {
     inputId?: string;
     inputName?: string;
     inputText: string;
+    inputTabIndex?: number;
 
     maxDate?: DateType | null;
     minDate?: DateType | null;
@@ -97,6 +98,7 @@ const DatepickerContext = createContext<DatepickerStore>({
 
     input: undefined,
     inputClassName: "",
+    inputTabIndex: undefined,
 
     inputId: undefined,
     inputName: undefined,
