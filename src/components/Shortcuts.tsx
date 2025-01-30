@@ -21,7 +21,8 @@ const ItemTemplate = memo((props: ItemTemplateProps) => {
         dayHover,
         changeDayHover,
         hideDatepicker,
-        changeDatepickerValue
+        changeDatepickerValue,
+        value
     } = useContext(DatepickerContext);
 
     // Functions
@@ -63,11 +64,31 @@ const ItemTemplate = memo((props: ItemTemplateProps) => {
         ]
     );
 
+    function highlightActiveCell(item: ShortcutsItem | ShortcutsItem[]) {
+        if (Array.isArray(item)) {
+            // Handle array of ShortcutsItem objects
+            return item.map(singleItem => {
+                const { start, end } = singleItem.period;
+                if (start && end && start === value?.startDate && end === value?.endDate) {
+                    return "bg-gray-100 dark:bg-white/10";
+                }
+                return "";
+            });
+        } else {
+            // Handle single ShortcutsItem object
+            const { start, end } = item.period;
+            if (start && end && start === value?.startDate && end === value?.endDate) {
+                return "bg-gray-100 dark:bg-white/10";
+            }
+            return "";
+        }
+    }
+
     const children = props?.children;
 
     return (
         <li
-            className={getClassName()}
+            className={`${getClassName()} ${highlightActiveCell(props?.item)}`}
             onClick={() => {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
