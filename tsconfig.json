@@ -9,7 +9,7 @@
         "isolatedModules": true,
         "esModuleInterop": true,
         "noEmit": true,
-        "jsx": "preserve",
+        "jsx": "react-jsx",
         "allowJs": true,
         "strict": true,
         "noUnusedLocals": true,
