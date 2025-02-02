@@ -19,5 +19,5 @@ module.exports = {
         }
     ],
     external: ["react", "dayjs"],
-    plugins: [resolve(), commonjs(), typescript({ tsconfig: "./tsconfig.json" })]
+    plugins: [resolve(), commonjs(), typescript({ tsconfig: "./tsconfig.rollup.json" })]
 };
