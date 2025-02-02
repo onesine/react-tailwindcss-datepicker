@@ -1,12 +1,4 @@
-import {
-    ChangeEvent,
-    KeyboardEvent,
-    RefObject,
-    useCallback,
-    useContext,
-    useEffect,
-    useRef
-} from "react";
+import { ChangeEvent, KeyboardEvent, useCallback, useContext, useEffect, useRef } from "react";
 
 import { BORDER_COLOR, RING_COLOR } from "../constants";
 import DatepickerContext from "../contexts/DatepickerContext";
@@ -15,11 +7,7 @@ import { DateType } from "../types";
 
 import ToggleButton from "./ToggleButton";
 
-type Props = {
-    setContextRef?: (ref: RefObject<HTMLInputElement>) => void;
-};
-
-const Input = (e: Props) => {
+const Input = () => {
     // Context
     const {
         primaryColor,
@@ -45,7 +33,9 @@ const Input = (e: Props) => {
         inputName,
         classNames,
         popoverDirection,
-        required
+        required,
+        input,
+        setInput
     } = useContext(DatepickerContext);
 
     // UseRefs
@@ -80,7 +70,6 @@ const Input = (e: Props) => {
             const dates: Date[] = [];
 
             if (asSingle) {
-                // const date = parseFormattedDate(inputValue, displayFormat);
                 const date = dateStringToDate(inputValue);
                 if (date) {
                     dates.push(date);
@@ -175,10 +164,10 @@ const Input = (e: Props) => {
 
     // UseEffects && UseLayoutEffect
     useEffect(() => {
-        if (inputRef && e.setContextRef && typeof e.setContextRef === "function") {
-            e.setContextRef(inputRef);
+        if (!input && inputRef?.current) {
+            setInput(inputRef.current);
         }
-    }, [e, inputRef]);
+    }, [input, inputRef, setInput]);
 
     useEffect(() => {
         const button = buttonRef?.current;

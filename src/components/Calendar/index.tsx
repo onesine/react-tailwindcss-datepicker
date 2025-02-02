@@ -101,14 +101,12 @@ const Calendar = (props: Props) => {
             let newEnd = null;
 
             function chosePeriod(start: Date, end: Date) {
-                const ipt = input?.current;
-
                 changeDatepickerValue(
                     {
                         startDate: start,
                         endDate: end
                     },
-                    ipt
+                    input
                 );
 
                 hideDatepicker();

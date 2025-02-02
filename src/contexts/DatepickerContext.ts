@@ -22,11 +22,11 @@ import {
 } from "../types";
 
 interface DatepickerStore {
-    arrowContainer: RefObject<HTMLDivElement> | null;
+    arrowContainer: RefObject<HTMLDivElement | null> | null;
     asSingle?: boolean;
 
-    calendarContainer: RefObject<HTMLDivElement> | null;
-    changeDatepickerValue: (value: DateValueType, e?: HTMLInputElement | null | undefined) => void;
+    calendarContainer: RefObject<HTMLDivElement | null> | null;
+    changeDatepickerValue: (value: DateValueType, e?: HTMLInputElement | null) => void;
     changeDayHover: (day: DateType) => void;
     changeInputText: (text: string) => void;
     changePeriod: (period: Period) => void;
@@ -43,7 +43,7 @@ interface DatepickerStore {
     hideDatepicker: () => void;
 
     i18n: string;
-    input?: RefObject<HTMLInputElement>;
+    input?: HTMLInputElement | null;
     inputClassName?: ((className: string) => string) | string | null;
     inputId?: string;
     inputName?: string;
@@ -63,6 +63,7 @@ interface DatepickerStore {
 
     showFooter?: boolean;
     startWeekOn?: WeekStringType | null;
+    setInput: (value: HTMLInputElement | null) => void;
 
     toggleClassName?: ((className: string) => string) | string | null;
     toggleIcon?: (open: boolean) => ReactNode;
@@ -115,6 +116,7 @@ const DatepickerContext = createContext<DatepickerStore>({
     separator: DEFAULT_SEPARATOR,
     showFooter: false,
     startWeekOn: START_WEEK,
+    setInput: () => {},
 
     toggleClassName: "",
     toggleIcon: undefined,

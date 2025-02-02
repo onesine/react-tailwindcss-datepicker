@@ -1,4 +1,4 @@
-import { createRef, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import Calendar from "../components/Calendar";
 import Footer from "../components/Footer";
@@ -93,10 +93,10 @@ const Datepicker = (props: DatepickerType) => {
     });
     const [dayHover, setDayHover] = useState<DateType>(null);
     const [inputText, setInputText] = useState<string>("");
-    const [inputRef, setInputRef] = useState(createRef<HTMLInputElement>());
+    const [input, setInput] = useState<HTMLInputElement | null>(null);
 
     // Custom Hooks use
-    useOnClickOutside(containerRef, () => {
+    useOnClickOutside(containerRef.current, () => {
         const container = containerRef.current;
         if (container) {
             hideDatepicker();
@@ -313,7 +313,8 @@ const Datepicker = (props: DatepickerType) => {
             displayFormat,
             hideDatepicker,
             i18n: i18n && i18n.length > 0 ? i18n : LANGUAGE,
-            input: inputRef,
+            input,
+            setInput: (value: HTMLInputElement | null) => setInput(value),
             inputClassName,
             inputId,
             inputName,
@@ -336,37 +337,37 @@ const Datepicker = (props: DatepickerType) => {
             value
         };
     }, [
-        asSingle,
-        safePrimaryColor,
-        configs,
-        hideDatepicker,
-        period,
-        dayHover,
-        inputText,
-        onChange,
-        showFooter,
-        placeholder,
-        separator,
-        i18n,
-        value,
-        disabled,
-        inputClassName,
-        containerClassName,
-        toggleClassName,
-        toggleIcon,
-        readOnly,
-        displayFormat,
         minDate,
         maxDate,
+        i18n,
+        asSingle,
+        onChange,
+        classNames,
+        configs,
+        containerClassName,
         dateLooking,
+        dayHover,
+        disabled,
         disabledDates,
+        displayFormat,
+        hideDatepicker,
+        input,
+        inputClassName,
         inputId,
         inputName,
-        startWeekOn,
-        classNames,
-        inputRef,
+        inputText,
+        period,
+        placeholder,
         popoverDirection,
+        safePrimaryColor,
+        readOnly,
         required,
+        separator,
+        showFooter,
+        startWeekOn,
+        toggleClassName,
+        toggleIcon,
+        value,
         firstGotoDate
     ]);
 
@@ -392,7 +393,7 @@ const Datepicker = (props: DatepickerType) => {
     return (
         <DatepickerContext.Provider value={contextValues}>
             <div className={containerClassNameOverload} ref={containerRef}>
-                <Input setContextRef={setInputRef} />
+                <Input />
 
                 <div className={popupClassNameOverload} ref={calendarContainerRef}>
                     <Arrow ref={arrowRef} />

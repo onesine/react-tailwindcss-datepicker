@@ -7,7 +7,7 @@ import SecondaryButton from "./SecondaryButton";
 
 const Footer = () => {
     // Contexts
-    const { hideDatepicker, period, changeDatepickerValue, configs, classNames } =
+    const { hideDatepicker, period, changeDatepickerValue, configs, classNames, input } =
         useContext(DatepickerContext);
 
     // Functions
@@ -33,10 +33,13 @@ const Footer = () => {
                 <PrimaryButton
                     onClick={() => {
                         if (period.start && period.end) {
-                            changeDatepickerValue({
-                                startDate: period.start,
-                                endDate: period.end
-                            });
+                            changeDatepickerValue(
+                                {
+                                    startDate: period.start,
+                                    endDate: period.end
+                                },
+                                input
+                            );
                             hideDatepicker();
                         }
                     }}

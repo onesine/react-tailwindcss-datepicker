@@ -21,7 +21,8 @@ const ItemTemplate = memo((props: ItemTemplateProps) => {
         dayHover,
         changeDayHover,
         hideDatepicker,
-        changeDatepickerValue
+        changeDatepickerValue,
+        input
     } = useContext(DatepickerContext);
 
     // Functions
@@ -43,10 +44,13 @@ const ItemTemplate = memo((props: ItemTemplateProps) => {
                 });
             }
             changePeriod(item);
-            changeDatepickerValue({
-                startDate: item.start,
-                endDate: item.end
-            });
+            changeDatepickerValue(
+                {
+                    startDate: item.start,
+                    endDate: item.end
+                },
+                input
+            );
 
             if (item.start) updateFirstDate(item.start);
             hideDatepicker();
@@ -57,6 +61,7 @@ const ItemTemplate = memo((props: ItemTemplateProps) => {
             changePeriod,
             dayHover,
             hideDatepicker,
+            input,
             period.end,
             period.start,
             updateFirstDate
