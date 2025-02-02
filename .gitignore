@@ -15,7 +15,7 @@ build
 dist
 .rpt2_cache
 .eslintcache
-tsconfig.tsbuildinfo
+tsconfig.rollup.tsbuildinfo
 
 # misc
 .DS_Store
