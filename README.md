@@ -18,6 +18,7 @@
 
 -   [Features](#features)
 -   [Documentation](#documentation)
+-   [Supported versions](#-supported-versions)
 -   [Installation](#installation)
 -   [Simple Usage](#simple-usage)
 -   [Theming Options](#theming-options)
@@ -42,7 +43,7 @@
 
 Go to [full documentation](https://react-tailwindcss-datepicker.vercel.app/)
 
-## Supported Versions
+## ⚠️ Supported versions
 
 Only **react-tailwindcss-datepicker** versions greater than or equal to **1.7.4** receive bug fixes and new features. The table below lists compatibility with the different **react** versions:
 
