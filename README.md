@@ -54,7 +54,7 @@ Only **react-tailwindcss-datepicker** versions greater than or equal to **1.7.4*
 
 ## Installation
 
-⚠️ React Tailwindcss Datepicker uses Tailwind CSS 3 (with the
+React Tailwindcss Datepicker uses Tailwind CSS 3 (with the
 [@tailwindcss/forms](https://github.com/tailwindlabs/tailwindcss-forms) plugin) &
 [Dayjs](https://day.js.org/en/) under the hood to work.
 
