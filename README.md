@@ -69,6 +69,12 @@ npm install react-tailwindcss-datepicker
 yarn add react-tailwindcss-datepicker
 ```
 
+### Install for react 18 project
+
+```
+yarn add react-tailwindcss-datepicker@1.7.3
+```
+
 Make sure you have installed the peer dependencies as well with the below versions.
 
 ```
