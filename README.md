@@ -49,7 +49,7 @@ Only **react-tailwindcss-datepicker** versions greater than or equal to **1.7.4*
 
 | Version                                                                    | React Version |
 |----------------------------------------------------------------------------|---------------|
-| [2.x](https://github.com/onesine/react-tailwindcss-datepicker/tree/v1.7.4) | 19.x          |
+| [2.x](https://github.com/onesine/react-tailwindcss-datepicker/tree/v2.0.0) | 19.x          |
 | [1.x](https://github.com/onesine/react-tailwindcss-datepicker/tree/v1.7.3) | 17.x, 18.x    |
 
 ## Installation
