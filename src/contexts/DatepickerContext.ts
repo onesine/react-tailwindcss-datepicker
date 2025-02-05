@@ -69,6 +69,7 @@ interface DatepickerStore {
     toggleIcon?: (open: boolean) => ReactNode;
 
     updateFirstDate: (date: Date) => void;
+    updateLastDate: (date: Date) => void;
 
     value: DateValueType;
 }
@@ -122,6 +123,7 @@ const DatepickerContext = createContext<DatepickerStore>({
     toggleIcon: undefined,
 
     updateFirstDate: () => {},
+    updateLastDate: () => {},
 
     value: null
 });
