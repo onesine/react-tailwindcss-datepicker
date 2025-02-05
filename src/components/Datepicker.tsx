@@ -334,6 +334,7 @@ const Datepicker = (props: DatepickerType) => {
             toggleClassName,
             toggleIcon,
             updateFirstDate: (newDate: Date) => firstGotoDate(newDate),
+            updateLastDate: (newDate: Date) => secondGotoDate(newDate),
             value
         };
     }, [
@@ -368,7 +369,8 @@ const Datepicker = (props: DatepickerType) => {
         toggleClassName,
         toggleIcon,
         value,
-        firstGotoDate
+        firstGotoDate,
+        secondGotoDate
     ]);
 
     const containerClassNameOverload = useMemo(() => {
