@@ -100,6 +100,13 @@ export default function Playground() {
                                     start: new Date(),
                                     end: new Date(new Date().setDate(new Date().getDate() + 8))
                                 }
+                            },
+                            last6Months: {
+                                text: "Last 6 months",
+                                period: {
+                                    start: new Date(new Date().setMonth(new Date().getMonth() - 6)),
+                                    end: new Date()
+                                }
                             }
                         },
                         footer: {
