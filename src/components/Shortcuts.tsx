@@ -27,13 +27,14 @@ const ItemTemplate = memo((props: ItemTemplateProps) => {
 
     // Functions
     const getClassName = useCallback(
-        (item: Period) => {
+        (item?: Period) => {
             const baseClass =
                 "whitespace-nowrap w-1/2 md:w-1/3 lg:w-auto transition-all duration-300 hover:bg-gray-100 dark:hover:bg-white/10 p-2 rounded cursor-pointer";
 
             const dayIsSameStart =
-                period.start && item.start && dateIsSame(item.start, period.start, "date");
-            const dayIsSameEnd = period.end && item.end && dateIsSame(item.end, period.end, "date");
+                period.start && item?.start && dateIsSame(item.start, period.start, "date");
+            const dayIsSameEnd =
+                period.end && item?.end && dateIsSame(item.end, period.end, "date");
             const isActive = dayIsSameStart && dayIsSameEnd;
 
             const textColorHover = TEXT_COLOR.hover[primaryColor as keyof typeof TEXT_COLOR.hover];
@@ -46,7 +47,7 @@ const ItemTemplate = memo((props: ItemTemplateProps) => {
 
             return `${baseClass} ${textColor} ${textColorHover} ${bgColorActive}`;
         },
-        [primaryColor, changeDatepickerValue, period.end, period.start]
+        [primaryColor, period.end, period.start]
     );
 
     const chosePeriod = useCallback(
@@ -89,11 +90,11 @@ const ItemTemplate = memo((props: ItemTemplateProps) => {
 
     return (
         <li
-            className={getClassName(props?.item.period)}
+            className={getClassName(Array.isArray(props.item) ? undefined : props.item?.period)}
             onClick={() => {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                chosePeriod(props?.item.period);
+                if (!Array.isArray(props.item)) {
+                    chosePeriod(props.item?.period);
+                }
             }}
         >
             {children}
