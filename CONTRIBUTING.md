@@ -65,7 +65,7 @@ npm run dev
 
 ## Before you make a Pull Request
 
-We recommend to run these scripts in sequence before you make your commit message amd open a Pull
+We recommend to run these scripts in sequence before you make your commit message and open a Pull
 Request
 
 **Let's clean the code first**
