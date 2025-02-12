@@ -177,7 +177,6 @@ const Input = () => {
             const input = inputRef.current;
 
             if (input) {
-                input.focus();
                 if (inputText) {
                     changeInputText("");
                     if (dayHover) {
@@ -192,6 +191,8 @@ const Input = () => {
                             input
                         );
                     }
+                } else {
+                    input.focus();
                 }
             }
         }
