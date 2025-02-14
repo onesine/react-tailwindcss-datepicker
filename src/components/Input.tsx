@@ -54,7 +54,7 @@ const Input = () => {
         const ring =
             RING_COLOR["second-focus"][primaryColor as keyof (typeof RING_COLOR)["second-focus"]];
 
-        const defaultInputClassName = `relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring-3 disabled:opacity-40 disabled:cursor-not-allowed ${border} ${ring - 3}`;
+        const defaultInputClassName = `relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring-3 disabled:opacity-40 disabled:cursor-not-allowed ${border} ${ring}`;
 
         return typeof inputClassName === "function"
             ? inputClassName(defaultInputClassName)

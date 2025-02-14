@@ -29,7 +29,7 @@ const ItemTemplate = memo((props: ItemTemplateProps) => {
     const getClassName = useCallback(() => {
         const textColor = TEXT_COLOR["600"][primaryColor as keyof (typeof TEXT_COLOR)["600"]];
         const textColorHover = TEXT_COLOR.hover[primaryColor as keyof typeof TEXT_COLOR.hover];
-        return `whitespace-nowrap w-1/2 md:w-1/3 lg:w-auto transition-all duration-300 hover:bg-gray-100 dark:hover:bg-white/10 p-2 rounded-sm cursor-pointer ${textColor} ${textColorHover}`;
+        return `whitespace-nowrap w-1/2 md:w-1/3 lg:w-auto transition-all duration-300 hover:bg-gray-100 dark:hover:bg-white/10 p-2 rounded cursor-pointer ${textColor} ${textColorHover}`;
     }, [primaryColor]);
 
     const chosePeriod = useCallback(
