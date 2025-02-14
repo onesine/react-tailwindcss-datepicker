@@ -52,7 +52,7 @@ export default function Playground() {
                 <title>react-tailwindcss-datepicker PlayGround</title>
             </Head>
             <h1 className="text-center font-semibold text-xl">
-                <pre className="text-gray-600 text-lg bg-gray-200 max-w-max mx-auto px-2 rounded">
+                <pre className="text-gray-600 text-lg bg-gray-200 max-w-max mx-auto px-2 rounded-sm">
                     react-tailwindcss-datepicker
                 </pre>
                 <span className="text-gray-700">PlayGround</span>
@@ -150,7 +150,7 @@ export default function Playground() {
                         <div className="inline-flex items-center">
                             <input
                                 type="checkbox"
-                                className="mr-2 rounded"
+                                className="mr-2 rounded-sm"
                                 id="useRange"
                                 checked={useRange}
                                 onChange={e => setUseRange(e.target.checked)}
@@ -164,7 +164,7 @@ export default function Playground() {
                         <div className="inline-flex items-center">
                             <input
                                 type="checkbox"
-                                className="mr-2 rounded"
+                                className="mr-2 rounded-sm"
                                 id="showFooter"
                                 checked={showFooter}
                                 onChange={e => setShowFooter(e.target.checked)}
@@ -178,7 +178,7 @@ export default function Playground() {
                         <div className="inline-flex items-center">
                             <input
                                 type="checkbox"
-                                className="mr-2 rounded"
+                                className="mr-2 rounded-sm"
                                 id="showShortcuts"
                                 checked={showShortcuts}
                                 onChange={e => setShowShortcuts(e.target.checked)}
@@ -192,7 +192,7 @@ export default function Playground() {
                         <div className="inline-flex items-center">
                             <input
                                 type="checkbox"
-                                className="mr-2 rounded"
+                                className="mr-2 rounded-sm"
                                 id="asSingle"
                                 checked={asSingle}
                                 onChange={e => setAsSingle(e.target.checked)}
@@ -206,7 +206,7 @@ export default function Playground() {
                         <div className="inline-flex items-center">
                             <input
                                 type="checkbox"
-                                className="mr-2 rounded"
+                                className="mr-2 rounded-sm"
                                 id="disabled"
                                 checked={disabled}
                                 onChange={e => setDisabled(e.target.checked)}
@@ -220,7 +220,7 @@ export default function Playground() {
                         <div className="inline-flex items-center">
                             <input
                                 type="checkbox"
-                                className="mr-2 rounded"
+                                className="mr-2 rounded-sm"
                                 id="readOnly"
                                 checked={readOnly}
                                 onChange={e => setReadOnly(e.target.checked)}
@@ -234,7 +234,7 @@ export default function Playground() {
                         <div className="inline-flex items-center">
                             <input
                                 type="checkbox"
-                                className="mr-2 rounded"
+                                className="mr-2 rounded-sm"
                                 id="required"
                                 checked={required}
                                 onChange={e => setRequired(e.target.checked)}
@@ -252,7 +252,7 @@ export default function Playground() {
                             Primary Color
                         </label>
                         <select
-                            className="rounded block w-full border-gray-200 border px-4 py-2"
+                            className="rounded-sm block w-full border-gray-200 border px-4 py-2"
                             id="primaryColor"
                             value={primaryColor}
                             onChange={e => {
@@ -272,7 +272,7 @@ export default function Playground() {
                             Placeholder
                         </label>
                         <input
-                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            className="rounded-sm border px-4 py-2 w-full border-gray-200"
                             id="placeholder"
                             value={placeholder}
                             onChange={e => {
@@ -286,7 +286,7 @@ export default function Playground() {
                             Separator
                         </label>
                         <input
-                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            className="rounded-sm border px-4 py-2 w-full border-gray-200"
                             id="separator"
                             value={separator}
                             onChange={e => {
@@ -300,7 +300,7 @@ export default function Playground() {
                             Start From
                         </label>
                         <input
-                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            className="rounded-sm border px-4 py-2 w-full border-gray-200"
                             id="startFrom"
                             type="date"
                             value={startFrom}
@@ -315,7 +315,7 @@ export default function Playground() {
                             Minimum Date
                         </label>
                         <input
-                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            className="rounded-sm border px-4 py-2 w-full border-gray-200"
                             id="minDate"
                             type="date"
                             max={maxDate}
@@ -331,7 +331,7 @@ export default function Playground() {
                             Maximum Date
                         </label>
                         <input
-                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            className="rounded-sm border px-4 py-2 w-full border-gray-200"
                             id="maxDate"
                             type="date"
                             min={minDate}
@@ -347,7 +347,7 @@ export default function Playground() {
                             Date Looking
                         </label>
                         <select
-                            className="rounded block w-full border-gray-200 border px-4 py-2"
+                            className="rounded-sm block w-full border-gray-200 border px-4 py-2"
                             id="dateLooking"
                             value={dateLooking}
                             onChange={e => {
@@ -369,7 +369,7 @@ export default function Playground() {
                             i18n
                         </label>
                         <input
-                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            className="rounded-sm border px-4 py-2 w-full border-gray-200"
                             id="i18n"
                             value={i18n}
                             onChange={e => {
@@ -383,7 +383,7 @@ export default function Playground() {
                             Display Format
                         </label>
                         <input
-                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            className="rounded-sm border px-4 py-2 w-full border-gray-200"
                             id="displayFormat"
                             value={displayFormat}
                             onChange={e => {
@@ -397,7 +397,7 @@ export default function Playground() {
                             Input Class
                         </label>
                         <input
-                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            className="rounded-sm border px-4 py-2 w-full border-gray-200"
                             id="inputClassName"
                             value={inputClassName}
                             onChange={e => {
@@ -411,7 +411,7 @@ export default function Playground() {
                             Container Class
                         </label>
                         <input
-                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            className="rounded-sm border px-4 py-2 w-full border-gray-200"
                             id="containerClassName"
                             value={containerClassName}
                             onChange={e => {
@@ -425,7 +425,7 @@ export default function Playground() {
                             Toggle Class
                         </label>
                         <input
-                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            className="rounded-sm border px-4 py-2 w-full border-gray-200"
                             id="toggleClassName"
                             value={toggleClassName}
                             onChange={e => {
@@ -440,7 +440,7 @@ export default function Playground() {
                         </label>
 
                         <select
-                            className="rounded block w-full border-gray-200 border px-4 py-2"
+                            className="rounded-sm block w-full border-gray-200 border px-4 py-2"
                             id="startWeekOnClassName"
                             value={startWeekOn}
                             onChange={e => {
@@ -461,7 +461,7 @@ export default function Playground() {
                         </label>
 
                         <select
-                            className="rounded block w-full border-gray-200 border px-4 py-2"
+                            className="rounded-sm block w-full border-gray-200 border px-4 py-2"
                             id="startWeekOnClassName"
                             value={popoverDirection}
                             onChange={e => {
@@ -491,7 +491,7 @@ export default function Playground() {
                             </label>
 
                             <input
-                                className="rounded border px-4 py-2 border-gray-200 sm:w-full w-full"
+                                className="rounded-sm border px-4 py-2 border-gray-200 sm:w-full w-full"
                                 id="startDate"
                                 type="date"
                                 value={newDisabledDates.startDate}
@@ -513,7 +513,7 @@ export default function Playground() {
                             </label>
 
                             <input
-                                className="rounded border px-4 py-2 border-gray-200 sm:w-full w-full"
+                                className="rounded-sm border px-4 py-2 border-gray-200 sm:w-full w-full"
                                 id="endDate"
                                 type="date"
                                 value={newDisabledDates.endDate}
