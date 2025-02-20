@@ -13,7 +13,7 @@ import { Period, DatepickerType, ColorKeys } from "../types";
 
 import { Arrow, VerticalDash } from "./utils";
 
-const Datepicker: React.FC<DatepickerType> = ({
+const Datepicker = ({
     primaryColor = "blue",
     value = null,
     onChange,
@@ -22,7 +22,7 @@ const Datepicker: React.FC<DatepickerType> = ({
     showShortcuts = false,
     configs = undefined,
     asSingle = false,
-    placeholder = null,
+    placeholder = undefined,
     separator = "~",
     startFrom = null,
     i18n = LANGUAGE,
@@ -44,7 +44,7 @@ const Datepicker: React.FC<DatepickerType> = ({
     classNames = undefined,
     popoverDirection = undefined,
     inline = false
-}) => {
+}: DatepickerType) => {
     // Ref
     const containerRef = useRef<HTMLDivElement | null>(null);
     const calendarContainerRef = useRef<HTMLDivElement | null>(null);
