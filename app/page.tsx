@@ -11,6 +11,7 @@ import Datepicker, {
     PopoverDirectionType,
     WeekStringType
 } from "../src";
+import CloseIcon from "../src/components/icons/CloseIcon";
 import { COLORS, DATE_LOOKING_OPTIONS } from "../src/constants";
 import { dateFormat, dateIsValid } from "../src/libs/date";
 
@@ -45,6 +46,8 @@ export default function Playground() {
     const [startWeekOn, setStartWeekOn] = useState<WeekStringType>("mon");
     const [required, setRequired] = useState(false);
     const [popoverDirection, setPopoverDirection] = useState<PopoverDirectionType>("down");
+    const [appendToBody, setAppendToBody] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
         <div className="px-4 py-8">
@@ -57,6 +60,36 @@ export default function Playground() {
                 </pre>
                 <span className="text-gray-700">PlayGround</span>
             </h1>
+
+            {/* Modal */}
+            {isModalOpen && appendToBody && (
+                <>
+                    <div className="fixed inset-0 bg-black bg-opacity-50 z-40" />
+                    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto">
+                        <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 relative">
+                            <h2 className="text-xl font-bold mb-4">Datepicker in Modal</h2>
+                            <p className="mb-4 text-gray-600">
+                                Using appendToBody prevents the datepicker from being cut off by
+                                modal overflow
+                            </p>
+                            <div className="mb-4">
+                                <Datepicker
+                                    value={value}
+                                    onChange={setValue}
+                                    appendToBody
+                                    displayFormat="MMM DD, YYYY"
+                                />
+                            </div>
+                            <button
+                                onClick={() => setIsModalOpen(false)}
+                                className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+                            >
+                                <CloseIcon className="w-6 h-6" />
+                            </button>
+                        </div>
+                    </div>
+                </>
+            )}
 
             <div className="max-w-md mx-auto my-4">
                 <Datepicker
@@ -107,6 +140,7 @@ export default function Playground() {
                             apply: "AText"
                         }
                     }}
+                    appendToBody={appendToBody}
                     asSingle={asSingle}
                     placeholder={placeholder}
                     separator={separator}
@@ -128,20 +162,6 @@ export default function Playground() {
                     }}
                     popoverDirection={popoverDirection}
                     required={required}
-                    // classNames={{
-                    //     input: ({ disabled, readOnly, className }) => {
-                    //         if (disabled) {
-                    //             return "opacity-40";
-                    //         }
-                    //         return `className`;
-                    //     },
-                    //     toggleButton: () => {
-                    //         return "bg-blue-300 ease-in-out";
-                    //     },
-                    //     footer: () => {
-                    //         return `p-4 border-t border-gray-600 flex flex-row flex-wrap justify-end`;
-                    //     }
-                    // }}
                 />
             </div>
             <div className="py-4 max-w-3xl mx-auto flex flex-row flex-wrap">
@@ -244,6 +264,31 @@ export default function Playground() {
                             </label>
                         </div>
                     </div>
+                    <div className="mb-2 w-1/2 sm:w-full">
+                        <div className="inline-flex items-center">
+                            <input
+                                type="checkbox"
+                                className="mr-2 rounded"
+                                id="appendToBody"
+                                checked={appendToBody}
+                                onChange={e => setAppendToBody(e.target.checked)}
+                            />
+                            <label className="block" htmlFor="appendToBody">
+                                Append To Body
+                            </label>
+                        </div>
+                    </div>
+
+                    {appendToBody && (
+                        <div className="text-center mb-8">
+                            <button
+                                onClick={() => setIsModalOpen(true)}
+                                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                            >
+                                Open Calendar In Modal
+                            </button>
+                        </div>
+                    )}
                 </div>
 
                 <div className="w-full sm:w-1/3 pr-2 flex flex-col">
