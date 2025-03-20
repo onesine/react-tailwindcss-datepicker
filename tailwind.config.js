@@ -1,10 +1,9 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
     content: ["./app/**/*.{js,ts,jsx,tsx}", "./src/**/*.{js,ts,jsx,tsx}"],
     darkMode: "media",
-    theme: {},
-    variants: {},
-    /* eslint-disable @typescript-eslint/no-require-imports */
+    theme: {
+        extend: {}
+    },
     plugins: [require("@tailwindcss/forms")]
-    /* eslint-enable @typescript-eslint/no-require-imports */
 };
