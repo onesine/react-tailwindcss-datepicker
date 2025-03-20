@@ -249,7 +249,7 @@ const Input = () => {
                     div.classList.remove("translate-y-4");
                     div.classList.remove("opacity-0");
                     div.classList.add("translate-y-0");
-                    div.classList.add("opacity-1");
+                    div.classList.add("opacity-100");
                 }, 1);
             }
         }

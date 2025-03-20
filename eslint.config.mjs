@@ -28,6 +28,19 @@ export default [
                     jsx: true
                 },
                 sourceType: 'module'
+            },
+            globals: {
+                window: 'readonly',
+                setTimeout: 'readonly',
+                clearTimeout: 'readonly',
+                setInterval: 'readonly',
+                clearInterval: 'readonly',
+                console: 'readonly',
+                document: 'readonly',
+                HTMLDivElement: 'readonly',
+                HTMLInputElement: 'readonly',
+                HTMLButtonElement: 'readonly',
+                Event: 'readonly'
             }
         },
         plugins: {

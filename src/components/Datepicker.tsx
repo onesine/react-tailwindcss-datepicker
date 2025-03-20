@@ -110,7 +110,7 @@ const Datepicker = (props: DatepickerType) => {
         if (arrow && div && div.classList.contains("block")) {
             div.classList.remove("block");
             div.classList.remove("translate-y-0");
-            div.classList.remove("opacity-1");
+            div.classList.remove("opacity-100");
             div.classList.add("translate-y-4");
             div.classList.add("opacity-0");
             setTimeout(() => {
