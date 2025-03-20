@@ -74,7 +74,6 @@ const ItemTemplate = memo((props: ItemTemplateProps) => {
         <li
             className={getClassName()}
             onClick={() => {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 chosePeriod(props?.item.period);
             }}

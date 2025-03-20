@@ -13,7 +13,7 @@
         "lint": "eslint .",
         "lint:fix": "eslint --fix .",
         "pret:fix": "prettier --write .",
-        "build": "npm run lint && npm run clean && rollup -c rollup.config.js --bundleConfigAsCjs",
+        "build": "npm run lint && npm run clean && rollup -c rollup.config.mjs --bundleConfigAsCjs",
         "pub": "npm run build && np --no-tests",
         "dev": "next dev -p 8888",
         "prepare": "husky"

@@ -10,7 +10,17 @@ import reactRefreshPlugin from "eslint-plugin-react-refresh";
 
 export default [
     {
-        ignores: ["dist/**", "assets/**", "styles/**", "README.md"]
+        ignores: [
+            "dist/**",
+            "assets/**",
+            "styles/**",
+            "README.md",
+            ".next/**/*",
+            "build/**/*",
+            "node_modules/**/*",
+            ".rollup.cache/**/*",
+            "coverage/**/*"
+        ]
     },
     eslint.configs.recommended,
     {
@@ -35,7 +45,10 @@ export default [
                 HTMLDivElement: "readonly",
                 HTMLInputElement: "readonly",
                 HTMLButtonElement: "readonly",
-                Event: "readonly"
+                Event: "readonly",
+                MouseEvent: "readonly",
+                TouchEvent: "readonly",
+                Node: "readonly"
             }
         },
         plugins: {
@@ -71,7 +84,14 @@ export default [
             "react-refresh/only-export-components": "warn",
             "react-hooks/rules-of-hooks": "error",
             "@typescript-eslint/no-var-requires": 0,
-            "prettier/prettier": ["error", { endOfLine: "auto" }, { usePrettierrc: true }]
+            "prettier/prettier": ["error", { endOfLine: "auto" }, { usePrettierrc: true }],
+            "@typescript-eslint/no-unused-vars": ["error", {
+                "argsIgnorePattern": "^_",
+                "varsIgnorePattern": "^_",
+                "ignoreRestSiblings": true
+            }],
+            "no-unused-vars": "off",
+            "no-undef": "off"
         }
     },
     {
