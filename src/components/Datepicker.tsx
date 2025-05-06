@@ -268,6 +268,24 @@ const Datepicker = (props: DatepickerType) => {
         }
     }, [asSingle, startFrom, value]);
 
+    useEffect(() => {
+        const handleEscapeKey = (event: KeyboardEvent) => {
+            const container = calendarContainerRef.current;
+
+            if (!container || !container.classList.contains("block") || event.key !== "Escape") {
+                return;
+            }
+
+            hideDatepicker();
+        };
+
+        document.addEventListener("keydown", handleEscapeKey);
+
+        return () => {
+            document.removeEventListener("keydown", handleEscapeKey);
+        };
+    }, [hideDatepicker]);
+
     // Variables
     const safePrimaryColor = useMemo(() => {
         if (COLORS.includes(primaryColor)) {

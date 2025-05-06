@@ -172,38 +172,37 @@ const Input = () => {
     useEffect(() => {
         const button = buttonRef?.current;
 
+        if (!button) return;
+
         function focusInput(e: Event) {
             e.stopPropagation();
             const input = inputRef.current;
 
-            if (input) {
-                input.focus();
-                if (inputText) {
-                    changeInputText("");
-                    if (dayHover) {
-                        changeDayHover(null);
-                    }
-                    if (period.start && period.end) {
-                        changeDatepickerValue(
-                            {
-                                startDate: null,
-                                endDate: null
-                            },
-                            input
-                        );
-                    }
-                }
+            if (!input) return;
+
+            input.focus();
+
+            if (!inputText) return;
+
+            changeInputText("");
+            if (dayHover) {
+                changeDayHover(null);
+            }
+            if (period.start && period.end) {
+                changeDatepickerValue(
+                    {
+                        startDate: null,
+                        endDate: null
+                    },
+                    input
+                );
             }
         }
 
-        if (button) {
-            button.addEventListener("click", focusInput);
-        }
+        button.addEventListener("click", focusInput);
 
         return () => {
-            if (button) {
-                button.removeEventListener("click", focusInput);
-            }
+            button.removeEventListener("click", focusInput);
         };
     }, [
         changeDatepickerValue,
