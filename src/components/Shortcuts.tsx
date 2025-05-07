@@ -1,9 +1,9 @@
 import { memo, ReactNode, useCallback, useContext, useMemo } from "react";
 
-import { TEXT_COLOR } from "../constants";
+import { BG_COLOR, TEXT_COLOR } from "../constants";
 import DEFAULT_SHORTCUTS from "../constants/shortcuts";
 import DatepickerContext from "../contexts/DatepickerContext";
-import { dateIsSameOrBefore } from "../libs/date";
+import { dateIsSame, dateIsSameOrBefore } from "../libs/date";
 import { Period, ShortcutsItem } from "../types";
 
 interface ItemTemplateProps {
@@ -26,11 +26,29 @@ const ItemTemplate = memo((props: ItemTemplateProps) => {
     } = useContext(DatepickerContext);
 
     // Functions
-    const getClassName = useCallback(() => {
-        const textColor = TEXT_COLOR["600"][primaryColor as keyof (typeof TEXT_COLOR)["600"]];
-        const textColorHover = TEXT_COLOR.hover[primaryColor as keyof typeof TEXT_COLOR.hover];
-        return `whitespace-nowrap w-1/2 md:w-1/3 lg:w-auto transition-all duration-300 hover:bg-gray-100 dark:hover:bg-white/10 p-2 rounded cursor-pointer ${textColor} ${textColorHover}`;
-    }, [primaryColor]);
+    const getClassName = useCallback(
+        (item?: Period) => {
+            const baseClass =
+                "whitespace-nowrap w-1/2 md:w-1/3 lg:w-auto transition-all duration-300 hover:bg-gray-100 dark:hover:bg-white/10 p-2 rounded cursor-pointer";
+
+            const dayIsSameStart =
+                period.start && item?.start && dateIsSame(item.start, period.start, "date");
+            const dayIsSameEnd =
+                period.end && item?.end && dateIsSame(item.end, period.end, "date");
+            const isActive = dayIsSameStart && dayIsSameEnd;
+
+            const textColorHover = TEXT_COLOR.hover[primaryColor as keyof typeof TEXT_COLOR.hover];
+            const bgColorActive = isActive
+                ? BG_COLOR["500"][primaryColor as keyof (typeof BG_COLOR)["500"]]
+                : "";
+            const textColor = isActive
+                ? "text-white"
+                : TEXT_COLOR["600"][primaryColor as keyof (typeof TEXT_COLOR)["600"]];
+
+            return `${baseClass} ${textColor} ${textColorHover} ${bgColorActive}`;
+        },
+        [primaryColor, period.end, period.start]
+    );
 
     const chosePeriod = useCallback(
         (item: Period) => {
@@ -72,11 +90,11 @@ const ItemTemplate = memo((props: ItemTemplateProps) => {
 
     return (
         <li
-            className={getClassName()}
+            className={getClassName(Array.isArray(props.item) ? undefined : props.item?.period)}
             onClick={() => {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                chosePeriod(props?.item.period);
+                if (!Array.isArray(props.item)) {
+                    chosePeriod(props.item?.period);
+                }
             }}
         >
             {children}
