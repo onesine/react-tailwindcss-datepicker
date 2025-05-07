@@ -196,25 +196,7 @@ const Datepicker = (props: DatepickerType) => {
     );
     /* End Second */
 
-    // UseEffects & UseLayoutEffect
-    useEffect(() => {
-        const container = containerRef.current;
-        const calendarContainer = calendarContainerRef.current;
-        const arrow = arrowRef.current;
-
-        if (container && calendarContainer && arrow) {
-            const detail = container.getBoundingClientRect();
-            const screenCenter = window.innerWidth / 2;
-            const containerCenter = (detail.right - detail.x) / 2 + detail.x;
-
-            if (containerCenter > screenCenter) {
-                arrow.classList.add("right-0");
-                arrow.classList.add("mr-3.5");
-                calendarContainer.classList.add("right-0");
-            }
-        }
-    }, []);
-
+    
     useEffect(() => {
         if (value && value.startDate && value.endDate) {
             if (dateIsSameOrBefore(value.startDate, value.endDate, "date")) {

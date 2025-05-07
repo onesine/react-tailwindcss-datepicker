@@ -222,18 +222,28 @@ const Input = () => {
 
         function showCalendarContainer() {
             if (arrow && div && div.classList.contains("hidden")) {
+                
                 div.classList.remove("hidden");
                 div.classList.add("block");
 
-                // window.innerWidth === 767
                 const popoverOnUp = popoverDirection == "up";
-                const popoverOnDown = popoverDirection === "down";
-                if (
-                    popoverOnUp ||
+                const popoverOnDown = popoverDirection === "down";            
+                const calendarPosition = div.getBoundingClientRect();
+                const body = document.querySelector('body')!;
+                const bodyPosition = body.getBoundingClientRect();
+                const calcPosition = Math.ceil(calendarPosition.right - bodyPosition.right);
+                const finalPosition = calcPosition > 0 ? calcPosition : 0;
+                const leftPositionCalendar = `left:-${finalPosition}px`;
+                const leftPositionArrow = `left:${finalPosition}px`;
+                if(((calendarPosition.right > bodyPosition.right) || (calendarPosition.left < bodyPosition.left)) && window.innerWidth > 767) {                    
+                    div.setAttribute("style",leftPositionCalendar);
+                    arrow.setAttribute("style",leftPositionArrow);
+                }
+
+                if (popoverOnUp ||
                     (window.innerWidth > 767 &&
-                        window.screen.height - 100 < div.getBoundingClientRect().bottom &&
-                        !popoverOnDown)
-                ) {
+                        window.screen.height - 100 < calendarPosition.bottom &&
+                        !popoverOnDown)) {
                     div.classList.add("bottom-full");
                     div.classList.add("mb-2.5");
                     div.classList.remove("mt-2.5");
@@ -243,7 +253,6 @@ const Input = () => {
                     arrow.classList.remove("border-l");
                     arrow.classList.remove("border-t");
                 }
-
                 setTimeout(() => {
                     div.classList.remove("translate-y-4");
                     div.classList.remove("opacity-0");
