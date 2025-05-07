@@ -18,6 +18,7 @@ const ItemTemplate = memo((props: ItemTemplateProps) => {
         period,
         changePeriod,
         updateFirstDate,
+        updateLastDate,
         dayHover,
         changeDayHover,
         hideDatepicker,
@@ -53,6 +54,7 @@ const ItemTemplate = memo((props: ItemTemplateProps) => {
             );
 
             if (item.start) updateFirstDate(item.start);
+            if (item.end) updateLastDate(item.end);
             hideDatepicker();
         },
         [
@@ -64,7 +66,8 @@ const ItemTemplate = memo((props: ItemTemplateProps) => {
             input,
             period.end,
             period.start,
-            updateFirstDate
+            updateFirstDate,
+            updateLastDate
         ]
     );
 
