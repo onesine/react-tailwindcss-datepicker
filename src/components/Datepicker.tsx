@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 import Calendar from "../components/Calendar";
 import Footer from "../components/Footer";
@@ -74,7 +75,9 @@ const Datepicker = (props: DatepickerType) => {
         toggleIcon = undefined,
 
         useRange = true,
-        value = null
+        value = null,
+
+        appendToBody = false
     } = props;
 
     // Refs
@@ -96,11 +99,13 @@ const Datepicker = (props: DatepickerType) => {
     const [input, setInput] = useState<HTMLInputElement | null>(null);
 
     // Custom Hooks use
-    useOnClickOutside(containerRef.current, () => {
+    useOnClickOutside(containerRef.current, event => {
         const container = containerRef.current;
-        if (container) {
-            hideDatepicker();
-        }
+        const calendar = calendarContainerRef.current;
+
+        if (calendar && calendar.contains(event?.target as Node)) return;
+
+        if (container) hideDatepicker();
     });
 
     // Functions
@@ -352,7 +357,8 @@ const Datepicker = (props: DatepickerType) => {
             toggleClassName,
             toggleIcon,
             updateFirstDate: (newDate: Date) => firstGotoDate(newDate),
-            value
+            value,
+            appendToBody
         };
     }, [
         minDate,
@@ -386,7 +392,8 @@ const Datepicker = (props: DatepickerType) => {
         toggleClassName,
         toggleIcon,
         value,
-        firstGotoDate
+        firstGotoDate,
+        appendToBody
     ]);
 
     const containerClassNameOverload = useMemo(() => {
@@ -408,56 +415,124 @@ const Datepicker = (props: DatepickerType) => {
               : defaultPopupClassName;
     }, [popupClassName]);
 
+    const calculatePosition = useCallback(() => {
+        if (!appendToBody || !input) return {};
+
+        const inputRect = input.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+
+        return {
+            position: "fixed" as const,
+            top: inputRect.bottom + scrollTop + 1,
+            left: inputRect.left + scrollLeft,
+            zIndex: 1000
+        };
+    }, [appendToBody, input]);
+
     return (
         <DatepickerContext.Provider value={contextValues}>
             <div className={containerClassNameOverload} ref={containerRef}>
                 <Input />
 
-                <div className={popupClassNameOverload} ref={calendarContainerRef}>
-                    <Arrow ref={arrowRef} />
+                {appendToBody ? (
+                    createPortal(
+                        <div
+                            className={popupClassNameOverload}
+                            ref={calendarContainerRef}
+                            style={calculatePosition()}
+                        >
+                            <Arrow ref={arrowRef} />
+                            <div className="mt-2.5 shadow-sm border border-gray-300 px-1 py-0.5 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600 rounded-lg">
+                                <div className="flex flex-col lg:flex-row py-2">
+                                    {showShortcuts && <Shortcuts />}
 
-                    <div className="mt-2.5 shadow-sm border border-gray-300 px-1 py-0.5 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600 rounded-lg">
-                        <div className="flex flex-col lg:flex-row py-2">
-                            {showShortcuts && <Shortcuts />}
-
-                            <div
-                                className={`flex items-stretch flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-1.5 ${
-                                    showShortcuts ? "md:pl-2" : "md:pl-1"
-                                } pr-2 lg:pr-1`}
-                            >
-                                <Calendar
-                                    date={firstDate}
-                                    onClickPrevious={previousMonthFirst}
-                                    onClickNext={nextMonthFirst}
-                                    changeMonth={changeFirstMonth}
-                                    changeYear={changeFirstYear}
-                                    minDate={minDate}
-                                    maxDate={maxDate}
-                                />
-
-                                {useRange && (
-                                    <>
-                                        <div className="flex items-center">
-                                            <VerticalDash />
-                                        </div>
-
+                                    <div
+                                        className={`flex items-stretch flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-1.5 ${
+                                            showShortcuts ? "md:pl-2" : "md:pl-1"
+                                        } pr-2 lg:pr-1`}
+                                    >
                                         <Calendar
-                                            date={secondDate}
-                                            onClickPrevious={previousMonthSecond}
-                                            onClickNext={nextMonthSecond}
-                                            changeMonth={changeSecondMonth}
-                                            changeYear={changeSecondYear}
+                                            date={firstDate}
+                                            onClickPrevious={previousMonthFirst}
+                                            onClickNext={nextMonthFirst}
+                                            changeMonth={changeFirstMonth}
+                                            changeYear={changeFirstYear}
                                             minDate={minDate}
                                             maxDate={maxDate}
                                         />
-                                    </>
-                                )}
-                            </div>
-                        </div>
 
-                        {showFooter && <Footer />}
+                                        {useRange && (
+                                            <>
+                                                <div className="flex items-center">
+                                                    <VerticalDash />
+                                                </div>
+
+                                                <Calendar
+                                                    date={secondDate}
+                                                    onClickPrevious={previousMonthSecond}
+                                                    onClickNext={nextMonthSecond}
+                                                    changeMonth={changeSecondMonth}
+                                                    changeYear={changeSecondYear}
+                                                    minDate={minDate}
+                                                    maxDate={maxDate}
+                                                />
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {showFooter && <Footer />}
+                            </div>
+                        </div>,
+                        document.body
+                    )
+                ) : (
+                    <div className={popupClassNameOverload} ref={calendarContainerRef}>
+                        <Arrow ref={arrowRef} />
+                        <div className="mt-2.5 shadow-sm border border-gray-300 px-1 py-0.5 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600 rounded-lg">
+                            <div className="flex flex-col lg:flex-row py-2">
+                                {showShortcuts && <Shortcuts />}
+
+                                <div
+                                    className={`flex items-stretch flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-1.5 ${
+                                        showShortcuts ? "md:pl-2" : "md:pl-1"
+                                    } pr-2 lg:pr-1`}
+                                >
+                                    <Calendar
+                                        date={firstDate}
+                                        onClickPrevious={previousMonthFirst}
+                                        onClickNext={nextMonthFirst}
+                                        changeMonth={changeFirstMonth}
+                                        changeYear={changeFirstYear}
+                                        minDate={minDate}
+                                        maxDate={maxDate}
+                                    />
+
+                                    {useRange && (
+                                        <>
+                                            <div className="flex items-center">
+                                                <VerticalDash />
+                                            </div>
+
+                                            <Calendar
+                                                date={secondDate}
+                                                onClickPrevious={previousMonthSecond}
+                                                onClickNext={nextMonthSecond}
+                                                changeMonth={changeSecondMonth}
+                                                changeYear={changeSecondYear}
+                                                minDate={minDate}
+                                                maxDate={maxDate}
+                                            />
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+
+                            {showFooter && <Footer />}
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
         </DatepickerContext.Provider>
     );
