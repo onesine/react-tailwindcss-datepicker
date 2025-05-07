@@ -511,9 +511,20 @@ export function dateFormat(date: DateType, format: string, local = "en") {
 }
 
 export function dateStringToDate(dateString: string) {
+    /* Formats yyyy-MM-dd or yyyy/MM/dd */
+    const isValidDateFormat = /^\d{4}[-/]\d{2}[-/]\d{2}$|^\d{2}[-/]\d{2}[-/]\d{4}$/.test(
+        dateString
+    );
+
+    if (!isValidDateFormat) {
+        return null;
+    }
+
     const parseDate = dayjs(dateString);
 
-    if (!parseDate.isValid()) return null;
+    if (!parseDate.isValid()) {
+        return null;
+    }
 
     return parseDate.toDate();
 }
