@@ -7,6 +7,8 @@ import { DateType } from "../types";
 
 import ToggleButton from "./ToggleButton";
 
+const dateRegex = /^\d{4}[-/]\d{2}[-/]\d{2}$|^\d{2}[-/]\d{2}[-/]\d{4}$/;
+
 const Input = () => {
     // Context
     const {
@@ -70,24 +72,31 @@ const Input = () => {
             const dates: Date[] = [];
 
             if (asSingle) {
-                const date = dateStringToDate(inputValue);
-                if (date) {
-                    dates.push(date);
+                if (dateRegex.test(inputValue)) {
+                    const date = dateStringToDate(inputValue);
+                    if (date) {
+                        dates.push(date);
+                    }
                 }
             } else {
-                const parsed = inputValue.split(separator);
+                const parsed = inputValue.split(separator).map(str => str.trim());
 
-                let startDate: DateType;
-                let endDate: DateType;
+                let startDate: DateType | undefined;
+                let endDate: DateType | undefined;
 
                 if (parsed.length === 2) {
-                    dateStringToDate(parsed[0]);
-                    startDate = dateStringToDate(parsed[0]);
-                    endDate = dateStringToDate(parsed[1]);
+                    if (dateRegex.test(parsed[0]) && dateRegex.test(parsed[1])) {
+                        startDate = dateStringToDate(parsed[0]);
+                        endDate = dateStringToDate(parsed[1]);
+                    }
                 } else {
                     const middle = Math.floor(inputValue.length / 2);
-                    startDate = dateStringToDate(inputValue.slice(0, middle));
-                    endDate = dateStringToDate(inputValue.slice(middle));
+                    const firstPart = inputValue.slice(0, middle);
+                    const secondPart = inputValue.slice(middle);
+                    if (dateRegex.test(firstPart) && dateRegex.test(secondPart)) {
+                        startDate = dateStringToDate(firstPart);
+                        endDate = dateStringToDate(secondPart);
+                    }
                 }
 
                 if (startDate && endDate && dateIsBefore(startDate, endDate, "date")) {
