@@ -67,6 +67,7 @@ interface DatepickerStore {
 
     toggleClassName?: ((className: string) => string) | string | null;
     toggleIcon?: (open: boolean) => ReactNode;
+    timezone?: string;
 
     updateFirstDate: (date: Date) => void;
 
@@ -120,6 +121,7 @@ const DatepickerContext = createContext<DatepickerStore>({
 
     toggleClassName: "",
     toggleIcon: undefined,
+    timezone: undefined,
 
     updateFirstDate: () => {},
 

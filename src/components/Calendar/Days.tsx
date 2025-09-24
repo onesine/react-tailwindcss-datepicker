@@ -38,17 +38,18 @@ const Days = (props: Props) => {
         changeDayHover,
         minDate,
         maxDate,
-        disabledDates
+        disabledDates,
+        timezone
     } = useContext(DatepickerContext);
 
     // Functions
     const currentDateClass = useCallback(
         (day: Date) => {
-            if (isCurrentDay(day))
+            if (isCurrentDay(day, timezone))
                 return TEXT_COLOR["500"][primaryColor as keyof (typeof TEXT_COLOR)["500"]];
             return "";
         },
-        [primaryColor]
+        [primaryColor, timezone]
     );
 
     const activeDateData = useCallback(

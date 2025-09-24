@@ -24,6 +24,7 @@ import {
     dateUpdateMonth,
     dateUpdateYear,
     firstDayOfMonth,
+    isValidTimezone,
     nextMonthBy,
     previousMonthBy
 } from "../libs/date";
@@ -74,7 +75,8 @@ const Datepicker = (props: DatepickerType) => {
         toggleIcon = undefined,
 
         useRange = true,
-        value = null
+        value = null,
+        timezone = undefined
     } = props;
 
     // Refs
@@ -224,10 +226,10 @@ const Datepicker = (props: DatepickerType) => {
                 });
 
                 setInputText(
-                    `${dateFormat(value.startDate, displayFormat, i18n)}${
+                    `${dateFormat(value.startDate, displayFormat, i18n, timezone)}${
                         asSingle
                             ? ""
-                            : ` ${separator} ${dateFormat(value.endDate, displayFormat, i18n)}`
+                            : ` ${separator} ${dateFormat(value.endDate, displayFormat, i18n, timezone)}`
                     }`
                 );
             }
@@ -241,7 +243,7 @@ const Datepicker = (props: DatepickerType) => {
 
             setInputText("");
         }
-    }, [asSingle, value, displayFormat, separator, i18n]);
+    }, [asSingle, value, displayFormat, separator, i18n, timezone]);
 
     useEffect(() => {
         if (startFrom && dateIsValid(startFrom)) {
@@ -313,6 +315,11 @@ const Datepicker = (props: DatepickerType) => {
             /* eslint-enable */
         }
 
+        if (timezone && timezone.trim() !== "" && !isValidTimezone(timezone)) {
+            /* eslint-disable-next-line no-console */
+            console.error(`timezone (${timezone}) is invalid`);
+        }
+
         return {
             arrowContainer: arrowRef,
             asSingle,
@@ -352,7 +359,8 @@ const Datepicker = (props: DatepickerType) => {
             toggleClassName,
             toggleIcon,
             updateFirstDate: (newDate: Date) => firstGotoDate(newDate),
-            value
+            value,
+            timezone
         };
     }, [
         minDate,
@@ -386,7 +394,8 @@ const Datepicker = (props: DatepickerType) => {
         toggleClassName,
         toggleIcon,
         value,
-        firstGotoDate
+        firstGotoDate,
+        timezone
     ]);
 
     const containerClassNameOverload = useMemo(() => {

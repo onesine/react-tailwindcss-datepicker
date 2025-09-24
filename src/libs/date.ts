@@ -3,6 +3,8 @@ import isBetween from "dayjs/plugin/isBetween";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import isToday from "dayjs/plugin/isToday";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 
 import { LANGUAGE } from "../constants";
 import { DateType, WeekDaysIndexType, WeekStringType } from "../types";
@@ -11,6 +13,8 @@ dayjs.extend(isBetween);
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isToday);
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export function loadLanguageModule(language = LANGUAGE) {
     switch (language) {
@@ -449,9 +453,23 @@ export function dateIsValid(date: DateType) {
     return dayjs(date).isValid();
 }
 
-export function isCurrentDay(date: Date) {
+export function isCurrentDay(date: Date, timezone?: string) {
     if (!dateIsValid(date)) return false;
 
+    if (timezone) {
+        try {
+            // Format the date as YYYY-MM-DD and parse it in the target timezone
+            const dateStr = dayjs(date).format("YYYY-MM-DD");
+            const dateInTimezone = dayjs.tz(dateStr, timezone);
+            const todayInTimezone = dayjs().tz(timezone);
+            return dateInTimezone.isSame(todayInTimezone, "day");
+        } catch {
+            // If timezone is invalid, fall back to local timezone comparison
+            /* eslint-disable-next-line no-console */
+            console.warn(`Invalid timezone: ${timezone}. Falling back to local timezone.`);
+            return dayjs(date).isSame(dayjs(), "day");
+        }
+    }
     return dayjs(date).isToday();
 }
 
@@ -504,9 +522,19 @@ export function dateIsBetween(
     );
 }
 
-export function dateFormat(date: DateType, format: string, local = "en") {
+export function dateFormat(date: DateType, format: string, local = "en", timezone?: string) {
     if (!dateIsValid(date)) return null;
 
+    if (timezone) {
+        try {
+            return dayjs(date).locale(local).tz(timezone).format(format);
+        } catch {
+            // If timezone is invalid, fall back to local timezone
+            /* eslint-disable-next-line no-console */
+            console.warn(`Invalid timezone: ${timezone}. Falling back to local timezone.`);
+            return dayjs(date).locale(local).format(format);
+        }
+    }
     return dayjs(date).locale(local).format(format);
 }
 
@@ -668,4 +696,28 @@ export function getNextDates(date: Date, limit: number) {
     }
 
     return nexDates;
+}
+
+export function isValidTimezone(timezone: string): boolean {
+    try {
+        dayjs().tz(timezone);
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+export function getCurrentDate(timezone?: string) {
+    if (timezone) {
+        try {
+            // Get current time in the specified timezone, but set to start of day
+            return dayjs().tz(timezone).startOf("day").toDate();
+        } catch {
+            // If timezone is invalid, fall back to local timezone
+            /* eslint-disable-next-line no-console */
+            console.warn(`Invalid timezone: ${timezone}. Falling back to local timezone.`);
+            return new Date();
+        }
+    }
+    return new Date();
 }
