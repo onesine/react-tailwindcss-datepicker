@@ -92,6 +92,7 @@ export interface DatepickerType {
     startWeekOn?: WeekStringType;
     popoverDirection?: PopoverDirectionType;
     required?: boolean;
+    timezone?: string;
 }
 
 export type ColorKeys = (typeof COLORS)[number]; // "blue" | "orange"

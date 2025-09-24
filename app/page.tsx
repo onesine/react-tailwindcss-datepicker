@@ -30,6 +30,7 @@ export default function Playground() {
     const [placeholder, setPlaceholder] = useState("");
     const [separator, setSeparator] = useState("~");
     const [i18n, setI18n] = useState("en");
+    const [timezone, setTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone);
     const [disabled, setDisabled] = useState(false);
     const [inputClassName, setInputClassName] = useState("");
     const [containerClassName, setContainerClassName] = useState("");
@@ -112,6 +113,7 @@ export default function Playground() {
                     separator={separator}
                     startFrom={dateIsValid(new Date(startFrom)) ? new Date(startFrom) : null}
                     i18n={i18n}
+                    timezone={timezone}
                     disabled={disabled}
                     inputClassName={inputClassName}
                     containerClassName={containerClassName}
@@ -360,6 +362,20 @@ export default function Playground() {
                                 </option>
                             ))}
                         </select>
+                    </div>
+
+                    <div className="mb-2">
+                        <label className="block" htmlFor="timezone">
+                            Timezone
+                        </label>
+                        <input
+                            className="rounded border px-4 py-2 w-full border-gray-200"
+                            id="timezone"
+                            value={timezone}
+                            onChange={e => {
+                                setTimezone(e.target.value);
+                            }}
+                        />
                     </div>
                 </div>
 

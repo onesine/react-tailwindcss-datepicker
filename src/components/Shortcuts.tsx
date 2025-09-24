@@ -1,7 +1,7 @@
 import { memo, ReactNode, useCallback, useContext, useMemo } from "react";
 
 import { TEXT_COLOR } from "../constants";
-import DEFAULT_SHORTCUTS from "../constants/shortcuts";
+import { getDefaultShortcuts } from "../constants/shortcuts";
 import DatepickerContext from "../contexts/DatepickerContext";
 import { dateIsSameOrBefore } from "../libs/date";
 import { Period, ShortcutsItem } from "../types";
@@ -88,20 +88,22 @@ ItemTemplate.displayName = "ItemTemplate";
 
 const Shortcuts = () => {
     // Contexts
-    const { configs } = useContext(DatepickerContext);
+    const { configs, timezone } = useContext(DatepickerContext);
 
     const callPastFunction = useCallback((data: unknown, numberValue: number) => {
         return typeof data === "function" ? data(numberValue) : null;
     }, []);
 
     const shortcutOptions = useMemo<[string, ShortcutsItem | ShortcutsItem[]][]>(() => {
+        const defaultShortcuts = getDefaultShortcuts(timezone);
+
         if (!configs?.shortcuts) {
-            return Object.entries(DEFAULT_SHORTCUTS);
+            return Object.entries(defaultShortcuts);
         }
 
         return Object.entries(configs.shortcuts).flatMap(([key, customConfig]) => {
-            if (Object.prototype.hasOwnProperty.call(DEFAULT_SHORTCUTS, key)) {
-                return [[key, DEFAULT_SHORTCUTS[key]]];
+            if (Object.prototype.hasOwnProperty.call(defaultShortcuts, key)) {
+                return [[key, defaultShortcuts[key]]];
             }
 
             const { text, period } = customConfig as ShortcutsItem;
@@ -129,7 +131,7 @@ const Shortcuts = () => {
 
             return [];
         });
-    }, [configs]);
+    }, [configs, timezone]);
 
     const printItemText = useCallback((item: ShortcutsItem) => {
         return item?.text ?? null;
