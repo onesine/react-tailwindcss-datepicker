@@ -286,6 +286,10 @@ const Datepicker = (props: DatepickerType) => {
         };
     }, [hideDatepicker]);
 
+    useEffect(() => {
+        if (disabled) hideDatepicker();
+    }, [disabled, hideDatepicker]);
+
     // Variables
     const safePrimaryColor = useMemo(() => {
         if (COLORS.includes(primaryColor)) {
@@ -413,7 +417,11 @@ const Datepicker = (props: DatepickerType) => {
             <div className={containerClassNameOverload} ref={containerRef}>
                 <Input />
 
-                <div className={popupClassNameOverload} ref={calendarContainerRef}>
+                <div
+                    className={popupClassNameOverload}
+                    ref={calendarContainerRef}
+                    style={disabled ? { display: "none" } : undefined}
+                >
                     <Arrow ref={arrowRef} />
 
                     <div className="mt-2.5 shadow-sm border border-gray-300 px-1 py-0.5 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600 rounded-lg">
